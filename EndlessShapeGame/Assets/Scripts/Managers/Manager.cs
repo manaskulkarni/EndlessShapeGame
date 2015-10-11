@@ -4,20 +4,27 @@ using System.Collections;
 public abstract class Manager : MonoBehaviour
 {
 
+  public Manager ()
+  {
+    GameManager.inst.GameResetEvent += OnGameReset;
+    GameManager.inst.GameStartEvent += OnGameStart;
+    GameManager.inst.GameRestartEvent += OnGameRestart;
+    GameManager.inst.GameOverEvent += OnGameOver;
+  }
   // Public Members
   #region Abstract Methods
-  public abstract void Reset ();
-  public abstract void OnGameStart ();
-  public abstract void OnGameOver ();
-  public abstract void OnGameRestart ();
+  public abstract void OnGameReset (object sender, System.EventArgs args);
+  public abstract void OnGameStart (object sender, System.EventArgs args);
+  public abstract void OnGameOver (object sender, System.EventArgs args);
+  public abstract void OnGameRestart (object sender, System.EventArgs args);
   #endregion
 
   #region Virtual Methods
   [System.Obsolete ("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]
-  public virtual void OnDifficultyChange () {}
+  public virtual void OnDifficultyChange (object sender, System.EventArgs args) {}
   [System.Obsolete ("Speed Modes Not Supported Anymore. Single Speed Mode")]
-  public virtual void OnSpeedChange () {}
-  public virtual void OnHighScore () {}
+  public virtual void OnSpeedChange (object sender, System.EventArgs args) {}
+  public virtual void OnHighScore (object sender, System.EventArgs args) {}
   #endregion
 
   public bool jobDone

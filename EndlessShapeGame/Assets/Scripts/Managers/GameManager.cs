@@ -37,12 +37,6 @@ public class GameManager : MonoBehaviour
   // Public Members
   public GameSettings gameSettings;
 
-  public List <Manager> managers
-  {
-    get;
-    private set;
-  }
-
   public bool played
   {
     get;
@@ -56,6 +50,24 @@ public class GameManager : MonoBehaviour
   }
 
   public GameSettings previousGameSettings;
+  
+  public event System.EventHandler GameResetEvent;
+  public event System.EventHandler GameStartEvent;
+  public event System.EventHandler GameRestartEvent;
+  public event System.EventHandler GameOverEvent;
+  public event System.EventHandler HighScoreEvent;
+  
+  [System.Obsolete]
+  public event System.EventHandler DifficultyChangeEvent;
+  public event System.EventHandler SpeedChangeEvent;
+  
+  private void SendEvent (System.EventHandler handler, System.EventArgs data)
+  {
+    if (handler != null)
+    {
+      handler(this, data);
+    }
+  }
 
   static public GameManager inst
   {
@@ -64,13 +76,11 @@ public class GameManager : MonoBehaviour
   }
 
   // Private Members
-
-  void Awake ()
+  GameManager ()
   {
     if (inst == null)
     {
       inst = this;
-      managers = new List<Manager> ();
       played = false;
       playing = false;
       previousGameSettings = gameSettings;
@@ -81,14 +91,14 @@ public class GameManager : MonoBehaviour
     }
   }
   
+  void Awake ()
+  {
+
+  }
+  
   // Use this for initialization
   void Start ()
   {
-    foreach (var v in GameObject.FindObjectsOfType <Manager> ())
-    {
-      managers.Add (v);
-    }
-
     StartCoroutine (UpdateMemory ());
   }
 //
@@ -102,11 +112,8 @@ public class GameManager : MonoBehaviour
   {
     previousGameSettings.dificultyLevel = gameSettings.dificultyLevel;
     gameSettings.dificultyLevel = (DifficultyLevel) difficulty;
-
-    foreach (var v in managers)
-    {
-      v.OnDifficultyChange ();
-    }
+    
+    SendEvent (DifficultyChangeEvent, null);
   }
 
   [System.Obsolete ("Speed Modes Not Supported Anymore. Single Speed Mode")]
@@ -114,11 +121,8 @@ public class GameManager : MonoBehaviour
   {
     previousGameSettings.speedLevel = gameSettings.speedLevel;
     gameSettings.speedLevel = (SpeedLevel) speed;
-
-    foreach (var v in managers)
-    {
-      v.OnSpeedChange ();
-    }
+    
+    SendEvent (SpeedChangeEvent, null);
   }
 
   public void StartGame ()
@@ -141,18 +145,12 @@ public class GameManager : MonoBehaviour
       RestartGame ();
     }
 
-    foreach (var v in managers)
-    {
-      v.OnGameStart ();
-    }
+    SendEvent (GameStartEvent, null);
   }
 
   public void RestartGame ()
   {
-    foreach (var v in managers)
-    {
-      v.OnGameRestart ();
-    }
+    SendEvent (GameRestartEvent, null);
   }
 
   private Coroutine cameraColorCoroutine = null;
@@ -178,7 +176,7 @@ public class GameManager : MonoBehaviour
 
   private IEnumerator CameraShake ()
   {
-    ShapeManager.inst.OnGameOver ();
+    ShapeManager.inst.OnGameOver (null, null);
 
     float elapsed = 0.0f;
     
@@ -209,17 +207,11 @@ public class GameManager : MonoBehaviour
       yield return null;
     }
 
-    foreach (var v in managers)
-    {
-      v.OnGameOver ();
-    }
+    SendEvent (GameOverEvent, null);
 
     if (StatsManager.inst.isHighScore)
     {
-      foreach (var v in managers)
-      {
-        v.OnHighScore ();
-      }
+      SendEvent (HighScoreEvent, null);
     }
     playing = false;
   }

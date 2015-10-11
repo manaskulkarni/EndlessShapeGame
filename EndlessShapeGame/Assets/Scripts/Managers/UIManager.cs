@@ -345,14 +345,14 @@ public class UIManager : Manager
   
   #region implemented abstract members of Manager
   
-  public override void Reset ()
+  public override void OnGameReset (object sender, System.EventArgs args)
   {
     SetMenuActive (menuStart, true);
     SetMenuActive (menuGame, false);
     //    SetMenuActive (menuGameOver, false);
   }
   
-  public override void OnGameStart ()
+  public override void OnGameStart (object sender, System.EventArgs args)
   {
     //SetMenuActive(menuStart, false);
     //SetMenuActive(menuGame, true);
@@ -363,13 +363,13 @@ public class UIManager : Manager
     //    SetMenuActive (menuGameOver, false);
   }
   
-  public override void OnGameRestart ()
+  public override void OnGameRestart (object sender, System.EventArgs args)
   {
     //    textGameOverScore.text = null;
     //    Reset ();
   }
   
-  public override void OnGameOver ()
+  public override void OnGameOver (object sender, System.EventArgs args)
   {
     //SetMenuActive(menuGame, false);
     //menuGame.GetComponent<CanvasGroup>().alpha = 0.0f;
@@ -384,7 +384,7 @@ public class UIManager : Manager
     StartCoroutine(FadeInStartCanvas());
   }
   
-  public override void OnHighScore ()
+  public override void OnHighScore (object sender, System.EventArgs args)
   {
     textGameOverScore.text = ""+StatsManager.inst.score+"";
     textGameOverFeedback.text = NewHighScore ();

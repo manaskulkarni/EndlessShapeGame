@@ -18,27 +18,27 @@ public class AudioManager : Manager
     }
 	}
 
-  public override void Reset()
+  public override void OnGameReset(object sender, System.EventArgs args)
   {
   }
 
-  public override void OnGameStart()
+  public override void OnGameStart(object sender, System.EventArgs args)
   {
     StopAllCoroutines();
     StartCoroutine(FadeInPitch());
   }
 
-  public override void OnGameOver()
+  public override void OnGameOver(object sender, System.EventArgs args)
   {
     StopAllCoroutines();
     StartCoroutine(FadeOutPitch());
   }
 
-  public override void OnGameRestart()
+  public override void OnGameRestart(object sender, System.EventArgs args)
   {
   }
 
-  public override void OnHighScore()
+  public override void OnHighScore(object sender, System.EventArgs args)
   {
   }
 

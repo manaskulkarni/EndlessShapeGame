@@ -110,13 +110,13 @@ public class PlayerManager : Manager
 
   #region implemented abstract members of Manager
 
-  public override void Reset ()
+  public override void OnGameReset (object sender, System.EventArgs args)
   {
     DestroyPlayer ();
     SpawnPlayer ();
   }
 
-  public override void OnGameStart ()
+  public override void OnGameStart (object sender, System.EventArgs args)
   {
     foreach (Transform t in player.transform)
     {
@@ -126,12 +126,12 @@ public class PlayerManager : Manager
 //    StartCoroutine (FadeInPlayer ());
   }
 
-  public override void OnGameRestart ()
+  public override void OnGameRestart (object sender, System.EventArgs args)
   {
-    OnGameStart ();
+    OnGameStart (null, null);
   }
 
-  public override void OnGameOver ()
+  public override void OnGameOver (object sender, System.EventArgs args)
   {
     foreach (Transform t in player.transform)
     {

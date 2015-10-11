@@ -191,17 +191,17 @@ public class StatsManager : Manager
 
   #region implemented abstract members of Manager
 
-  public override void Reset ()
+  public override void OnGameReset (object sender, System.EventArgs args)
   {
     score = 0;
   }
 
-  public override void OnGameStart ()
+  public override void OnGameStart (object sender, System.EventArgs args)
   {
     firstSession = false;
   }
 
-  public override void OnGameOver ()
+  public override void OnGameOver (object sender, System.EventArgs args)
   {
     isHighScore = CheckHighScore ();
     if (isHighScore)
@@ -217,19 +217,19 @@ public class StatsManager : Manager
     highScoreCrossed = false;
   }
 
-  public override void OnGameRestart ()
+  public override void OnGameRestart (object sender, System.EventArgs args)
   {
-    Reset ();
+    OnGameReset (null, null);
   }
 
   [System.Obsolete ("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]
-  public override void OnDifficultyChange ()
+  public override void OnDifficultyChange (object sender, System.EventArgs args)
   {
     Debug.Log (leaderBoardId);
   }
 
   [System.Obsolete ("Speed Modes Not Supported Anymore. Single Speed Mode")]
-  public override void OnSpeedChange ()
+  public override void OnSpeedChange (object sender, System.EventArgs args)
   {
     Debug.Log (leaderBoardId);
   }

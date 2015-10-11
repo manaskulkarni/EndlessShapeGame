@@ -169,7 +169,7 @@ public class ShapeManager : Manager
   // Use this for initialization
   void Start ()
   {
-    Reset ();
+    OnGameReset (null, null);
   }
 
   // Update is called once per frame
@@ -357,7 +357,7 @@ public class ShapeManager : Manager
 
   #region implemented abstract members of Manager
   
-  public override void Reset ()
+  public override void OnGameReset (object sender, System.EventArgs args)
   {
     foreach (var v in shapes)
     {
@@ -387,13 +387,13 @@ public class ShapeManager : Manager
 //    }
   }
 
-  public override void OnGameStart ()
+  public override void OnGameStart (object sender, System.EventArgs args)
   {
     StartCoroutine (DelayStart ());
     updateSpeed = StartCoroutine (UpdateSpeed ());
   }
 
-  public override void OnGameOver ()
+  public override void OnGameOver (object sender, System.EventArgs args)
   {
     foreach (var v in shapes)
     {
@@ -409,7 +409,7 @@ public class ShapeManager : Manager
     }
   }
 
-  public override void OnGameRestart ()
+  public override void OnGameRestart (object sender, System.EventArgs args)
   {
 //    int i = 0;
 //    foreach (var shape in shapes)
@@ -430,13 +430,13 @@ public class ShapeManager : Manager
   }
 
   [System.Obsolete ("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]
-  public override void OnDifficultyChange ()
+  public override void OnDifficultyChange (object sender, System.EventArgs args)
   {
-    Reset ();
+    OnGameReset (null, null);
   }
 
   [System.Obsolete ("Speed Modes Not Supported Anymore. Single Speed Mode")]
-  public override void OnSpeedChange ()
+  public override void OnSpeedChange (object sender, System.EventArgs args)
   {
     cps = speedPresets [(int) GameManager.inst.gameSettings.speedLevel];
   }
