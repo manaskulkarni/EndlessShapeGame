@@ -4,7 +4,7 @@ using System.Collections;
 public abstract class Manager : MonoBehaviour
 {
 
-  public Manager ()
+  public void RegisterToEvents ()
   {
     GameManager.inst.GameResetEvent += OnGameReset;
     GameManager.inst.GameStartEvent += OnGameStart;
@@ -24,24 +24,8 @@ public abstract class Manager : MonoBehaviour
   public virtual void OnDifficultyChange (object sender, System.EventArgs args) {}
   [System.Obsolete ("Speed Modes Not Supported Anymore. Single Speed Mode")]
   public virtual void OnSpeedChange (object sender, System.EventArgs args) {}
+
+
   public virtual void OnHighScore (object sender, System.EventArgs args) {}
   #endregion
-
-  public bool jobDone
-  {
-    get;
-    set;
-  }
-  // Private Members
-
-  // Use this for initialization
-//  void Start ()
-//  {
-//  }
-//
-//  // Update is called once per frame
-//  void Update ()
-//  {
-//  }
-
 }

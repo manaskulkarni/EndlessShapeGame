@@ -49,6 +49,12 @@ public class GameManager : MonoBehaviour
     private set;
   }
 
+  private List <Manager> managers
+  {
+    get;
+    set;
+  }
+
   public GameSettings previousGameSettings;
   
   public event System.EventHandler GameResetEvent;
@@ -83,6 +89,7 @@ public class GameManager : MonoBehaviour
       inst = this;
       played = false;
       playing = false;
+      managers = new List<Manager>();
       previousGameSettings = gameSettings;
     }
     else
@@ -100,6 +107,11 @@ public class GameManager : MonoBehaviour
   void Start ()
   {
     StartCoroutine (UpdateMemory ());
+
+    foreach (var v in GameObject.FindObjectsOfType<Manager> ())
+    {
+      v.RegisterToEvents();
+    }
   }
 //
 //  // Update is called once per frame
