@@ -4,33 +4,10 @@ using TouchScript.Gestures;
 
 public class PlayerInput : MonoBehaviour
 {
+  #region Private Properties
+  private FlickGesture flick { get; set; }
+  #endregion
 
-  // Public Members
-
-  // Private Members
-
-  private Vector3 startPosition
-  {
-    get;
-    set;
-  }
-
-  private Vector3 endPosition
-  {
-    get;
-    set;
-  }
-
-  private FlickGesture flick
-  {
-    get;
-    set;
-  }
-
-//  float swipeSpeed = 0.05F;
-//  float inputX;
-//  float inputY;
-  
   // Use this for initialization
   void Start ()
   {
@@ -38,6 +15,7 @@ public class PlayerInput : MonoBehaviour
     flick.Flicked += HandleFlicked;
   }
 
+  #region Events
   void HandleFlicked (object sender, System.EventArgs e)
   {
 //    Debug.Log ("Flicked");
@@ -50,5 +28,5 @@ public class PlayerInput : MonoBehaviour
       PlayerManager.inst.player.GoRight ();
     }
   }
-  
+  #endregion
 }

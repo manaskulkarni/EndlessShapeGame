@@ -105,6 +105,9 @@ public class UIManager : Manager
     
     menuGameOver = GameObject.Find ("MenuGameOver");
     SetMenuActive (menuGameOver, false);
+
+    // Subscribe to High Score event for text feedback
+    GameManager.inst.HighScoreEvent += OnHighScore;
   }
   
   public void UpdateScore ()

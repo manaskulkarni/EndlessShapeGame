@@ -5,14 +5,9 @@ using System.Collections.Generic;
 public class ShapeParent : MonoBehaviour
 {
 
-  // Public Members
-  public List <ShapeBehavior> shapes
-  {
-    get;
-    private set;
-  }
-
-  // Private Members
+  #region Properties
+  public List <ShapeBehavior> shapes { get; private set; }
+  #endregion
 
   void Awake ()
   {
@@ -32,25 +27,18 @@ public class ShapeParent : MonoBehaviour
     StartCoroutine (UpdatePosition ());
   }
 
-  public void SetShapeFormation (int spawnCount)
-  {
-  }
-  
+  #region Coroutintes
   // Update is called once per frame
   private IEnumerator UpdatePosition ()
   {
     while (true)
     {
       Vector2 pos = gameObject.transform.position;
-      pos += ShapeManager.inst.cps.speedMultiplier * Time.deltaTime;
+      pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier * Time.deltaTime;
       gameObject.transform.position = pos;
       yield return null;
     }
   }
-
-//  // Update is called once per frame
-//  void Update ()
-//  {
-//  }
+  #endregion
 
 }

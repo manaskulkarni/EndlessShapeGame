@@ -3,8 +3,14 @@ using System.Collections;
 
 public class AudioManager : Manager
 {
-  public AudioClip backgroundMusic;
 
+  /// <summary>
+  /// Background Music Audio Clip
+  /// </summary>
+  public AudioClip backgroundMusic;
+  /// <summary>
+  /// AudioPlayer attached to gameObject
+  /// </summary>
   private AudioSource audioPlayer { get; set; }
 
 	// Use this for initialization
@@ -18,20 +24,17 @@ public class AudioManager : Manager
     }
 	}
 
+  #region implemented abstract members of StoreManager
   public override void OnGameReset(object sender, System.EventArgs args)
   {
   }
 
   public override void OnGameStart(object sender, System.EventArgs args)
   {
-    StopAllCoroutines();
-    StartCoroutine(FadeInPitch());
   }
 
   public override void OnGameOver(object sender, System.EventArgs args)
   {
-    StopAllCoroutines();
-    StartCoroutine(FadeOutPitch());
   }
 
   public override void OnGameRestart(object sender, System.EventArgs args)
@@ -41,7 +44,8 @@ public class AudioManager : Manager
   public override void OnHighScore(object sender, System.EventArgs args)
   {
   }
-
+  #endregion
+  #region Coroutines
   private IEnumerator FadeOutPitch()
   {
     while (audioPlayer.pitch > 0.0f)
@@ -59,4 +63,5 @@ public class AudioManager : Manager
       yield return null;
     }
   }
+  #endregion
 }

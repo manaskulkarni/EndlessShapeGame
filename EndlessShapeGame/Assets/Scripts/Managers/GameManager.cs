@@ -66,14 +66,6 @@ public class GameManager : MonoBehaviour
   [System.Obsolete]
   public event System.EventHandler DifficultyChangeEvent;
   public event System.EventHandler SpeedChangeEvent;
-  
-  private void SendEvent (System.EventHandler handler, System.EventArgs data)
-  {
-    if (handler != null)
-    {
-      handler(this, data);
-    }
-  }
 
   static public GameManager inst
   {
@@ -113,19 +105,14 @@ public class GameManager : MonoBehaviour
       v.RegisterToEvents();
     }
   }
-//
-//  // Update is called once per frame
-//  void Update ()
-//  {
-//  }
 
   [System.Obsolete ("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]
   public void ChangeDifficulty (int difficulty)
   {
     previousGameSettings.dificultyLevel = gameSettings.dificultyLevel;
     gameSettings.dificultyLevel = (DifficultyLevel) difficulty;
-    
-    SendEvent (DifficultyChangeEvent, null);
+
+    EventManager.SendEvent (this, DifficultyChangeEvent, null);
   }
 
   [System.Obsolete ("Speed Modes Not Supported Anymore. Single Speed Mode")]
@@ -133,8 +120,8 @@ public class GameManager : MonoBehaviour
   {
     previousGameSettings.speedLevel = gameSettings.speedLevel;
     gameSettings.speedLevel = (SpeedLevel) speed;
-    
-    SendEvent (SpeedChangeEvent, null);
+
+    EventManager.SendEvent (this, SpeedChangeEvent, null);
   }
 
   public void StartGame ()
@@ -157,21 +144,18 @@ public class GameManager : MonoBehaviour
       RestartGame ();
     }
 
-    SendEvent (GameStartEvent, null);
+    EventManager.SendEvent (this, GameStartEvent, null);
   }
 
   public void RestartGame ()
   {
-    SendEvent (GameRestartEvent, null);
+    EventManager.SendEvent (this, GameRestartEvent, null);
   }
-
-  private Coroutine cameraColorCoroutine = null;
 
   public void GameOver ()
   {
     playing = false;
     StartCoroutine (CameraShake ());
-//    cameraColorCoroutine = StartCoroutine (CameraColorHighlight ());
   }
 
   private float duration = 0.3f;
@@ -214,76 +198,13 @@ public class GameManager : MonoBehaviour
     
     Camera.main.transform.position = originalCamPos;
 
-    while (cameraColorCoroutine != null)
-    {
-      yield return null;
-    }
-
-    SendEvent (GameOverEvent, null);
+    EventManager.SendEvent (this, GameOverEvent, null);
 
     if (StatsManager.inst.isHighScore)
     {
-      SendEvent (HighScoreEvent, null);
+      EventManager.SendEvent (this, HighScoreEvent, null);
     }
     playing = false;
-  }
-
-//  float highLightDuration = 0.15f;
-
-  private IEnumerator CameraColorHighlight ()
-  {
-//    Color originalColor = Camera.main.backgroundColor;
-//    float colorMultiplier = (60.0f * 4.0f / duration) * Time.deltaTime;
-
-//    float elapsed = 0.0f;
-    int i = 0;
-
-//    while (Camera.main.backgroundColor.r <= 0.5f)
-//    {
-//      Color c = Camera.main.backgroundColor;
-//      c += new Color (colorMultiplier, colorMultiplier, colorMultiplier, colorMultiplier);
-//      Camera.main.backgroundColor = c;
-//      yield return null;
-//    }
-//
-//    while (Camera.main.backgroundColor.r >= originalColor.r)
-//    {
-//      Color c = Camera.main.backgroundColor;
-//      c -= new Color (colorMultiplier, colorMultiplier, colorMultiplier, colorMultiplier);
-//      Camera.main.backgroundColor = c;
-//      yield return null;
-//    }
-
-    Camera.main.backgroundColor = Color.white;
-    while (i < 1)
-    {
-      ++i;
-      yield return null;
-    }
-
-    i = 0;
-
-    Camera.main.backgroundColor = Color.black;
-
-//    while (elapsed <= highLightDuration * 0.5f)
-//    {
-//      elapsed += 1.0f / (highLightDuration * 0.5f * Time.deltaTime);
-//      Debug.Log (elapsed);
-//      Camera.main.backgroundColor = Color.Lerp (originalColor, Color.white, elapsed);
-//      yield return null;
-//    }
-//
-//    elapsed = 0.0f;
-//
-//    while (elapsed <= highLightDuration * 0.5f)
-//    {
-//      elapsed += 1.0f / (highLightDuration * 0.5f * Time.deltaTime);
-//      Camera.main.backgroundColor = Color.Lerp (Color.white, originalColor, elapsed);
-//      yield return null;
-//    }
-
-//    Camera.main.backgroundColor = originalColor;
-    cameraColorCoroutine = null;
   }
 
 }

@@ -296,6 +296,10 @@ Prefab:
       propertyPath: InitialModule.maxNumParticles
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 19993202, guid: e30472bee771547edab47cb24e9903aa, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f2138d481d3aa3c42807b9bbe0040c5b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e30472bee771547edab47cb24e9903aa, type: 2}
   m_IsPrefabParent: 0
@@ -555,6 +559,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 19959070, guid: b2185f3bfdfdb42b687a664571a525a6, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f2138d481d3aa3c42807b9bbe0040c5b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2185f3bfdfdb42b687a664571a525a6, type: 2}
   m_IsPrefabParent: 0
@@ -2234,6 +2242,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 19959070, guid: b2185f3bfdfdb42b687a664571a525a6, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f2138d481d3aa3c42807b9bbe0040c5b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2185f3bfdfdb42b687a664571a525a6, type: 2}
   m_IsPrefabParent: 0
@@ -2771,13 +2783,15 @@ MonoBehaviour:
   spawnInSameRow: 0
   maxRepeatCount: 5
   specialColor: {r: 0, g: 0, b: 0, a: 1}
-  minSpecialRandom: 0
-  maxSpecialRandom: 50
-  minSpecialComparer: 10
-  maxSpecialComparer: 30
+  specialRandomRange:
+    min: 0
+    max: 500
+  specialRandomRangeCompare:
+    min: 0
+    max: 30
   specialFeedback: {fileID: 1078359141}
   gameOverFeedback: {fileID: 996316314}
-  cps:
+  currentSpeedPreset:
     speedLevel: 0
     speedMultiplier: {x: 0, y: 0}
     accelerationMultiplier: {x: 0, y: 0}

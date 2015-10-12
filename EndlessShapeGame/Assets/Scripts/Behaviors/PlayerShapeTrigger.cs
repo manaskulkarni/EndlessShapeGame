@@ -4,23 +4,12 @@ using System.Collections;
 public class PlayerShapeTrigger : MonoBehaviour
 {
 
-  // Public Members
-  public bool original
-  {
-    get;
-    set;
-  }
-
-  // Private Members
-  public SpriteRenderer spriteRenderer
-  {
-    get;
-    set;
-  }
+  #region Properties
+  public SpriteRenderer spriteRenderer { get; set; }
+  #endregion
 
   void Awake ()
   {
-    original = false;
   }
 
 //   Use this for initialization
@@ -34,6 +23,7 @@ public class PlayerShapeTrigger : MonoBehaviour
 
   void OnTriggerEnter2D (Collider2D coll)
   {
+    // Only Proceed if the shape has not been triggered yet
     if (!ShapeManager.inst.shapePair [coll.GetHashCode ()].triggered)
     {
       ShapeManager.inst.shapePair [coll.GetHashCode ()].triggered = true;

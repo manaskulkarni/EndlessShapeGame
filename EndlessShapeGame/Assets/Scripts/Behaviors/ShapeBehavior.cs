@@ -3,44 +3,20 @@ using System.Collections;
 
 public class ShapeBehavior : MonoBehaviour
 {
+  public enum ShapeResponse
+  {
+    Normal,
+    Opposite,
+    ShapeResponseCount,
+  }
 
   // Public Members
-  public SpriteRenderer spriteRenderer
-  {
-    get;
-    set;
-  }
-
-  public Color originalColor
-  {
-    get;
-    set;
-  }
-  
-  public bool triggered
-  {
-    get;
-    set;
-  }
-
-  public bool specialShape
-  {
-    get;
-    set;
-  }
-
-  // Private Members
-  private Coroutine updatePosition
-  {
-    get;
-    set;
-  }
-
-  private Coroutine updateSpecial
-  {
-    get;
-    set;
-  }
+  public SpriteRenderer spriteRenderer { get; set; }
+  public Color originalColor { get; set; }
+  public bool triggered { get; set; }
+  public ShapeResponse shapeResponse { get; set; }
+  private Coroutine updatePosition { get; set; }
+  private Coroutine updateSpecial { get; set; }
 
   // Use this for initialization
   public void StartGame ()
@@ -62,19 +38,24 @@ public class ShapeBehavior : MonoBehaviour
     }
   }
 
-  public void StartSpecialShapeCoroutine ()
+  public void StartSpecialShapeCoroutine (ShapeResponse response)
   {
-    specialShape = true;
+    shapeResponse = response;
 
     if (updateSpecial == null)
     {
-      updateSpecial = StartCoroutine (UpdateSpecial ());
+      switch (shapeResponse)
+      {
+        case ShapeResponse.Opposite:
+          updateSpecial = StartCoroutine(UpdateSpecial());
+          break;
+      }
     }
   }
 
   public void StopSpecialShapeCoroutine ()
   {
-    specialShape = false;
+    shapeResponse = ShapeResponse.Normal;
 
     if (updateSpecial != null)
     {
@@ -89,7 +70,7 @@ public class ShapeBehavior : MonoBehaviour
     while (true)
     {
       Vector2 pos = gameObject.transform.position;
-      pos += ShapeManager.inst.cps.speedMultiplier * Time.deltaTime;
+      pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier * Time.deltaTime;
       gameObject.transform.position = new Vector3 (pos.x, pos.y, gameObject.transform.position.z);
       yield return null;
     }
@@ -122,7 +103,7 @@ public class ShapeBehavior : MonoBehaviour
   private void UpdatePositionInvoke ()
   {
     Vector2 pos = gameObject.transform.position;
-    pos += ShapeManager.inst.cps.speedMultiplier * Time.deltaTime;
+    pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier * Time.deltaTime;
     gameObject.transform.position = new Vector3 (pos.x, pos.y, gameObject.transform.position.z);
   }
   

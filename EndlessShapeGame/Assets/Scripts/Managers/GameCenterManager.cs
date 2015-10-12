@@ -1,23 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameCenterManager : MonoBehaviour
+public class GameCenterManager : StoreManager
 {
-
-  // Public Members
-
-  // Private Members
 
   // Use this for initialization
   void Start ()
   {
     KTGameCenter.SharedCenter ().Authenticate ();
   }
-
-//  // Update is called once per frame
-//  void Update ()
-//  {
-//  }
 
   void OnEnable ()
   {
@@ -41,23 +32,23 @@ public class GameCenterManager : MonoBehaviour
     KTGameCenter.SharedCenter().GCAchievementsReset     += AchivementsReset;
   }
 
-  public void SubmitScore ()
+  #region implemented abstract members of StoreManager
+  protected override void SubmitScore (object sender, System.EventArgs args)
   {
     KTGameCenter.SharedCenter ().SubmitScore (StatsManager.inst.score, StatsManager.inst.leaderBoardId);
   }
 
-  public void ShowLeaderBoard ()
+  protected override void ShowLeaderboard(object sender, System.EventArgs args)
   {
     KTGameCenter.SharedCenter ().ShowLeaderboard ();
   }
 
-  public void ShowAchievements ()
+  protected override void ShowAchievements(object sender, System.EventArgs args)
   {
     KTGameCenter.SharedCenter ().ShowAchievements ();
   }
-
+  #endregion
   #region Game Center Delegates
-
   void GCAuthentication (string status)
   {
     print ("delegate call back status = " + status);
@@ -76,7 +67,6 @@ public class GameCenterManager : MonoBehaviour
   {
     print ("Achievment reset with error = " + error);
   }
-
   #endregion
 
 }

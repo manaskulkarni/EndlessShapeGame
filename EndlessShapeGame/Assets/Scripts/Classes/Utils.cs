@@ -86,5 +86,16 @@ public class Utils
         Mathf.Clamp (value.w, min.w, max.w)
         );
   }
-  
+
+}
+
+public class EventManager
+{
+  static public void SendEvent(object sender, System.EventHandler handler, System.EventArgs data)
+  {
+    if (handler != null)
+    {
+      handler(sender, data);
+    }
+  }
 }

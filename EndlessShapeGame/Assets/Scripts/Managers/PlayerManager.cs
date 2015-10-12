@@ -5,31 +5,41 @@ using System.Collections.Generic;
 public class PlayerManager : Manager
 {
 
+  #region Structs
   [System.Serializable]
   public struct PlayerPreset
   {
     public GameManager.DifficultyLevel difficultyLevel;
     public GameObject prefab;
   }
-
-  // Public Members
+  #endregion
+  #region Public Fields
+  /// <summary>
+  /// Player Object to spawn
+  /// </summary>
   public GameObject playerInputPrefab;
+  /// <summary>
+  /// Array of all player presets to use
+  /// </summary>
   public PlayerPreset [] playerPresets;
+  /// <summary>
+  /// Start player alpha (Not used)
+  /// </summary>
   public float startPlayerAlpha;
+  /// <summary>
+  /// Invincible (Use to debug conveniently)
+  /// </summary>
   public bool invincible;
-
-  static public PlayerManager inst
-  {
-    get;
-    private set;
-  }
-
-  // Private Members
-  public PlayerBehavior player
-  {
-    get;
-    private set;
-  }
+  #endregion
+  #region Properties
+  /// <summary>
+  /// Player Access for other systems
+  /// </summary>
+  public PlayerBehavior player { get; private set; }
+  #endregion
+  #region Static Properties
+  static public PlayerManager inst { get; private set; }
+  #endregion
 
   void Awake ()
   {
@@ -63,13 +73,7 @@ public class PlayerManager : Manager
   {
   }
 
-  //  // Update is called once per frame
-  //  void Update ()
-  //  {
-  //  }
-
   #region Coroutines
-
   private IEnumerator FadeInPlayer ()
   {
     float alpha = startPlayerAlpha;

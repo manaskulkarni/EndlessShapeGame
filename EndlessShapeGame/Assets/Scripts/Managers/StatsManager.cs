@@ -6,13 +6,14 @@ using System.IO;
 public class StatsManager : Manager
 {
 
-  // Public Members
-  public int score
-  {
-    get;
-    private set;
-  }
-
+  #region Properties
+  /// <summary>
+  /// Score of current session
+  /// </summary>
+  public int score { get; private set; }
+  /// <summary>
+  /// Leaderboard Id for PlayerPrefs
+  /// </summary>
   public string leaderBoardId
   {
     get
@@ -20,30 +21,29 @@ public class StatsManager : Manager
       return ""+GameManager.inst.gameSettings.dificultyLevel+"" + ""+GameManager.inst.gameSettings.speedLevel+"";
     }
   }
-
-  public bool isHighScore
-  {
-    get;
-    private set;
-  }
-
-  public bool isHighScoreRT
+  /// <summary>
+  /// Returns whether score at end of last session is high score
+  /// </summary>
+  public bool isHighScore { get; private set; }
+  /// <summary>
+  /// Returns whether current score is high score
+  /// </summary>
+  public bool isHighScoreSlow
   {
     get
     {
-      if (!highScoreCrossed)
+      if (score > previousScore)
       {
-        if (score > previousScore)
-        {
-          highScoreCrossed = true;
-          return true;
-        }
+        highScoreCrossed = true;
+        return true;
       }
 
       return false;
     }
   }
-
+  /// <summary>
+  /// Returns current high score
+  /// </summary>
   public int highScore
   {
     get
@@ -51,63 +51,30 @@ public class StatsManager : Manager
       return PlayerPrefs.GetInt (leaderBoardId);
     }
   }
-
-  public int coins
-  {
-    get;
-    private set;
-  }
-
-  public bool firstSession
-  {
-    get;
-    private set;
-  }
-
+  /// <summary>
+  /// Returns number of coins collected
+  /// </summary>
+  public int coins { get; private set; }
+  /// <summary>
+  /// Returns whether this session is 1st session after launching game
+  /// </summary>
+  public bool firstSession { get; private set; }
+  #endregion
+  #region Static Properties
   static public StatsManager inst
   {
     get;
     private set;
   }
+  #endregion
+  #region Events
+  public event System.EventHandler SubmitScoreEvent;
+  public event System.EventHandler ShowLeaderboardEvent;
+  public event System.EventHandler ShowAchievementsEvent;
+  #endregion
 
-  private delegate void Delegate ();
-
-  // Private Members
-  private Delegate SubmitScoreHandle
-  {
-    get;
-    set;
-  }
-
-  private Delegate ShowLeaderBoardHandle
-  {
-    get;
-    set;
-  }
-
-  private Delegate ShowAchievementsHandle
-  {
-    get;
-    set;
-  }
-
-  private int previousScore
-  {
-    get;
-    set;
-  }
-
-  private bool highScoreCrossed
-  {
-    get;
-    set;
-  }
-
-//  private Dictionary <string, List <int>> scoreTable
-//  {
-//    get;
-//    set;
-//  }
+  private int previousScore { get; set; }
+  private bool highScoreCrossed { get; set; }
 
   void Awake ()
   {
@@ -127,18 +94,15 @@ public class StatsManager : Manager
   void Start ()
   {
 #if UNITY_IOS
-    GameCenterManager gcm = gameObject.AddComponent <GameCenterManager> ();
-    SubmitScoreHandle = gcm.SubmitScore;
-    ShowLeaderBoardHandle = gcm.ShowLeaderBoard;
-    ShowAchievementsHandle = gcm.ShowAchievements;
+    gameObject.AddComponent <GameCenterManager> ().RegisterEvents ();
 #elif UNITY_ANDROID
 //    gameObject.AddComponentMenu <GooglePlayManager> ();
 #elif UNITY_WINRT
     gameObject.AddComponent <WindowsStoreManager> ();
 #endif
 
-    Debug.Log (leaderBoardId);
-    Debug.Log (Application.dataPath);
+    Debug.Log ("Leaderboard ID: " + leaderBoardId);
+    Debug.Log ("Data Path: " + Application.dataPath);
 
     previousScore = highScore;
     coins = PlayerPrefs.GetInt ("Coins");
@@ -165,12 +129,12 @@ public class StatsManager : Manager
 
   public void ShowLeaderBoard ()
   {
-    ShowLeaderBoardHandle ();
+    EventManager.SendEvent(this, ShowLeaderboardEvent, null);
   }
 
   public void ShowAchievements ()
   {
-    ShowAchievementsHandle ();
+    EventManager.SendEvent(this, ShowAchievementsEvent, null);
   }
 
   private bool CheckHighScore ()
@@ -178,11 +142,6 @@ public class StatsManager : Manager
     int prevScore = PlayerPrefs.GetInt (leaderBoardId);
     if (score > prevScore)
     {
-//      if (score == prevScore || score == 0)
-//      {
-//        return false;
-//      }
-
       return true;
     }
 
@@ -190,7 +149,6 @@ public class StatsManager : Manager
   }
 
   #region implemented abstract members of Manager
-
   public override void OnGameReset (object sender, System.EventArgs args)
   {
     score = 0;
@@ -207,9 +165,9 @@ public class StatsManager : Manager
     if (isHighScore)
     {
       previousScore = score;
-      if (SubmitScoreHandle != null)
+      if (SubmitScoreEvent != null)
       {
-        SubmitScoreHandle ();
+        EventManager.SendEvent(this, SubmitScoreEvent, null);
         PlayerPrefs.SetInt (leaderBoardId, score);
       }
     }
@@ -233,6 +191,5 @@ public class StatsManager : Manager
   {
     Debug.Log (leaderBoardId);
   }
-
   #endregion
 }
