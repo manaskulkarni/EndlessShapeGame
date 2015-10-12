@@ -113,6 +113,11 @@ public class ShapeManager : Manager
   /// ParticleSystem to use to play game over feedback
   /// </summary>
   public ParticleSystem gameOverFeedback;
+  /// <summary>
+  /// When to Start spawning Special shapes depending on current score
+  /// </summary>
+  public int SpecialScoreStart;
+  
   #endregion
   #region Properties
   public List<ShapeProperties> shapeProperties { get; private set; }
@@ -434,8 +439,9 @@ public class ShapeManager : Manager
     // Choose Whether Shape Is Special
     /*************************************************************************/
     int specialRandom = Random.Range(specialRandomRange.min, specialRandomRange.max);
+    int currentScore  = StatsManager.inst.score;
 
-    if (specialRandomRangeCompare.Contains (specialRandom))
+    if (specialRandomRangeCompare.Contains (specialRandom) && currentScore >= SpecialScoreStart)
     {
       Debug.Log("Special");
       shape.StartSpecialShapeCoroutine(ShapeBehavior.ShapeResponse.Opposite);

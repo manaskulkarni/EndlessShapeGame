@@ -143,7 +143,7 @@ public class UIManager : Manager
     //    OnDifficultyChange ();
     //    OnSpeedChange ();
     #endregion
-  }
+  }	
   
   public void EndGame ()
   {
