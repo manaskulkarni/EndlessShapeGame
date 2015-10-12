@@ -2771,8 +2771,8 @@ MonoBehaviour:
     accelerationMultiplier: {x: 0, y: -.100000001}
     maxSpeed: {x: 0, y: -5}
   - speedLevel: 1
-    speedMultiplier: {x: 0, y: -5}
-    accelerationMultiplier: {x: 0, y: -.100000001}
+    speedMultiplier: {x: 0, y: -7.5}
+    accelerationMultiplier: {x: 0, y: 0}
     maxSpeed: {x: 0, y: -9}
   - speedLevel: 2
     speedMultiplier: {x: 0, y: -6}

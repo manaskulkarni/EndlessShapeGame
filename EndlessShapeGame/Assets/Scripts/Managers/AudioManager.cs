@@ -22,6 +22,8 @@ public class AudioManager : Manager
       audioPlayer = gameObject.AddComponent<AudioSource>();
       audioPlayer.clip = backgroundMusic;
     }
+
+    audioPlayer.Stop();
 	}
 
   #region implemented abstract members of StoreManager
@@ -31,10 +33,12 @@ public class AudioManager : Manager
 
   public override void OnGameStart(object sender, System.EventArgs args)
   {
+    audioPlayer.Play();
   }
 
   public override void OnGameOver(object sender, System.EventArgs args)
   {
+    audioPlayer.Stop();
   }
 
   public override void OnGameRestart(object sender, System.EventArgs args)
