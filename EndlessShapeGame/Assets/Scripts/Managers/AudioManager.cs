@@ -26,7 +26,7 @@ public class AudioManager : Manager
     audioPlayer.Stop();
 	}
 
-  #region implemented abstract members of StoreManager
+  #region implemented abstract members of AudioManager
   public override void OnGameReset(object sender, System.EventArgs args)
   {
   }

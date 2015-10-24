@@ -20,17 +20,19 @@ public class ShapeManager : Manager
     }
   }
 
+
   /// <summary>
   /// Data Structure containing the speed properties of shapes
   /// </summary>
   [System.Serializable]
   public struct SpeedPreset
   {
-    public GameManager.SpeedLevel speedLevel;
     public Vector2 speedMultiplier;
     public Vector2 accelerationMultiplier;
+    public int speedIncreaseBlockInterval;
     public Vector2 maxSpeed;
   }
+
   /// <summary>
   /// Data Structure holding the visual properties of shapes
   /// </summary>
@@ -59,6 +61,17 @@ public class ShapeManager : Manager
       return val >= min && val <= max;
     }
   }
+
+  [System.Serializable]
+  /// <summary>
+  /// Data Structure with Speed Interval and The Speed Preset for that interval
+  /// </summary>
+  public struct BlockInterval
+  {
+    public SpeedPreset preset;
+    public IntRange scoreInterval;
+  }
+
   #endregion
   #region Public Fields
   /// <summary>
@@ -76,7 +89,8 @@ public class ShapeManager : Manager
   /// <summary>
   /// Array of SpeedPresets of Shapes
   /// </summary>
-  public SpeedPreset[] speedPresets;
+  public BlockInterval[] speedPresets;
+  int currentIntervalIndex;
   /// <summary>
   /// Offset of spawning
   /// </summary>
@@ -238,6 +252,13 @@ public class ShapeManager : Manager
             // Add Point to Player Stats
             StatsManager.inst.AddPoint();
             UIManager.inst.UpdateScore();
+
+            if (currentIntervalIndex + 1 < speedPresets.Length)
+            if (!speedPresets [currentIntervalIndex].scoreInterval.Contains (StatsManager.inst.score))
+            {
+              currentSpeedPreset = speedPresets[++currentIntervalIndex].preset;
+            }
+
             StartCoroutine(DestroyShape(shapeBehavior));
           }
           else
@@ -309,7 +330,8 @@ public class ShapeManager : Manager
     shapePair.Clear();
     shapeProperties.Clear();
     player = null;
-    currentSpeedPreset = speedPresets[(int)GameManager.inst.gameSettings.speedLevel];
+    currentIntervalIndex = 0;
+    currentSpeedPreset = speedPresets[currentIntervalIndex].preset;
 
     player = GameObject.FindObjectOfType<PlayerBehavior>();
 
@@ -345,7 +367,8 @@ public class ShapeManager : Manager
   public override void OnGameRestart(object sender, System.EventArgs args)
   {
     startDelay = 0.7f;
-    currentSpeedPreset = speedPresets[(int)GameManager.inst.gameSettings.speedLevel];
+    currentIntervalIndex = 0;
+    currentSpeedPreset = speedPresets[currentIntervalIndex].preset;
   }
 
   [System.Obsolete("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]
@@ -357,7 +380,7 @@ public class ShapeManager : Manager
   [System.Obsolete("Speed Modes Not Supported Anymore. Single Speed Mode")]
   public override void OnSpeedChange(object sender, System.EventArgs args)
   {
-    currentSpeedPreset = speedPresets[(int)GameManager.inst.gameSettings.speedLevel];
+    //currentSpeedPreset = speedPresets[(int)GameManager.inst.gameSettings.speedLevel];
   }
 
   #endregion

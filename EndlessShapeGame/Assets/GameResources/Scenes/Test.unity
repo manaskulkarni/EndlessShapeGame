@@ -2766,18 +2766,94 @@ MonoBehaviour:
   gameShapeCount: 3
   shapePrefab: {fileID: 176260, guid: cf57cdeb9ee534fd496a252ca4919c73, type: 2}
   speedPresets:
-  - speedLevel: 0
-    speedMultiplier: {x: 0, y: -2}
-    accelerationMultiplier: {x: 0, y: -.100000001}
-    maxSpeed: {x: 0, y: -5}
-  - speedLevel: 1
-    speedMultiplier: {x: 0, y: -7.5}
-    accelerationMultiplier: {x: 0, y: 0}
-    maxSpeed: {x: 0, y: -9}
-  - speedLevel: 2
-    speedMultiplier: {x: 0, y: -6}
-    accelerationMultiplier: {x: 0, y: -.200000003}
-    maxSpeed: {x: 0, y: -11}
+  - preset:
+      speedMultiplier: {x: 0, y: -5}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -5}
+    scoreInterval:
+      min: 0
+      max: 10
+  - preset:
+      speedMultiplier: {x: 0, y: -5.5}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -5.5}
+    scoreInterval:
+      min: 10
+      max: 20
+  - preset:
+      speedMultiplier: {x: 0, y: -6}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -6}
+    scoreInterval:
+      min: 20
+      max: 30
+  - preset:
+      speedMultiplier: {x: 0, y: -6.5}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -6.5}
+    scoreInterval:
+      min: 30
+      max: 40
+  - preset:
+      speedMultiplier: {x: 0, y: -7}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -7}
+    scoreInterval:
+      min: 40
+      max: 50
+  - preset:
+      speedMultiplier: {x: 0, y: -7.5}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -7.5}
+    scoreInterval:
+      min: 50
+      max: 60
+  - preset:
+      speedMultiplier: {x: 0, y: -8}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -8}
+    scoreInterval:
+      min: 60
+      max: 70
+  - preset:
+      speedMultiplier: {x: 0, y: -8.5}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -8.5}
+    scoreInterval:
+      min: 70
+      max: 80
+  - preset:
+      speedMultiplier: {x: 0, y: -9}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -9}
+    scoreInterval:
+      min: 80
+      max: 90
+  - preset:
+      speedMultiplier: {x: 0, y: -9.5}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -9.5}
+    scoreInterval:
+      min: 90
+      max: 100
+  - preset:
+      speedMultiplier: {x: 0, y: -10}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -10}
+    scoreInterval:
+      min: 100
+      max: 110
   shapeSpawnOffset: {x: 0, y: 5}
   beginPosition: {x: 0, y: 10}
   spawnInSameRow: 0
@@ -2791,10 +2867,11 @@ MonoBehaviour:
     max: 30
   specialFeedback: {fileID: 1078359141}
   gameOverFeedback: {fileID: 996316314}
+  SpecialScoreStart: 0
   currentSpeedPreset:
-    speedLevel: 0
     speedMultiplier: {x: 0, y: 0}
     accelerationMultiplier: {x: 0, y: 0}
+    speedIncreaseBlockInterval: 0
     maxSpeed: {x: 0, y: 0}
 --- !u!1 &1720717452
 GameObject:
