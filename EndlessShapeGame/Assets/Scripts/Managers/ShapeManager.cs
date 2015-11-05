@@ -120,6 +120,14 @@ public class ShapeManager : Manager
   /// </summary>
   public IntRange specialRandomRangeCompare;
   /// <summary>
+  /// Range for spawning random number for special random
+  /// </summary>
+  public IntRange invisibleRandomRange;
+  /// <summary>
+  /// Range to compare whether to spawn invisible shape
+  /// </summary>
+	public IntRange invisibleRandomRangeCompare;
+  /// <summary>
   /// ParticleSystem to use to play when Special Shape collides with Player
   /// </summary>
   public ParticleSystem specialFeedback;
@@ -128,9 +136,16 @@ public class ShapeManager : Manager
   /// </summary>
   public ParticleSystem gameOverFeedback;
   /// <summary>
-  /// When to Start spawning Special shapes depending on current score
+  /// Offset from top of screen in world coordinates when invisible shape starts fading out
   /// </summary>
-  public int SpecialScoreStart;
+  public float invisibleFadeStartOffset;
+  /// <summary>
+  /// Fade Out Speed for invisible shapes
+  /// </summary>
+  public float fadeOutSpeed;
+  
+  public int minSpecialScore;
+  public int minInvisibleScore;
   
   #endregion
   #region Properties
@@ -143,11 +158,7 @@ public class ShapeManager : Manager
   #endregion
   #region Private Properties
   // Private Members
-#if UNITY_EDITOR
   public SpeedPreset currentSpeedPreset;
-#else
-  public SpeedPreset currentSpeedPreset {get; private set; }
-#endif
 
   private Coroutine updateSpeed { get; set; }
   private int repeatCount { get; set; }
@@ -462,9 +473,10 @@ public class ShapeManager : Manager
     // Choose Whether Shape Is Special
     /*************************************************************************/
     int specialRandom = Random.Range(specialRandomRange.min, specialRandomRange.max);
+    int invRandom = Random.Range (invisibleRandomRange.min, invisibleRandomRange.max);
     int currentScore  = StatsManager.inst.score;
 
-    if (specialRandomRangeCompare.Contains (specialRandom) && currentScore >= SpecialScoreStart)
+    if (specialRandomRangeCompare.Contains (specialRandom) && currentScore > minSpecialScore)
     {
       Debug.Log("Special");
       shape.StartSpecialShapeCoroutine(ShapeBehavior.ShapeResponse.Opposite);
@@ -474,6 +486,16 @@ public class ShapeManager : Manager
     {
       shape.StopSpecialShapeCoroutine();
       shape.spriteRenderer.color = shape.originalColor;
+    }
+    
+    if (invisibleRandomRangeCompare.Contains (invRandom) && currentScore > minInvisibleScore)
+    {
+      Debug.Log ("Invisible");
+      shape.StartInvisibleCoroutine ();
+    }
+    else
+    {
+      shape.StopInvisibleCoroutine ();
     }
     /*************************************************************************/
     // Assign the selected properties to the shape

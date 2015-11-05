@@ -2865,9 +2865,18 @@ MonoBehaviour:
   specialRandomRangeCompare:
     min: 0
     max: 30
+  invisibleRandomRange:
+    min: 0
+    max: 100000
+  invisibleRandomRangeCompare:
+    min: 100
+    max: 500
   specialFeedback: {fileID: 1078359141}
   gameOverFeedback: {fileID: 996316314}
-  SpecialScoreStart: 0
+  invisibleFadeStartOffset: 0
+  fadeOutSpeed: 1
+  minSpecialScore: 20
+  minInvisibleScore: 40
   currentSpeedPreset:
     speedMultiplier: {x: 0, y: 0}
     accelerationMultiplier: {x: 0, y: 0}

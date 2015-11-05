@@ -9,14 +9,22 @@ public class ShapeBehavior : MonoBehaviour
     Opposite,
     ShapeResponseCount,
   }
+  
+  public enum ShapeType
+  {
+  	Normal,
+  	Invisible,
+  }
 
   // Public Members
   public SpriteRenderer spriteRenderer { get; set; }
   public Color originalColor { get; set; }
   public bool triggered { get; set; }
   public ShapeResponse shapeResponse { get; set; }
+  public ShapeType shapeType { get; set; }
   private Coroutine updatePosition { get; set; }
   private Coroutine updateSpecial { get; set; }
+  private Coroutine updateInvisible { get; set; }
 
   // Use this for initialization
   public void StartGame ()
@@ -25,6 +33,11 @@ public class ShapeBehavior : MonoBehaviour
     if (updatePosition == null)
     {
       updatePosition = StartCoroutine (UpdatePosition ());
+    }
+    
+    if (shapeType == ShapeType.Invisible)
+    {
+      updateInvisible = StartCoroutine (UpdateInvisible ());
     }
   }
 
@@ -35,6 +48,11 @@ public class ShapeBehavior : MonoBehaviour
     {
       StopCoroutine (updatePosition);
       updatePosition = null;
+    }
+    if (updateInvisible != null)
+    {
+      StopCoroutine (updateInvisible);
+      updateInvisible = null;
     }
   }
 
@@ -61,6 +79,24 @@ public class ShapeBehavior : MonoBehaviour
     {
       StopCoroutine (updateSpecial);
       updateSpecial = null;
+    }
+  }
+  
+  public void StartInvisibleCoroutine ()
+  {
+    shapeType = ShapeType.Invisible;
+    
+    updateInvisible = StartCoroutine (UpdateInvisible ());
+  }
+  
+  public void StopInvisibleCoroutine ()
+  {
+    shapeType = ShapeType.Normal;
+    
+    if (updateInvisible != null)
+    {
+      StopCoroutine (updateInvisible);
+      updateInvisible = null;
     }
   }
 
@@ -96,6 +132,26 @@ public class ShapeBehavior : MonoBehaviour
         yield return null;
       }
 
+      yield return null;
+    }
+  }
+  
+  private IEnumerator UpdateInvisible ()
+  {
+    while (spriteRenderer.color.a > 0.0f)
+    {
+      bool outOfScreen = gameObject.transform.position.y >=
+      (Camera.main.transform.position.y + Camera.main.orthographicSize) +
+      ShapeManager.inst.invisibleFadeStartOffset;
+      
+      if (!outOfScreen)
+      {
+        Color c = spriteRenderer.color;
+        c.a -= Time.deltaTime * ShapeManager.inst.fadeOutSpeed;
+        spriteRenderer.color = c;
+        yield return null;
+      }
+      
       yield return null;
     }
   }
