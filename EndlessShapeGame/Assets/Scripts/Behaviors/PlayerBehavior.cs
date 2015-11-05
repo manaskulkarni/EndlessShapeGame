@@ -10,14 +10,10 @@ public class PlayerBehavior : MonoBehaviour
 
   #region Properties
   // Public Members
-#if UNITY_EDITOR
   /// <summary>
   /// Swipe Speed Multiplier for interpolation when swiping
   /// </summary>
   public float swipeSpeedMultiplier;
-#else
-  public float swipeSpeedMultiplier { get; private set; }
-#endif
   /// <summary>
   /// Make swipe speed dependent on fall speed of shapes so you swipe faster as shapes fall faster
   /// </summary>

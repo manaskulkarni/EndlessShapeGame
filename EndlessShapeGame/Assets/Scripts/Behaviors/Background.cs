@@ -29,42 +29,11 @@ public class Background : MonoBehaviour
   
   // Private Members
   // For Debugging Purpose
-#if UNITY_EDITOR
   public float changeTimer = 0.0f;
   public float interpolationTimer = 0.0f;
   public int colorIndex = 0;
   public Color colorOne;
   public Color colorTwo;
-#else
-  private float changeTimer
-  {
-    get;
-    set;
-  }
-
-  private float interpolationTimer
-  {
-    get;
-    set;
-  }
-
-  private int colorIndex
-  {
-    get;
-    set;
-  }
-  private Color colorOne
-  {
-    get;
-    set;
-  }
-  
-  private Color colorTwo
-  {
-    get;
-    set;
-  }
-#endif
 
   private Coroutine updateCoroutine
   {
