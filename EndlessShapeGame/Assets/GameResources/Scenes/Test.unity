@@ -4331,7 +4331,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b6f355bc16f17fe4c8db60b4b7f00e4b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0248337b1b1a16246b019dce44e9219e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -4403,7 +4403,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc03aaa1318f03a40804b5d7978a8288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundMusic: {fileID: 8300000, guid: b6f355bc16f17fe4c8db60b4b7f00e4b, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 0248337b1b1a16246b019dce44e9219e, type: 3}
+  loseEffect: {fileID: 8300000, guid: f74b57d9a8fd8474f968daa9757b8aa2, type: 3}
 --- !u!1 &1988493372
 GameObject:
   m_ObjectHideFlags: 0
@@ -4774,7 +4775,7 @@ MonoBehaviour:
   - difficultyLevel: 2
     prefab: {fileID: 194950, guid: 2ed851d40443248b4964fcc4789b628c, type: 2}
   startPlayerAlpha: 1
-  invincible: 0
+  invincible: 1
 --- !u!1 &2044098791
 GameObject:
   m_ObjectHideFlags: 0

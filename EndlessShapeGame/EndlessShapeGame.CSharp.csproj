@@ -84,8 +84,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\KTGameCenter\TestScripts\TestScriptKTGC.cs" />
+    <Compile Include="Assets\Scripts\Behaviors\AudioFeedback.cs" />
     <Compile Include="Assets\Scripts\Behaviors\Background.cs" />
     <Compile Include="Assets\Scripts\Behaviors\BackgroundObject.cs" />
+    <Compile Include="Assets\Scripts\Behaviors\BackgroundSprite.cs" />
     <Compile Include="Assets\Scripts\Behaviors\PlayerBehavior.cs" />
     <Compile Include="Assets\Scripts\Behaviors\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\Behaviors\PlayerShapeTrigger.cs" />

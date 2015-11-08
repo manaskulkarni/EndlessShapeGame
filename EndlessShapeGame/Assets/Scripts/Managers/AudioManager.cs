@@ -8,9 +8,10 @@ public class AudioManager : Manager
   /// Background Music Audio Clip
   /// </summary>
   public AudioClip backgroundMusic;
-  /// <summary>
-  /// AudioPlayer attached to gameObject
-  /// </summary>
+  public AudioClip loseEffect;
+    /// <summary>
+    /// AudioPlayer attached to gameObject
+    /// </summary>
   public AudioSource audioPlayer { get; private set; }
   private float originalVolume { get; set; }
   static public AudioManager inst { get; private set; }
@@ -20,8 +21,8 @@ public class AudioManager : Manager
     if (inst == null) inst = this;
   }
 
-	// Use this for initialization
-	void Start ()
+  // Use this for initialization
+  void Start ()
   {
     audioPlayer = GetComponent<AudioSource>();
     if (!audioPlayer)
@@ -33,7 +34,7 @@ public class AudioManager : Manager
     originalVolume = audioPlayer.volume;
     audioPlayer.volume = 0.0f;
     audioPlayer.Stop();
-	}
+  }
 
   public void Play ()
   {
@@ -60,6 +61,8 @@ public class AudioManager : Manager
   public override void OnGameOver(object sender, System.EventArgs args)
   {
     StopAllCoroutines ();
+    audioPlayer.clip = loseEffect;
+    audioPlayer.Play();
     StartCoroutine (FadeOutPitch ());
   }
 
@@ -74,13 +77,15 @@ public class AudioManager : Manager
   #region Coroutines
   private IEnumerator FadeOutPitch()
   {
-    while (audioPlayer.volume > 0.0f)
+    while (audioPlayer.pitch > 0.0f)
     {
+      audioPlayer.pitch -= Time.deltaTime * 0.25f;
       audioPlayer.volume -= Time.deltaTime * 0.25f;
       yield return null;
     }
-    
+
     audioPlayer.volume = 0.0f;
+    audioPlayer.pitch = 0.0f;
     audioPlayer.Stop ();
   }
 
