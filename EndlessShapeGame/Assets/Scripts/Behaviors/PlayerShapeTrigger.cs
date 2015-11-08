@@ -27,7 +27,9 @@ public class PlayerShapeTrigger : MonoBehaviour
     // Only Proceed if the shape has not been triggered yet
     if (!ShapeManager.inst.shapePair [coll.GetHashCode ()].triggered)
     {
-      Debug.Log("TIME: " + Time.fixedTime);
+    #if UNITY_EDITOR
+//      Debug.Log("TIME: " + Time.fixedTime);
+    #endif
       ShapeManager.inst.shapePair [coll.GetHashCode ()].triggered = true;
       ShapeManager.inst.ShapeTriggered (ShapeManager.inst.shapePair [coll.GetHashCode ()], spriteRenderer);
     }

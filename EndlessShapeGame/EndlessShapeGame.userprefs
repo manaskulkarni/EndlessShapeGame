@@ -1,30 +1,30 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Behaviors/Background.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/ShapeManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Behaviors/PlayerBehavior.cs" Line="10" Column="1" />
-      <File FileName="Assets/Scripts/Managers/ShapeManager.cs" Line="161" Column="1" />
+      <File FileName="Assets/Scripts/Managers/ShapeManager.cs" Line="230" Column="8" />
+      <File FileName="Assets/Scripts/Behaviors/PlayerBehavior.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/GameCenterManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Behaviors/ShapeBehavior.cs" Line="16" Column="12" />
+      <File FileName="Assets/Scripts/Behaviors/ShapeBehavior.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/StatsManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="23" Column="4" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/PlayerManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Behaviors/PlayerShapeTrigger.cs" Line="13" Column="4" />
+      <File FileName="Assets/Scripts/Behaviors/PlayerShapeTrigger.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/Background.cs" Line="20" Column="25" />
-      <File FileName="Assets/Scripts/Behaviors/PlayerInput.cs" Line="13" Column="4" />
-      <File FileName="Assets/Scripts/Managers/StoreManager.cs" Line="19" Column="1" />
-      <File FileName="Assets/Scripts/Behaviors/ShapeParent.cs" Line="16" Column="1" />
-      <File FileName="Assets/Scripts/Behaviors/BackgroundObject.cs" Line="9" Column="21" />
+      <File FileName="Assets/Scripts/Behaviors/PlayerInput.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/StoreManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Behaviors/ShapeParent.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Behaviors/BackgroundObject.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
-              <Node name="Behaviors" expanded="True">
-                <Node name="Background.cs" selected="True" />
+              <Node name="Behaviors" expanded="True" />
+              <Node name="Managers" expanded="True">
+                <Node name="ShapeManager.cs" selected="True" />
               </Node>
-              <Node name="Managers" expanded="True" />
             </Node>
           </Node>
         </State>

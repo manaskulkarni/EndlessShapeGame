@@ -223,14 +223,17 @@ public class ShapeManager : Manager
     }
 
     config = (Config)serializer.Deserialize(reader);
+    
+	#if UNITY_EDITOR
+	for (int i = 0; i < speedPresets.Length; ++i)
+		times.Add (new List<float>());
+	#endif
 #endif
   }
 
   // Use this for initialization
   void Start()
   {
-    for (int i = 0; i < speedPresets.Length; ++i)
-      times.Add (new List<float>());
     OnGameReset(null, null);
   }
 
@@ -360,6 +363,12 @@ public class ShapeManager : Manager
       switch (shapeBehavior.shapeResponse)
       {
         case ShapeBehavior.ShapeResponse.Normal:
+        // Choose which particle system to use
+        ParticleSystem fdb = sameSprite ? gameOverFeedback : specialFeedback;
+        fdb.startColor = specialColor;
+        fdb.gameObject.SetActive(true);
+        fdb.transform.position = shapeBehavior.transform.position;
+        fdb.Play();
           if (sameSprite)
           {
             // Shuffle the shape properties to increase randomness
