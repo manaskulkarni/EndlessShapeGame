@@ -9,10 +9,13 @@ public class AudioManager : Manager
   /// </summary>
   public AudioClip backgroundMusic;
   public AudioClip loseEffect;
-    /// <summary>
-    /// AudioPlayer attached to gameObject
-    /// </summary>
-  public AudioSource audioPlayer { get; private set; }
+
+  /// <summary>
+  /// AudioPlayer attached to gameObject
+  /// </summary>
+  public AudioSource[] audioPlayer { get; private set; }
+  public AudioSource bgm;
+  public AudioSource loseSFX;
   private float originalVolume { get; set; }
   static public AudioManager inst { get; private set; }
 
@@ -24,22 +27,29 @@ public class AudioManager : Manager
   // Use this for initialization
   void Start ()
   {
-    audioPlayer = GetComponent<AudioSource>();
-    if (!audioPlayer)
+    audioPlayer = GetComponents<AudioSource>();
+
+    if (!bgm)
     {
-      audioPlayer = gameObject.AddComponent<AudioSource>();
-      audioPlayer.clip = backgroundMusic;
+      bgm = gameObject.AddComponent<AudioSource>();
+      bgm.clip = backgroundMusic;
     }
 
-    originalVolume = audioPlayer.volume;
-    audioPlayer.volume = 0.0f;
-    audioPlayer.Stop();
+    if(!loseSFX)
+    {
+      loseSFX = gameObject.AddComponent<AudioSource>();
+      loseSFX.clip = loseEffect;
+    }
+
+    originalVolume = bgm.volume;
+    bgm.volume = 0.0f;
+    bgm.Stop();
   }
 
   public void Play ()
   {
-    audioPlayer.volume = 1.0f;
-    audioPlayer.Play();
+    bgm.volume = 1.0f;
+    bgm.Play();
   }
 
   //void FixedUpdate ()
@@ -61,9 +71,8 @@ public class AudioManager : Manager
   public override void OnGameOver(object sender, System.EventArgs args)
   {
     StopAllCoroutines ();
-    audioPlayer.clip = loseEffect;
-    audioPlayer.Play();
     StartCoroutine (FadeOutPitch ());
+    loseSFX.Play();
   }
 
   public override void OnGameRestart(object sender, System.EventArgs args)
@@ -77,29 +86,32 @@ public class AudioManager : Manager
   #region Coroutines
   private IEnumerator FadeOutPitch()
   {
-    while (audioPlayer.pitch > 0.0f)
+    while (loseSFX.volume > 0.0f)
     {
-      audioPlayer.pitch -= Time.deltaTime * 0.25f;
-      audioPlayer.volume -= Time.deltaTime * 0.25f;
+      loseSFX.pitch -= Time.deltaTime * 0.25f;
+      bgm.volume -= Time.deltaTime * 0.3f;
+      loseSFX.volume -= Time.deltaTime * 0.25f;
       yield return null;
     }
 
-    audioPlayer.volume = 0.0f;
-    audioPlayer.pitch = 0.0f;
-    audioPlayer.Stop ();
+    bgm.volume = 0.0f;
+    loseSFX.volume = 0.0f;
+    loseSFX.pitch = 0.0f;
+    bgm.Stop ();
+    loseSFX.Stop();
   }
 
   private IEnumerator FadeInPitch()
   {
-    audioPlayer.Play();
+    bgm.Play();
 
-    while (audioPlayer.volume < originalVolume)
+    while (bgm.volume < originalVolume)
     {
-      audioPlayer.volume += Time.deltaTime;
+      bgm.volume += Time.deltaTime;
       yield return null;
     }
-    
-    audioPlayer.volume = originalVolume;
+
+    bgm.volume = originalVolume;
   }
   #endregion
 }
