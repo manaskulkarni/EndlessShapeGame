@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Timers;
+using System.Xml;
+using System.Linq;
 
 public class ShapeManager : Manager
 {
@@ -166,7 +167,14 @@ public class ShapeManager : Manager
   private Sprite previousSprite { get; set; }
   private int shuffleCounter { get; set; }
   private float startDelay { get; set; }
-  #endregion
+
+#if UNITY_EDITOR
+  List<float> bpms = new List<float>();
+  List<List<float>> times = new List<List<float>>(); 
+#endif
+
+
+#endregion
   #region Static Properties
   static public ShapeManager inst { get; private set; }
   #endregion
@@ -192,7 +200,53 @@ public class ShapeManager : Manager
   // Use this for initialization
   void Start()
   {
+    for (int i = 0; i < speedPresets.Length; ++i)
+      times.Add (new List<float>());
     OnGameReset(null, null);
+  }
+
+  public struct AudioData
+  {
+    public AudioData (float _bpm, BlockInterval interval)
+    {
+      bpm = _bpm;
+      speedMultiplier = interval.preset.speedMultiplier;
+      scoreRange = interval.scoreInterval;
+    }
+    [System.Xml.Serialization.XmlElement("BPM")]
+    public float bpm;
+    [System.Xml.Serialization.XmlElement("Speed")]
+    public Vector2 speedMultiplier;
+    [System.Xml.Serialization.XmlElement("ScoreInterval")]
+    public IntRange scoreRange;
+  }
+
+  void OnDestroy ()
+  {
+#if UNITY_EDITOR
+    List<AudioData> bpmData = new List<AudioData>();
+    for (int i = 0; i < speedPresets.Length; ++i)
+    {
+      var v = times[i];
+      var bpmList = new List<float>();
+      for (int j = 1; j < v.Count; ++j)
+      {
+        var fps = 1.0f / Time.fixedDeltaTime;
+        bpmList.Add(fps / (times[i][j] - times[i][j - 1]));
+      }
+
+      float total = bpmList.Sum(x => x);
+      if (total > 0.0f)
+      {
+        float avg = total / bpmList.Count;
+        bpmData.Add(new AudioData(avg, speedPresets[i]));
+      }
+    }
+
+    System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(List<AudioData>));
+    System.IO.TextWriter writer = new System.IO.StreamWriter(Application.dataPath + "/AudioData.xml");
+    serializer.Serialize(writer, bpmData);
+#endif
   }
 
   /// <summary>
@@ -239,7 +293,6 @@ public class ShapeManager : Manager
   /// </summary>
   private Transform topShape { get; set; }
   bool first = true;
-  List<float> times = new List<float>();
   #region ShapeManager Logic
   /// <summary>
   /// Called by PlayerBehavior when it collides with a ShapeBehavior
@@ -257,7 +310,11 @@ public class ShapeManager : Manager
     if (GameManager.inst.playing)
     {
       bool sameSprite = shapeBehavior.spriteRenderer.sprite.GetHashCode() == spriteRenderer.sprite.GetHashCode();
-      //times.Add(Time.fixedTime);
+
+#if UNITY_EDITOR
+      times[currentIntervalIndex].Add(Time.fixedTime);
+#endif
+
       /***********************************************************************/
       // If Player sprite collides with shape of same sprite
       /***********************************************************************/
@@ -277,8 +334,6 @@ public class ShapeManager : Manager
             if (!speedPresets [currentIntervalIndex].scoreInterval.Contains (StatsManager.inst.score))
             {
               currentSpeedPreset = speedPresets[++currentIntervalIndex].preset;
-                //Debug.Log("BPM: " + (60.0f / (times[1] - times[0])));
-                //times.Clear();
             }
 
             StartCoroutine(DestroyShape(shapeBehavior));

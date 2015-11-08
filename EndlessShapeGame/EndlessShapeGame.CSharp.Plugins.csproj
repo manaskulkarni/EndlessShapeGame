@@ -112,6 +112,7 @@
     <Compile Include="Assets\Standard Assets\KTGameCenter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\AudioData.xml" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
