@@ -26,11 +26,14 @@ public class PlayerManager : Manager
   /// Start player alpha (Not used)
   /// </summary>
   public float startPlayerAlpha;
+
+#if UNITY_EDITOR
   /// <summary>
   /// Invincible (Use to debug conveniently)
   /// </summary>
   public bool invincible;
-  #endregion
+#endif
+#endregion
   #region Properties
   /// <summary>
   /// Player Access for other systems

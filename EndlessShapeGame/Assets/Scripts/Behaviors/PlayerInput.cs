@@ -15,6 +15,20 @@ public class PlayerInput : MonoBehaviour
     flick.Flicked += HandleFlicked;
   }
 
+#if UNITY_EDITOR
+  void Update ()
+  {
+    if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A))
+    {
+      PlayerManager.inst.player.GoLeft();
+    }
+    else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
+    {
+      PlayerManager.inst.player.GoRight();
+    }
+  }
+#endif
+
   #region Events
   void HandleFlicked (object sender, System.EventArgs e)
   {

@@ -343,6 +343,12 @@ public class ShapeManager : Manager
     if (GameManager.inst.playing)
     {
       bool sameSprite = shapeBehavior.spriteRenderer.sprite.GetHashCode() == spriteRenderer.sprite.GetHashCode();
+#if UNITY_EDITOR
+      if (PlayerManager.inst.invincible)
+      {
+        sameSprite = shapeBehavior.shapeResponse == ShapeBehavior.ShapeResponse.Normal ? true : false;
+      }
+#endif
 
 #if UNITY_EDITOR
       times[currentIntervalIndex].Add(Time.fixedTime);
