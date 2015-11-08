@@ -213,11 +213,11 @@ public class ShapeManager : Manager
       speedMultiplier = interval.preset.speedMultiplier;
       scoreRange = interval.scoreInterval;
     }
-    [System.Xml.Serialization.XmlElement("BPM")]
+    [System.Xml.Serialization.XmlElement("bpm")]
     public float bpm;
-    [System.Xml.Serialization.XmlElement("Speed")]
+    [System.Xml.Serialization.XmlElement("speed")]
     public Vector2 speedMultiplier;
-    [System.Xml.Serialization.XmlElement("ScoreInterval")]
+    [System.Xml.Serialization.XmlElement("score")]
     public IntRange scoreRange;
   }
 
@@ -312,7 +312,7 @@ public class ShapeManager : Manager
       bool sameSprite = shapeBehavior.spriteRenderer.sprite.GetHashCode() == spriteRenderer.sprite.GetHashCode();
 
 #if UNITY_EDITOR
-      times[currentIntervalIndex].Add(Time.time);
+      times[currentIntervalIndex].Add(Time.fixedTime);
 #endif
 
       /***********************************************************************/

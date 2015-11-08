@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfAudioData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <AudioData>
-    <BPM>60.0053368</BPM>
-    <Speed>
+    <bpm>60.0053368</bpm>
+    <speed>
       <x>0</x>
       <y>-5</y>
-    </Speed>
-    <ScoreInterval>
+    </speed>
+    <score>
       <min>0</min>
       <max>9</max>
-    </ScoreInterval>
+    </score>
   </AudioData>
   <AudioData>
-    <BPM>72.00929</BPM>
-    <Speed>
+    <bpm>72.00931</bpm>
+    <speed>
       <x>0</x>
       <y>-6</y>
-    </Speed>
-    <ScoreInterval>
+    </speed>
+    <score>
       <min>10</min>
       <max>19</max>
-    </ScoreInterval>
+    </score>
+  </AudioData>
+  <AudioData>
+    <bpm>83.7516251</bpm>
+    <speed>
+      <x>0</x>
+      <y>-7</y>
+    </speed>
+    <score>
+      <min>20</min>
+      <max>29</max>
+    </score>
   </AudioData>
 </ArrayOfAudioData>
