@@ -92,7 +92,7 @@ public class ShapeManager : Manager
   /// Array of SpeedPresets of Shapes
   /// </summary>
   public BlockInterval[] speedPresets;
-  int currentIntervalIndex;
+  public int currentIntervalIndex { get; private set; }
   /// <summary>
   /// Offset of spawning
   /// </summary>
@@ -363,12 +363,12 @@ public class ShapeManager : Manager
       switch (shapeBehavior.shapeResponse)
       {
         case ShapeBehavior.ShapeResponse.Normal:
-        // Choose which particle system to use
-        ParticleSystem fdb = sameSprite ? gameOverFeedback : specialFeedback;
-        fdb.startColor = specialColor;
-        fdb.gameObject.SetActive(true);
-        fdb.transform.position = shapeBehavior.transform.position;
-        fdb.Play();
+//        // Choose which particle system to use
+//        ParticleSystem fdb = sameSprite ? gameOverFeedback : specialFeedback;
+//        fdb.startColor = specialColor;
+//        fdb.gameObject.SetActive(true);
+//        fdb.transform.position = shapeBehavior.transform.position;
+//        fdb.Play();
           if (sameSprite)
           {
             // Shuffle the shape properties to increase randomness

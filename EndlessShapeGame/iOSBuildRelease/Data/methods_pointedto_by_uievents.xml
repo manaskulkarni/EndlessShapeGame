@@ -1,0 +1,17 @@
+<linker>
+	<assembly fullname="Assembly-CSharp">
+		<type fullname="UIManager">
+			<method name="EndGame"/>
+			<method name="ShowAchievements"/>
+			<method name="HideOptions"/>
+			<method name="ShowOptions"/>
+			<method name="EndGame"/>
+			<method name="EndGame"/>
+			<method name="ShowLeaderBoard"/>
+			<method name="ShowOptions"/>
+		</type>
+		<type fullname="GameManager">
+			<method name="StartGame"/>
+		</type>
+	</assembly>
+</linker>
