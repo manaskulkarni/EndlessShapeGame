@@ -2797,87 +2797,87 @@ MonoBehaviour:
       maxSpeed: {x: 0, y: -5}
     scoreInterval:
       min: 0
-      max: 9
+      max: 8
   - preset:
       speedMultiplier: {x: 0, y: -5.5}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -5.5}
     scoreInterval:
-      min: 10
-      max: 19
+      min: 9
+      max: 17
   - preset:
       speedMultiplier: {x: 0, y: -6}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -6}
     scoreInterval:
-      min: 20
-      max: 29
+      min: 18
+      max: 26
   - preset:
       speedMultiplier: {x: 0, y: -6.5}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -6.5}
     scoreInterval:
-      min: 30
-      max: 39
+      min: 27
+      max: 35
   - preset:
       speedMultiplier: {x: 0, y: -7}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -7}
     scoreInterval:
-      min: 40
-      max: 49
+      min: 36
+      max: 44
   - preset:
       speedMultiplier: {x: 0, y: -7.5}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -7.5}
     scoreInterval:
-      min: 50
-      max: 59
+      min: 45
+      max: 53
   - preset:
       speedMultiplier: {x: 0, y: -8}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -8}
     scoreInterval:
-      min: 60
-      max: 69
+      min: 54
+      max: 62
   - preset:
       speedMultiplier: {x: 0, y: -8.5}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -8.5}
     scoreInterval:
-      min: 70
-      max: 79
+      min: 63
+      max: 71
   - preset:
       speedMultiplier: {x: 0, y: -9}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -9}
     scoreInterval:
-      min: 80
-      max: 89
+      min: 72
+      max: 80
   - preset:
       speedMultiplier: {x: 0, y: -9.5}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -9.5}
     scoreInterval:
-      min: 90
-      max: 99
+      min: 81
+      max: 89
   - preset:
       speedMultiplier: {x: 0, y: -10}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -10}
     scoreInterval:
-      min: 100
-      max: 109
+      min: 90
+      max: 98
   shapeSpawnOffset: {x: 0, y: 5}
   beginPosition: {x: 0, y: 10}
   spawnInSameRow: 0
@@ -3605,7 +3605,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 79d82cb75cc292b4598e5d8353764426, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ef9954020f5b1ae4d94e5bdea808c864, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -3677,7 +3677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc03aaa1318f03a40804b5d7978a8288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundMusic: {fileID: 8300000, guid: 79d82cb75cc292b4598e5d8353764426, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: ef9954020f5b1ae4d94e5bdea808c864, type: 3}
 --- !u!1 &1988493372
 GameObject:
   m_ObjectHideFlags: 0
