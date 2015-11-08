@@ -148,8 +148,8 @@ public class ShapeManager : Manager
   
   public int minSpecialScore;
   public int minInvisibleScore;
-  
-  #endregion
+
+#endregion
   #region Properties
   public List<ShapeProperties> shapeProperties { get; private set; }
   public ShapePool shapePool { get; private set; }
@@ -169,8 +169,18 @@ public class ShapeManager : Manager
   private float startDelay { get; set; }
 
 #if UNITY_EDITOR
-  List<float> bpms = new List<float>();
-  List<List<float>> times = new List<List<float>>(); 
+  List<List<float>> times = new List<List<float>>();
+
+  public struct Config
+  {
+    public Config (bool save = false)
+    {
+      saveAudioData = save;
+    }
+    public bool saveAudioData;
+  }
+
+  Config config = new Config ();
 #endif
 
 
@@ -195,6 +205,25 @@ public class ShapeManager : Manager
     {
       GameObject.Destroy(gameObject);
     }
+
+#if UNITY_EDITOR
+    System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Config));
+    System.IO.TextReader reader = null;
+    if (!System.IO.File.Exists(Application.persistentDataPath + "/Config.xml"))
+    {
+      System.IO.TextWriter writer = new System.IO.StreamWriter(Application.persistentDataPath + "/Config.xml");
+      Config newConfig = new Config();
+      serializer.Serialize(writer, newConfig);
+      writer.Close();
+      reader = new System.IO.StreamReader(Application.persistentDataPath + "/Config.xml");
+    }
+    else
+    {
+       reader = new System.IO.StreamReader(Application.persistentDataPath + "/Config.xml");
+    }
+
+    config = (Config)serializer.Deserialize(reader);
+#endif
   }
 
   // Use this for initialization
@@ -224,27 +253,30 @@ public class ShapeManager : Manager
   void OnDestroy ()
   {
 #if UNITY_EDITOR
-    List<AudioData> bpmData = new List<AudioData>();
-    for (int i = 0; i < speedPresets.Length; ++i)
+    if (config.saveAudioData)
     {
-      var v = times[i];
-      var bpmList = new List<float>();
-      for (int j = 1; j < v.Count; ++j)
+      List<AudioData> bpmData = new List<AudioData>();
+      for (int i = 0; i < speedPresets.Length; ++i)
       {
-        var fps = 60.0f;
-        bpmList.Add(fps / (times[i][j] - times[i][j - 1]));
-      }
+        var v = times[i];
+        var bpmList = new List<float>();
+        for (int j = 1; j < v.Count; ++j)
+        {
+          var fps = 60.0f;
+          bpmList.Add(fps / (times[i][j] - times[i][j - 1]));
+        }
 
-      float total = bpmList.Sum(x => x);
-      if (total > 0.0f)
-      {
-        float avg = total / bpmList.Count;
-        bpmData.Add(new AudioData(avg, speedPresets[i]));
+        float total = bpmList.Sum(x => x);
+        if (total > 0.0f)
+        {
+          float avg = total / bpmList.Count;
+          bpmData.Add(new AudioData(avg, speedPresets[i]));
 
-        System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof (AudioData));
-        System.IO.TextWriter writer = new System.IO.StreamWriter(Application.dataPath + "AudioTesting/BPM_" +
-          speedPresets[i].scoreInterval.min.ToString () + "_" + speedPresets[i].scoreInterval.max.ToString () + ".xml");
-        serializer.Serialize(writer, bpmData [bpmData.Count - 1]);
+          System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(AudioData));
+          System.IO.TextWriter writer = new System.IO.StreamWriter(Application.dataPath + "AudioTesting/BPM_" +
+            speedPresets[i].scoreInterval.min.ToString() + "_" + speedPresets[i].scoreInterval.max.ToString() + ".xml");
+          serializer.Serialize(writer, bpmData[bpmData.Count - 1]);
+        }
       }
     }
 #endif

@@ -111,15 +111,19 @@
     <Compile Include="Assets\TouchScript\Examples\_misc\Scripts\Examples.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\AudioData.xml" />
-    <None Include="Assets\BPM_0_9.xml" />
-    <None Include="Assets\BPM_10_19.xml" />
-    <None Include="Assets\BPM_20_29.xml" />
-    <None Include="Assets\BPM_30_39.xml" />
-    <None Include="Assets\BPM_40_49.xml" />
-    <None Include="Assets\BPM_50_59.xml" />
-    <None Include="Assets\BPM_60_69.xml" />
-    <None Include="Assets\BPM_70_79.xml" />
+    <None Include="Assets\AudioTesting\AudioData.xml" />
+    <None Include="Assets\AudioTesting\BPM_0_9.xml" />
+    <None Include="Assets\AudioTesting\BPM_100_109.xml" />
+    <None Include="Assets\AudioTesting\BPM_10_19.xml" />
+    <None Include="Assets\AudioTesting\BPM_20_29.xml" />
+    <None Include="Assets\AudioTesting\BPM_30_39.xml" />
+    <None Include="Assets\AudioTesting\BPM_40_49.xml" />
+    <None Include="Assets\AudioTesting\BPM_50_59.xml" />
+    <None Include="Assets\AudioTesting\BPM_60_69.xml" />
+    <None Include="Assets\AudioTesting\BPM_70_79.xml" />
+    <None Include="Assets\AudioTesting\BPM_80_89.xml" />
+    <None Include="Assets\AudioTesting\BPM_90_99.xml" />
+    <None Include="Assets\Config.xml" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
