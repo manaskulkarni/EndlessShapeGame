@@ -123,7 +123,6 @@
     <None Include="Assets\AudioTesting\BPM_70_79.xml" />
     <None Include="Assets\AudioTesting\BPM_80_89.xml" />
     <None Include="Assets\AudioTesting\BPM_90_99.xml" />
-    <None Include="Assets\Config.xml" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
