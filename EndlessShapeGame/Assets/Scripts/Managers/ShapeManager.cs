@@ -242,7 +242,7 @@ public class ShapeManager : Manager
         bpmData.Add(new AudioData(avg, speedPresets[i]));
 
         System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof (AudioData));
-        System.IO.TextWriter writer = new System.IO.StreamWriter(Application.dataPath + "/BPM_" +
+        System.IO.TextWriter writer = new System.IO.StreamWriter(Application.dataPath + "AudioTesting/BPM_" +
           speedPresets[i].scoreInterval.min.ToString () + "_" + speedPresets[i].scoreInterval.max.ToString () + ".xml");
         serializer.Serialize(writer, bpmData [bpmData.Count - 1]);
       }
