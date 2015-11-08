@@ -4331,7 +4331,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 50919b48ef97c1146a5094de4e144046, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 7bdbfc5b6b676064ab7d484bbde3251c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -4403,7 +4403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc03aaa1318f03a40804b5d7978a8288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundMusic: {fileID: 8300000, guid: 50919b48ef97c1146a5094de4e144046, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 7bdbfc5b6b676064ab7d484bbde3251c, type: 3}
   loseEffect: {fileID: 8300000, guid: f74b57d9a8fd8474f968daa9757b8aa2, type: 3}
   bgm: {fileID: 0}
   loseSFX: {fileID: 0}

@@ -89,7 +89,8 @@ public class AudioManager : Manager
     while (loseSFX.volume > 0.0f)
     {
       loseSFX.pitch -= Time.deltaTime * 0.25f;
-      bgm.volume -= Time.deltaTime * 0.3f;
+      bgm.volume -= Time.deltaTime * 0.35f;
+      bgm.pitch -= Time.deltaTime * 0.05f;
       loseSFX.volume -= Time.deltaTime * 0.25f;
       yield return null;
     }
