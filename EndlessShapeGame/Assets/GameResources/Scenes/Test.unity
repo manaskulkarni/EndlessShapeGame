@@ -1643,6 +1643,7 @@ GameObject:
   - 114: {fileID: 1351239451}
   - 114: {fileID: 1351239452}
   - 114: {fileID: 1351239453}
+  - 114: {fileID: 1351239454}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -1679,7 +1680,7 @@ Camera:
   m_GameObject: {fileID: 1351239445}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: .501960814, g: .501960814, b: .501960814, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -1692,10 +1693,10 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294965247
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1732,7 +1733,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  sortedLayerIds: 
+  sortedLayerIds: 00000000
 --- !u!114 &1351239452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1873,6 +1874,29 @@ MonoBehaviour:
   simpleColorCorrectionCurvesShader: {fileID: 4800000, guid: 438ddd58d82c84d9eb1fdc56111702e1,
     type: 3}
   colorCorrectionSelectiveShader: {fileID: 4800000, guid: e515e0f94cefc4c0db54b45cba621544,
+    type: 3}
+--- !u!114 &1351239454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1351239445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6d4281e5d7cd44d8c6e38bc2c1b8d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  intensity: 4.05999994
+  chromaticAberration: 0
+  axialAberration: .5
+  blur: 0
+  blurSpread: .75
+  luminanceDependency: .25
+  blurDistance: 2.5
+  vignetteShader: {fileID: 4800000, guid: 627943dc7a9a74286b70a4f694a0acd5, type: 3}
+  separableBlurShader: {fileID: 4800000, guid: e97c14fbb5ea04c3a902cc533d7fc5d1, type: 3}
+  chromAberrationShader: {fileID: 4800000, guid: 2b4f29398d9484ccfa9fd220449f5eee,
     type: 3}
 --- !u!1 &1388731728
 GameObject:
@@ -2773,7 +2797,7 @@ MonoBehaviour:
       maxSpeed: {x: 0, y: -5}
     scoreInterval:
       min: 0
-      max: 10
+      max: 9
   - preset:
       speedMultiplier: {x: 0, y: -6}
       accelerationMultiplier: {x: 0, y: 0}
@@ -2781,23 +2805,23 @@ MonoBehaviour:
       maxSpeed: {x: 0, y: -6}
     scoreInterval:
       min: 10
-      max: 20
+      max: 19
   - preset:
-      speedMultiplier: {x: 0, y: -6}
+      speedMultiplier: {x: 0, y: -7}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -6}
+      maxSpeed: {x: 0, y: -7}
     scoreInterval:
       min: 20
-      max: 30
+      max: 29
   - preset:
-      speedMultiplier: {x: 0, y: -6.5}
+      speedMultiplier: {x: 0, y: -8}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -6.5}
+      maxSpeed: {x: 0, y: -8}
     scoreInterval:
       min: 30
-      max: 40
+      max: 39
   - preset:
       speedMultiplier: {x: 0, y: -7}
       accelerationMultiplier: {x: 0, y: 0}
@@ -2805,7 +2829,7 @@ MonoBehaviour:
       maxSpeed: {x: 0, y: -7}
     scoreInterval:
       min: 40
-      max: 50
+      max: 49
   - preset:
       speedMultiplier: {x: 0, y: -7.5}
       accelerationMultiplier: {x: 0, y: 0}
@@ -2813,7 +2837,7 @@ MonoBehaviour:
       maxSpeed: {x: 0, y: -7.5}
     scoreInterval:
       min: 50
-      max: 60
+      max: 59
   - preset:
       speedMultiplier: {x: 0, y: -8}
       accelerationMultiplier: {x: 0, y: 0}
@@ -2821,7 +2845,7 @@ MonoBehaviour:
       maxSpeed: {x: 0, y: -8}
     scoreInterval:
       min: 60
-      max: 70
+      max: 69
   - preset:
       speedMultiplier: {x: 0, y: -8.5}
       accelerationMultiplier: {x: 0, y: 0}
@@ -2829,7 +2853,7 @@ MonoBehaviour:
       maxSpeed: {x: 0, y: -8.5}
     scoreInterval:
       min: 70
-      max: 80
+      max: 79
   - preset:
       speedMultiplier: {x: 0, y: -9}
       accelerationMultiplier: {x: 0, y: 0}
@@ -2837,7 +2861,7 @@ MonoBehaviour:
       maxSpeed: {x: 0, y: -9}
     scoreInterval:
       min: 80
-      max: 90
+      max: 89
   - preset:
       speedMultiplier: {x: 0, y: -9.5}
       accelerationMultiplier: {x: 0, y: 0}
@@ -2845,7 +2869,7 @@ MonoBehaviour:
       maxSpeed: {x: 0, y: -9.5}
     scoreInterval:
       min: 90
-      max: 100
+      max: 99
   - preset:
       speedMultiplier: {x: 0, y: -10}
       accelerationMultiplier: {x: 0, y: 0}
@@ -2853,7 +2877,7 @@ MonoBehaviour:
       maxSpeed: {x: 0, y: -10}
     scoreInterval:
       min: 100
-      max: 110
+      max: 109
   shapeSpawnOffset: {x: 0, y: 5}
   beginPosition: {x: 0, y: 10}
   spawnInSameRow: 0
@@ -3581,7 +3605,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ef9954020f5b1ae4d94e5bdea808c864, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 79d82cb75cc292b4598e5d8353764426, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -3653,7 +3677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc03aaa1318f03a40804b5d7978a8288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundMusic: {fileID: 8300000, guid: ef9954020f5b1ae4d94e5bdea808c864, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 79d82cb75cc292b4598e5d8353764426, type: 3}
 --- !u!1 &1988493372
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 
 public class ShapeManager : Manager
 {
@@ -237,7 +238,8 @@ public class ShapeManager : Manager
   /// Shape for hard-coding position of top shape on game over. Not used
   /// </summary>
   private Transform topShape { get; set; }
-
+  bool first = true;
+  List<float> times = new List<float>();
   #region ShapeManager Logic
   /// <summary>
   /// Called by PlayerBehavior when it collides with a ShapeBehavior
@@ -246,9 +248,16 @@ public class ShapeManager : Manager
   /// <param name="spriteRenderer"></param>
   public void ShapeTriggered(ShapeBehavior shapeBehavior, SpriteRenderer spriteRenderer)
   {
+    if (first)
+    {
+      first = false;
+      AudioManager.inst.Play();
+    }
+
     if (GameManager.inst.playing)
     {
       bool sameSprite = shapeBehavior.spriteRenderer.sprite.GetHashCode() == spriteRenderer.sprite.GetHashCode();
+      //times.Add(Time.fixedTime);
       /***********************************************************************/
       // If Player sprite collides with shape of same sprite
       /***********************************************************************/
@@ -268,6 +277,8 @@ public class ShapeManager : Manager
             if (!speedPresets [currentIntervalIndex].scoreInterval.Contains (StatsManager.inst.score))
             {
               currentSpeedPreset = speedPresets[++currentIntervalIndex].preset;
+                //Debug.Log("BPM: " + (60.0f / (times[1] - times[0])));
+                //times.Clear();
             }
 
             StartCoroutine(DestroyShape(shapeBehavior));
@@ -447,7 +458,7 @@ public class ShapeManager : Manager
     {
       if (shapeProperties[randomSpriteIndex].sprite.GetHashCode() == previousSprite.GetHashCode())
       {
-        Debug.Log("Shape Repeats");
+        //Debug.Log("Shape Repeats");
         if (repeatCount >= maxRepeatCount)
         {
           repeatCount = 0;
@@ -478,7 +489,7 @@ public class ShapeManager : Manager
 
     if (specialRandomRangeCompare.Contains (specialRandom) && currentScore > minSpecialScore)
     {
-      Debug.Log("Special");
+      //Debug.Log("Special");
       shape.StartSpecialShapeCoroutine(ShapeBehavior.ShapeResponse.Opposite);
       shape.spriteRenderer.color = specialColor;
     }
@@ -490,7 +501,7 @@ public class ShapeManager : Manager
     
     if (invisibleRandomRangeCompare.Contains (invRandom) && currentScore > minInvisibleScore)
     {
-      Debug.Log ("Invisible");
+      //Debug.Log ("Invisible");
       shape.StartInvisibleCoroutine ();
     }
     else

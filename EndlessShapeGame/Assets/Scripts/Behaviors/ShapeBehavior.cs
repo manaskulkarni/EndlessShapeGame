@@ -22,18 +22,20 @@ public class ShapeBehavior : MonoBehaviour
   public bool triggered { get; set; }
   public ShapeResponse shapeResponse { get; set; }
   public ShapeType shapeType { get; set; }
-  private Coroutine updatePosition { get; set; }
+  //private Coroutine updatePosition { get; set; }
   private Coroutine updateSpecial { get; set; }
   private Coroutine updateInvisible { get; set; }
+  private bool update { get; set; }
 
   // Use this for initialization
   public void StartGame ()
   {
-//    InvokeRepeating  ("UpdatePositionInvoke", Time.time, Time.deltaTime);
-    if (updatePosition == null)
-    {
-      updatePosition = StartCoroutine (UpdatePosition ());
-    }
+    //    InvokeRepeating  ("UpdatePositionInvoke", Time.time, Time.deltaTime);
+    //if (updatePosition == null)
+    //{
+    //  updatePosition = StartCoroutine (UpdatePosition ());
+    //}
+    update = true;
     
     if (shapeType == ShapeType.Invisible)
     {
@@ -43,12 +45,13 @@ public class ShapeBehavior : MonoBehaviour
 
   public void StopGame ()
   {
-//    CancelInvoke ("UpdatePositionRepeat");
-    if (updatePosition != null)
-    {
-      StopCoroutine (updatePosition);
-      updatePosition = null;
-    }
+    //    CancelInvoke ("UpdatePositionRepeat");
+    //if (updatePosition != null)
+    //{
+    //  StopCoroutine (updatePosition);
+    //  updatePosition = null;
+    //}
+    update = false;
     if (updateInvisible != null)
     {
       StopCoroutine (updateInvisible);
@@ -97,6 +100,16 @@ public class ShapeBehavior : MonoBehaviour
     {
       StopCoroutine (updateInvisible);
       updateInvisible = null;
+    }
+  }
+
+  void FixedUpdate ()
+  {
+    if (update)
+    {
+      Vector2 pos = gameObject.transform.position;
+      pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier * Time.fixedDeltaTime;
+      gameObject.transform.position = new Vector3(pos.x, pos.y, gameObject.transform.position.z);
     }
   }
 

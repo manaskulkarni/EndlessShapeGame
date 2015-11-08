@@ -18,7 +18,7 @@ TagManager:
   - Player
   - Shape
   - Panel
-  - 
+  - Background
   - 
   - 
   - 
@@ -42,4 +42,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3164676317
     locked: 0

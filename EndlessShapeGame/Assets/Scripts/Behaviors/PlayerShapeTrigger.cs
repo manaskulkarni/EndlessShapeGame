@@ -23,10 +23,11 @@ public class PlayerShapeTrigger : MonoBehaviour
 
   void OnTriggerEnter2D (Collider2D coll)
   {
-//    Debug.Log(Time.time.ToString("F6"));
+    //Debug.Log(Time.fixedTime.ToString("F4"));
     // Only Proceed if the shape has not been triggered yet
     if (!ShapeManager.inst.shapePair [coll.GetHashCode ()].triggered)
     {
+      Debug.Log("TIME: " + Time.fixedTime);
       ShapeManager.inst.shapePair [coll.GetHashCode ()].triggered = true;
       ShapeManager.inst.ShapeTriggered (ShapeManager.inst.shapePair [coll.GetHashCode ()], spriteRenderer);
     }

@@ -11,8 +11,14 @@ public class AudioManager : Manager
   /// <summary>
   /// AudioPlayer attached to gameObject
   /// </summary>
-  private AudioSource audioPlayer { get; set; }
+  public AudioSource audioPlayer { get; private set; }
   private float originalVolume { get; set; }
+  static public AudioManager inst { get; private set; }
+
+  void Awake ()
+  {
+    if (inst == null) inst = this;
+  }
 
 	// Use this for initialization
 	void Start ()
@@ -29,6 +35,17 @@ public class AudioManager : Manager
     audioPlayer.Stop();
 	}
 
+  public void Play ()
+  {
+    audioPlayer.volume = 1.0f;
+    audioPlayer.Play();
+  }
+
+  //void FixedUpdate ()
+  //{
+  //  Debug.Log ("FREQUENCY : " + backgroundMusic.frequency);
+  //}
+
   #region implemented abstract members of AudioManager
   public override void OnGameReset(object sender, System.EventArgs args)
   {
@@ -36,8 +53,8 @@ public class AudioManager : Manager
 
   public override void OnGameStart(object sender, System.EventArgs args)
   {
-    StopAllCoroutines ();
-    StartCoroutine (FadeInPitch ());
+    //StopAllCoroutines ();
+    //StartCoroutine (FadeInPitch ());
   }
 
   public override void OnGameOver(object sender, System.EventArgs args)
