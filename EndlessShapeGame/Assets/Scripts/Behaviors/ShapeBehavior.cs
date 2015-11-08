@@ -103,12 +103,12 @@ public class ShapeBehavior : MonoBehaviour
     }
   }
 
-  void FixedUpdate ()
+  void Update ()
   {
     if (update)
     {
       Vector2 pos = gameObject.transform.position;
-      pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier * Time.fixedDeltaTime;
+      pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier * Time.deltaTime;
       gameObject.transform.position = new Vector3(pos.x, pos.y, gameObject.transform.position.z);
     }
   }

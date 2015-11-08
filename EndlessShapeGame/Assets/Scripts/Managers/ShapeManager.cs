@@ -231,7 +231,7 @@ public class ShapeManager : Manager
       var bpmList = new List<float>();
       for (int j = 1; j < v.Count; ++j)
       {
-        var fps = 1.0f / Time.fixedDeltaTime;
+        var fps = 60.0f;
         bpmList.Add(fps / (times[i][j] - times[i][j - 1]));
       }
 
@@ -312,7 +312,7 @@ public class ShapeManager : Manager
       bool sameSprite = shapeBehavior.spriteRenderer.sprite.GetHashCode() == spriteRenderer.sprite.GetHashCode();
 
 #if UNITY_EDITOR
-      times[currentIntervalIndex].Add(Time.fixedTime);
+      times[currentIntervalIndex].Add(Time.time);
 #endif
 
       /***********************************************************************/
