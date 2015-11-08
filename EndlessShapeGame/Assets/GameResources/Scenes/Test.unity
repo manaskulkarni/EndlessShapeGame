@@ -2799,26 +2799,26 @@ MonoBehaviour:
       min: 0
       max: 9
   - preset:
+      speedMultiplier: {x: 0, y: -5.5}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -5.5}
+    scoreInterval:
+      min: 10
+      max: 19
+  - preset:
       speedMultiplier: {x: 0, y: -6}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -6}
     scoreInterval:
-      min: 10
-      max: 19
-  - preset:
-      speedMultiplier: {x: 0, y: -7}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -7}
-    scoreInterval:
       min: 20
       max: 29
   - preset:
-      speedMultiplier: {x: 0, y: -8}
+      speedMultiplier: {x: 0, y: -6.5}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -8}
+      maxSpeed: {x: 0, y: -6.5}
     scoreInterval:
       min: 30
       max: 39

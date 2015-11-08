@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AudioData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <bpm>111.1111</bpm>
+  <speed>
+    <x>0</x>
+    <y>-9.5</y>
+  </speed>
+  <score>
+    <min>3</min>
+    <max>5</max>
+  </score>
+</AudioData>
