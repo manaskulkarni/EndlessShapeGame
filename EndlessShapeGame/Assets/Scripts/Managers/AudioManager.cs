@@ -48,14 +48,29 @@ public class AudioManager : Manager
 
   public void Play ()
   {
-    bgm.volume = 1.0f;
-    bgm.Play();
+    StopAllCoroutines();
+    StartCoroutine(FadeInPitch());
   }
 
-  //void FixedUpdate ()
-  //{
-  //  Debug.Log ("FREQUENCY : " + backgroundMusic.frequency);
-  //}
+  void FixedUpdate()
+  {
+    if (Input.GetKeyUp(KeyCode.Q))
+    {
+      Time.timeScale = 0.5f;
+      foreach (var source in GetComponents<AudioSource> ())
+      {
+        source.pitch = Time.timeScale;
+      }
+    }
+    else if (Input.GetKeyUp(KeyCode.R))
+    {
+      Time.timeScale = 1.0f;
+      foreach (var source in GetComponents<AudioSource>())
+      {
+        source.pitch = Time.timeScale;
+      }
+    }
+  }
 
   #region implemented abstract members of AudioManager
   public override void OnGameReset(object sender, System.EventArgs args)
@@ -64,6 +79,13 @@ public class AudioManager : Manager
 
   public override void OnGameStart(object sender, System.EventArgs args)
   {
+    StopAllCoroutines();
+    bgm.Stop();
+    loseSFX.Stop();
+    bgm.pitch = 1.0f;
+    bgm.volume = 1.0f;
+    loseSFX.pitch = 1.0f;
+    loseSFX.volume = 1.0f;
     //StopAllCoroutines ();
     //StartCoroutine (FadeInPitch ());
   }

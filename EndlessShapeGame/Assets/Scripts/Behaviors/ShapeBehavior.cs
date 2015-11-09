@@ -160,7 +160,7 @@ public class ShapeBehavior : MonoBehaviour
       if (!outOfScreen)
       {
         Color c = spriteRenderer.color;
-        c.a -= Time.deltaTime * ShapeManager.inst.fadeOutSpeed;
+        c.a -= Time.deltaTime * ShapeManager.inst.fadeOutSpeed * Mathf.Abs(ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * 0.25f);
         spriteRenderer.color = c;
         yield return null;
       }

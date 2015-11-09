@@ -6,6 +6,16 @@ using UnityStandardAssets.ImageEffects;
 [RequireComponent (typeof (Camera))]
 public class BackgroundSprite : MonoBehaviour
 {
+  public struct Drawable
+  {
+    public Drawable (Camera draw) { drawable = draw; }
+    public Camera drawable;
+    public Color color
+    {
+      get { return drawable.backgroundColor; }
+      set { drawable.backgroundColor = value; }
+    }
+  }
   public enum InterpolationMode
   {
     Constant,
@@ -30,11 +40,7 @@ public class BackgroundSprite : MonoBehaviour
   public InterpolationMode interpolationMode;
   public Color [] interpolationColors;
 
-  public Camera drawable
-  {
-    get;
-    private set;
-  }
+  private Drawable drawable;
   
   // Private Members
   // For Debugging Purpose
@@ -64,8 +70,8 @@ public class BackgroundSprite : MonoBehaviour
   // Use this for initialization
   void Start ()
   {
-    drawable = gameObject.GetComponent <Camera> ();
-    originalColor = drawable.backgroundColor;
+    drawable = new Drawable(gameObject.GetComponent<Camera>());
+    originalColor = drawable.color;
     lerpState = LerpState.Idle;
   
     GameManager.inst.GameStartEvent += OnGameStart;
@@ -75,7 +81,7 @@ public class BackgroundSprite : MonoBehaviour
   void OnGameStart (object sender, System.EventArgs args)
   {
     StopAllCoroutines ();
-    drawable.backgroundColor = colorOne = originalColor;
+    drawable.color = colorOne = originalColor;
     changeTimer = 0.0f;
     interpolationTimer = 0.0f;
     
@@ -127,12 +133,12 @@ public class BackgroundSprite : MonoBehaviour
   
   private IEnumerator LerpToOriginalColor ()
   {
-    var currColor = drawable.backgroundColor;
+    var currColor = drawable.color;
     float t = 0.0f;
     while (t <= 1.0f)
     {
       t += Time.deltaTime * 5.0f;
-      drawable.backgroundColor = Color.Lerp (currColor, originalColor, t);
+      drawable.color = Color.Lerp (currColor, originalColor, t);
       yield return null;
     }
   }
@@ -141,16 +147,17 @@ public class BackgroundSprite : MonoBehaviour
   {
     if (Handle != null)
     {
-      Handle ();
+      Handle();
     }
   }
   
   private void UpdateColorReguralInterval ()
   {
+    float dt = Time.deltaTime;
     switch (lerpState)
     {
     case LerpState.Idle:
-      changeTimer += Time.deltaTime;
+      changeTimer += dt;
       if (changeTimer > colorChangeTime)
       {
         lerpState = LerpState.Transit;
@@ -166,8 +173,8 @@ public class BackgroundSprite : MonoBehaviour
     case LerpState.Interpolate:
       if (interpolationTimer <= interpolationTime)
       {
-        interpolationTimer += Time.deltaTime;
-        drawable.backgroundColor = Color.Lerp (colorOne, colorTwo, interpolationTimer / interpolationTime);
+        interpolationTimer += dt;
+        drawable.color = Color.Lerp (colorOne, colorTwo, interpolationTimer / interpolationTime);
       }
       else
       {
@@ -183,6 +190,7 @@ public class BackgroundSprite : MonoBehaviour
   
   private void UpdateColorConstant ()
   {
+    float dt = Time.deltaTime;
     switch (lerpState)
     {
     case LerpState.Idle:
@@ -193,8 +201,8 @@ public class BackgroundSprite : MonoBehaviour
     case LerpState.Interpolate:
       if (changeTimer <= colorChangeTime)
       {
-        changeTimer += Time.deltaTime;
-        drawable.backgroundColor = Color.Lerp (colorOne, colorTwo, changeTimer / colorChangeTime);      
+        changeTimer += dt;
+        drawable.color = Color.Lerp (colorOne, colorTwo, changeTimer / colorChangeTime);      
       }
       else
       {
@@ -211,6 +219,7 @@ public class BackgroundSprite : MonoBehaviour
   
   private void UpdateColorArray ()
   {
+    float dt = Time.deltaTime;
     switch (lerpState)
     {
     case LerpState.Idle:
@@ -221,8 +230,8 @@ public class BackgroundSprite : MonoBehaviour
     case LerpState.Interpolate:
       if (changeTimer <= colorChangeTime)
       {
-        changeTimer += Time.deltaTime;
-        drawable.backgroundColor = Color.Lerp (colorOne, colorTwo, changeTimer / colorChangeTime); 
+        changeTimer += dt;
+        drawable.color = Color.Lerp (colorOne, colorTwo, changeTimer / colorChangeTime); 
       }
       else
       {

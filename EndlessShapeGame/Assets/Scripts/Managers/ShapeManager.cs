@@ -477,6 +477,7 @@ public class ShapeManager : Manager
 
   public override void OnGameOver(object sender, System.EventArgs args)
   {
+    first = true;
     foreach (var v in shapes)
     {
       v.StopGame();

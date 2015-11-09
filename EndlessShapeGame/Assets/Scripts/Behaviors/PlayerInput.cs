@@ -18,13 +18,16 @@ public class PlayerInput : MonoBehaviour
 #if UNITY_EDITOR
   void Update ()
   {
-    if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A))
+    if (PlayerManager.inst.player.Ready())
     {
-      PlayerManager.inst.player.GoLeft();
-    }
-    else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
-    {
-      PlayerManager.inst.player.GoRight();
+      if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A))
+      {
+        PlayerManager.inst.player.GoLeft();
+      }
+      else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
+      {
+        PlayerManager.inst.player.GoRight();
+      }
     }
   }
 #endif
@@ -32,14 +35,17 @@ public class PlayerInput : MonoBehaviour
   #region Events
   void HandleFlicked (object sender, System.EventArgs e)
   {
-//    Debug.Log ("Flicked");
-    if (flick.ScreenFlickVector.x < 0.0f)
+    if (PlayerManager.inst.player.Ready())
     {
-      PlayerManager.inst.player.GoLeft ();
-    }
-    else
-    {
-      PlayerManager.inst.player.GoRight ();
+      //    Debug.Log ("Flicked");
+      if (flick.ScreenFlickVector.x < 0.0f)
+      {
+        PlayerManager.inst.player.GoLeft();
+      }
+      else
+      {
+        PlayerManager.inst.player.GoRight();
+      }
     }
   }
   #endregion

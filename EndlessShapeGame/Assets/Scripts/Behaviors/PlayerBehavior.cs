@@ -24,10 +24,33 @@ public class PlayerBehavior : MonoBehaviour
       return swipeSpeedMultiplier * Mathf.Abs(ShapeManager.inst.currentSpeedPreset.speedMultiplier.y / ShapeManager.inst.currentSpeedPreset.maxSpeed.y);
     }
   }
+
+  public class Test
+  {
+    public Test (Transform t, int ind)
+    {
+      transform = t;
+      index = ind;
+    }
+    public Transform transform;
+    public int index;
+
+    public Vector3 position
+    {
+      get { return transform.position; }
+      set { transform.position = value; }
+    }
+
+    public GameObject gameObject
+    {
+      get { return transform.gameObject; }
+    }
+  }
+
   /// <summary>
   /// Children shapes attached to gameObject
   /// </summary>
-  public List<Transform> shapes { get; private set; }
+  public List<Test> shapes { get; private set; }
   public List<PlayerShapeTrigger> triggers { get; private set; }
   #endregion
   #region Private Properties
@@ -43,14 +66,28 @@ public class PlayerBehavior : MonoBehaviour
   /// Position of rightmost child
   /// </summary>
   private float maxXPosition { get; set; }
+  private Coroutine[] slideCoroutine;
+  private bool[] done;
+  private bool[] waitDone;
+  private int state;
+  private List <float> targets;
   #endregion
 
   // Use this for initialization
   void Awake()
   {
-    shapes = new List<Transform>();
+    shapes = new List<Test>();
     triggers = new List<PlayerShapeTrigger>();
     ConfigurePlayer();
+    slideCoroutine = new Coroutine[shapes.Count];
+
+    done = new bool[shapes.Count];
+    waitDone = new bool[shapes.Count];
+    for (int i = 0; i < done.Length; ++i)
+    {
+      done[i] = true;
+      waitDone [i] = true;
+    }
   }
 
   public void InputDetected()
@@ -70,10 +107,21 @@ public class PlayerBehavior : MonoBehaviour
   /// </summary>
   public void GoRight()
   {
-    foreach (var v in shapes)
+    for (int i = 0; i < shapes.Count; ++i)
     {
-      StartCoroutine(SlideRight(v.transform));
+      //if (!done[i])
+      //{
+      //  if (waitDone[i])
+      //  {
+      //    StartCoroutine (WaitForSlide (i, state));
+      //    // StopCoroutine(slideCoroutine[i]);
+      //  }
+      //  continue;
+      //}
+      StartCoroutine(SlideRight(i));
     }
+
+    state = 1;
   }
 
   /// <summary>
@@ -81,10 +129,61 @@ public class PlayerBehavior : MonoBehaviour
   /// </summary>
   public void GoLeft()
   {
-    foreach (var v in shapes)
+    for (int i = 0; i < shapes.Count; ++i)
     {
-      StartCoroutine(SlideLeft(v.transform));
+      //if (!done[i])
+      //{
+      //  if (waitDone[i])
+      //  {
+      //    StartCoroutine (WaitForSlide (i, state));
+      //    // StopCoroutine(slideCoroutine[i]);
+      //  }
+      //  continue;
+      //}
+      slideCoroutine [i] = StartCoroutine(SlideLeft(i));
     }
+
+    state = -1;
+  }
+
+  public bool Ready ()
+  {
+    foreach (var v in done)
+    {
+      if (!v)
+        return false;
+    }
+
+    return true;
+  }
+
+  private IEnumerator WaitForSlide (int i, int s)
+  {
+    waitDone [i] = false;
+    var oldSwipeSpeedMult = swipeSpeedMultiplier;
+    swipeSpeedMultiplier = 1000.0f;
+    StopCoroutine (slideCoroutine[i]);
+    if (s == -1)
+    {
+      SlideLeft(i);
+    }
+    else
+    {
+      SlideRight(i);
+    }
+
+    swipeSpeedMultiplier = oldSwipeSpeedMult;
+    if (state == -1)
+    {
+      slideCoroutine[i] = StartCoroutine(SlideLeft(i));
+    }
+    else
+    {
+      slideCoroutine[i] = StartCoroutine(SlideRight(i));
+    }
+    
+    waitDone [i] = true;
+    yield return null;
   }
 
   #region Player Logic
@@ -94,6 +193,7 @@ public class PlayerBehavior : MonoBehaviour
   private void ConfigurePlayer()
   {
     SortedList<float, Transform> list = new SortedList<float, Transform>();
+    targets = new List <float>();
 
     for (int i = 0; i < gameObject.transform.childCount; ++i)
     {
@@ -101,10 +201,13 @@ public class PlayerBehavior : MonoBehaviour
       list.Add(v.position.x, v);
     }
 
+    int j = 0;
     foreach (var v in list)
     {
-      shapes.Add(v.Value);
+      shapes.Add(new Test (v.Value, j));
       triggers.Add(v.Value.GetComponent<PlayerShapeTrigger>());
+      targets.Add (v.Value.position.x);
+      ++j;
     }
 
     shapeOffset = new Vector3(Mathf.Abs(shapes[0].position.x - shapes[1].position.x),
@@ -117,9 +220,20 @@ public class PlayerBehavior : MonoBehaviour
   }
   #endregion
   #region Coroutines
-  private IEnumerator SlideRight(Transform v)
+  private IEnumerator SlideRight(int i)
   {
-    float nextPos = v.position.x + shapeOffset.x;
+    done[i] = false;
+    Transform v = shapes[i].transform;
+    float nextPos = targets[shapes[i].index] + shapeOffset.x;
+
+    if (shapes[i].index == shapes.Count - 1)
+    {
+      shapes[i].index = 0;
+    }
+    else
+    {
+      ++shapes[i].index;
+    }
 
     if (nextPos > maxXPosition)
     {
@@ -157,11 +271,25 @@ public class PlayerBehavior : MonoBehaviour
         yield return null;
       }
     }
+
+    done[i] = true;
+    yield return null;
   }
 
-  private IEnumerator SlideLeft(Transform v)
+  private IEnumerator SlideLeft(int i)
   {
-    float nextPos = v.position.x - shapeOffset.x;
+    done[i] = false;
+    Transform v = shapes[i].transform;
+    float nextPos = targets[shapes[i].index] - shapeOffset.x;
+
+    if (shapes[i].index == 0)
+    {
+      shapes[i].index = shapes.Count - 1;
+    }
+    else
+    {
+      --shapes[i].index;
+    }
 
     if (nextPos < minXPosition)
     {
@@ -199,8 +327,11 @@ public class PlayerBehavior : MonoBehaviour
         v.position = pos;
         yield return null;
       }
+
     }
-    #endregion
+    done[i]  = true;
+    yield return null;
   }
+    #endregion
 
 }

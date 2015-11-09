@@ -26,7 +26,7 @@ GameObject:
   - 4: {fileID: 465494}
   - 212: {fileID: 21272428}
   - 114: {fileID: 11441132}
-  - 61: {fileID: 6126436}
+  - 58: {fileID: 5810164}
   - 50: {fileID: 5052886}
   m_Layer: 8
   m_Name: Circle
@@ -45,7 +45,7 @@ GameObject:
   - 4: {fileID: 474056}
   - 212: {fileID: 21239056}
   - 114: {fileID: 11466738}
-  - 61: {fileID: 6194942}
+  - 61: {fileID: 6140696}
   - 50: {fileID: 5018632}
   m_Layer: 8
   m_Name: Triangle
@@ -64,7 +64,7 @@ GameObject:
   - 4: {fileID: 460166}
   - 212: {fileID: 21291548}
   - 114: {fileID: 11484320}
-  - 61: {fileID: 6150872}
+  - 58: {fileID: 5860694}
   - 50: {fileID: 5083856}
   m_Layer: 8
   m_Name: Square
@@ -172,8 +172,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &6126436
-BoxCollider2D:
+--- !u!58 &5810164
+CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -184,21 +184,21 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.20000005, y: 1.20000005}
---- !u!61 &6150872
-BoxCollider2D:
+  m_Radius: .5
+--- !u!58 &5860694
+CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190642}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.20000005, y: 1.20000005}
---- !u!61 &6194942
+  m_Radius: .5
+--- !u!61 &6140696
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -206,11 +206,11 @@ BoxCollider2D:
   m_GameObject: {fileID: 187230}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.20000005, y: 1.21000004}
+  m_Size: {x: 1, y: .5}
 --- !u!114 &11436956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a24ae23b21da4a6d8868a45cb8dd011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swipeSpeedMultiplier: 20
+  swipeSpeedMultiplier: 10
 --- !u!114 &11441132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -343,7 +343,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: swipeSpeedMultiplier
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
