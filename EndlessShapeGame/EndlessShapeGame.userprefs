@@ -1,26 +1,22 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Behaviors\PlayerBehavior.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Behaviors/PlayerBehavior.cs">
     <Files>
-      <File FileName="Assets\Scripts\Managers\ShapeManager.cs" Line="93" Column="17" />
-      <File FileName="Assets\Scripts\Behaviors\PlayerBehavior.cs" Line="70" Column="1" />
-      <File FileName="Assets\Scripts\Managers\GameCenterManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Behaviors\ShapeBehavior.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Managers\StatsManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Managers\UIManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Managers\PlayerManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Behaviors\PlayerShapeTrigger.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Behaviors\Background.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Behaviors\PlayerInput.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Managers\StoreManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Behaviors\ShapeParent.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Behaviors\BackgroundObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Behaviors\AudioFeedback.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Managers\AudioManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/PlayerManager.cs" Line="31" Column="16" />
+      <File FileName="Assets/Scripts/Behaviors/PlayerBehavior.cs" Line="276" Column="29" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" />
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Scripts" expanded="True">
+              <Node name="Behaviors" expanded="True" />
+              <Node name="Managers" expanded="True">
+                <Node name="AudioManager.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

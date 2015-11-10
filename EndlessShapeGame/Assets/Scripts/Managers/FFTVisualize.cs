@@ -18,7 +18,8 @@ public class FFTVisualize : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
   {
-    float[] spectrum = audioPlayer.GetSpectrumData(samples, 0, window);
+    float[] spectrum = new float[samples];
+    audioPlayer.GetSpectrumData(spectrum, 0, window);
     int i = 1;
     while (i < samples - 1)
     {

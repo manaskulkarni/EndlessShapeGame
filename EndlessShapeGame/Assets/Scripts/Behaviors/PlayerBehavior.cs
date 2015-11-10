@@ -14,6 +14,7 @@ public class PlayerBehavior : MonoBehaviour
   /// Swipe Speed Multiplier for interpolation when swiping
   /// </summary>
   public float swipeSpeedMultiplier;
+  public bool wrap = false;
   /// <summary>
   /// Make swipe speed dependent on fall speed of shapes so you swipe faster as shapes fall faster
   /// </summary>
@@ -237,20 +238,61 @@ public class PlayerBehavior : MonoBehaviour
 
     if (nextPos > maxXPosition)
     {
-      while (v.position.x > minXPosition)
+      if (wrap)
       {
-        Vector2 pos = v.position;
-        pos.x -= Time.deltaTime * swipeSpeed;
-
-        if (pos.x < minXPosition)
+        float xOut = Camera.main.transform.position.x + (Camera.main.orthographicSize * 0.5f) + v.localScale.x;
+        while (v.position.x < xOut)
         {
-          pos.x = minXPosition;
+          Vector2 pos = v.position;
+          pos.x += Time.deltaTime * swipeSpeed;
+          
+          if (pos.x > xOut)
+          {
+            pos.x = xOut;
+            v.position = pos;
+            break;
+          }
+          
           v.position = pos;
-          break;
+          yield return null;
         }
-
-        v.position = pos;
-        yield return null;
+        
+        float xIn = -xOut;
+        v.position = new Vector2 (xIn, v.position.y);
+        
+        while (v.position.x < minXPosition)
+        {
+          Vector2 pos = v.position;
+          pos.x += Time.deltaTime * swipeSpeed;
+          
+          if (pos.x > minXPosition)
+          {
+            pos.x = minXPosition;
+            v.position = pos;
+            break;
+          }
+          
+          v.position = pos;
+          yield return null;
+        }
+      }
+      else
+      {
+        while (v.position.x > minXPosition)
+        {
+          Vector2 pos = v.position;
+          pos.x -= Time.deltaTime * swipeSpeed;
+  
+          if (pos.x < minXPosition)
+          {
+            pos.x = minXPosition;
+            v.position = pos;
+            break;
+          }
+  
+          v.position = pos;
+          yield return null;
+        }
       }
     }
     else
@@ -293,22 +335,60 @@ public class PlayerBehavior : MonoBehaviour
 
     if (nextPos < minXPosition)
     {
-      while (v.position.x < maxXPosition)
+      if (wrap)
       {
-        Vector2 pos = v.position;
-        pos.x += Time.deltaTime * swipeSpeed;
-
-        if (pos.x > maxXPosition)
+        float xOut = Camera.main.transform.position.x - (Camera.main.orthographicSize * 0.5f) - v.localScale.x;
+        while (v.position.x > xOut)
         {
-          pos.x = maxXPosition;
+          Vector2 pos = v.position;
+          pos.x -= Time.deltaTime * swipeSpeed;
+          
+          if (pos.x < xOut)
+          {
+            pos.x = xOut;
+            v.position = pos;
+            break;
+          }
+          
           v.position = pos;
-          break;
+          yield return null;
         }
-
-        v.position = pos;
-        yield return null;
+        float xIn = -xOut;
+        v.position = new Vector2 (xIn, v.position.y);
+        while (v.position.x > maxXPosition)
+        {
+          Vector2 pos = v.position;
+          pos.x -= Time.deltaTime * swipeSpeed;
+          
+          if (pos.x < maxXPosition)
+          {
+            pos.x = maxXPosition;
+            v.position = pos;
+            break;
+          }
+          
+          v.position = pos;
+          yield return null;
+        }
       }
-
+      else
+      {
+        while (v.position.x < maxXPosition)
+        {
+          Vector2 pos = v.position;
+          pos.x += Time.deltaTime * swipeSpeed;
+  
+          if (pos.x > maxXPosition)
+          {
+            pos.x = maxXPosition;
+            v.position = pos;
+            break;
+          }
+  
+          v.position = pos;
+          yield return null;
+        }
+      }
     }
     else
     {
