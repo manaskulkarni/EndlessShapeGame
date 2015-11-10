@@ -9,6 +9,7 @@ public class AudioManager : Manager
   /// </summary>
   public AudioClip backgroundMusic;
   public AudioClip loseEffect;
+  public AudioClip backgroundLoop;
 
   /// <summary>
   /// AudioPlayer attached to gameObject
@@ -16,8 +17,10 @@ public class AudioManager : Manager
   public AudioSource[] audioPlayer { get; private set; }
   public AudioSource bgm;
   public AudioSource loseSFX;
+  public AudioSource bgmLoop;
   private float originalVolume { get; set; }
   static public AudioManager inst { get; private set; }
+  bool once;
 
   void Awake ()
   {
@@ -27,6 +30,8 @@ public class AudioManager : Manager
   // Use this for initialization
   void Start ()
   {
+    once = true;
+
     audioPlayer = GetComponents<AudioSource>();
 
     if (!bgm)
@@ -39,6 +44,13 @@ public class AudioManager : Manager
     {
       loseSFX = gameObject.AddComponent<AudioSource>();
       loseSFX.clip = loseEffect;
+    }
+
+    if (!bgmLoop)
+    {
+      bgmLoop = gameObject.AddComponent<AudioSource>();
+      bgmLoop.clip = backgroundLoop;
+      bgmLoop.loop = true;
     }
 
     originalVolume = bgm.volume;
@@ -54,6 +66,11 @@ public class AudioManager : Manager
 
   void FixedUpdate()
   {
+    if (bgm.timeSamples > 3234480 && once == true)
+    {
+      bgmLoop.Play();
+      once = false;
+    }
     if (Input.GetKeyUp(KeyCode.Q))
     {
       Time.timeScale = 0.5f;
@@ -111,16 +128,20 @@ public class AudioManager : Manager
     while (loseSFX.volume > 0.0f)
     {
       loseSFX.pitch -= Time.deltaTime * 0.25f;
-      bgm.volume -= Time.deltaTime * 0.35f;
+      bgm.volume -= Time.deltaTime * 0.5f;
+      bgmLoop.volume -= Time.deltaTime * 0.5f;
       bgm.pitch -= Time.deltaTime * 0.05f;
+      bgmLoop.pitch -= Time.deltaTime * 0.05f;
       loseSFX.volume -= Time.deltaTime * 0.25f;
       yield return null;
     }
 
     bgm.volume = 0.0f;
+    bgmLoop.volume = 0.0f;
     loseSFX.volume = 0.0f;
     loseSFX.pitch = 0.0f;
     bgm.Stop ();
+    bgmLoop.Stop();
     loseSFX.Stop();
   }
 
