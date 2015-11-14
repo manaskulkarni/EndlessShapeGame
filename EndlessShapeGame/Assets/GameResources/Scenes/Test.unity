@@ -6010,7 +6010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f20ecb46d2d124dcfb7b035e8e2b5511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInputPrefab: {fileID: 160074, guid: 3c40619d8a46c44fb897362b4cf79ca4, type: 2}
+  playerInputPrefab: {fileID: 160074, guid: de4f78bb92d2647fda644632af7f3927, type: 2}
   playerPresets:
   - difficultyLevel: 0
     prefab: {fileID: 125478, guid: b564908d0209c4ae3b8e500b0db6fad2, type: 2}
@@ -6019,7 +6019,7 @@ MonoBehaviour:
   - difficultyLevel: 2
     prefab: {fileID: 194950, guid: 2ed851d40443248b4964fcc4789b628c, type: 2}
   startPlayerAlpha: 1
-  invincible: 1
+  invincible: 0
 --- !u!1 &2044098791
 GameObject:
   m_ObjectHideFlags: 0

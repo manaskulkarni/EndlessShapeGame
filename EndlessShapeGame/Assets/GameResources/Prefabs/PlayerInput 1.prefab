@@ -9,10 +9,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 443896}
   - 61: {fileID: 6117454}
-  - 114: {fileID: 11463092}
+  - 114: {fileID: 11468426}
+  - 114: {fileID: 11489026}
+  - 114: {fileID: 11406918}
   - 114: {fileID: 11452516}
   m_Layer: 8
-  m_Name: PlayerInput
+  m_Name: PlayerInput 1
   m_TagString: p
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,6 +45,26 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+--- !u!114 &11406918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 438491968, guid: 20c2a163775f09b4cafa29b19d0c9204, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advancedProps: 0
+  combineTouches: 0
+  combineTouchesInterval: .300000012
+  useSendMessage: 0
+  sendStateChangeMessages: 0
+  sendMessageTarget: {fileID: 0}
+  requireGestureToFail: {fileID: 0}
+  friendlyGestures: []
+  ignoreChildren: 0
 --- !u!114 &11452516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -54,7 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8adf537606dfd4d19b0ea4f1464c7543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11463092
+  minDelta: 1
+--- !u!114 &11468426
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -62,7 +85,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 160074}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1254797990, guid: 20c2a163775f09b4cafa29b19d0c9204, type: 3}
+  m_Script: {fileID: 1088824302, guid: 20c2a163775f09b4cafa29b19d0c9204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   advancedProps: 0
@@ -73,10 +96,26 @@ MonoBehaviour:
   sendMessageTarget: {fileID: 0}
   requireGestureToFail: {fileID: 0}
   friendlyGestures: []
-  flickTime: .100000001
-  minDistance: .100000001
-  movementThreshold: .100000001
-  direction: 0
+  ignoreChildren: 0
+--- !u!114 &11489026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1667099590, guid: 20c2a163775f09b4cafa29b19d0c9204, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advancedProps: 0
+  combineTouches: 0
+  combineTouchesInterval: .300000012
+  useSendMessage: 0
+  sendStateChangeMessages: 0
+  sendMessageTarget: {fileID: 0}
+  requireGestureToFail: {fileID: 0}
+  friendlyGestures: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -103,6 +142,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: friendlyGestures.Array.data[0]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: minDelta
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
