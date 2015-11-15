@@ -17,6 +17,8 @@ public class PlayerInput : MonoBehaviour
   private TouchScript.Gestures.MetaGesture meta { get; set; }
   private bool moving { get; set; }
   private float lastPos;
+  
+  public Transform swipeEffect;
   #endregion
 
   // Use this for initialization
@@ -40,6 +42,8 @@ public class PlayerInput : MonoBehaviour
       
     pressed = false;
     moving = false;
+    
+    swipeEffect = GameObject.Find ("SwipeEffect").transform;
   }
 
   void HandleTouchMoved (object sender, MetaGestureEventArgs e)
@@ -114,12 +118,14 @@ public class PlayerInput : MonoBehaviour
 #endif
     
     if (pressed)
-    {
+    { 
       if (PlayerManager.inst.player.Ready ())
       {
         var delta = Input.mousePosition.x - lastPos;
         lastPos = Input.mousePosition.x;
         
+//        StartCoroutine (Swipe (delta < 0.0f));
+
         if (delta == 0.0f)
         {
           moving = false;
@@ -138,6 +144,11 @@ public class PlayerInput : MonoBehaviour
       }
     }
   }
+  
+//  private IEnumerable Swipe (bool left)
+//  {
+////    swipeEffect.position = left 
+//  }
 
   #region Events
   void HandleFlicked (object sender, System.EventArgs e)

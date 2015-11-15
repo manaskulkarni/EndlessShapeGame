@@ -239,11 +239,12 @@ public class ShapeManager : Manager
 
   public struct AudioData
   {
-    public AudioData (float _bpm, BlockInterval interval)
+    public AudioData (float _bpm, BlockInterval interval, int _numBlocks = 1)
     {
       bpm = _bpm;
       speedMultiplier = interval.preset.speedMultiplier;
       scoreRange = interval.scoreInterval;
+      numBlocks = _numBlocks;
     }
     [System.Xml.Serialization.XmlElement("bpm")]
     public float bpm;
@@ -251,6 +252,8 @@ public class ShapeManager : Manager
     public Vector2 speedMultiplier;
     [System.Xml.Serialization.XmlElement("score")]
     public IntRange scoreRange;
+    [System.Xml.Serialization.XmlElement("blocks")]
+    public int numBlocks;
   }
 
   void OnDestroy ()
@@ -273,18 +276,18 @@ public class ShapeManager : Manager
         if (total > 0.0f)
         {
           float avg = total / bpmList.Count;
-          bpmData.Add(new AudioData(avg, speedPresets[i]));
-
-          System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(AudioData));
-          System.IO.TextWriter writer = new System.IO.StreamWriter(Application.dataPath + "/AudioTesting/BPM_" +
-            speedPresets[i].scoreInterval.min.ToString() + "_" + speedPresets[i].scoreInterval.max.ToString() + ".xml");
-          serializer.Serialize(writer, bpmData[bpmData.Count - 1]);
+          var interval = speedPresets [i].scoreInterval.max - speedPresets [i].scoreInterval.min;
+          bpmData.Add(new AudioData(avg, speedPresets[i], (int)Mathf.Ceil (interval / 8.0f)));
         }
       }
+      
+      System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(List <AudioData>));
+      System.IO.TextWriter writer = new System.IO.StreamWriter(Application.dataPath + "/AudioTesting/BPMData.xml");
+      serializer.Serialize(writer, bpmData);
     }
-#endif
+    #endif
   }
-
+  
   /// <summary>
   /// Updates the speed of the shapes based on presets
   /// </summary>
