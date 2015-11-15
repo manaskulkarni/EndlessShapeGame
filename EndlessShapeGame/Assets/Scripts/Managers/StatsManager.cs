@@ -6,6 +6,10 @@ using System.IO;
 public class StatsManager : Manager
 {
 
+#if UNITY_EDITOR
+  public int startScore = 0;
+#endif
+
   #region Properties
   /// <summary>
   /// Score of current session
@@ -87,9 +91,14 @@ public class StatsManager : Manager
 
     Debug.Log ("Leaderboard ID: " + leaderBoardId);
     Debug.Log ("Data Path: " + Application.dataPath);
+    Debug.Log ("Persistent Data Path: " + Application.persistentDataPath);
 
     previousScore = highScore;
     coins = PlayerPrefs.GetInt ("Coins");
+    
+#if UNITY_EDITOR
+  score = startScore;
+#endif
   }
 
   void OnEnable ()
@@ -141,7 +150,11 @@ public class StatsManager : Manager
   #region implemented abstract members of Manager
   public override void OnGameReset (object sender, System.EventArgs args)
   {
+#if UNITY_EDITOR
+    score = startScore;
+#else
     score = 0;
+#endif
   }
 
   public override void OnGameStart (object sender, System.EventArgs args)

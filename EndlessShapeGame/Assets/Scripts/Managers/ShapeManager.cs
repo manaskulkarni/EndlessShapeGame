@@ -276,7 +276,7 @@ public class ShapeManager : Manager
           bpmData.Add(new AudioData(avg, speedPresets[i]));
 
           System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(AudioData));
-          System.IO.TextWriter writer = new System.IO.StreamWriter(Application.dataPath + "AudioTesting/BPM_" +
+          System.IO.TextWriter writer = new System.IO.StreamWriter(Application.dataPath + "/AudioTesting/BPM_" +
             speedPresets[i].scoreInterval.min.ToString() + "_" + speedPresets[i].scoreInterval.max.ToString() + ".xml");
           serializer.Serialize(writer, bpmData[bpmData.Count - 1]);
         }
@@ -455,7 +455,7 @@ public class ShapeManager : Manager
     shapePair.Clear();
     shapeProperties.Clear();
     player = null;
-    currentIntervalIndex = 0;
+    currentIntervalIndex = GetStartInterval ();;
     currentSpeedPreset = speedPresets[currentIntervalIndex].preset;
 
     player = GameObject.FindObjectOfType<PlayerBehavior>();
@@ -493,7 +493,7 @@ public class ShapeManager : Manager
   public override void OnGameRestart(object sender, System.EventArgs args)
   {
     startDelay = 0.7f;
-    currentIntervalIndex = 0;
+    currentIntervalIndex = GetStartInterval ();
     currentSpeedPreset = speedPresets[currentIntervalIndex].preset;
   }
 
@@ -510,6 +510,26 @@ public class ShapeManager : Manager
   }
 
   #endregion
+  
+  private int GetStartInterval ()
+  {
+  #if UNITY_EDITOR
+    int i = 0;
+    foreach (var v in speedPresets)
+    {
+      if (v.scoreInterval.Contains (StatsManager.inst.score))
+      {
+        Debug.Log (i);
+        break;
+      }
+      ++i;
+    }
+    
+    return i;
+  #else
+    return 0;
+#endif
+  }
 
   #region Coroutines
   /// <summary>

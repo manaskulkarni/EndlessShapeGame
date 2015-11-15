@@ -3,13 +3,21 @@ using System.Collections;
 
 public class AudioManager : Manager
 {
-
+  [System.Serializable]
+  public struct SoundEffect
+  {
+    public AudioClip clip;
+    public float volumeFadeSpeed;
+    public float pitchFadeSpeed;
+  }
+  
   /// <summary>
   /// Background Music Audio Clip
   /// </summary>
-  public AudioClip backgroundMusic;
-  public AudioClip loseEffect;
-  public AudioClip backgroundLoop;
+  public SoundEffect backgroundMusic;
+  public SoundEffect loseEffect;
+  public SoundEffect backgroundLoop;
+  
 
   /// <summary>
   /// AudioPlayer attached to gameObject
@@ -37,19 +45,19 @@ public class AudioManager : Manager
     if (!bgm)
     {
       bgm = gameObject.AddComponent<AudioSource>();
-      bgm.clip = backgroundMusic;
+      bgm.clip = backgroundMusic.clip;
     }
 
     if(!loseSFX)
     {
       loseSFX = gameObject.AddComponent<AudioSource>();
-      loseSFX.clip = loseEffect;
+      loseSFX.clip = loseEffect.clip;
     }
 
     if (!bgmLoop)
     {
       bgmLoop = gameObject.AddComponent<AudioSource>();
-      bgmLoop.clip = backgroundLoop;
+      bgmLoop.clip = backgroundLoop.clip;
       bgmLoop.loop = true;
     }
 
@@ -127,12 +135,12 @@ public class AudioManager : Manager
   {
     while (loseSFX.volume > 0.0f)
     {
-      loseSFX.pitch -= Time.deltaTime * 0.25f;
-      bgm.volume -= Time.deltaTime * 0.5f;
-      bgmLoop.volume -= Time.deltaTime * 0.5f;
-      bgm.pitch -= Time.deltaTime * 0.05f;
-      bgmLoop.pitch -= Time.deltaTime * 0.05f;
-      loseSFX.volume -= Time.deltaTime * 0.25f;
+      loseSFX.pitch -= Time.deltaTime * loseEffect.pitchFadeSpeed;
+      bgm.volume -= Time.deltaTime * backgroundMusic.volumeFadeSpeed;
+      bgmLoop.volume -= Time.deltaTime * backgroundLoop.volumeFadeSpeed;
+      bgm.pitch -= Time.deltaTime * backgroundMusic.pitchFadeSpeed;
+      bgmLoop.pitch -= Time.deltaTime * backgroundLoop.pitchFadeSpeed;
+      loseSFX.volume -= Time.deltaTime * loseEffect.volumeFadeSpeed;
       yield return null;
     }
 
