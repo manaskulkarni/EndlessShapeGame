@@ -62,9 +62,11 @@ public class GameManager : MonoBehaviour
   public event System.EventHandler GameRestartEvent;
   public event System.EventHandler GameOverEvent;
   public event System.EventHandler HighScoreEvent;
+  public event System.EventHandler HighScoreCrossEvent;
   
   [System.Obsolete]
   public event System.EventHandler DifficultyChangeEvent;
+  [System.Obsolete]
   public event System.EventHandler SpeedChangeEvent;
 
   static public GameManager inst
@@ -156,6 +158,11 @@ public class GameManager : MonoBehaviour
   {
     playing = false;
     StartCoroutine (CameraShake ());
+  }
+  
+  public void HighScoreCrossed ()
+  {
+    EventManager.SendEvent (this, HighScoreCrossEvent, null);
   }
 
   private float duration = 0.3f;

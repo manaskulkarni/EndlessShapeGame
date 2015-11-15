@@ -14,6 +14,7 @@ public class ShapeBehavior : MonoBehaviour
   {
   	Normal,
   	Invisible,
+    Collectible,
   }
 
   // Public Members

@@ -12,60 +12,20 @@ public class UIManager : Manager
   //    private set;
   //  }
   
-  static public UIManager inst
-  {
-    get;
-    private set;
-  }
+  static public UIManager inst { get; private set; }
   
   // Private Members
-  private GameObject menuStart
-  {
-    get;
-    set;
-  }
+  private GameObject menuStart { get; set; }
+  private GameObject menuGame { get; set; }
+  private GameObject menuOptions { get; set; }
+  private GameObject menuGameOver { get; set; }
+  private GameObject menuCoins { get; set; }
+  private GameObject buttonStart { get; set; }
   
-  private GameObject menuGame
-  {
-    get;
-    set;
-  }
-  
-  private GameObject menuOptions
-  {
-    get;
-    set;
-  }
-  
-  private GameObject menuGameOver
-  {
-    get;
-    set;
-  }
-  
-  private GameObject buttonStart
-  {
-    get;
-    set;
-  }
-  
-  private Text textScore
-  {
-    get;
-    set;
-  }
-  
-  private Text textGameOverScore
-  {
-    get;
-    set;
-  }
-  
-  private Text textGameOverFeedback
-  {
-    get;
-    set;
-  }
+  private Text textScore { get; set; }
+  private Text textCoins { get; set; }
+  private Text textGameOverScore { get; set; }
+  private Text textGameOverFeedback { get; set; }
   
   void Awake ()
   {
@@ -95,6 +55,10 @@ public class UIManager : Manager
     menuGame = GameObject.Find ("MenuGame");
     textScore = GameObject.Find ("TextScore").GetComponent <Text> ();
     textScore.text = ZeroScore ();
+    
+    textCoins = GameObject.Find ("TextCoins").GetComponent <Text> ();
+    textCoins.text = Coins ();
+    
     SetMenuActive (menuGame, false);
     
     //    menuGameOver = GameObject.Find ("MenuGameOver");
@@ -105,9 +69,13 @@ public class UIManager : Manager
     
     menuGameOver = GameObject.Find ("MenuGameOver");
     SetMenuActive (menuGameOver, false);
-
+    
+    menuCoins = GameObject.Find ("MenuCoins");
+    SetMenuActive (menuCoins, false);
+    
     // Subscribe to High Score event for text feedback
     GameManager.inst.HighScoreEvent += OnHighScore;
+    GameManager.inst.HighScoreCrossEvent += OnHighScoreCross;
   }
   
   public void UpdateScore ()
@@ -346,6 +314,11 @@ public class UIManager : Manager
     return "0";
   }
   
+  private string Coins ()
+  {
+    return ""+StatsManager.inst.coins+"";
+  }
+  
   #region implemented abstract members of Manager
   
   public override void OnGameReset (object sender, System.EventArgs args)
@@ -383,7 +356,7 @@ public class UIManager : Manager
     
     StartCoroutine(FadeOutGameCanvas());
     ////    Camera.main.backgroundColor = Utils.Color255 (100, 122, 141, 5);
-    ////    StartCoroutine (FadeInGameOverCanvas (gameOverCanvas));
+//    StartCoroutine (FadeInGameOverCanvas ());
     StartCoroutine(FadeInStartCanvas());
   }
   
@@ -392,6 +365,11 @@ public class UIManager : Manager
     textGameOverScore.text = ""+StatsManager.inst.score+"";
     textGameOverFeedback.text = NewHighScore ();
     textGameOverFeedback.GetComponent <Animator> ().enabled = true;
+  }
+  
+  public override void OnHighScoreCross (object sender, System.EventArgs e)
+  {
+    Debug.Log ("High Score Crossed");
   }
   
   //  public override void OnDifficultyChange ()

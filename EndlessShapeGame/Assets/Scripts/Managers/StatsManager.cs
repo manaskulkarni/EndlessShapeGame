@@ -26,22 +26,6 @@ public class StatsManager : Manager
   /// </summary>
   public bool isHighScore { get; private set; }
   /// <summary>
-  /// Returns whether current score is high score
-  /// </summary>
-  public bool isHighScoreSlow
-  {
-    get
-    {
-      if (score > previousScore)
-      {
-        highScoreCrossed = true;
-        return true;
-      }
-
-      return false;
-    }
-  }
-  /// <summary>
   /// Returns current high score
   /// </summary>
   public int highScore
@@ -120,6 +104,12 @@ public class StatsManager : Manager
   public void AddPoint ()
   {
     ++score;
+    
+    if (!highScoreCrossed && score > highScore)
+    {
+      GameManager.inst.HighScoreCrossed ();
+      highScoreCrossed = true;
+    }
   }
 
   public void AddCoin (int count = 1)

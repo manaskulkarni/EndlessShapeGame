@@ -15,6 +15,8 @@ public class PlayerInput : MonoBehaviour
   private ReleaseGesture release { get; set; }
   private bool pressed { get; set; }
   private TouchScript.Gestures.MetaGesture meta { get; set; }
+  private bool moving { get; set; }
+  private float lastPos;
   #endregion
 
   // Use this for initialization
@@ -33,27 +35,36 @@ public class PlayerInput : MonoBehaviour
       release.Released += HandleReleased;
       
     meta = gameObject.GetComponent <MetaGesture> ();
-    if (meta)
-      meta.TouchMoved += HandleTouchMoved;
+//    if (meta)
+//      meta.TouchMoved += HandleTouchMoved;
       
     pressed = false;
+    moving = false;
   }
 
   void HandleTouchMoved (object sender, MetaGestureEventArgs e)
   {
     if (pressed)
-    {
+    {        
+      moving = false;
       if (PlayerManager.inst.player.Ready())
       {
         float delta = e.Touch.Position.x - e.Touch.PreviousPosition.x;
-        //    Debug.Log ("Flicked");
-        if (delta < -minDelta)
+//        if (Mathf.Abs(delta) < 0.1f)
+//          moving = false;
+          
+        if (!moving)
         {
-          PlayerManager.inst.player.GoLeft();
-        }
-        else if (delta > minDelta)
-        {
-          PlayerManager.inst.player.GoRight();
+          if (delta < -minDelta)
+          {
+            PlayerManager.inst.player.GoLeft();
+            moving = true;
+          }
+          else if (delta > minDelta)
+          {
+            PlayerManager.inst.player.GoRight();
+            moving = true;
+          }
         }
       }
     }
@@ -67,6 +78,7 @@ public class PlayerInput : MonoBehaviour
   void HandlePressed (object sender, System.EventArgs e)
   {
     pressed = true;
+    lastPos = Input.mousePosition.x;
   }
 
   void HandlePanned (object sender, System.EventArgs e)
@@ -85,9 +97,9 @@ public class PlayerInput : MonoBehaviour
     }
   }
 
-#if UNITY_EDITOR
   void Update ()
-  {
+  {  
+#if UNITY_EDITOR
     if (PlayerManager.inst.player.Ready())
     {
       if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A))
@@ -99,8 +111,33 @@ public class PlayerInput : MonoBehaviour
         PlayerManager.inst.player.GoRight();
       }
     }
-  }
 #endif
+    
+    if (pressed)
+    {
+      if (PlayerManager.inst.player.Ready ())
+      {
+        var delta = Input.mousePosition.x - lastPos;
+        lastPos = Input.mousePosition.x;
+        
+        if (delta == 0.0f)
+        {
+          moving = false;
+        }
+        
+        if (delta < -minDelta && !moving)
+        {
+          PlayerManager.inst.player.GoLeft ();
+          moving = true;
+        }
+        else if (delta > minDelta && !moving)
+        {
+          PlayerManager.inst.player.GoRight ();
+          moving = true;
+        }
+      }
+    }
+  }
 
   #region Events
   void HandleFlicked (object sender, System.EventArgs e)

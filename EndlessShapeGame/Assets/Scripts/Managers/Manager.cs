@@ -27,5 +27,6 @@ public abstract class Manager : MonoBehaviour
 
 
   public virtual void OnHighScore (object sender, System.EventArgs args) {}
+  public virtual void OnHighScoreCross (object sender, System.EventArgs args) {}
   #endregion
 }
