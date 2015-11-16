@@ -6999,7 +6999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundMusic:
-    clip: {fileID: 8300000, guid: 586c857838579ce41b23aab92a2fb21f, type: 3}
+    clip: {fileID: 8300000, guid: 26430bf951d1c9c44a601b845d07bcd3, type: 3}
     volumeFadeSpeed: .5
     pitchFadeSpeed: .0500000007
   loseEffect:
@@ -7007,7 +7007,7 @@ MonoBehaviour:
     volumeFadeSpeed: .5
     pitchFadeSpeed: .5
   backgroundLoop:
-    clip: {fileID: 8300000, guid: 7a4bfffdc70c68849ac4dc678d278e56, type: 3}
+    clip: {fileID: 8300000, guid: 925bd71471d56844fb2a99a243638cbd, type: 3}
     volumeFadeSpeed: .5
     pitchFadeSpeed: .0500000007
   bgm: {fileID: 0}

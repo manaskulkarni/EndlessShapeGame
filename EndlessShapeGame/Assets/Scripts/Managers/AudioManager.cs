@@ -74,9 +74,9 @@ public class AudioManager : Manager
 
   void FixedUpdate()
   {
-    if (bgm.timeSamples > 3234480 && once == true)
+    if (bgm.timeSamples > 2994740 && once == true)
     {
-      //bgmLoop.Play();
+      bgmLoop.Play();
       once = false;
     }
     if (Input.GetKeyUp(KeyCode.Q))
