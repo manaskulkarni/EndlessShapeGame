@@ -108,9 +108,10 @@ public class ShapeBehavior : MonoBehaviour
   {
     if (update)
     {
-      Vector2 pos = gameObject.transform.position;
-      pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier * Time.deltaTime;
-      gameObject.transform.position = new Vector3(pos.x, pos.y, gameObject.transform.position.z);
+      float pos = gameObject.transform.position.y;
+      float prevPos = pos;
+      pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.smoothDeltaTime;
+      gameObject.transform.Translate (new Vector2 (0, -(prevPos - pos)));
     }
   }
 
@@ -168,13 +169,6 @@ public class ShapeBehavior : MonoBehaviour
       
       yield return null;
     }
-  }
-
-  private void UpdatePositionInvoke ()
-  {
-    Vector2 pos = gameObject.transform.position;
-    pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier * Time.deltaTime;
-    gameObject.transform.position = new Vector3 (pos.x, pos.y, gameObject.transform.position.z);
   }
   
 //  void OnTriggerEnter2D (Collider2D coll)

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
   }
 
   [System.Serializable]
-  public struct GameSettings
+  public class GameSettings
   {
     public DifficultyLevel dificultyLevel;
     public SpeedLevel speedLevel;
@@ -94,14 +94,11 @@ public class GameManager : MonoBehaviour
   
   void Awake ()
   {
-
   }
   
   // Use this for initialization
   void Start ()
   {
-    StartCoroutine (UpdateMemory ());
-
     foreach (var v in GameObject.FindObjectsOfType<Manager> ())
     {
       v.RegisterToEvents();

@@ -4,7 +4,7 @@ using System.Collections;
 public class AudioManager : Manager
 {
   [System.Serializable]
-  public struct SoundEffect
+  public class SoundEffect
   {
     public AudioClip clip;
     public float volumeFadeSpeed;
@@ -71,7 +71,7 @@ public class AudioManager : Manager
     StopAllCoroutines();
     StartCoroutine(FadeInPitch());
   }
-
+  
   void FixedUpdate()
   {
     if (bgm.timeSamples > 2994740 && once == true)

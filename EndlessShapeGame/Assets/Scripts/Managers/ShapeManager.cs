@@ -27,7 +27,7 @@ public class ShapeManager : Manager
   /// Data Structure containing the speed properties of shapes
   /// </summary>
   [System.Serializable]
-  public struct SpeedPreset
+  public class SpeedPreset
   {
     public Vector2 speedMultiplier;
     public Vector2 accelerationMultiplier;
@@ -38,7 +38,7 @@ public class ShapeManager : Manager
   /// <summary>
   /// Data Structure holding the visual properties of shapes
   /// </summary>
-  public struct ShapeProperties
+  public class ShapeProperties
   {
     public ShapeProperties(Sprite sp, Vector3 pos)
     {
@@ -53,7 +53,7 @@ public class ShapeManager : Manager
   /// Data Structure holding a min and max to create a range for comparisons
   /// </summary>
   [System.Serializable]
-  public struct IntRange
+  public class IntRange
   {
     public int min;
     public int max;
@@ -68,7 +68,7 @@ public class ShapeManager : Manager
   /// <summary>
   /// Data Structure with Speed Interval and The Speed Preset for that interval
   /// </summary>
-  public struct BlockInterval
+  public class BlockInterval
   {
     public SpeedPreset preset;
     public IntRange scoreInterval;
@@ -200,6 +200,28 @@ public class ShapeManager : Manager
       shapePool = new ShapePool();
       specialFeedback.gameObject.SetActive(false);
       gameOverFeedback.gameObject.SetActive(false);
+      
+      float [] bpms = new float[]
+      {
+      60.217f,
+      66.064f,
+      71.823f,
+      78.279f,
+      83.859f,
+      90.023f,
+      96.154f,
+      102.039f,
+      108.170f,
+    };
+    
+      Debug.Log ("FPS: " + Application.targetFrameRate);
+      
+      for (int i = 0; i < speedPresets.Length; ++i)
+      {
+        var v = speedPresets[i];
+        v.preset.speedMultiplier.y = -((shapeSpawnOffset.y / 30) * bpms[i]) * 0.5f;
+        Debug.Log ("Speed Preset [" + i + "]: " + v.preset.speedMultiplier.y);
+      }
     }
     else
     {
@@ -288,23 +310,23 @@ public class ShapeManager : Manager
     #endif
   }
   
-  /// <summary>
-  /// Updates the speed of the shapes based on presets
-  /// </summary>
-  /// <returns></returns>
-  private IEnumerator UpdateSpeed()
-  {
-    while (true)
-    {
-      currentSpeedPreset.speedMultiplier += currentSpeedPreset.accelerationMultiplier * Time.deltaTime;
-      if (currentSpeedPreset.speedMultiplier.sqrMagnitude > currentSpeedPreset.maxSpeed.sqrMagnitude)
-      {
-        break;
-      }
-
-      yield return null;
-    }
-  }
+//  /// <summary>
+//  /// Updates the speed of the shapes based on presets
+//  /// </summary>
+//  /// <returns></returns>
+//  private IEnumerator UpdateSpeed()
+//  {
+//    while (true)
+//    {
+//      currentSpeedPreset.speedMultiplier += currentSpeedPreset.accelerationMultiplier * Time.deltaTime;
+//      if (currentSpeedPreset.speedMultiplier.sqrMagnitude > currentSpeedPreset.maxSpeed.sqrMagnitude)
+//      {
+//        break;
+//      }
+//
+//      yield return null;
+//    }
+//  }
 
   /// <summary>
   /// Shuffles array
@@ -475,7 +497,7 @@ public class ShapeManager : Manager
   {
     StartCoroutine(DelayStart());
     // Dont use Update as it is slow. Instead use coroutines
-    updateSpeed = StartCoroutine(UpdateSpeed());
+//    updateSpeed = StartCoroutine(UpdateSpeed());
   }
 
   public override void OnGameOver(object sender, System.EventArgs args)
@@ -667,7 +689,10 @@ public class ShapeManager : Manager
 
       shapes.Add(shape);
       shape.StopGame();
-      shapePair.Add(shape.GetComponent<Collider2D>().GetHashCode(), shape);
+      if (shape.GetComponent<Collider2D>() != null)
+      {
+        shapePair.Add(shape.GetComponent<Collider2D>().GetHashCode(), shape);
+      }
     }
   }
   #endregion

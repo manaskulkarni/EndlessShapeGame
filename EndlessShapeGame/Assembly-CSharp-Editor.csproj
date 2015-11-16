@@ -89,7 +89,6 @@
      <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisSpawnPrefabTriggerEditor.cs" />
      <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisTargetTriggerEditor.cs" />
      <Compile Include="Assets\VisualizerStudio\Editor\Utility\VisMicrophoneEditor.cs" />
-     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
@@ -128,6 +127,7 @@
      <None Include="Assets\TouchScript\Shaders\DebugNoDepthTest.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
+     <None Include="Assets\AudioTesting\InverseBPMData.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />

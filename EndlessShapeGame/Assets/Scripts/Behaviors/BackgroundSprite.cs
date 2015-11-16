@@ -3,17 +3,17 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityStandardAssets.ImageEffects;
 
-[RequireComponent (typeof (Camera))]
+[RequireComponent (typeof (SpriteRenderer))]
 public class BackgroundSprite : MonoBehaviour
 {
   public struct Drawable
   {
-    public Drawable (Camera draw) { drawable = draw; }
-    public Camera drawable;
+    public Drawable (SpriteRenderer draw) { drawable = draw; }
+    public SpriteRenderer drawable;
     public Color color
     {
-      get { return drawable.backgroundColor; }
-      set { drawable.backgroundColor = value; }
+      get { return drawable.color; }
+      set { drawable.color = value; }
     }
   }
   public enum InterpolationMode
@@ -70,7 +70,7 @@ public class BackgroundSprite : MonoBehaviour
   // Use this for initialization
   void Start ()
   {
-    drawable = new Drawable(gameObject.GetComponent<Camera>());
+    drawable = new Drawable(gameObject.GetComponent<SpriteRenderer>());
     originalColor = drawable.color;
     lerpState = LerpState.Idle;
   
@@ -143,7 +143,7 @@ public class BackgroundSprite : MonoBehaviour
     }
   }
   
-  void Update ()
+  void LateUpdate ()
   {
     if (Handle != null)
     {

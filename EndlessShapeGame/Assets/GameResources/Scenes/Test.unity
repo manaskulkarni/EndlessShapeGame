@@ -4045,9 +4045,9 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1351239445}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff765dd32045340d1b24d71316ef422d, type: 3}
+  m_Script: {fileID: 11500000, guid: b2bb2783d63194063b588d2a82ec3f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   colorChangeTime: 10
@@ -4078,6 +4078,83 @@ MonoBehaviour:
   separableBlurShader: {fileID: 4800000, guid: e97c14fbb5ea04c3a902cc533d7fc5d1, type: 3}
   contrastCompositeShader: {fileID: 4800000, guid: 273404942eede4ea1883ca1fb2942507,
     type: 3}
+--- !u!1 &1363093864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1363093866}
+  - 212: {fileID: 1363093865}
+  - 114: {fileID: 1363093867}
+  m_Layer: 0
+  m_Name: New Sprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1363093865
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1363093864}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_ReflectionProbeUsage: 0
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: ee5e230d198674bb7a7a64fd92d6a0ed, type: 3}
+  m_Color: {r: .501960814, g: .501960814, b: .501960814, a: 1}
+--- !u!4 &1363093866
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1363093864}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 6}
+  m_LocalScale: {x: 5, y: 10, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+--- !u!114 &1363093867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1363093864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff765dd32045340d1b24d71316ef422d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorChangeTime: 10
+  interpolationTime: 5
+  minColor: {r: .16911763, g: .16911763, b: .16911763, a: 1}
+  maxColor: {r: .501960814, g: .501960814, b: .501960814, a: 1}
+  interpolationMode: 0
+  interpolationColors: []
+  changeTimer: 0
+  interpolationTimer: 0
+  colorIndex: 0
+  colorOne: {r: 0, g: 0, b: 0, a: 1}
+  colorTwo: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1388731728
 GameObject:
   m_ObjectHideFlags: 0
@@ -6926,7 +7003,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b48e0402e12a96141a71c9fc3741973c, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -7007,7 +7084,7 @@ MonoBehaviour:
     volumeFadeSpeed: .5
     pitchFadeSpeed: .5
   backgroundLoop:
-    clip: {fileID: 8300000, guid: 925bd71471d56844fb2a99a243638cbd, type: 3}
+    clip: {fileID: 8300000, guid: 926bf84660e84cc419ea580b1c680b25, type: 3}
     volumeFadeSpeed: .5
     pitchFadeSpeed: .0500000007
   bgm: {fileID: 0}

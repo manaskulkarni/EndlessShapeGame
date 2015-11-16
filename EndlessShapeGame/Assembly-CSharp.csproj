@@ -48,6 +48,7 @@
      <Compile Include="Assets\KTGameCenter\TestScripts\TestScriptKTGC.cs" />
      <Compile Include="Assets\Scripts\Behaviors\AudioFeedback.cs" />
      <Compile Include="Assets\Scripts\Behaviors\Background.cs" />
+     <Compile Include="Assets\Scripts\Behaviors\BackgroundCamera.cs" />
      <Compile Include="Assets\Scripts\Behaviors\BackgroundObject.cs" />
      <Compile Include="Assets\Scripts\Behaviors\BackgroundSprite.cs" />
      <Compile Include="Assets\Scripts\Behaviors\PlayerBehavior.cs" />
@@ -118,7 +119,6 @@
      <Compile Include="Assets\VisualizerStudio\Scripts\Utility\VisHelper.cs" />
      <Compile Include="Assets\VisualizerStudio\Scripts\Utility\VisMicrophone.cs" />
      <Compile Include="Assets\VisualizerStudio\Scripts\Utility\VisPropertyHelper.cs" />
-     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
@@ -157,6 +157,7 @@
      <None Include="Assets\TouchScript\Shaders\DebugNoDepthTest.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
+     <None Include="Assets\AudioTesting\InverseBPMData.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />

@@ -7,7 +7,7 @@ public class PlayerManager : Manager
 
   #region Structs
   [System.Serializable]
-  public struct PlayerPreset
+  public class PlayerPreset
   {
     public GameManager.DifficultyLevel difficultyLevel;
     public GameObject prefab;
