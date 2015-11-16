@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a24ae23b21da4a6d8868a45cb8dd011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swipeSpeedMultiplier: 15
+  swipeSpeedMultiplier: 20
   wrap: 0
 --- !u!114 &11441132
 MonoBehaviour:
@@ -344,7 +344,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: swipeSpeedMultiplier
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
