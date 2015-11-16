@@ -76,7 +76,7 @@ public class AudioManager : Manager
   {
     if (bgm.timeSamples > 3234480 && once == true)
     {
-      bgmLoop.Play();
+      //bgmLoop.Play();
       once = false;
     }
     if (Input.GetKeyUp(KeyCode.Q))

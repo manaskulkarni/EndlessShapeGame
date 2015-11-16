@@ -51,11 +51,17 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
@@ -112,18 +118,7 @@
     <Compile Include="Assets\Standard Assets\KTGameCenter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\AudioTesting\AudioData.xml" />
-    <None Include="Assets\AudioTesting\BPM_0_9.xml" />
-    <None Include="Assets\AudioTesting\BPM_100_109.xml" />
-    <None Include="Assets\AudioTesting\BPM_10_19.xml" />
-    <None Include="Assets\AudioTesting\BPM_20_29.xml" />
-    <None Include="Assets\AudioTesting\BPM_30_39.xml" />
-    <None Include="Assets\AudioTesting\BPM_40_49.xml" />
-    <None Include="Assets\AudioTesting\BPM_50_59.xml" />
-    <None Include="Assets\AudioTesting\BPM_60_69.xml" />
-    <None Include="Assets\AudioTesting\BPM_70_79.xml" />
-    <None Include="Assets\AudioTesting\BPM_80_89.xml" />
-    <None Include="Assets\AudioTesting\BPM_90_99.xml" />
+    <None Include="Assets\AudioTesting\BPMData.xml" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
