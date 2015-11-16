@@ -6999,7 +6999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundMusic:
-    clip: {fileID: 8300000, guid: b48e0402e12a96141a71c9fc3741973c, type: 3}
+    clip: {fileID: 8300000, guid: 586c857838579ce41b23aab92a2fb21f, type: 3}
     volumeFadeSpeed: .5
     pitchFadeSpeed: .0500000007
   loseEffect:

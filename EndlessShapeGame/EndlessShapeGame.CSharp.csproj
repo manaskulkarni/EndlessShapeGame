@@ -51,11 +51,17 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
@@ -111,20 +117,48 @@
     <Compile Include="Assets\TouchScript\Examples\General\Tap\Scripts\Tap_Spawner.cs" />
     <Compile Include="Assets\TouchScript\Examples\_misc\Scripts\Example.cs" />
     <Compile Include="Assets\TouchScript\Examples\_misc\Scripts\Examples.cs" />
+    <Compile Include="Assets\VisualizerStudio\Example Level\FrameRateLimiter.cs" />
+    <Compile Include="Assets\VisualizerStudio\Example Level\KillTimer.cs" />
+    <Compile Include="Assets\VisualizerStudio\Example Level\TestBallSpawnScalar.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Base\VisBaseController.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Base\VisBaseModifier.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Base\VisBasePropertyModifier.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Base\VisBasePropertyTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Base\VisBaseTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Controllers\VisFrequencyController.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Controllers\VisRandomController.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Controllers\VisSineWaveController.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Data\VisDataContainer.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Data\VisDataGroup.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Data\VisSubDataGroup.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Interfaces\IVisModifierTarget.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Interfaces\IVisPrefabSpawnedTarget.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Interfaces\IVisTriggerTarget.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Manager\VisManager.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Modifiers\VisAnimationStatePropertyModifier.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Modifiers\VisEmitterPropertyModifier.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Modifiers\VisGameObjectPropertyModifier.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Modifiers\VisLightPropertyModifier.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Modifiers\VisMaterialLerpModifier.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Modifiers\VisMaterialPropertyModifier.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Modifiers\VisTargetModifier.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisAddForceTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisAnimationStatePropertyTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisEmitParticlesTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisEmitterPropertyTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisGameObjectPropertyTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisLightPropertyTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisMaterialLerpTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisMaterialPropertyTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisMessageTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisSpawnPrefabTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Triggers\VisTargetTrigger.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Utility\VisHelper.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Utility\VisMicrophone.cs" />
+    <Compile Include="Assets\VisualizerStudio\Scripts\Utility\VisPropertyHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\AudioTesting\AudioData.xml" />
-    <None Include="Assets\AudioTesting\BPM_0_9.xml" />
-    <None Include="Assets\AudioTesting\BPM_100_109.xml" />
-    <None Include="Assets\AudioTesting\BPM_10_19.xml" />
-    <None Include="Assets\AudioTesting\BPM_20_29.xml" />
-    <None Include="Assets\AudioTesting\BPM_30_39.xml" />
-    <None Include="Assets\AudioTesting\BPM_40_49.xml" />
-    <None Include="Assets\AudioTesting\BPM_50_59.xml" />
-    <None Include="Assets\AudioTesting\BPM_60_69.xml" />
-    <None Include="Assets\AudioTesting\BPM_70_79.xml" />
-    <None Include="Assets\AudioTesting\BPM_80_89.xml" />
-    <None Include="Assets\AudioTesting\BPM_90_99.xml" />
+    <None Include="Assets\AudioTesting\BPMData.xml" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
