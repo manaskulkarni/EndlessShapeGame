@@ -54,6 +54,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8adf537606dfd4d19b0ea4f1464c7543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minDelta: 3
+  swipeEffect: {fileID: 0}
 --- !u!114 &11463092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -73,8 +75,8 @@ MonoBehaviour:
   sendMessageTarget: {fileID: 0}
   requireGestureToFail: {fileID: 0}
   friendlyGestures: []
-  flickTime: .100000001
-  minDistance: .100000001
+  flickTime: .0500000007
+  minDistance: 0
   movementThreshold: .100000001
   direction: 0
 --- !u!1001 &100100000
@@ -103,6 +105,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: friendlyGestures.Array.data[0]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: flickTime
+      value: .0500000007
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: minDistance
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
