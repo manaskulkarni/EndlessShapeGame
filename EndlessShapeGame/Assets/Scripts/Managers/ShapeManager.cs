@@ -410,6 +410,7 @@ public class ShapeManager : Manager
             }
 
             StartCoroutine(DestroyShape(shapeBehavior));
+//            StartCoroutine (PlayerFeedback (spriteRenderer));
           }
           else
           {
@@ -458,8 +459,13 @@ public class ShapeManager : Manager
           }
           else
           {
+            // Add Point to Player Stats
+            StatsManager.inst.AddPoint();
+            UIManager.inst.UpdateScore();
+            
             Shuffle<ShapeProperties>(shapeProperties);
             StartCoroutine(DestroyShape(shapeBehavior));
+//            StartCoroutine (PlayerFeedback (spriteRenderer));
           }
           break;
         default:
@@ -467,6 +473,27 @@ public class ShapeManager : Manager
       }
     }
   }
+  
+//  private IEnumerator PlayerFeedback (SpriteRenderer spr)
+//  {
+//    while (spr.transform.localScale.x < 1.2f)
+//    {
+//      Vector2 scale = spr.transform.localScale;
+//      scale += Vector2.one * Time.deltaTime;
+//      spr.transform.localScale = scale;
+//      yield return null;
+//    }
+//    
+//    while (spr.transform.localScale.x > 1.0f)
+//    {
+//      Vector2 scale = spr.transform.localScale;
+//      scale -= Vector2.one * Time.deltaTime;
+//      spr.transform.localScale = scale;
+//      yield return null;
+//    }
+//    
+//    spr.transform.localScale = Vector2.one;
+//  }
   #endregion
   #region implemented abstract members of Manager
   public override void OnGameReset(object sender, System.EventArgs args)
@@ -513,6 +540,37 @@ public class ShapeManager : Manager
       StopCoroutine(updateSpeed);
       updateSpeed = null;
     }
+    
+    for (int i = 0; i < shapes.Count; ++i)
+    {
+//      var shape = shapes [i];
+//      shape.transform.position = new Vector3
+//        (
+//          shape.transform.position.x,
+//          beginPosition.y + i * shapeSpawnOffset.y,
+//          shape.transform.position.z
+//          );
+          
+      StartCoroutine (GoToStart (i));
+    }
+  }
+  
+  private IEnumerator GoToStart (int i)
+  {
+    var shape = shapes [i];
+    var targetPos = beginPosition.y + i * shapeSpawnOffset.y;
+    
+    while (shape.transform.position.y <= targetPos)
+    {
+      var pos = shape.transform.position;
+      pos.y += Time.deltaTime * 5.0f;
+      shape.transform.position = pos;
+      yield return null;
+    }
+    
+    shape.transform.position = new Vector3 (shape.transform.position.x, targetPos, shape.transform.position.z);
+    shape.StopSpecialShapeCoroutine ();
+    shape.StopInvisibleCoroutine ();
   }
 
   public override void OnGameRestart(object sender, System.EventArgs args)

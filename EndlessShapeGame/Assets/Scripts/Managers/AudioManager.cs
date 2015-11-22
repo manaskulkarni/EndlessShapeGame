@@ -18,52 +18,48 @@ public class AudioManager : Manager
   public SoundEffect loseEffect;
   public SoundEffect backgroundLoop;
   
+  #region Properties
+  public AudioSource bgm { get; private set; }
+  public AudioSource loseSFX { get; private set; }
+  public AudioSource bgmLoop { get; private set; }
+  #endregion
 
   /// <summary>
   /// AudioPlayer attached to gameObject
   /// </summary>
-  public AudioSource[] audioPlayer { get; private set; }
-  public AudioSource bgm;
-  public AudioSource loseSFX;
-  public AudioSource bgmLoop;
   private float originalVolume { get; set; }
   static public AudioManager inst { get; private set; }
   bool once;
 
   void Awake ()
   {
-    if (inst == null) inst = this;
+    if (inst == null)
+    {
+      inst = this;
+      
+      var sources = gameObject.GetComponents<AudioSource> ();
+      
+      bgm = sources [0];
+      bgm.clip = backgroundMusic.clip;
+      
+      loseSFX = sources [1];
+      loseSFX.clip = loseEffect.clip;
+      
+      bgmLoop = sources [2];
+      bgmLoop.clip = backgroundLoop.clip;
+      bgmLoop.loop = true;
+      bgmLoop.mute = false;
+      
+      originalVolume = bgm.volume;
+      bgm.volume = 0.0f;
+      bgm.Stop();
+    }
   }
 
   // Use this for initialization
   void Start ()
   {
     once = true;
-
-    audioPlayer = GetComponents<AudioSource>();
-
-    if (!bgm)
-    {
-      bgm = gameObject.AddComponent<AudioSource>();
-      bgm.clip = backgroundMusic.clip;
-    }
-
-    if(!loseSFX)
-    {
-      loseSFX = gameObject.AddComponent<AudioSource>();
-      loseSFX.clip = loseEffect.clip;
-    }
-
-    if (!bgmLoop)
-    {
-      bgmLoop = gameObject.AddComponent<AudioSource>();
-      bgmLoop.clip = backgroundLoop.clip;
-      bgmLoop.loop = true;
-    }
-
-    originalVolume = bgm.volume;
-    bgm.volume = 0.0f;
-    bgm.Stop();
   }
 
   public void Play ()

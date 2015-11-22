@@ -18,7 +18,7 @@ public class PlayerInput : MonoBehaviour
   private bool moving { get; set; }
   private float lastPos;
   
-  public Transform swipeEffect;
+//  public Transform swipeEffect;
   #endregion
 
   // Use this for initialization
@@ -43,7 +43,7 @@ public class PlayerInput : MonoBehaviour
     pressed = false;
     moving = false;
     
-    swipeEffect = GameObject.Find ("SwipeEffect").transform;
+//    swipeEffect = GameObject.Find ("SwipeEffect").transform;
   }
 
   void HandleTouchMoved (object sender, MetaGestureEventArgs e)
@@ -101,7 +101,7 @@ public class PlayerInput : MonoBehaviour
     }
   }
 
-  void Update ()
+  void FixedUpdate ()
   {  
 #if UNITY_EDITOR
     if (PlayerManager.inst.player.Ready())

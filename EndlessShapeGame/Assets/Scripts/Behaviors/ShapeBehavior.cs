@@ -23,7 +23,7 @@ public class ShapeBehavior : MonoBehaviour
   public bool triggered { get; set; }
   public ShapeResponse shapeResponse { get; set; }
   public ShapeType shapeType { get; set; }
-  //private Coroutine updatePosition { get; set; }
+  private Coroutine updatePosition { get; set; }
   private Coroutine updateSpecial { get; set; }
   private Coroutine updateInvisible { get; set; }
   private bool update { get; set; }
@@ -32,10 +32,10 @@ public class ShapeBehavior : MonoBehaviour
   public void StartGame ()
   {
     //    InvokeRepeating  ("UpdatePositionInvoke", Time.time, Time.deltaTime);
-    //if (updatePosition == null)
-    //{
-    //  updatePosition = StartCoroutine (UpdatePosition ());
-    //}
+    if (updatePosition == null)
+    {
+      updatePosition = StartCoroutine (UpdatePosition ());
+    }
     update = true;
     
     if (shapeType == ShapeType.Invisible)
@@ -47,11 +47,11 @@ public class ShapeBehavior : MonoBehaviour
   public void StopGame ()
   {
     //    CancelInvoke ("UpdatePositionRepeat");
-    //if (updatePosition != null)
-    //{
-    //  StopCoroutine (updatePosition);
-    //  updatePosition = null;
-    //}
+    if (updatePosition != null)
+    {
+      StopCoroutine (updatePosition);
+      updatePosition = null;
+    }
     update = false;
     if (updateInvisible != null)
     {
@@ -104,25 +104,20 @@ public class ShapeBehavior : MonoBehaviour
     }
   }
 
-  void Update ()
-  {
-    if (update)
-    {
-      float pos = gameObject.transform.position.y;
-      float prevPos = pos;
-      pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.smoothDeltaTime;
-      gameObject.transform.Translate (new Vector2 (0, -(prevPos - pos)));
-    }
-  }
+//  void LateUpdate ()
+//  {
+//    if (update)
+//    {
+//      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime);
+//    }
+//  }
 
   // Update is called once per frame
   private IEnumerator UpdatePosition ()
   {
     while (true)
     {
-      Vector2 pos = gameObject.transform.position;
-      pos += ShapeManager.inst.currentSpeedPreset.speedMultiplier * Time.deltaTime;
-      gameObject.transform.position = new Vector3 (pos.x, pos.y, gameObject.transform.position.z);
+      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.smoothDeltaTime);
       yield return null;
     }
   }
