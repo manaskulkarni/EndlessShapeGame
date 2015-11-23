@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class AudioManager : Manager
 {
@@ -60,6 +61,8 @@ public class AudioManager : Manager
   void Start ()
   {
     once = true;
+    GameManager.inst.PauseEvent += OnPause;
+    GameManager.inst.UnPauseEvent += OnUnPause;   
   }
 
   public void Play ()
@@ -125,6 +128,18 @@ public class AudioManager : Manager
   public override void OnHighScore(object sender, System.EventArgs args)
   {
   }
+
+  public override void OnPause(object sender, EventArgs args)
+  {
+    bgm.Pause();
+    bgmLoop.Pause();
+  }
+  public override void OnUnPause(object sender, EventArgs args)
+  {
+    bgm.UnPause();
+    bgmLoop.UnPause();
+  }
+
   #endregion
   #region Coroutines
   private IEnumerator FadeOutPitch()
