@@ -25,7 +25,9 @@ public abstract class Manager : MonoBehaviour
   [System.Obsolete ("Speed Modes Not Supported Anymore. Single Speed Mode")]
   public virtual void OnSpeedChange (object sender, System.EventArgs args) {}
 
-
+  public virtual void OnPause (object sender, System.EventArgs args) {}
+  public virtual void OnResume (object sender, System.EventArgs args) {}
+  public virtual void OnUnPause (object sender, System.EventArgs args) {}
   public virtual void OnHighScore (object sender, System.EventArgs args) {}
   public virtual void OnHighScoreCross (object sender, System.EventArgs args) {}
   #endregion

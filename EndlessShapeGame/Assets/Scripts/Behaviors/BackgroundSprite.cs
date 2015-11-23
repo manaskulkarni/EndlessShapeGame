@@ -73,6 +73,10 @@ public class BackgroundSprite : MonoBehaviour
     drawable = new Drawable(gameObject.GetComponent<SpriteRenderer>());
     originalColor = drawable.color;
     lerpState = LerpState.Idle;
+    
+    Vector2 scale = transform.localScale;
+    scale.x = Camera.main.aspect * scale.y;
+    transform.localScale = scale;
   
     GameManager.inst.GameStartEvent += OnGameStart;
     GameManager.inst.GameOverEvent += OnGameOver;

@@ -22,7 +22,6 @@ public class ShapeManager : Manager
     }
   }
 
-
   /// <summary>
   /// Data Structure containing the speed properties of shapes
   /// </summary>
@@ -63,6 +62,12 @@ public class ShapeManager : Manager
       return val >= min && val <= max;
     }
   }
+  
+  [System.Serializable]
+  public class RandomRange : IntRange
+  {
+    public float probability;
+  }
 
   [System.Serializable]
   /// <summary>
@@ -72,6 +77,12 @@ public class ShapeManager : Manager
   {
     public SpeedPreset preset;
     public IntRange scoreInterval;
+  }
+  
+  public enum SpawnState
+  {
+    NORMAL,
+    SPECIALONLY,
   }
 
   #endregion
@@ -157,6 +168,7 @@ public class ShapeManager : Manager
   public int spawnCount { get; private set; }
   public PlayerBehavior player { get; private set; }
   public SortedDictionary<int, ShapeBehavior> shapePair { get; private set; }
+  public int numCollisions {get; private set; }
   #endregion
   #region Private Properties
   // Private Members
@@ -257,6 +269,9 @@ public class ShapeManager : Manager
   void Start()
   {
     OnGameReset(null, null);
+    
+    GameManager.inst.PauseEvent += OnPause;
+    GameManager.inst.UnPauseEvent += OnUnPause;
   }
 
   public struct AudioData
@@ -408,7 +423,9 @@ public class ShapeManager : Manager
             {
               currentSpeedPreset = speedPresets[++currentIntervalIndex].preset;
             }
-
+            
+            ++numCollisions;
+            
             StartCoroutine(DestroyShape(shapeBehavior));
 //            StartCoroutine (PlayerFeedback (spriteRenderer));
           }
@@ -509,6 +526,7 @@ public class ShapeManager : Manager
     player = null;
     currentIntervalIndex = GetStartInterval ();;
     currentSpeedPreset = speedPresets[currentIntervalIndex].preset;
+    numCollisions = 0;
 
     player = GameObject.FindObjectOfType<PlayerBehavior>();
 
@@ -540,37 +558,6 @@ public class ShapeManager : Manager
       StopCoroutine(updateSpeed);
       updateSpeed = null;
     }
-    
-    for (int i = 0; i < shapes.Count; ++i)
-    {
-//      var shape = shapes [i];
-//      shape.transform.position = new Vector3
-//        (
-//          shape.transform.position.x,
-//          beginPosition.y + i * shapeSpawnOffset.y,
-//          shape.transform.position.z
-//          );
-          
-      StartCoroutine (GoToStart (i));
-    }
-  }
-  
-  private IEnumerator GoToStart (int i)
-  {
-    var shape = shapes [i];
-    var targetPos = beginPosition.y + i * shapeSpawnOffset.y;
-    
-    while (shape.transform.position.y <= targetPos)
-    {
-      var pos = shape.transform.position;
-      pos.y += Time.deltaTime * 5.0f;
-      shape.transform.position = pos;
-      yield return null;
-    }
-    
-    shape.transform.position = new Vector3 (shape.transform.position.x, targetPos, shape.transform.position.z);
-    shape.StopSpecialShapeCoroutine ();
-    shape.StopInvisibleCoroutine ();
   }
 
   public override void OnGameRestart(object sender, System.EventArgs args)
@@ -591,6 +578,22 @@ public class ShapeManager : Manager
   {
     //currentSpeedPreset = speedPresets[(int)GameManager.inst.gameSettings.speedLevel];
   }
+  
+  public override void OnPause (object sender, System.EventArgs e)
+  {
+    foreach (var v in shapes)
+    {
+      v.StopGame ();
+    }
+  }
+  
+  public override void OnUnPause (object sender, System.EventArgs e)
+  {
+    foreach (var v in shapes)
+    {
+      v.StartGame ();
+    }
+  }
 
   #endregion
   
@@ -602,7 +605,7 @@ public class ShapeManager : Manager
     {
       if (v.scoreInterval.Contains (StatsManager.inst.score))
       {
-        Debug.Log (i);
+        Debug.Log ("Start Score Index: " + i);
         break;
       }
       ++i;
@@ -628,6 +631,25 @@ public class ShapeManager : Manager
       v.triggered = false;
     }
   }
+  
+  private IEnumerator GoToStart (int i)
+  {
+    var shape = shapes [i];
+    var targetPos = beginPosition.y + i * shapeSpawnOffset.y;
+    
+    while (shape.transform.position.y <= targetPos)
+    {
+      var pos = shape.transform.position;
+      pos.y += Time.deltaTime * 5.0f;
+      shape.transform.position = pos;
+      yield return null;
+    }
+    
+    shape.transform.position = new Vector3 (shape.transform.position.x, targetPos, shape.transform.position.z);
+    shape.StopSpecialShapeCoroutine ();
+    shape.StopInvisibleCoroutine ();
+  }
+  
   /// <summary>
   /// Destroys the shape after playing the destroy animation (FadeOut)
   /// </summary>

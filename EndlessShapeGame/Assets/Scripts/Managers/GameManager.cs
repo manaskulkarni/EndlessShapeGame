@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 
   // Public Members
   public GameSettings gameSettings;
+  public int sessionsPerAdRequest = 4;
 
   public bool played
   {
@@ -63,6 +64,9 @@ public class GameManager : MonoBehaviour
   public event System.EventHandler GameOverEvent;
   public event System.EventHandler HighScoreEvent;
   public event System.EventHandler HighScoreCrossEvent;
+  public event System.EventHandler PauseEvent;
+  public event System.EventHandler ResumeEvent;
+  public event System.EventHandler UnPauseEvent;
   
   [System.Obsolete]
   public event System.EventHandler DifficultyChangeEvent;
@@ -102,6 +106,18 @@ public class GameManager : MonoBehaviour
     foreach (var v in GameObject.FindObjectsOfType<Manager> ())
     {
       v.RegisterToEvents();
+    }
+  }
+  
+  void OnApplicationPause (bool pause)
+  {
+    if (pause)
+    {
+      EventManager.SendEvent (this, PauseEvent, null);
+    }
+    else
+    {
+      EventManager.SendEvent (this, ResumeEvent, null);
     }
   }
 
@@ -154,6 +170,15 @@ public class GameManager : MonoBehaviour
   public void GameOver ()
   {
     playing = false;
+//    ShapeManager.inst.OnGameOver (null, null);
+//    
+//    EventManager.SendEvent (this, GameOverEvent, null);
+//    
+//    if (StatsManager.inst.isHighScore)
+//    {
+//      EventManager.SendEvent (this, HighScoreEvent, null);
+//    }
+//    playing = false;  
     StartCoroutine (CameraShake ());
   }
   
@@ -161,18 +186,14 @@ public class GameManager : MonoBehaviour
   {
     EventManager.SendEvent (this, HighScoreCrossEvent, null);
   }
+  
+  public void UnPause ()
+  {
+    EventManager.SendEvent (this, UnPauseEvent, null);
+  }
 
   private float duration = 0.3f;
   private float magnitude = 0.07f;
-
-  private IEnumerator UpdateMemory ()
-  {
-    while (true)
-    {
-      Resources.UnloadUnusedAssets ();
-      yield return new WaitForSeconds (5.0f);
-    }
-  }
 
   private IEnumerator CameraShake ()
   {
@@ -201,14 +222,20 @@ public class GameManager : MonoBehaviour
     }
     
     Camera.main.transform.position = originalCamPos;
-
+    playing = false;
+    
     EventManager.SendEvent (this, GameOverEvent, null);
-
+    
     if (StatsManager.inst.isHighScore)
     {
       EventManager.SendEvent (this, HighScoreEvent, null);
     }
-    playing = false;
+    
+    if (StatsManager.inst.numSessions % sessionsPerAdRequest == 0)
+    {
+      yield return new WaitForSeconds (0.5f);
+      AdManager.inst.ShowVideo ();
+    }
   }
 
 }

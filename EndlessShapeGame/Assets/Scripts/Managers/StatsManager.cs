@@ -47,6 +47,8 @@ public class StatsManager : Manager
   /// Returns whether this session is 1st session after launching game
   /// </summary>
   public bool firstSession { get; private set; }
+  public int numSessions { get; private set; }
+  
   #endregion
   #region Static Properties
   static public StatsManager inst
@@ -176,6 +178,7 @@ public class StatsManager : Manager
     }
 
     highScoreCrossed = false;
+    ++numSessions;
   }
 
   public override void OnGameRestart (object sender, System.EventArgs args)

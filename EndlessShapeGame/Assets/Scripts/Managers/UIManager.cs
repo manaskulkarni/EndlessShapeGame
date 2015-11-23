@@ -23,6 +23,7 @@ public class UIManager : Manager
   private GameObject buttonStart { get; set; }
   
   private Text textScore { get; set; }
+  private Text textPauseTimer { get; set; }
   private Text textCoins { get; set; }
   private Text textGameOverScore { get; set; }
   private Text textGameOverFeedback { get; set; }
@@ -54,6 +55,8 @@ public class UIManager : Manager
     
     menuGame = GameObject.Find ("MenuGame");
     textScore = GameObject.Find ("TextScore").GetComponent <Text> ();
+    textPauseTimer = GameObject.Find ("TextPauseTimer").GetComponent <Text> ();
+    textPauseTimer.enabled = false;
     textScore.text = ZeroScore ();
     
     textCoins = GameObject.Find ("TextCoins").GetComponent <Text> ();
@@ -76,6 +79,8 @@ public class UIManager : Manager
     // Subscribe to High Score event for text feedback
     GameManager.inst.HighScoreEvent += OnHighScore;
     GameManager.inst.HighScoreCrossEvent += OnHighScoreCross;
+    GameManager.inst.PauseEvent += OnPause;
+    GameManager.inst.ResumeEvent += OnResume;
   }
   
   public void UpdateScore ()
@@ -297,6 +302,44 @@ public class UIManager : Manager
     group.alpha = 1.0f;
   }
   
+  private IEnumerator StartPauseTimer ()
+  {
+    int i = 3;
+    textPauseTimer.enabled = true;
+    textPauseTimer.text = ""+i+"";
+    textScore.enabled = false;
+    while (i > 0)
+    {
+      --i;
+      StartCoroutine (StartPopFeedback(textPauseTimer));
+      yield return new WaitForSeconds (0.5f);
+      textPauseTimer.text = ""+i+"";
+    }
+    
+    textScore.enabled = true;
+    textPauseTimer.enabled = false;
+    GameManager.inst.UnPause ();
+  }
+  
+  private IEnumerator StartPopFeedback (Text text)
+  {
+    while (text.transform.localScale.x < 1.2f)
+    {
+      var scale = text.transform.localScale;
+      scale += Vector3.one * Time.deltaTime * 2.0f;
+      text.transform.localScale = scale;
+      yield return null;
+    }
+    
+    while (text.transform.localScale.x > 1.0f)
+    {
+      var scale = text.transform.localScale;
+      scale -= Vector3.one * Time.deltaTime * 2.0f;
+      text.transform.localScale = scale;
+      yield return null;
+    }
+  }
+  
   #endregion
   
   private string BestScore ()
@@ -370,6 +413,19 @@ public class UIManager : Manager
   public override void OnHighScoreCross (object sender, System.EventArgs e)
   {
     Debug.Log ("High Score Crossed");
+  }
+  
+  public override void OnPause (object sender, System.EventArgs e)
+  {
+  }
+  
+  public override void OnResume (object sender, System.EventArgs e)
+  {
+    if (GameManager.inst.playing)
+    {
+      Debug.Log ("PAUSED");
+      StartCoroutine (StartPauseTimer ());
+    }
   }
   
   //  public override void OnDifficultyChange ()
