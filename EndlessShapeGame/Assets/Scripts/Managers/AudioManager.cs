@@ -148,7 +148,7 @@ public class AudioManager : Manager
     mainMenu.Play();
     StartCoroutine(FadeIn(mainMenu, mainMenuLoop));
     optionsMenu.Play();
-    optionsMenu.mute = true;
+    optionsMenu.volume = 0;
   }
 
   public override void OnGameRestart(object sender, System.EventArgs args)
@@ -211,7 +211,7 @@ public class AudioManager : Manager
       yield return null;
     }
 
-    optionsMenu.Stop();
+    source.volume = 0;
   }
 
   private IEnumerator FadeIn(AudioSource source, SoundEffect clip)
@@ -221,8 +221,6 @@ public class AudioManager : Manager
       source.volume += Time.deltaTime * clip.volumeFadeSpeed;
       yield return null;
     }
-
-    optionsMenu.Stop();
   }
   #endregion
 }
