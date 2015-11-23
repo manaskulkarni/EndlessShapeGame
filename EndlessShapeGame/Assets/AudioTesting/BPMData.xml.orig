@@ -2,13 +2,13 @@
 <ArrayOfAudioData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <AudioData>
 <<<<<<< HEAD
-    <bpm>60</bpm>
+    <bpm>59.2307739</bpm>
 =======
-    <bpm>59.6966171</bpm>
->>>>>>> f598c9cf392fd25c5554ef60f86e294f4f505444
+    <bpm>60.4392624</bpm>
+>>>>>>> a9091a11d21928fb0ba938ecb4a069616594ba9e
     <speed>
       <x>0</x>
-      <y>-5</y>
+      <y>-5.018083</y>
     </speed>
     <score>
       <min>0</min>
@@ -16,13 +16,11 @@
     </score>
     <blocks>1</blocks>
   </AudioData>
-<<<<<<< HEAD
-=======
   <AudioData>
-    <bpm>65.92857</bpm>
+    <bpm>66.70496</bpm>
     <speed>
       <x>0</x>
-      <y>-5.5</y>
+      <y>-5.50533342</y>
     </speed>
     <score>
       <min>8</min>
@@ -31,10 +29,10 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>72.522</bpm>
+    <bpm>72.5293045</bpm>
     <speed>
       <x>0</x>
-      <y>-6</y>
+      <y>-5.98525</y>
     </speed>
     <score>
       <min>16</min>
@@ -43,10 +41,10 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>77.8207245</bpm>
+    <bpm>78.55005</bpm>
     <speed>
       <x>0</x>
-      <y>-6.5</y>
+      <y>-6.52325</y>
     </speed>
     <score>
       <min>24</min>
@@ -55,10 +53,10 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>84.161026</bpm>
+    <bpm>83.44381</bpm>
     <speed>
       <x>0</x>
-      <y>-7</y>
+      <y>-6.98825026</y>
     </speed>
     <score>
       <min>32</min>
@@ -67,10 +65,10 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>90.28064</bpm>
+    <bpm>90.69247</bpm>
     <speed>
       <x>0</x>
-      <y>-7.5</y>
+      <y>-7.501917</y>
     </speed>
     <score>
       <min>40</min>
@@ -79,10 +77,10 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>96.0111542</bpm>
+    <bpm>96.30409</bpm>
     <speed>
       <x>0</x>
-      <y>-8</y>
+      <y>-8.012834</y>
     </speed>
     <score>
       <min>48</min>
@@ -91,10 +89,10 @@
     <blocks>2</blocks>
   </AudioData>
   <AudioData>
-    <bpm>102.317245</bpm>
+    <bpm>101.928391</bpm>
     <speed>
       <x>0</x>
-      <y>-8.5</y>
+      <y>-8.50325</y>
     </speed>
     <score>
       <min>64</min>
@@ -103,10 +101,10 @@
     <blocks>4</blocks>
   </AudioData>
   <AudioData>
-    <bpm>108.112343</bpm>
+    <bpm>107.3944</bpm>
     <speed>
       <x>0</x>
-      <y>-9</y>
+      <y>-9.014167</y>
     </speed>
     <score>
       <min>96</min>
@@ -114,5 +112,4 @@
     </score>
     <blocks>8</blocks>
   </AudioData>
->>>>>>> f598c9cf392fd25c5554ef60f86e294f4f505444
 </ArrayOfAudioData>

@@ -101,7 +101,7 @@ public class PlayerInput : MonoBehaviour
     }
   }
 
-  void FixedUpdate ()
+  void Update ()
   {  
 #if UNITY_EDITOR
     if (PlayerManager.inst.player.Ready())

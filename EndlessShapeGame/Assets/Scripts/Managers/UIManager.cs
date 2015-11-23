@@ -21,6 +21,7 @@ public class UIManager : Manager
   private GameObject menuGameOver { get; set; }
   private GameObject menuCoins { get; set; }
   private GameObject buttonStart { get; set; }
+  private GameObject menuRevive { get; set; }
   
   private Text textScore { get; set; }
   private Text textPauseTimer { get; set; }
@@ -44,6 +45,7 @@ public class UIManager : Manager
   void Start ()
   {
     menuStart = GameObject.Find ("MenuStart");
+    menuRevive = GameObject.Find ("MenuRevive");
     buttonStart = GameObject.Find ("ButtonStart");
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
@@ -52,6 +54,7 @@ public class UIManager : Manager
     textGameOverFeedback.text = null;
     
     SetMenuActive (menuStart, true);
+    SetMenuActive (menuRevive, false);
     
     menuGame = GameObject.Find ("MenuGame");
     textScore = GameObject.Find ("TextScore").GetComponent <Text> ();
@@ -142,6 +145,17 @@ public class UIManager : Manager
   public void ShowAchievements ()
   {
     StatsManager.inst.ShowAchievements ();
+  }
+  
+  public void UseRevive ()
+  {
+    
+  }
+  
+  public void ShowMainMenu ()
+  {
+    StartCoroutine (FadeInStartCanvas ());
+    StartCoroutine (FadeOutReviveCanvas ());
   }
   
   #region Coroutines
@@ -340,6 +354,36 @@ public class UIManager : Manager
     }
   }
   
+  private IEnumerator FadeInReviveCanvas ()
+  {
+    CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
+    SetMenuActive (menuRevive, true);
+    
+    while (revive.alpha < 1.0f)
+    {
+      float alpha = revive.alpha;
+      alpha += Time.deltaTime * 5.0f;
+      revive.alpha = alpha;
+      yield return null;
+    }
+  } 
+  
+  private IEnumerator FadeOutReviveCanvas ()
+  {
+    CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
+    
+    while (revive.alpha > 0.0f)
+    {
+      float alpha = revive.alpha;
+      alpha -= Time.deltaTime * 5.0f;
+      revive.alpha = alpha;
+      yield return null;
+    }
+    
+    revive.alpha = 0.0f;
+    SetMenuActive (menuRevive, false);
+  }  
+  
   #endregion
   
   private string BestScore ()
@@ -399,8 +443,8 @@ public class UIManager : Manager
     
     StartCoroutine(FadeOutGameCanvas());
     ////    Camera.main.backgroundColor = Utils.Color255 (100, 122, 141, 5);
-//    StartCoroutine (FadeInGameOverCanvas ());
-    StartCoroutine(FadeInStartCanvas());
+    StartCoroutine (FadeInReviveCanvas ());
+//    StartCoroutine(FadeInStartCanvas());
   }
   
   public override void OnHighScore (object sender, System.EventArgs args)

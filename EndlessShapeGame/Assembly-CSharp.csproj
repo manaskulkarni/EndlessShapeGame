@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\Behaviors\PlayerBehavior.cs" />
      <Compile Include="Assets\Scripts\Behaviors\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\Behaviors\PlayerShapeTrigger.cs" />
+     <Compile Include="Assets\Scripts\Behaviors\ReviveMenu.cs" />
      <Compile Include="Assets\Scripts\Behaviors\ShapeBehavior.cs" />
      <Compile Include="Assets\Scripts\Behaviors\ShapeParent.cs" />
      <Compile Include="Assets\Scripts\Classes\Utils.cs" />
