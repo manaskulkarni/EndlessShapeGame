@@ -11,18 +11,22 @@ public class AudioManager : Manager
     public float volumeFadeSpeed;
     public float pitchFadeSpeed;
   }
-  
+
   /// <summary>
   /// Background Music Audio Clip
   /// </summary>
   public SoundEffect backgroundMusic;
   public SoundEffect loseEffect;
   public SoundEffect backgroundLoop;
-  
+  public SoundEffect mainMenuLoop;
+  public SoundEffect optionsMenuLoop;
+
   #region Properties
   public AudioSource bgm { get; private set; }
   public AudioSource loseSFX { get; private set; }
   public AudioSource bgmLoop { get; private set; }
+  public AudioSource mainMenu { get; private set; }
+  public AudioSource optionsMenu { get; private set; }
   #endregion
 
   /// <summary>
@@ -32,25 +36,36 @@ public class AudioManager : Manager
   static public AudioManager inst { get; private set; }
   bool once;
 
-  void Awake ()
+  void Awake()
   {
     if (inst == null)
     {
       inst = this;
-      
-      var sources = gameObject.GetComponents<AudioSource> ();
-      
-      bgm = sources [0];
+
+      var sources = gameObject.GetComponents<AudioSource>();
+
+      bgm = sources[0];
       bgm.clip = backgroundMusic.clip;
-      
-      loseSFX = sources [1];
+
+      loseSFX = sources[1];
       loseSFX.clip = loseEffect.clip;
-      
-      bgmLoop = sources [2];
+
+      bgmLoop = sources[2];
       bgmLoop.clip = backgroundLoop.clip;
       bgmLoop.loop = true;
       bgmLoop.mute = false;
-      
+
+      mainMenu = sources[3];
+      mainMenu.clip = mainMenuLoop.clip;
+      mainMenu.loop = true;
+      mainMenu.Play();
+
+      optionsMenu = sources[4];
+      optionsMenu.clip = optionsMenuLoop.clip;
+      optionsMenu.loop = true;
+      optionsMenu.Play();
+      optionsMenu.volume = 0.0f;
+
       originalVolume = bgm.volume;
       bgm.volume = 0.0f;
       bgm.Stop();
@@ -58,19 +73,19 @@ public class AudioManager : Manager
   }
 
   // Use this for initialization
-  void Start ()
+  void Start()
   {
     once = true;
     GameManager.inst.PauseEvent += OnPause;
-    GameManager.inst.UnPauseEvent += OnUnPause;   
+    GameManager.inst.UnPauseEvent += OnUnPause;
   }
 
-  public void Play ()
+  public void Play()
   {
     StopAllCoroutines();
     StartCoroutine(FadeInPitch());
   }
-  
+
   void FixedUpdate()
   {
     if (bgm.timeSamples > 2994740 && once == true)
@@ -81,7 +96,7 @@ public class AudioManager : Manager
     if (Input.GetKeyUp(KeyCode.Q))
     {
       Time.timeScale = 0.5f;
-      foreach (var source in GetComponents<AudioSource> ())
+      foreach (var source in GetComponents<AudioSource>())
       {
         source.pitch = Time.timeScale;
       }
@@ -110,15 +125,30 @@ public class AudioManager : Manager
     bgm.volume = 1.0f;
     loseSFX.pitch = 1.0f;
     loseSFX.volume = 1.0f;
-    //StopAllCoroutines ();
-    //StartCoroutine (FadeInPitch ());
+    StartCoroutine(FadeOut(mainMenu, mainMenuLoop));
+  }
+
+  public void PlayOptionsTrack()
+  {
+    StartCoroutine(FadeOut(mainMenu, mainMenuLoop));
+    StartCoroutine(FadeIn(optionsMenu, optionsMenuLoop));
+  }
+
+  public void StopOptionsTrack()
+  {
+    StartCoroutine(FadeIn(mainMenu, mainMenuLoop));
+    StartCoroutine(FadeOut(optionsMenu, optionsMenuLoop));
   }
 
   public override void OnGameOver(object sender, System.EventArgs args)
   {
-    StopAllCoroutines ();
-    StartCoroutine (FadeOutPitch ());
+    StopAllCoroutines();
+    StartCoroutine(FadeOutPitch());
     loseSFX.Play();
+    mainMenu.Play();
+    StartCoroutine(FadeIn(mainMenu, mainMenuLoop));
+    optionsMenu.Play();
+    optionsMenu.volume = 0;
   }
 
   public override void OnGameRestart(object sender, System.EventArgs args)
@@ -146,11 +176,8 @@ public class AudioManager : Manager
   {
     while (loseSFX.volume > 0.0f)
     {
-      loseSFX.pitch -= Time.deltaTime * loseEffect.pitchFadeSpeed;
       bgm.volume -= Time.deltaTime * backgroundMusic.volumeFadeSpeed;
       bgmLoop.volume -= Time.deltaTime * backgroundLoop.volumeFadeSpeed;
-      bgm.pitch -= Time.deltaTime * backgroundMusic.pitchFadeSpeed;
-      bgmLoop.pitch -= Time.deltaTime * backgroundLoop.pitchFadeSpeed;
       loseSFX.volume -= Time.deltaTime * loseEffect.volumeFadeSpeed;
       yield return null;
     }
@@ -158,8 +185,7 @@ public class AudioManager : Manager
     bgm.volume = 0.0f;
     bgmLoop.volume = 0.0f;
     loseSFX.volume = 0.0f;
-    loseSFX.pitch = 0.0f;
-    bgm.Stop ();
+    bgm.Stop();
     bgmLoop.Stop();
     loseSFX.Stop();
   }
@@ -175,6 +201,26 @@ public class AudioManager : Manager
     }
 
     bgm.volume = originalVolume;
+  }
+
+  private IEnumerator FadeOut(AudioSource source, SoundEffect clip)
+  {
+    while (source.volume > 0.0f)
+    {
+      source.volume -= Time.deltaTime * clip.volumeFadeSpeed;
+      yield return null;
+    }
+
+    source.volume = 0;
+  }
+
+  private IEnumerator FadeIn(AudioSource source, SoundEffect clip)
+  {
+    while (source.volume < 1.0f)
+    {
+      source.volume += Time.deltaTime * clip.volumeFadeSpeed;
+      yield return null;
+    }
   }
   #endregion
 }
