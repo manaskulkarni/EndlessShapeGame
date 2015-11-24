@@ -333,7 +333,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 725390020}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!114 &118120136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2428,6 +2428,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 725390020}
   - 114: {fileID: 725390021}
+  - 114: {fileID: 725390022}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2448,7 +2449,6 @@ Transform:
   - {fileID: 1351239450}
   - {fileID: 2041695083}
   - {fileID: 1709485407}
-  - {fileID: 2135890128}
   - {fileID: 1801448025}
   - {fileID: 1948000994}
   - {fileID: 118120135}
@@ -2476,6 +2476,18 @@ MonoBehaviour:
     speedLevel: 0
     gameMode: 0
     showAds: 0
+--- !u!114 &725390022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 725390019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f90b24a9e08dc4372ae8fd0bc836de3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startScore: 0
 --- !u!1 &731968105
 GameObject:
   m_ObjectHideFlags: 0
@@ -7165,7 +7177,7 @@ Transform:
   m_Children:
   - {fileID: 191847034}
   m_Father: {fileID: 725390020}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!114 &1801448026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7594,7 +7606,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 725390020}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!82 &1948000995
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8123,7 +8135,7 @@ MonoBehaviour:
   - difficultyLevel: 2
     prefab: {fileID: 194950, guid: 2ed851d40443248b4964fcc4789b628c, type: 2}
   startPlayerAlpha: 1
-  invincible: 0
+  invincible: 1
 --- !u!1 &2044098791
 GameObject:
   m_ObjectHideFlags: 0
@@ -8473,46 +8485,6 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: aec2f3a5aff8e414992fee081b3bd14a, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: .0500000007}
---- !u!1 &2135890127
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 2135890128}
-  - 114: {fileID: 2135890129}
-  m_Layer: 0
-  m_Name: StatsManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2135890128
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2135890127}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 725390020}
-  m_RootOrder: 3
---- !u!114 &2135890129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2135890127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f90b24a9e08dc4372ae8fd0bc836de3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startScore: 0
 --- !u!1 &2141025052
 GameObject:
   m_ObjectHideFlags: 0
