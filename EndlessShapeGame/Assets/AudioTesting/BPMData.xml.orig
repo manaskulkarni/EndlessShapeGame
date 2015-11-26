@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <ArrayOfAudioData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <AudioData>
-    <bpm>60.2023964</bpm>
+<<<<<<< HEAD
+    <bpm>52.5896034</bpm>
+=======
+    <bpm>60.2092628</bpm>
+>>>>>>> 2197d250218da9393c4e29b441ec5d8afaa59fd5
     <speed>
       <x>0</x>
       <y>-5.018083</y>
@@ -13,8 +16,9 @@
     </score>
     <blocks>1</blocks>
   </AudioData>
+<<<<<<< HEAD
   <AudioData>
-    <bpm>66.48851</bpm>
+    <bpm>61.71893</bpm>
     <speed>
       <x>0</x>
       <y>-5.50533342</y>
@@ -26,7 +30,7 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>72.53279</bpm>
+    <bpm>64.14548</bpm>
     <speed>
       <x>0</x>
       <y>-5.98525</y>
@@ -38,7 +42,7 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>78.5221558</bpm>
+    <bpm>63.1712723</bpm>
     <speed>
       <x>0</x>
       <y>-6.52325</y>
@@ -50,7 +54,7 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>84.826004</bpm>
+    <bpm>83.93647</bpm>
     <speed>
       <x>0</x>
       <y>-6.98825026</y>
@@ -62,7 +66,7 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>89.78705</bpm>
+    <bpm>74.56272</bpm>
     <speed>
       <x>0</x>
       <y>-7.501917</y>
@@ -73,43 +77,6 @@
     </score>
     <blocks>1</blocks>
   </AudioData>
-  <AudioData>
-    <bpm>96.3175354</bpm>
-    <speed>
-      <x>0</x>
-      <y>-8.012834</y>
-    </speed>
-    <score>
-      <min>48</min>
-      <max>63</max>
-    </score>
-    <blocks>2</blocks>
-  </AudioData>
-  <AudioData>
-    <bpm>102.119331</bpm>
-    <speed>
-      <x>0</x>
-      <y>-8.50325</y>
-    </speed>
-    <score>
-      <min>64</min>
-      <max>95</max>
-    </score>
-    <blocks>4</blocks>
-  </AudioData>
-  <AudioData>
-    <bpm>108.128044</bpm>
-    <speed>
-      <x>0</x>
-      <y>-9.014167</y>
-    </speed>
-    <score>
-      <min>96</min>
-      <max>159</max>
-    </score>
-    <blocks>8</blocks>
-  </AudioData>
-</ArrayOfAudioData>
 =======
-<ArrayOfAudioData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
->>>>>>> 5851709f30a1c0965782961b0575cb604bf8517b
+>>>>>>> 2197d250218da9393c4e29b441ec5d8afaa59fd5
+</ArrayOfAudioData>
