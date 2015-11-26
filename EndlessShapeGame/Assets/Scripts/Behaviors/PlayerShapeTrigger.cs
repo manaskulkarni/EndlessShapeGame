@@ -6,6 +6,7 @@ public class PlayerShapeTrigger : MonoBehaviour
 
   #region Properties
   public SpriteRenderer spriteRenderer { get; set; }
+  private Color color;
   #endregion
 
   void Awake ()
@@ -23,7 +24,7 @@ public class PlayerShapeTrigger : MonoBehaviour
 
   void OnTriggerEnter2D (Collider2D coll)
   {
-    //Debug.Log(Time.fixedTime.ToString("F4"));
+    
     // Only Proceed if the shape has not been triggered yet
     if (!ShapeManager.inst.shapePair [coll.GetHashCode ()].triggered)
     {

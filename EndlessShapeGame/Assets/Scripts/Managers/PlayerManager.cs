@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerManager : Manager
+public class PlayerManager : MonoBehaviour
 {
 
   #region Structs
@@ -117,13 +117,13 @@ public class PlayerManager : Manager
 
   #region implemented abstract members of Manager
 
-  public override void OnGameReset (object sender, System.EventArgs args)
+  void OnGameReset ()
   {
     DestroyPlayer ();
     SpawnPlayer ();
   }
 
-  public override void OnGameStart (object sender, System.EventArgs args)
+  void OnGameStart ()
   {
     foreach (Transform t in player.transform)
     {
@@ -133,12 +133,12 @@ public class PlayerManager : Manager
 //    StartCoroutine (FadeInPlayer ());
   }
 
-  public override void OnGameRestart (object sender, System.EventArgs args)
+  void OnGameRestart ()
   {
-    OnGameStart (null, null);
+    OnGameStart ();
   }
 
-  public override void OnGameOver (object sender, System.EventArgs args)
+  void OnGameOver ()
   {
     foreach (Transform t in player.transform)
     {
@@ -146,6 +146,11 @@ public class PlayerManager : Manager
     }
 
 //    StartCoroutine (FadeOutPlayer ());
+  }
+  
+  void OnCompleteRevive ()
+  {
+    OnGameStart ();
   }
 
   #endregion

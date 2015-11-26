@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ReviveMenu : MonoBehaviour
@@ -18,7 +18,7 @@ public class ReviveMenu : MonoBehaviour
 
   public void LoadMainMenu ()
   {
-    UIManager.inst.ShowMainMenu ();
+    UIManager.inst.ReviveDeclined ();
   }
 
 }

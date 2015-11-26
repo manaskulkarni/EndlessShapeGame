@@ -31,6 +31,7 @@ public class ShapeBehavior : MonoBehaviour
   // Use this for initialization
   public void StartGame ()
   {
+    triggered = false;
     //    InvokeRepeating  ("UpdatePositionInvoke", Time.time, Time.deltaTime);
     if (updatePosition == null)
     {
@@ -59,7 +60,7 @@ public class ShapeBehavior : MonoBehaviour
       updateInvisible = null;
     }
   }
-
+  
   public void StartSpecialShapeCoroutine (ShapeResponse response)
   {
     shapeResponse = response;

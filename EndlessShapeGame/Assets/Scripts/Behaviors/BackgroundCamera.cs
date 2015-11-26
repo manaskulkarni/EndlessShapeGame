@@ -73,12 +73,9 @@ public class BackgroundCamera : MonoBehaviour
     drawable = new Drawable(gameObject.GetComponent<Camera>());
     originalColor = drawable.color;
     lerpState = LerpState.Idle;
-  
-    GameManager.inst.GameStartEvent += OnGameStart;
-    GameManager.inst.GameOverEvent += OnGameOver;
   }
 
-  void OnGameStart (object sender, System.EventArgs args)
+  void OnGameStart ()
   {
     StopAllCoroutines ();
     drawable.color = colorOne = originalColor;
@@ -120,7 +117,7 @@ public class BackgroundCamera : MonoBehaviour
     }
   }
 
-  void OnGameOver (object sender, System.EventArgs args)
+  void OnGameOver ()
   {
 //    if (updateCoroutine != null)
     if (Handle != null)

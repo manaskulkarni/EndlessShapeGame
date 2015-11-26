@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Linq;
 
-public class ShapeManager : Manager
+public class ShapeManager : MonoBehaviour
 {
   #region Structs
   public class ShapePool
@@ -179,6 +179,16 @@ public class ShapeManager : Manager
   private Sprite previousSprite { get; set; }
   private int shuffleCounter { get; set; }
   private float startDelay { get; set; }
+  
+  /// <summary>
+  /// Shape for hard-coding position of base shape on game over. Not used
+  /// </summary>
+  private Transform baseShape { get; set; }
+  
+  /// <summary>
+  /// Shape for hard-coding position of top shape on game over. Not used
+  /// </summary>
+  private Transform topShape { get; set; }
 
 #if UNITY_EDITOR
   List<List<float>> times = new List<List<float>>();
@@ -268,10 +278,7 @@ public class ShapeManager : Manager
   // Use this for initialization
   void Start()
   {
-    OnGameReset(null, null);
-    
-    GameManager.inst.PauseEvent += OnPause;
-    GameManager.inst.UnPauseEvent += OnUnPause;
+    OnGameReset();
   }
 
   public struct AudioData
@@ -359,16 +366,6 @@ public class ShapeManager : Manager
     }
   }
 
-  /// <summary>
-  /// Shape for hard-coding position of base shape on game over. Not used
-  /// </summary>
-  private Transform baseShape { get; set; }
-
-  /// <summary>
-  /// Shape for hard-coding position of top shape on game over. Not used
-  /// </summary>
-  private Transform topShape { get; set; }
-  bool first = true;
   #region ShapeManager Logic
   /// <summary>
   /// Called by PlayerBehavior when it collides with a ShapeBehavior
@@ -377,13 +374,7 @@ public class ShapeManager : Manager
   /// <param name="spriteRenderer"></param>
   public void ShapeTriggered(ShapeBehavior shapeBehavior, SpriteRenderer spriteRenderer)
   {
-    if (first)
-    {
-      first = false;
-      AudioManager.inst.Play();
-    }
-
-    if (GameManager.inst.playing)
+    if (GameManager.inst.GetState ().Equals (GameManager.States.Playing))
     {
       bool sameSprite = shapeBehavior.spriteRenderer.sprite.GetHashCode() == spriteRenderer.sprite.GetHashCode();
 #if UNITY_EDITOR
@@ -448,7 +439,7 @@ public class ShapeManager : Manager
             shapes.Add(shapeBehavior);
             shapeBehavior.transform.localScale = Vector3.one;
             //          shapeBehavior.triggered = false;
-            GameManager.inst.GameOver();
+            WrongShape ();
           }
           break;
         case ShapeBehavior.ShapeResponse.Opposite:
@@ -472,7 +463,7 @@ public class ShapeManager : Manager
             shapes.Add(shapeBehavior);
             shapeBehavior.transform.localScale = Vector3.one;
             //          shapeBehavior.triggered = false;
-            GameManager.inst.GameOver();
+            WrongShape ();
           }
           else
           {
@@ -491,29 +482,14 @@ public class ShapeManager : Manager
     }
   }
   
-//  private IEnumerator PlayerFeedback (SpriteRenderer spr)
-//  {
-//    while (spr.transform.localScale.x < 1.2f)
-//    {
-//      Vector2 scale = spr.transform.localScale;
-//      scale += Vector2.one * Time.deltaTime;
-//      spr.transform.localScale = scale;
-//      yield return null;
-//    }
-//    
-//    while (spr.transform.localScale.x > 1.0f)
-//    {
-//      Vector2 scale = spr.transform.localScale;
-//      scale -= Vector2.one * Time.deltaTime;
-//      spr.transform.localScale = scale;
-//      yield return null;
-//    }
-//    
-//    spr.transform.localScale = Vector2.one;
-//  }
+  private void WrongShape ()
+  {
+    GameManager.inst.ChangeState(GameManager.States.Stop);
+  }
+
   #endregion
   #region implemented abstract members of Manager
-  public override void OnGameReset(object sender, System.EventArgs args)
+  void OnGameReset()
   {
     foreach (var v in shapes)
     {
@@ -538,16 +514,20 @@ public class ShapeManager : Manager
     SpawnShapes();
   }
 
-  public override void OnGameStart(object sender, System.EventArgs args)
+  void OnGameStart()
   {
     StartCoroutine(DelayStart());
     // Dont use Update as it is slow. Instead use coroutines
 //    updateSpeed = StartCoroutine(UpdateSpeed());
   }
-
-  public override void OnGameOver(object sender, System.EventArgs args)
+  
+  void OnGameStop ()
   {
-    first = true;
+    OnGameOver ();
+  }
+
+  void OnGameOver()
+  {
     foreach (var v in shapes)
     {
       v.StopGame();
@@ -560,7 +540,7 @@ public class ShapeManager : Manager
     }
   }
 
-  public override void OnGameRestart(object sender, System.EventArgs args)
+  void OnGameRestart()
   {
     startDelay = 0.7f;
     currentIntervalIndex = GetStartInterval ();
@@ -568,18 +548,18 @@ public class ShapeManager : Manager
   }
 
   [System.Obsolete("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]
-  public override void OnDifficultyChange(object sender, System.EventArgs args)
+  void OnDifficultyChange()
   {
-    OnGameReset(null, null);
+    OnGameReset();
   }
 
   [System.Obsolete("Speed Modes Not Supported Anymore. Single Speed Mode")]
-  public override void OnSpeedChange(object sender, System.EventArgs args)
+  void OnSpeedChange()
   {
     //currentSpeedPreset = speedPresets[(int)GameManager.inst.gameSettings.speedLevel];
   }
   
-  public override void OnPause (object sender, System.EventArgs e)
+  void OnPause ()
   {
     foreach (var v in shapes)
     {
@@ -587,12 +567,18 @@ public class ShapeManager : Manager
     }
   }
   
-  public override void OnUnPause (object sender, System.EventArgs e)
+  void OnUnPause ()
   {
     foreach (var v in shapes)
     {
       v.StartGame ();
     }
+  }
+  
+  void OnCompleteRevive ()
+  {
+    OnGameRestart ();
+    OnGameStart ();
   }
 
   #endregion
@@ -628,7 +614,6 @@ public class ShapeManager : Manager
     foreach (var v in shapes)
     {
       v.StartGame();
-      v.triggered = false;
     }
   }
   

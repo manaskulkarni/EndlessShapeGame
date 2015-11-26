@@ -1,9 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using BadassProjects.StateMachine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : StateBehaviour
 {
+
+  public enum States
+  {
+    Play,
+    Stop,
+    Replay,
+    Playing,
+    Pause,
+    Resume,
+    UnPause,
+    HighScore,
+    HighScoreCrossed,
+    ShowRevive,
+    DeclineRevive,
+    AcceptRevive,
+    ReviveComplete,
+    GameOver,
+  }
 
   public enum DifficultyLevel
   {
@@ -50,28 +69,29 @@ public class GameManager : MonoBehaviour
     private set;
   }
 
-  private List <Manager> managers
-  {
-    get;
-    set;
-  }
-
   public GameSettings previousGameSettings;
   
-  public event System.EventHandler GameResetEvent;
-  public event System.EventHandler GameStartEvent;
-  public event System.EventHandler GameRestartEvent;
-  public event System.EventHandler GameOverEvent;
-  public event System.EventHandler HighScoreEvent;
-  public event System.EventHandler HighScoreCrossEvent;
-  public event System.EventHandler PauseEvent;
-  public event System.EventHandler ResumeEvent;
-  public event System.EventHandler UnPauseEvent;
+  public string GameResetEvent = "OnGameReset";
+  public string GameStartEvent = "OnGameStart";
+  public string GameRestartEvent = "OnGameRestart";
+  public string GameStopEvent = "OnGameStop";
+  public string CompleteReviveEvent = "OnCompleteRevive";
+  
+  public string ShowReiviveEvent = "OnShowRevive";
+  public string DeclineReviveEvent = "OnDeclineRevive";
+  public string AcceptReviveEvent = "OnAcceptRevive";
+  
+  public string GameOverEvent = "OnGameOver";
+  public string HighScoreEvent = "OnHighScore";
+  public string HighScoreCrossEvent = "OnHighScoreCross";
+  public string PauseEvent = "OnPause";
+  public string ActivateEvent = "OnResume";
+  public string UnPauseEvent = "OnUnPause";
   
   [System.Obsolete]
-  public event System.EventHandler DifficultyChangeEvent;
+  public string DifficultyChangeEvent = "OnDifficultyChange";
   [System.Obsolete]
-  public event System.EventHandler SpeedChangeEvent;
+  public string SpeedChangeEvent = "OnSpeedChange";
 
   static public GameManager inst
   {
@@ -87,7 +107,6 @@ public class GameManager : MonoBehaviour
       inst = this;
       played = false;
       playing = false;
-      managers = new List<Manager>();
       previousGameSettings = gameSettings;
     }
     else
@@ -98,26 +117,23 @@ public class GameManager : MonoBehaviour
   
   void Awake ()
   {
+    Initialize <States> ();
   }
   
   // Use this for initialization
   void Start ()
   {
-    foreach (var v in GameObject.FindObjectsOfType<Manager> ())
-    {
-      v.RegisterToEvents();
-    }
   }
   
   void OnApplicationPause (bool pause)
   {
     if (pause)
     {
-      EventManager.SendEvent (this, PauseEvent, null);
+      BroadcastMessage (PauseEvent);
     }
     else
     {
-      EventManager.SendEvent (this, ResumeEvent, null);
+      BroadcastMessage (ActivateEvent);
     }
   }
 
@@ -127,7 +143,7 @@ public class GameManager : MonoBehaviour
     previousGameSettings.dificultyLevel = gameSettings.dificultyLevel;
     gameSettings.dificultyLevel = (DifficultyLevel) difficulty;
 
-    EventManager.SendEvent (this, DifficultyChangeEvent, null);
+    BroadcastMessage (DifficultyChangeEvent);
   }
 
   [System.Obsolete ("Speed Modes Not Supported Anymore. Single Speed Mode")]
@@ -136,60 +152,167 @@ public class GameManager : MonoBehaviour
     previousGameSettings.speedLevel = gameSettings.speedLevel;
     gameSettings.speedLevel = (SpeedLevel) speed;
 
-    EventManager.SendEvent (this, SpeedChangeEvent, null);
+    BroadcastMessage (SpeedChangeEvent);
   }
-
-  public void StartGame ()
+  
+  // Only Called From UI Button
+  public void PlayGame ()
+  {
+    ChangeState (States.Play);
+  }
+  
+  private void Play_Enter ()
   {
     if (playing)
     {
       return;
     }
-    else
-    {
-      playing = true;
-    }
-
+    
+    playing = true;
+  
     if (!played)
     {
       played = true;
+      BroadcastMessage (GameStartEvent);
+      ChangeState (States.Playing);
     }
     else
     {
-      RestartGame ();
+      ChangeState (States.Replay);
     }
-
-    EventManager.SendEvent (this, GameStartEvent, null);
   }
-
-  public void RestartGame ()
+  
+  private void Play_Exit ()
   {
-    EventManager.SendEvent (this, GameRestartEvent, null);
   }
-
-  public void GameOver ()
+  
+  private void Replay_Enter ()
+  {
+    BroadcastMessage (GameRestartEvent);
+    BroadcastMessage (GameStartEvent);
+    ChangeState (States.Playing);
+  }
+  
+  private void Replay_Exit ()
+  {
+  }
+  
+  private void Playing_Enter ()
+  {
+    playing = true;
+    
+    Debug.Log ("Started Playing");
+  }
+  
+  private void Playing_Exit ()
   {
     playing = false;
-//    ShapeManager.inst.OnGameOver (null, null);
-//    
-//    EventManager.SendEvent (this, GameOverEvent, null);
-//    
-//    if (StatsManager.inst.isHighScore)
-//    {
-//      EventManager.SendEvent (this, HighScoreEvent, null);
-//    }
-//    playing = false;  
+    
+    Debug.Log ("Stopped Playing");
+  }
+  
+  private void Stop_Enter ()
+  {
+    playing = false;
+    BroadcastMessage (GameStopEvent);
     StartCoroutine (CameraShake ());
   }
   
-  public void HighScoreCrossed ()
+  private void Stop_Exit ()
   {
-    EventManager.SendEvent (this, HighScoreCrossEvent, null);
+  
   }
   
-  public void UnPause ()
+  private void ShowRevive_Enter ()
   {
-    EventManager.SendEvent (this, UnPauseEvent, null);
+    BroadcastMessage (ShowReiviveEvent);
+  }
+  
+  private void ShowRevive_Exit ()
+  {
+  
+  }
+  
+  private void DeclineRevive_Enter ()
+  {
+    BroadcastMessage (DeclineReviveEvent);
+    ChangeState (States.GameOver);
+  }
+  
+  private void DeclineRevive_Exit ()
+  {
+  
+  }
+  
+  private void AcceptRevive_Enter ()
+  {
+    BroadcastMessage (AcceptReviveEvent);
+  }
+  
+  private void AcceptRevive_Exit ()
+  {
+  
+  }
+  
+  private void ReviveComplete_Enter ()
+  {
+    BroadcastMessage (CompleteReviveEvent);
+    ChangeState (States.Playing);
+  }
+  
+  private void GameOver_Enter ()
+  {
+    BroadcastMessage (GameOverEvent);
+    
+    if (StatsManager.inst.isHighScore)
+    {
+      BroadcastMessage (HighScoreEvent);
+    }
+  }
+  
+  private void GameOver_Exit ()
+  {
+  
+  }
+  
+  private void HighScore_Enter ()
+  {
+  
+  }
+  
+  private void HighScore_Exit ()
+  {
+  
+  }
+  
+  private void HighScoreCrossed_Enter ()
+  {
+    BroadcastMessage (HighScoreCrossEvent);
+  }
+  
+  private void HighScoreCrossed_Exit ()
+  {
+  
+  }
+  
+  private void Pause_Enter ()
+  {
+  
+  }
+  
+  private void Pause_Exit ()
+  {
+  
+  }
+  
+  private void UnPause_Enter ()
+  {
+  
+  }
+  
+  private void UnPause_Exit ()
+  {
+  
   }
 
   private float duration = 0.3f;
@@ -197,8 +320,6 @@ public class GameManager : MonoBehaviour
 
   private IEnumerator CameraShake ()
   {
-    ShapeManager.inst.OnGameOver (null, null);
-
     float elapsed = 0.0f;
     
     Vector3 originalCamPos = Camera.main.transform.position;
@@ -224,18 +345,7 @@ public class GameManager : MonoBehaviour
     Camera.main.transform.position = originalCamPos;
     playing = false;
     
-    EventManager.SendEvent (this, GameOverEvent, null);
-    
-    if (StatsManager.inst.isHighScore)
-    {
-      EventManager.SendEvent (this, HighScoreEvent, null);
-    }
-    
-    if (StatsManager.inst.numSessions % sessionsPerAdRequest == 0)
-    {
-      yield return new WaitForSeconds (0.5f);
-      AdManager.inst.ShowVideo ();
-    }
+    BroadcastMessage (ShowReiviveEvent);
   }
 
 }

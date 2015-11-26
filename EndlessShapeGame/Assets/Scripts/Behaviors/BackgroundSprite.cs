@@ -77,12 +77,9 @@ public class BackgroundSprite : MonoBehaviour
     Vector2 scale = transform.localScale;
     scale.x = Camera.main.aspect * scale.y;
     transform.localScale = scale;
-  
-    GameManager.inst.GameStartEvent += OnGameStart;
-    GameManager.inst.GameOverEvent += OnGameOver;
   }
 
-  void OnGameStart (object sender, System.EventArgs args)
+  void OnGameStart ()
   {
     StopAllCoroutines ();
     drawable.color = colorOne = originalColor;
@@ -124,7 +121,7 @@ public class BackgroundSprite : MonoBehaviour
     }
   }
 
-  void OnGameOver (object sender, System.EventArgs args)
+  void OnGameOver ()
   {
 //    if (updateCoroutine != null)
     if (Handle != null)

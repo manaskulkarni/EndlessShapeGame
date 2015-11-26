@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class AudioManager : Manager
+public class AudioManager : MonoBehaviour
 {
   [System.Serializable]
   public class SoundEffect
@@ -76,8 +76,6 @@ public class AudioManager : Manager
   void Start()
   {
     once = true;
-    GameManager.inst.PauseEvent += OnPause;
-    GameManager.inst.UnPauseEvent += OnUnPause;
   }
 
   public void Play()
@@ -112,11 +110,11 @@ public class AudioManager : Manager
   }
 
   #region implemented abstract members of AudioManager
-  public override void OnGameReset(object sender, System.EventArgs args)
+  void OnGameReset()
   {
   }
 
-  public override void OnGameStart(object sender, System.EventArgs args)
+  void OnGameStart()
   {
     StopAllCoroutines();
     bgm.Stop();
@@ -140,7 +138,7 @@ public class AudioManager : Manager
     StartCoroutine(FadeOut(optionsMenu, optionsMenuLoop));
   }
 
-  public override void OnGameOver(object sender, System.EventArgs args)
+  void OnGameOver()
   {
     StopAllCoroutines();
     StartCoroutine(FadeOutPitch());
@@ -151,20 +149,20 @@ public class AudioManager : Manager
     optionsMenu.volume = 0;
   }
 
-  public override void OnGameRestart(object sender, System.EventArgs args)
+  void OnGameRestart()
   {
   }
 
-  public override void OnHighScore(object sender, System.EventArgs args)
+  void OnHighScore()
   {
   }
 
-  public override void OnPause(object sender, EventArgs args)
+  void OnPause()
   {
     bgm.Pause();
     bgmLoop.Pause();
   }
-  public override void OnUnPause(object sender, EventArgs args)
+  void OnUnPause()
   {
     bgm.UnPause();
     bgmLoop.UnPause();

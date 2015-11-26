@@ -90,6 +90,10 @@ public class PlayerBehavior : MonoBehaviour
       waitDone [i] = true;
     }
   }
+  
+  void Start ()
+  {
+  }
 
   public void InputDetected()
   {
@@ -219,6 +223,7 @@ public class PlayerBehavior : MonoBehaviour
     minXPosition = shapes[0].transform.position.x;
     maxXPosition = shapes[shapes.Count - 1].transform.position.x;
   }
+  
   #endregion
   #region Coroutines
   private IEnumerator SlideRight(int i)

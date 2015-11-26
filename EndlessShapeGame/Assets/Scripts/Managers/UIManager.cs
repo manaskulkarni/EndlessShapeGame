@@ -1,9 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using BadassProjects.StateMachine;
 
-public class UIManager : Manager
+public class UIManager : StateBehaviour
 {
+  public enum States
+  {
+    FadeInStart,
+    FadeOutStart,
+    FadeInRevive,
+    FadeOutRevive,
+    None,
+  }
+  
   
   // Public Members
   //  public GameObject menuGameOver
@@ -22,6 +32,7 @@ public class UIManager : Manager
   private GameObject menuCoins { get; set; }
   private GameObject buttonStart { get; set; }
   private GameObject menuRevive { get; set; }
+  private GameObject animRevive { get; set; }
   
   private Text textScore { get; set; }
   private Text textPauseTimer { get; set; }
@@ -34,6 +45,7 @@ public class UIManager : Manager
     if (inst == null)
     {
       inst = this;
+      Initialize <States> ();
     }
     else
     {
@@ -46,9 +58,11 @@ public class UIManager : Manager
   {
     menuStart = GameObject.Find ("MenuStart");
     menuRevive = GameObject.Find ("MenuRevive");
+    menuRevive.GetComponent <CanvasGroup> ().alpha = 0.0f;
     buttonStart = GameObject.Find ("ButtonStart");
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
+    animRevive = GameObject.Find ("ImageFill");
     
     textGameOverScore.text = BestScore ();
     textGameOverFeedback.text = null;
@@ -78,12 +92,6 @@ public class UIManager : Manager
     
     menuCoins = GameObject.Find ("MenuCoins");
     SetMenuActive (menuCoins, false);
-    
-    // Subscribe to High Score event for text feedback
-    GameManager.inst.HighScoreEvent += OnHighScore;
-    GameManager.inst.HighScoreCrossEvent += OnHighScoreCross;
-    GameManager.inst.PauseEvent += OnPause;
-    GameManager.inst.ResumeEvent += OnResume;
   }
   
   public void UpdateScore ()
@@ -149,13 +157,13 @@ public class UIManager : Manager
   
   public void UseRevive ()
   {
-    
+    Debug.Log ("Using Revive");
+    GameManager.inst.ChangeState (GameManager.States.AcceptRevive);
   }
   
-  public void ShowMainMenu ()
+  public void ReviveDeclined ()
   {
-    StartCoroutine (FadeInStartCanvas ());
-    StartCoroutine (FadeOutReviveCanvas ());
+    GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
   }
   
   #region Coroutines
@@ -332,7 +340,7 @@ public class UIManager : Manager
     
     textScore.enabled = true;
     textPauseTimer.enabled = false;
-    GameManager.inst.UnPause ();
+    GameManager.inst.ChangeState (GameManager.States.UnPause);
   }
   
   private IEnumerator StartPopFeedback (Text text)
@@ -358,6 +366,7 @@ public class UIManager : Manager
   {
     CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
     SetMenuActive (menuRevive, true);
+    animRevive.SetActive (true);
     
     while (revive.alpha < 1.0f)
     {
@@ -382,7 +391,24 @@ public class UIManager : Manager
     
     revive.alpha = 0.0f;
     SetMenuActive (menuRevive, false);
-  }  
+  }
+  
+  private IEnumerator FadeOutReviveCanvasSpecial ()
+  {
+    CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
+    
+    while (revive.alpha > 0.0f)
+    {
+      float alpha = revive.alpha;
+      alpha -= Time.deltaTime * 5.0f;
+      revive.alpha = alpha;
+      yield return null;
+    }
+    
+    revive.alpha = 0.0f;
+    SetMenuActive (menuRevive, false);
+    ChangeState (States.FadeOutRevive);
+  }
   
   #endregion
   
@@ -408,14 +434,14 @@ public class UIManager : Manager
   
   #region implemented abstract members of Manager
   
-  public override void OnGameReset (object sender, System.EventArgs args)
+  void OnGameReset ()
   {
     SetMenuActive (menuStart, true);
     SetMenuActive (menuGame, false);
     //    SetMenuActive (menuGameOver, false);
   }
   
-  public override void OnGameStart (object sender, System.EventArgs args)
+  void OnGameStart ()
   {
     //SetMenuActive(menuStart, false);
     //SetMenuActive(menuGame, true);
@@ -426,13 +452,42 @@ public class UIManager : Manager
     //    SetMenuActive (menuGameOver, false);
   }
   
-  public override void OnGameRestart (object sender, System.EventArgs args)
+  void OnGameRestart ()
   {
     //    textGameOverScore.text = null;
     //    Reset ();
   }
   
-  public override void OnGameOver (object sender, System.EventArgs args)
+  void OnShowRevive ()
+  {
+    StartCoroutine (FadeOutGameCanvas ());
+    StartCoroutine (FadeInReviveCanvas ());
+  }
+  
+  void OnDeclineRevive ()
+  {
+    StartCoroutine (FadeOutReviveCanvas ());
+    StartCoroutine (FadeOutGameCanvas ());
+  }
+  
+  void OnAcceptRevive ()
+  {
+    StartCoroutine (FadeOutReviveCanvasSpecial ());
+    animRevive.SetActive (false);
+    StartCoroutine (FadeInGameCanvas ());
+  }
+  
+  void OnCompleteRevive ()
+  {
+    ChangeState (States.None);
+  }
+  
+  private void FadeOutRevive_Enter ()
+  {
+    GameManager.inst.ChangeState (GameManager.States.ReviveComplete);
+  }
+  
+  void OnGameOver ()
   {
     //SetMenuActive(menuGame, false);
     //menuGame.GetComponent<CanvasGroup>().alpha = 0.0f;
@@ -441,29 +496,27 @@ public class UIManager : Manager
     
     //SetMenuActive (menuGameOver, true);
     
-    StartCoroutine(FadeOutGameCanvas());
-    ////    Camera.main.backgroundColor = Utils.Color255 (100, 122, 141, 5);
-    StartCoroutine (FadeInReviveCanvas ());
-//    StartCoroutine(FadeInStartCanvas());
+//    StartCoroutine(FadeOutGameCanvas());
+    StartCoroutine(FadeInStartCanvas());
   }
   
-  public override void OnHighScore (object sender, System.EventArgs args)
+  void OnHighScore ()
   {
     textGameOverScore.text = ""+StatsManager.inst.score+"";
     textGameOverFeedback.text = NewHighScore ();
     textGameOverFeedback.GetComponent <Animator> ().enabled = true;
   }
   
-  public override void OnHighScoreCross (object sender, System.EventArgs e)
+  void OnHighScoreCross ()
   {
     Debug.Log ("High Score Crossed");
   }
   
-  public override void OnPause (object sender, System.EventArgs e)
+  void OnPause ()
   {
   }
   
-  public override void OnResume (object sender, System.EventArgs e)
+  void OnResume ()
   {
     if (GameManager.inst.playing)
     {
@@ -472,7 +525,7 @@ public class UIManager : Manager
     }
   }
   
-  //  public override void OnDifficultyChange ()
+  //  void OnDifficultyChange ()
   //  {
   //    GameObject go = GameObject.Find ("GroupDifficulty");
   //
@@ -494,7 +547,7 @@ public class UIManager : Manager
   //    textGameOverFeedback.text = null;
   //  }
   
-  //  public override void OnSpeedChange ()
+  //  void OnSpeedChange ()
   //  {
   //    GameObject go = GameObject.Find ("GroupSpeed");
   //    
