@@ -1,13 +1,13 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{80CE6F81-AC70-25A3-850A-AC697872E51F}"
+# Visual Studio 2008
+
+Project("{CEBCEFF3-4AEA-77E0-2730-5670FA329809}") = "EndlessShapeGame", "Assembly-CSharp-firstpass.csproj", "{80CE6F81-AC70-25A3-850A-AC697872E51F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{D1BEF846-AF5E-714E-95C3-95651E7EA0D9}"
+Project("{CEBCEFF3-4AEA-77E0-2730-5670FA329809}") = "EndlessShapeGame", "Assembly-CSharp.csproj", "{D1BEF846-AF5E-714E-95C3-95651E7EA0D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{66E370F0-5620-2E1D-C648-3B253E0674C5}"
+Project("{CEBCEFF3-4AEA-77E0-2730-5670FA329809}") = "EndlessShapeGame", "Assembly-CSharp-Editor-firstpass.csproj", "{66E370F0-5620-2E1D-C648-3B253E0674C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{46E7405B-862D-8D8B-E57E-6CF18A699B1E}"
+Project("{CEBCEFF3-4AEA-77E0-2730-5670FA329809}") = "EndlessShapeGame", "Assembly-CSharp-Editor.csproj", "{46E7405B-862D-8D8B-E57E-6CF18A699B1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,14 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{80CE6F81-AC70-25A3-850A-AC697872E51F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{80CE6F81-AC70-25A3-850A-AC697872E51F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80CE6F81-AC70-25A3-850A-AC697872E51F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,8 +23,19 @@ Global
 		{D1BEF846-AF5E-714E-95C3-95651E7EA0D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1BEF846-AF5E-714E-95C3-95651E7EA0D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1BEF846-AF5E-714E-95C3-95651E7EA0D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+							GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
@@ -54,7 +57,5 @@ Global
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
+
 EndGlobal

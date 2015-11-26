@@ -86,7 +86,7 @@ public class GameManager : StateBehaviour
   public string HighScoreEvent = "OnHighScore";
   public string HighScoreCrossEvent = "OnHighScoreCross";
   public string PauseEvent = "OnPause";
-  public string ActivateEvent = "OnResume";
+  public string ResumeEvent = "OnResume";
   public string UnPauseEvent = "OnUnPause";
   public string FirstBeatEvent = "OnFirstBeat";
   
@@ -131,11 +131,11 @@ public class GameManager : StateBehaviour
   {
     if (pause)
     {
-      BroadcastMessage (PauseEvent);
+      ChangeState (States.Pause);
     }
     else
     {
-      BroadcastMessage (ActivateEvent);
+      ChangeState (States.Resume);
     }
   }
 
@@ -299,17 +299,23 @@ public class GameManager : StateBehaviour
   
   private void Pause_Enter ()
   {
-  
+    BroadcastMessage (PauseEvent);
   }
   
   private void Pause_Exit ()
   {
+    playing = true;
+  }
   
+  private void Resume_Enter ()
+  {
+    BroadcastMessage (ResumeEvent);
   }
   
   private void UnPause_Enter ()
   {
-  
+    BroadcastMessage (UnPauseEvent);
+    ChangeState (States.Playing);
   }
   
   private void UnPause_Exit ()
