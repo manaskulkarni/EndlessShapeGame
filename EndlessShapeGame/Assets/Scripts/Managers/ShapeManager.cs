@@ -402,6 +402,11 @@ public class ShapeManager : MonoBehaviour
 //        fdb.Play();
           if (sameSprite)
           {
+            if (numCollisions == 0)
+            {
+              GameManager.inst.ChangeState (GameManager.States.FirstBeat);
+            }
+          
             // Shuffle the shape properties to increase randomness
             Shuffle<ShapeProperties>(shapeProperties);
 

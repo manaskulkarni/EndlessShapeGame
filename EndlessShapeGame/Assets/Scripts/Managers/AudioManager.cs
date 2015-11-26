@@ -42,7 +42,7 @@ public class AudioManager : MonoBehaviour
     {
       inst = this;
 
-      var sources = gameObject.GetComponents<AudioSource>();
+      var sources = gameObject.GetComponentsInChildren<AudioSource>();
 
       bgm = sources[0];
       bgm.clip = backgroundMusic.clip;
@@ -166,6 +166,11 @@ public class AudioManager : MonoBehaviour
   {
     bgm.UnPause();
     bgmLoop.UnPause();
+  }
+  
+  void OnFirstBeat ()
+  {
+    Play ();
   }
 
   #endregion

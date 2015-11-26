@@ -22,6 +22,7 @@ public class GameManager : StateBehaviour
     AcceptRevive,
     ReviveComplete,
     GameOver,
+    FirstBeat,
   }
 
   public enum DifficultyLevel
@@ -87,6 +88,7 @@ public class GameManager : StateBehaviour
   public string PauseEvent = "OnPause";
   public string ActivateEvent = "OnResume";
   public string UnPauseEvent = "OnUnPause";
+  public string FirstBeatEvent = "OnFirstBeat";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -277,7 +279,7 @@ public class GameManager : StateBehaviour
   
   private void HighScore_Enter ()
   {
-  
+    BroadcastMessage (HighScoreEvent);
   }
   
   private void HighScore_Exit ()
@@ -313,6 +315,12 @@ public class GameManager : StateBehaviour
   private void UnPause_Exit ()
   {
   
+  }
+  
+  void FirstBeat_Enter ()
+  {
+    BroadcastMessage (FirstBeatEvent);
+    ChangeState (States.Playing);
   }
 
   private float duration = 0.3f;
