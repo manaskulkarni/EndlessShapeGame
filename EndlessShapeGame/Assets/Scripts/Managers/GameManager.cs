@@ -227,7 +227,14 @@ public class GameManager : StateBehaviour
   
   private void ShowRevive_Enter ()
   {
-    BroadcastMessage (ShowReiviveEvent);
+    if (StatsManager.inst.canShowRevive)
+    {
+      BroadcastMessage (ShowReiviveEvent);
+    }
+    else
+    {
+      ChangeState (States.DeclineRevive);
+    }
   }
   
   private void ShowRevive_Exit ()
@@ -359,7 +366,7 @@ public class GameManager : StateBehaviour
     Camera.main.transform.position = originalCamPos;
     playing = false;
     
-    BroadcastMessage (ShowReiviveEvent);
+    ChangeState (States.ShowRevive);
   }
 
 }

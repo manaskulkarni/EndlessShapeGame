@@ -407,7 +407,11 @@ public class UIManager : StateBehaviour
     
     revive.alpha = 0.0f;
     SetMenuActive (menuRevive, false);
-    ChangeState (States.FadeOutRevive);
+    
+    if (GameManager.inst.GetState ().Equals (GameManager.States.AcceptRevive))
+    {
+      GameManager.inst.ChangeState (GameManager.States.ReviveComplete);
+    }
   }
   
   #endregion
@@ -466,6 +470,7 @@ public class UIManager : StateBehaviour
   
   void OnDeclineRevive ()
   {
+    animRevive.SetActive (false);
     StartCoroutine (FadeOutReviveCanvas ());
     StartCoroutine (FadeOutGameCanvas ());
   }
@@ -480,11 +485,6 @@ public class UIManager : StateBehaviour
   void OnCompleteRevive ()
   {
     ChangeState (States.None);
-  }
-  
-  private void FadeOutRevive_Enter ()
-  {
-    GameManager.inst.ChangeState (GameManager.States.ReviveComplete);
   }
   
   void OnGameOver ()

@@ -10,6 +10,9 @@ public class StatsManager : MonoBehaviour
   public int startScore = 0;
 #endif
 
+  public int reviveCoinsPrice = 100;
+  public int maxAllowedRevives = 1;
+
   #region Properties
   /// <summary>
   /// Score of current session
@@ -49,6 +52,32 @@ public class StatsManager : MonoBehaviour
   public bool firstSession { get; private set; }
   public int numSessions { get; private set; }
   
+  public bool canShowRevive
+  {
+    get
+    {
+      if (usedRevives < maxAllowedRevives)
+      {
+        return true;
+      }
+      
+      return false;
+    }
+  }
+  
+  public bool canUseRevive
+  {
+    get
+    {
+      if (coins >= reviveCoinsPrice)
+      {
+        return true;
+      }
+      
+      return false;
+    }
+  }
+  
   #endregion
   #region Static Properties
   static public StatsManager inst
@@ -65,6 +94,7 @@ public class StatsManager : MonoBehaviour
 
   private int previousScore { get; set; }
   private bool highScoreCrossed { get; set; }
+  private int usedRevives { get; set; }
 
   void Awake ()
   {
@@ -97,7 +127,8 @@ public class StatsManager : MonoBehaviour
 
     previousScore = highScore;
     coins = PlayerPrefs.GetInt ("Coins");
-    
+    maxAllowedRevives = PlayerPrefs.GetInt ("MaxAllowedRevives", 1);
+    usedRevives = 0;
 #if UNITY_EDITOR
   score = startScore;
 #endif
@@ -184,6 +215,11 @@ public class StatsManager : MonoBehaviour
   void OnGameRestart ()
   {
     OnGameReset ();
+  }
+  
+  void OnCompleteRevive ()
+  {
+    ++usedRevives;
   }
 
   [System.Obsolete ("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]

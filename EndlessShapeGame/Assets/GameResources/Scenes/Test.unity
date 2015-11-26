@@ -2691,6 +2691,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startScore: 0
+  reviveCoinsPrice: 100
+  maxAllowedRevives: 0
 --- !u!114 &725390023
 MonoBehaviour:
   m_ObjectHideFlags: 0

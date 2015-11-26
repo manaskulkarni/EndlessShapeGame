@@ -550,21 +550,22 @@ public class ShapeManager : MonoBehaviour
   
   void OnGameStop ()
   {
-    OnGameOver ();
-  }
-
-  void OnGameOver()
-  {
     foreach (var v in shapes)
     {
       v.StopGame();
     }
-
+    
     if (updateSpeed != null)
     {
       StopCoroutine(updateSpeed);
       updateSpeed = null;
     }
+  }
+
+  void OnGameOver()
+  {
+    OnGameStop ();
+    numCollisions = 0;
   }
 
   void OnGameRestart()
