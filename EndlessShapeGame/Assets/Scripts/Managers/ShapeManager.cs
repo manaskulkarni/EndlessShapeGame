@@ -423,7 +423,7 @@ public class ShapeManager : MonoBehaviour
             ++numCollisions;
             
             StartCoroutine(DestroyShape(shapeBehavior));
-//            StartCoroutine (PlayerFeedback (spriteRenderer));
+            StartCoroutine (PlayerFeedback (spriteRenderer));
           }
           else
           {
@@ -478,13 +478,35 @@ public class ShapeManager : MonoBehaviour
             
             Shuffle<ShapeProperties>(shapeProperties);
             StartCoroutine(DestroyShape(shapeBehavior));
-//            StartCoroutine (PlayerFeedback (spriteRenderer));
+            StartCoroutine (PlayerFeedback (spriteRenderer));
           }
           break;
         default:
           break;
       }
     }
+  }
+  
+  private IEnumerator PlayerFeedback (SpriteRenderer spriteRenderer)
+  {
+    Transform trans = spriteRenderer.transform;
+    
+    while (trans.localScale.x < 1.2f)
+    {
+      Vector2 scale = trans.localScale;
+      scale += Vector2.one * Time.deltaTime * 2.0f;
+      trans.localScale = scale;
+      yield return null;
+    }
+    while (trans.localScale.x > 1.0f)
+    {
+      Vector2 scale = trans.localScale;
+      scale -= Vector2.one * Time.deltaTime * 2.0f;
+      trans.localScale = scale;
+      yield return null;
+    }
+    
+    trans.localScale = Vector2.one;
   }
   
   private void WrongShape ()
