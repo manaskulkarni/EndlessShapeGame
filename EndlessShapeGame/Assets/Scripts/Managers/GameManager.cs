@@ -21,6 +21,10 @@ public class GameManager : StateBehaviour
     DeclineRevive,
     AcceptRevive,
     ReviveComplete,
+    ShowOptions,
+    HideOptions,
+    ShowStore,
+    HideStore,
     GameOver,
     FirstBeat,
   }
@@ -89,6 +93,10 @@ public class GameManager : StateBehaviour
   public string ResumeEvent = "OnResume";
   public string UnPauseEvent = "OnUnPause";
   public string FirstBeatEvent = "OnFirstBeat";
+  public string ShowOptionsEvent = "OnShowOptions";
+  public string HideOptionsEvent = "OnHideOptions";
+  public string ShowStoreEvent = "OnShowStore";
+  public string HideStoreEvent = "OnHideStore";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -334,6 +342,26 @@ public class GameManager : StateBehaviour
   {
     BroadcastMessage (FirstBeatEvent);
     ChangeState (States.Playing);
+  }
+  
+  void ShowOptions_Enter ()
+  {
+    BroadcastMessage (ShowOptionsEvent);
+  }
+  
+  void HideOptions_Enter ()
+  {
+    BroadcastMessage (HideOptionsEvent);
+  }
+  
+  void ShowStore_Enter ()
+  {
+    BroadcastMessage (ShowStoreEvent);
+  }
+  
+  void HideStore_Enter ()
+  {
+    BroadcastMessage (HideStoreEvent);
   }
 
   private float duration = 0.3f;

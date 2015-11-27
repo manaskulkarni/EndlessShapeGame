@@ -22,7 +22,7 @@ public class PlayerInput : MonoBehaviour
   #endregion
 
   // Use this for initialization
-  void Start ()
+  void OnEnable ()
   {
     flick = gameObject.GetComponent <FlickGesture> ();
     if (flick)
@@ -44,6 +44,24 @@ public class PlayerInput : MonoBehaviour
     moving = false;
     
 //    swipeEffect = GameObject.Find ("SwipeEffect").transform;
+  }
+  
+  void OnDisable ()
+  {
+    flick = gameObject.GetComponent <FlickGesture> ();
+    if (flick)
+      flick.Flicked -= HandleFlicked;
+    
+    press = gameObject.GetComponent <PressGesture> ();
+    if (press)
+      press.Pressed -= HandlePressed;
+    
+    release = gameObject.GetComponent <ReleaseGesture> ();
+    if (release)
+      release.Released -= HandleReleased;
+    
+    pressed = false;
+    moving = false;
   }
 
   void HandleTouchMoved (object sender, MetaGestureEventArgs e)

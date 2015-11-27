@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
   public SoundEffect backgroundLoop;
   public SoundEffect mainMenuLoop;
   public SoundEffect optionsMenuLoop;
+  public SoundEffect storeMenuLoop;
 
   #region Properties
   public AudioSource bgm { get; private set; }
@@ -27,6 +28,7 @@ public class AudioManager : MonoBehaviour
   public AudioSource bgmLoop { get; private set; }
   public AudioSource mainMenu { get; private set; }
   public AudioSource optionsMenu { get; private set; }
+  public AudioSource storeMenu { get; private set; }
   #endregion
 
   /// <summary>
@@ -65,6 +67,12 @@ public class AudioManager : MonoBehaviour
       optionsMenu.loop = true;
       optionsMenu.Play();
       optionsMenu.volume = 0.0f;
+      
+      storeMenu = sources [5];
+      storeMenu.clip = storeMenuLoop.clip;
+      storeMenu.loop = true;
+      storeMenu.Play();
+      storeMenu.volume = 0.0f;
 
       originalVolume = bgm.volume;
       bgm.volume = 0.0f;
@@ -125,17 +133,49 @@ public class AudioManager : MonoBehaviour
     loseSFX.volume = 1.0f;
     StartCoroutine(FadeOut(mainMenu, mainMenuLoop));
   }
+  
+  void OnShowOptions ()
+  {
+    PlayOptionsTrack ();
+  }
+  
+  void OnHideOptions ()
+  {
+    StopOptionsTrack ();
+  }
+  
+  void OnShowStore ()
+  {
+    PlayStoreTrack ();
+  }
+  
+  void OnHideStore ()
+  {
+    StopStoreTrack ();
+  }
 
   public void PlayOptionsTrack()
   {
     StartCoroutine(FadeOut(mainMenu, mainMenuLoop));
     StartCoroutine(FadeIn(optionsMenu, optionsMenuLoop));
   }
-
+  
   public void StopOptionsTrack()
   {
     StartCoroutine(FadeIn(mainMenu, mainMenuLoop));
     StartCoroutine(FadeOut(optionsMenu, optionsMenuLoop));
+  }
+  
+  private void PlayStoreTrack()
+  {
+    StartCoroutine(FadeOut(mainMenu, mainMenuLoop));
+    StartCoroutine(FadeIn(storeMenu, storeMenuLoop));
+  }
+
+  private void StopStoreTrack()
+  {
+    StartCoroutine(FadeIn(mainMenu, mainMenuLoop));
+    StartCoroutine(FadeOut(storeMenu, storeMenuLoop));
   }
 
   void OnGameOver()
@@ -147,6 +187,8 @@ public class AudioManager : MonoBehaviour
     StartCoroutine(FadeIn(mainMenu, mainMenuLoop));
     optionsMenu.Play();
     optionsMenu.volume = 0;
+    storeMenu.Play ();
+    storeMenu.volume = 0;
   }
 
   void OnGameRestart()

@@ -11,6 +11,8 @@ public class UIManager : StateBehaviour
     FadeOutStart,
     FadeInRevive,
     FadeOutRevive,
+    FadeInStore,
+    FadeOutStore,
     None,
   }
   
@@ -119,9 +121,7 @@ public class UIManager : StateBehaviour
   
   public void ShowOptions ()
   {
-    StartCoroutine (FadeInOptionsCanvas ());
-    StartCoroutine (FadeOutStartCanvas ());
-    
+    GameManager.inst.ChangeState (GameManager.States.ShowOptions); 
     //    SetMenuActive (menuOptions, true);
     //    SetMenuActive (menuStart, false);
     //    //    SetMenuActive (menuGameOver, false);
@@ -142,11 +142,7 @@ public class UIManager : StateBehaviour
   
   public void HideOptions ()
   {
-    //    SetMenuActive (menuOptions, false);
-    //    SetMenuActive (menuStart, true);
-    
-    StartCoroutine (FadeInStartCanvas ());
-    StartCoroutine (FadeOutOptionsCanvas ());
+    GameManager.inst.ChangeState (GameManager.States.HideOptions);
   }
   
   public void ShowLeaderBoard ()
@@ -157,6 +153,16 @@ public class UIManager : StateBehaviour
   public void ShowAchievements ()
   {
     StatsManager.inst.ShowAchievements ();
+  }
+  
+  public void ShowStore ()
+  {
+    GameManager.inst.ChangeState (GameManager.States.ShowStore);
+  }
+  
+  public void HideStore ()
+  {
+    GameManager.inst.ChangeState (GameManager.States.HideStore);
   }
   
   public void UseRevive ()
@@ -418,6 +424,36 @@ public class UIManager : StateBehaviour
     }
   }
   
+  private IEnumerator FadeInStoreCanvas ()
+  {
+    CanvasGroup store = menuStore.GetComponent <CanvasGroup> ();
+    SetMenuActive (menuStore, true);
+    
+    while (store.alpha < 1.0f)
+    {
+      float alpha = store.alpha;
+      alpha += Time.deltaTime * 5.0f;
+      store.alpha = alpha;
+      yield return null;
+    }
+  }
+  
+  private IEnumerator FadeOutStoreCanvas ()
+  {
+    CanvasGroup store = menuStore.GetComponent <CanvasGroup> ();
+    
+    while (store.alpha > 0.0f)
+    {
+      float alpha = store.alpha;
+      alpha -= Time.deltaTime * 5.0f;
+      store.alpha = alpha;
+      yield return null;
+    }
+    
+    store.alpha = 0.0f;
+    SetMenuActive (menuStore, false);
+  }
+  
   #endregion
   
   private string BestScore ()
@@ -489,6 +525,30 @@ public class UIManager : StateBehaviour
   void OnCompleteRevive ()
   {
     ChangeState (States.None);
+  }
+  
+  void OnShowOptions ()
+  {
+    StartCoroutine (FadeInOptionsCanvas ());
+    StartCoroutine (FadeOutStartCanvas ());
+  }
+  
+  void OnHideOptions ()
+  {
+    StartCoroutine (FadeOutOptionsCanvas ());
+    StartCoroutine (FadeInStartCanvas ());
+  }
+  
+  void OnShowStore ()
+  {
+    StartCoroutine (FadeInStoreCanvas ());
+    StartCoroutine (FadeOutStartCanvas ());
+  }
+  
+  void OnHideStore ()
+  {
+    StartCoroutine (FadeOutStoreCanvas ());
+    StartCoroutine (FadeInStartCanvas ());
   }
   
   void OnGameOver ()

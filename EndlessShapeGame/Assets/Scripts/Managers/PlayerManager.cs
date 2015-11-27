@@ -39,6 +39,7 @@ public class PlayerManager : MonoBehaviour
   /// Player Access for other systems
   /// </summary>
   public PlayerBehavior player { get; private set; }
+  public PlayerInput playerInput { get; private set; }
   #endregion
   #region Static Properties
   static public PlayerManager inst { get; private set; }
@@ -152,6 +153,16 @@ public class PlayerManager : MonoBehaviour
   {
     OnGameStart ();
   }
+  
+  void OnShowStore ()
+  {
+    playerInput.enabled = false;
+  }
+  
+  void OnHideStore ()
+  {
+    playerInput.enabled = true;
+  }
 
   #endregion
 
@@ -167,6 +178,8 @@ public class PlayerManager : MonoBehaviour
   {
     GameObject go = Instantiate (playerInputPrefab) as GameObject;
     go.transform.parent = gameObject.transform;
+    
+    playerInput = go.GetComponent <PlayerInput> ();
   }
 
   private void DestroyPlayer ()
