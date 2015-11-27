@@ -305,6 +305,7 @@ public class GameManager : StateBehaviour
   private void HighScoreCrossed_Enter ()
   {
     BroadcastMessage (HighScoreCrossEvent);
+    ChangeState (States.Playing);
   }
   
   private void HighScoreCrossed_Exit ()

@@ -1012,7 +1012,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 208114750}
-  - 95: {fileID: 208114752}
   m_Layer: 0
   m_Name: BackgroundTriangle (1)
   m_TagString: Untagged
@@ -1036,24 +1035,6 @@ Transform:
   - {fileID: 195991416}
   m_Father: {fileID: 1659469534}
   m_RootOrder: 1
---- !u!95 &208114752
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 9520788, guid: d826ebc477cb22b4c8ac6551194ed75f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 208114749}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d8aa94e57d239e745886c3f602f63f91, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1001 &215709699
 Prefab:
   m_ObjectHideFlags: 0
@@ -2304,7 +2285,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 724471977}
-  - 95: {fileID: 724471979}
   m_Layer: 0
   m_Name: BackgroundTriangle (5)
   m_TagString: Untagged
@@ -2328,24 +2308,6 @@ Transform:
   - {fileID: 12198749}
   m_Father: {fileID: 1659469534}
   m_RootOrder: 5
---- !u!95 &724471979
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 9520788, guid: d826ebc477cb22b4c8ac6551194ed75f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 724471976}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d8aa94e57d239e745886c3f602f63f91, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &725390019
 GameObject:
   m_ObjectHideFlags: 0
@@ -5313,7 +5275,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1477540738}
-  - 95: {fileID: 1477540740}
   m_Layer: 0
   m_Name: BackgroundTriangle
   m_TagString: Untagged
@@ -5337,24 +5298,6 @@ Transform:
   - {fileID: 1954830756}
   m_Father: {fileID: 1659469534}
   m_RootOrder: 0
---- !u!95 &1477540740
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 9520788, guid: d826ebc477cb22b4c8ac6551194ed75f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1477540737}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d8aa94e57d239e745886c3f602f63f91, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1489204199
 GameObject:
   m_ObjectHideFlags: 0
@@ -6319,7 +6262,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1665049344}
-  - 95: {fileID: 1665049343}
   m_Layer: 0
   m_Name: BackgroundTriangle (3)
   m_TagString: Untagged
@@ -6327,24 +6269,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &1665049343
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 9520788, guid: d826ebc477cb22b4c8ac6551194ed75f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1665049341}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d8aa94e57d239e745886c3f602f63f91, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!4 &1665049344
 Transform:
   m_ObjectHideFlags: 0
@@ -7001,21 +6925,49 @@ MonoBehaviour:
   spawnInSameRow: 0
   maxRepeatCount: 5
   specialColor: {r: 0, g: 0, b: 0, a: 1}
-  specialRandomRange:
-    min: 0
-    max: 500
-  specialRandomRangeCompare:
-    min: 50
-    max: 100
-  invisibleRandomRange:
-    min: 0
-    max: 1000
-  invisibleRandomRangeCompare:
-    min: 100
-    max: 200
+  specialRandomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - time: .360494196
+      value: .591032326
+      inSlope: -3.19456935
+      outSlope: -3.19456935
+      tangentMode: 0
+    - time: .949999988
+      value: .556250036
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  invisibleRandomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: .710868716
+      value: .284085035
+      inSlope: -3.72015166
+      outSlope: -3.72015166
+      tangentMode: 0
+    - time: 1
+      value: 1
+      inSlope: 3.51428652
+      outSlope: 3.51428652
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
   specialFeedback: {fileID: 1078359141}
   gameOverFeedback: {fileID: 996316314}
-  invisibleFadeStartOffset: 0
+  invisibleFadeStartOffset: 3
   fadeOutSpeed: 1
   minSpecialScore: 20
   minInvisibleScore: 40
@@ -7742,7 +7694,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1873903769}
-  - 95: {fileID: 1873903771}
   m_Layer: 0
   m_Name: BackgroundTriangle (4)
   m_TagString: Untagged
@@ -7766,24 +7717,6 @@ Transform:
   - {fileID: 1052828896}
   m_Father: {fileID: 1659469534}
   m_RootOrder: 4
---- !u!95 &1873903771
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 9520788, guid: d826ebc477cb22b4c8ac6551194ed75f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1873903768}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d8aa94e57d239e745886c3f602f63f91, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1916115681
 GameObject:
   m_ObjectHideFlags: 0
@@ -7948,7 +7881,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1938665450}
-  - 95: {fileID: 1938665452}
   m_Layer: 0
   m_Name: BackgroundTriangle (2)
   m_TagString: Untagged
@@ -7972,24 +7904,6 @@ Transform:
   - {fileID: 1032975995}
   m_Father: {fileID: 1659469534}
   m_RootOrder: 2
---- !u!95 &1938665452
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 9520788, guid: d826ebc477cb22b4c8ac6551194ed75f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1938665449}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d8aa94e57d239e745886c3f602f63f91, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1948000993
 GameObject:
   m_ObjectHideFlags: 0
@@ -8068,6 +7982,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1954830756}
   - 212: {fileID: 1954830757}
+  - 95: {fileID: 1954830758}
   m_Layer: 0
   m_Name: Triangle (1)
   m_TagString: Untagged
@@ -8114,6 +8029,23 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: aec2f3a5aff8e414992fee081b3bd14a, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: .0500000007}
+--- !u!95 &1954830758
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1954830755}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a2af93ea378154d6cb5f31816b7db1a6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1969178116
 GameObject:
   m_ObjectHideFlags: 0
@@ -8403,7 +8335,7 @@ MonoBehaviour:
   - difficultyLevel: 2
     prefab: {fileID: 194950, guid: 2ed851d40443248b4964fcc4789b628c, type: 2}
   startPlayerAlpha: 1
-  invincible: 0
+  invincible: 1
 --- !u!1 &2044098791
 GameObject:
   m_ObjectHideFlags: 0

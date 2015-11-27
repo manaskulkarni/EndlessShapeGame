@@ -124,22 +124,25 @@ public class ShapeManager : MonoBehaviour
   /// The color of the special shape
   /// </summary>
   public Color specialColor;
-  /// <summary>
-  /// Range for spawning random number for special random
-  /// </summary>
-  public IntRange specialRandomRange;
-  /// <summary>
-  /// Range to compare whether to spawn special shape
-  /// </summary>
-  public IntRange specialRandomRangeCompare;
-  /// <summary>
-  /// Range for spawning random number for special random
-  /// </summary>
-  public IntRange invisibleRandomRange;
-  /// <summary>
-  /// Range to compare whether to spawn invisible shape
-  /// </summary>
-	public IntRange invisibleRandomRangeCompare;
+//  /// <summary>
+//  /// Range for spawning random number for special random
+//  /// </summary>
+//  public IntRange specialRandomRange;
+//  /// <summary>
+//  /// Range to compare whether to spawn special shape
+//  /// </summary>
+//  public IntRange specialRandomRangeCompare;
+//  /// <summary>
+//  /// Range for spawning random number for special random
+//  /// </summary>
+//  public IntRange invisibleRandomRange;
+//  /// <summary>
+//  /// Range to compare whether to spawn invisible shape
+//  /// </summary>
+//	public IntRange invisibleRandomRangeCompare;
+  public AnimationCurve specialRandomCurve;
+  public AnimationCurve invisibleRandomCurve;
+
   /// <summary>
   /// ParticleSystem to use to play when Special Shape collides with Player
   /// </summary>
@@ -364,6 +367,11 @@ public class ShapeManager : MonoBehaviour
       deck[i] = deck[randomIndex];
       deck[randomIndex] = temp;
     }
+  }
+  
+  float CurveWeightedRandom(AnimationCurve curve)
+  {
+    return curve.Evaluate(Random.value);
   }
 
   #region ShapeManager Logic
@@ -725,11 +733,11 @@ public class ShapeManager : MonoBehaviour
     /*************************************************************************/
     // Choose Whether Shape Is Special
     /*************************************************************************/
-    int specialRandom = Random.Range(specialRandomRange.min, specialRandomRange.max);
-    int invRandom = Random.Range (invisibleRandomRange.min, invisibleRandomRange.max);
+//    int specialRandom = Random.Range(specialRandomRange.min, specialRandomRange.max);
+//    int invRandom = Random.Range (invisibleRandomRange.min, invisibleRandomRange.max);
     int currentScore  = StatsManager.inst.score;
 
-    if (specialRandomRangeCompare.Contains (specialRandom) && currentScore > minSpecialScore)
+    if (CurveWeightedRandom(specialRandomCurve) > 0.5f && currentScore > minSpecialScore)
     {
       //Debug.Log("Special");
       shape.StartSpecialShapeCoroutine(ShapeBehavior.ShapeResponse.Opposite);
@@ -741,7 +749,7 @@ public class ShapeManager : MonoBehaviour
       shape.spriteRenderer.color = shape.originalColor;
     }
     
-    if (invisibleRandomRangeCompare.Contains (invRandom) && currentScore > minInvisibleScore)
+    if (CurveWeightedRandom (invisibleRandomCurve) > 0.5f && currentScore > minInvisibleScore)
     {
       //Debug.Log ("Invisible");
       shape.StartInvisibleCoroutine ();
