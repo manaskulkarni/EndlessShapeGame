@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\Behaviors\BackgroundCamera.cs" />
      <Compile Include="Assets\Scripts\Behaviors\BackgroundObject.cs" />
      <Compile Include="Assets\Scripts\Behaviors\BackgroundSprite.cs" />
+     <Compile Include="Assets\Scripts\Behaviors\BetterContentPanelFitter.cs" />
      <Compile Include="Assets\Scripts\Behaviors\FFTVisualize.cs" />
      <Compile Include="Assets\Scripts\Behaviors\FullScreenQuad.cs" />
      <Compile Include="Assets\Scripts\Behaviors\PlayerBehavior.cs" />
@@ -60,6 +61,8 @@
      <Compile Include="Assets\Scripts\Behaviors\ReviveMenu.cs" />
      <Compile Include="Assets\Scripts\Behaviors\ShapeBehavior.cs" />
      <Compile Include="Assets\Scripts\Behaviors\ShapeParent.cs" />
+     <Compile Include="Assets\Scripts\Behaviors\StoreButton.cs" />
+     <Compile Include="Assets\Scripts\Behaviors\StoreButtonList.cs" />
      <Compile Include="Assets\Scripts\Classes\StateMachine\StateBehaviour.cs" />
      <Compile Include="Assets\Scripts\Classes\StateMachine\StateEngine.cs" />
      <Compile Include="Assets\Scripts\Classes\Utils.cs" />

@@ -33,6 +33,7 @@ public class UIManager : StateBehaviour
   private GameObject buttonStart { get; set; }
   private GameObject menuRevive { get; set; }
   private GameObject animRevive { get; set; }
+  private GameObject menuStore { get; set; }
   
   private Text textScore { get; set; }
   private Text textPauseTimer { get; set; }
@@ -59,6 +60,8 @@ public class UIManager : StateBehaviour
     menuStart = GameObject.Find ("MenuStart");
     menuRevive = GameObject.Find ("MenuRevive");
     menuRevive.GetComponent <CanvasGroup> ().alpha = 0.0f;
+    menuStore = GameObject.Find ("MenuStore");
+    menuStore.GetComponent <CanvasGroup> ().alpha = 0.0f;
     buttonStart = GameObject.Find ("ButtonStart");
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
@@ -69,6 +72,7 @@ public class UIManager : StateBehaviour
     
     SetMenuActive (menuStart, true);
     SetMenuActive (menuRevive, false);
+    SetMenuActive (menuStore, false);
     
     menuGame = GameObject.Find ("MenuGame");
     textScore = GameObject.Find ("TextScore").GetComponent <Text> ();
