@@ -95,7 +95,6 @@
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
-     <Compile Include="Assets\Standard Assets\KTGameCenter.cs" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-is-rIS\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
@@ -124,6 +123,7 @@
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-ta-rIN\common_strings.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values\wallet_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
+     <None Include="Assets\Extensions\IOSNative\Documentation\ISN_VersionNotes.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\TiltShiftHdrLensBlur.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-sr\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
@@ -135,8 +135,10 @@
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-nb\common_strings.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-ne-rNP\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\MotionBlur.shader" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_iAd.mm.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\drawable\common_signin_btn_icon_dark.xml" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_NSData+Base64.h.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-el\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\MinMaxReduction.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
@@ -169,9 +171,12 @@
      <None Include="Assets\Plugins\android\google-play-services_lib\res\drawable\common_signin_btn_text_light.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-cs\common_strings.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-in\common_strings.xml" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.mm.txt" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_Camera.mm.txt" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-hu\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_InApp.mm.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-pt\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-uz-rUZ\common_strings.xml" />
@@ -185,6 +190,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-ms-rMY\common_strings.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-sv\common_strings.xml" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_SocialGate.mm.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\AudioTesting\InverseBPMData.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-sl\common_strings.xml" />
@@ -200,6 +206,9 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-si-rLK\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.h.txt" />
+     <None Include="Assets\Plugins\StansAssets\Versions\ISN_VersionInfo.txt" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_Soomla.mm.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-fr\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlurDX11.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
@@ -214,6 +223,7 @@
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-lo-rLA\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-lt\common_strings.xml" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_ReplayKit.mm.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-bn-rBD\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values\admob_strings.xml" />
@@ -222,9 +232,11 @@
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-es\common_strings.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-am\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_NSData+Base64.m.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-mk-rMK\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_GameCenter.mm.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-kn-rIN\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionEffect.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GrayscaleEffect.shader" />
@@ -233,6 +245,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-fr-rCA\common_strings.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-hy-rAM\common_strings.xml" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_Media.mm.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-zu\common_strings.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-sk\common_strings.xml" />

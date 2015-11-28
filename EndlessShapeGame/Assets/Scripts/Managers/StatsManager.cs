@@ -6,6 +6,19 @@ using System.IO;
 public class StatsManager : MonoBehaviour
 {
 
+  public class AchievementData
+  {
+    public AchievementData (string n, float p, bool show)
+    {
+      name = n;
+      progress = p;
+      showNotification = show;
+    }
+    public string name;
+    public float progress;
+    public bool showNotification;
+  }
+
 #if UNITY_EDITOR
   public int startScore = 0;
 #endif
@@ -87,10 +100,11 @@ public class StatsManager : MonoBehaviour
   }
   #endregion
   #region Events
-  public event System.EventHandler SubmitScoreEvent;
-  public event System.EventHandler ShowLeaderboardEvent;
-  public event System.EventHandler ShowAchievementsEvent;
-  #endregion
+  public string SubmitScoreEvent { get { return "OnSubmitScore"; } }
+  public string ShowLeaderboardEvent { get { return "OnShowLeaderboard"; } }
+  public string ShowAchievementsEvent { get { return "OnShowAchievements"; } }
+  public string ReportAchievementEvent { get { return "OnReportAchievement"; } }
+  #endregion 
 
   private int previousScore { get; set; }
   private bool highScoreCrossed { get; set; }
@@ -114,7 +128,7 @@ public class StatsManager : MonoBehaviour
   void Start ()
   {
 #if UNITY_IOS
-    gameObject.AddComponent <GameCenterManager> ().RegisterEvents ();
+    gameObject.AddComponent <GameCenterInterface> ();
 #elif UNITY_ANDROID
 //    gameObject.AddComponentMenu <GooglePlayManager> ();
 #elif UNITY_WINRT
@@ -152,6 +166,8 @@ public class StatsManager : MonoBehaviour
       GameManager.inst.ChangeState (GameManager.States.HighScoreCrossed);
       highScoreCrossed = true;
     }
+    
+    BroadcastMessage (ReportAchievementEvent, new AchievementData ("StillLearning", 100.0f, true));
   }
 
   public void AddCoin (int count = 1)
@@ -161,12 +177,12 @@ public class StatsManager : MonoBehaviour
 
   public void ShowLeaderBoard ()
   {
-    EventManager.SendEvent(this, ShowLeaderboardEvent, null);
+    BroadcastMessage (ShowLeaderboardEvent);
   }
 
   public void ShowAchievements ()
   {
-    EventManager.SendEvent(this, ShowAchievementsEvent, null);
+    BroadcastMessage (ShowAchievementsEvent);
   }
 
   private bool CheckHighScore ()
@@ -203,7 +219,7 @@ public class StatsManager : MonoBehaviour
       previousScore = score;
       if (SubmitScoreEvent != null)
       {
-        EventManager.SendEvent(this, SubmitScoreEvent, null);
+        BroadcastMessage (SubmitScoreEvent);
         PlayerPrefs.SetInt (leaderBoardId, score);
       }
     }

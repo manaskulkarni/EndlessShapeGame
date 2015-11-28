@@ -502,14 +502,14 @@ public class ShapeManager : MonoBehaviour
     while (trans.localScale.x < 1.2f)
     {
       Vector2 scale = trans.localScale;
-      scale += Vector2.one * Time.deltaTime * 2.0f;
+      scale += Vector2.one * Time.deltaTime * 3.0f;
       trans.localScale = scale;
       yield return null;
     }
     while (trans.localScale.x > 1.0f)
     {
       Vector2 scale = trans.localScale;
-      scale -= Vector2.one * Time.deltaTime * 2.0f;
+      scale -= Vector2.one * Time.deltaTime * 3.0f;
       trans.localScale = scale;
       yield return null;
     }

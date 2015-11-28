@@ -11,10 +11,8 @@ public class FullScreenQuad : MonoBehaviour
   {
 #if UNITY_STANDALONE
     transform.localScale = new Vector2 (10.0f, 10.0f);
-#else   
-    Vector2 scale = transform.localScale;
-    scale.x = scale.y * Screen.height / (float)Screen.width;
-    transform.localScale = scale;
+#else
+    FillScreen ();
 #endif
 	}
 	
@@ -22,9 +20,26 @@ public class FullScreenQuad : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
   {
-    Vector2 scale = transform.localScale;
-    scale.x = scale.y * Screen.height / (float)Screen.width;
-    transform.localScale = scale;
+    FillScreen ();
 	}
 #endif
+
+  void FillScreen ()
+  {
+    var sr = GetComponent <SpriteRenderer> ();
+    if (sr == null) return;
+    
+    var scale = Vector2.one;
+    
+    var width = sr.sprite.bounds.size.x;
+    var height = sr.sprite.bounds.size.y;
+    
+    var worldScreenHeight = Camera.main.orthographicSize * 2.0f;
+    var worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
+    
+    scale.x = worldScreenWidth / width;
+    scale.y = worldScreenHeight / height;
+    
+    transform.localScale = scale * 1.1f;
+  }
 }
