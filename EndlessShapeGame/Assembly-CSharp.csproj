@@ -207,10 +207,12 @@
      <Compile Include="Assets\Scripts\Behaviors\BetterContentPanelFitter.cs" />
      <Compile Include="Assets\Scripts\Behaviors\FFTVisualize.cs" />
      <Compile Include="Assets\Scripts\Behaviors\FullScreenQuad.cs" />
+     <Compile Include="Assets\Scripts\Behaviors\HorizontalScrollSnap.cs" />
      <Compile Include="Assets\Scripts\Behaviors\PlayerBehavior.cs" />
      <Compile Include="Assets\Scripts\Behaviors\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\Behaviors\PlayerShapeTrigger.cs" />
      <Compile Include="Assets\Scripts\Behaviors\ReviveMenu.cs" />
+     <Compile Include="Assets\Scripts\Behaviors\ScrollSnapRect.cs" />
      <Compile Include="Assets\Scripts\Behaviors\ShapeBehavior.cs" />
      <Compile Include="Assets\Scripts\Behaviors\ShapeParent.cs" />
      <Compile Include="Assets\Scripts\Behaviors\StoreButton.cs" />

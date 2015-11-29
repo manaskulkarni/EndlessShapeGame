@@ -26,7 +26,7 @@ public class StoreButtonList : MonoBehaviour
   public List <StoreItem> itemList;
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
 	{
 	  foreach (var item in itemList)
     {
@@ -39,13 +39,18 @@ public class StoreButtonList : MonoBehaviour
       }
       else if (item.currencyType == CurrencyType.Money)
       {
-        button.price.text = "$"+item.price+"";
+        button.price.text = "$ "+item.price+"";
       }
       button.description.text = item.description; 
       button.icon.sprite = item.icon;
       button.button.onClick = item.onClick;
       go.transform.SetParent (this.transform);
       go.transform.localScale = Vector3.one;
+    }
+    
+    if (GetComponentInParent <ScrollSnapRect> ())
+    {
+      GetComponentInParent <ScrollSnapRect> ().enabled = true;
     }
 	}
 	
