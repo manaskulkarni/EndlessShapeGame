@@ -137,13 +137,16 @@ public class GameManager : StateBehaviour
   
   void OnApplicationPause (bool pause)
   {
-    if (pause)
+    if (GetState () == (System.Enum)(States.Playing) || GetState () == (System.Enum)(States.Pause) || GetState () == (System.Enum)(States.Resume))
     {
-      ChangeState (States.Pause);
-    }
-    else
-    {
-      ChangeState (States.Resume);
+      if (pause)
+      {
+        ChangeState (States.Pause);
+      }
+      else
+      {
+        ChangeState (States.Resume);
+      }
     }
   }
 

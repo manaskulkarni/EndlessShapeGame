@@ -43,6 +43,8 @@ public class UIManager : StateBehaviour
   private Text textGameOverScore { get; set; }
   private Text textGameOverFeedback { get; set; }
   
+  public ScrollSnapRect storeList;
+  
   private GameManager.States previousState { get; set; }
   
   void Awake ()
@@ -557,6 +559,18 @@ public class UIManager : StateBehaviour
   {
     StartCoroutine (FadeInStoreCanvas ());
     StartCoroutine (FadeOutStartCanvas ());
+    
+    Debug.Log (previousState);
+    if (previousState == GameManager.States.ShowRevive)
+    {
+      if (!storeList.initialized)
+      {
+        storeList.gameObject.SetActive (true);
+        storeList.Start ();
+      }
+      
+      storeList.SetPage (2);
+    }
   }
   
   void OnHideStore ()

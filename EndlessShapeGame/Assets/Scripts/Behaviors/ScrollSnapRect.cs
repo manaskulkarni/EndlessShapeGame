@@ -29,6 +29,8 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   [Tooltip("Container with page images (optional)")]
   public Transform pageSelectionIcons;
   
+  public bool initialized { get; private set; }
+  
   // fast swipes should be fast and short. If too long, then it is not fast swipe
   private int _fastSwipeThresholdMaxLimit;
   
@@ -61,42 +63,51 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   private List<Image> _pageSelectionImages;
   
   //------------------------------------------------------------------------
-  void Start()
+  void Awake ()
   {
-    _scrollRectComponent = GetComponent<ScrollRect>();
-    _scrollRectRect = GetComponent<RectTransform>();
-    _container = _scrollRectComponent.content;
-    _pageCount = _container.childCount;
-    
-    // is it horizontal or vertical scrollrect
-    if (_scrollRectComponent.horizontal && !_scrollRectComponent.vertical)
+    initialized = false;
+  }
+  
+  public void Start ()
+  {
+    if (!initialized)
     {
-      _horizontal = true;
+      initialized = true;
+      _scrollRectComponent = GetComponent<ScrollRect>();
+      _scrollRectRect = GetComponent<RectTransform>();
+      _container = _scrollRectComponent.content;
+      _pageCount = _container.childCount;
+      
+      // is it horizontal or vertical scrollrect
+      if (_scrollRectComponent.horizontal && !_scrollRectComponent.vertical)
+      {
+        _horizontal = true;
+      }
+      else if (!_scrollRectComponent.horizontal && _scrollRectComponent.vertical)
+      {
+        _horizontal = false;
+      }
+      else
+      {
+        Debug.LogWarning("Confusing setting of horizontal/vertical direction. Default set to horizontal.");
+        _horizontal = true;
+      }
+      
+      _lerp = false;
+      
+      // init
+      SetPagePositions();
+      SetPage(startingPage);
+      InitPageSelection();
+      SetPageSelection(startingPage);
+      
+      // prev and next buttons
+      if (nextButton)
+        nextButton.GetComponent<Button>().onClick.AddListener(() => { NextScreen(); });
+      
+      if (prevButton)
+        prevButton.GetComponent<Button>().onClick.AddListener(() => { PreviousScreen(); });
     }
-    else if (!_scrollRectComponent.horizontal && _scrollRectComponent.vertical)
-    {
-      _horizontal = false;
-    }
-    else
-    {
-      Debug.LogWarning("Confusing setting of horizontal/vertical direction. Default set to horizontal.");
-      _horizontal = true;
-    }
-    
-    _lerp = false;
-    
-    // init
-    SetPagePositions();
-    SetPage(startingPage);
-    InitPageSelection();
-    SetPageSelection(startingPage);
-    
-    // prev and next buttons
-    if (nextButton)
-      nextButton.GetComponent<Button>().onClick.AddListener(() => { NextScreen(); });
-    
-    if (prevButton)
-      prevButton.GetComponent<Button>().onClick.AddListener(() => { PreviousScreen(); });
   }
   
   //------------------------------------------------------------------------
@@ -185,7 +196,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   }
   
   //------------------------------------------------------------------------
-  private void SetPage(int aPageIndex)
+  public void SetPage(int aPageIndex)
   {
     aPageIndex = Mathf.Clamp(aPageIndex, 0, _pageCount - 1);
     _container.anchoredPosition = _pagePositions[aPageIndex];
@@ -193,9 +204,9 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   }
   
   //------------------------------------------------------------------------
-  private void LerpToPage(int aPageIndex)
+  public void LerpToPage(int aPageIndex)
   {
-//    Debug.Log ("PAGE INDEX : " + aPageIndex);
+    Debug.Log ("PAGE COUNT : " + _pageCount);
     aPageIndex = Mathf.Clamp(aPageIndex, 0, _pageCount - 1);
     _lerpTo = _pagePositions[aPageIndex];
     _lerp = true;

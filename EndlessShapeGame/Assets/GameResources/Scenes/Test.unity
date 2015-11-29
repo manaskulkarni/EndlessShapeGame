@@ -979,12 +979,12 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1769884722}
-  - {fileID: 1374201748}
   - {fileID: 1267630163}
   - {fileID: 1616089647}
   - {fileID: 1849226208}
   - {fileID: 473959465}
   - {fileID: 1969178117}
+  - {fileID: 1374201748}
   m_Father: {fileID: 1801448025}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
@@ -1363,7 +1363,7 @@ RectTransform:
   m_Children:
   - {fileID: 72894133}
   m_Father: {fileID: 191847034}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -2.28881836e-05, y: -6.10351562e-05}
@@ -4276,7 +4276,7 @@ RectTransform:
   - {fileID: 731968106}
   - {fileID: 1452918389}
   m_Father: {fileID: 191847034}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 7.62939453e-06, y: 0}
@@ -5077,7 +5077,7 @@ RectTransform:
   - {fileID: 1040468058}
   - {fileID: 1707482498}
   m_Father: {fileID: 191847034}
-  m_RootOrder: 1
+  m_RootOrder: 6
   m_AnchorMin: {x: .5, y: .548000038}
   m_AnchorMax: {x: .5, y: .548000038}
   m_AnchoredPosition: {x: -3.05175781e-05, y: 7.75201416}
@@ -5090,7 +5090,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1374201747}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -6179,7 +6179,7 @@ RectTransform:
   - {fileID: 2044098794}
   - {fileID: 1215950454}
   m_Father: {fileID: 191847034}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 7.62939453e-06, y: 3.05175781e-05}
@@ -6868,8 +6868,8 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 1.52587891e-05, y: 4.57763672e-05}
-  m_SizeDelta: {x: 512, y: 512}
+  m_AnchoredPosition: {x: 3.05175781e-05, y: -2.28881836e-05}
+  m_SizeDelta: {x: 768, y: 768}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1707482499
 MonoBehaviour:
@@ -7589,6 +7589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb77bb5c640e4aaa87d1ac88a354d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  storeList: {fileID: 1007647358}
 --- !u!114 &1801448027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7820,7 +7821,7 @@ RectTransform:
   - {fileID: 2057896965}
   - {fileID: 473521652}
   m_Father: {fileID: 191847034}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 7.62939453e-06, y: -1.52587891e-05}
@@ -8256,7 +8257,7 @@ RectTransform:
   - {fileID: 1519353612}
   - {fileID: 1231485047}
   m_Father: {fileID: 191847034}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 3.05175781e-05, y: 0}
@@ -8513,7 +8514,7 @@ MonoBehaviour:
   - difficultyLevel: 2
     prefab: {fileID: 194950, guid: 2ed851d40443248b4964fcc4789b628c, type: 2}
   startPlayerAlpha: 1
-  invincible: 1
+  invincible: 0
 --- !u!1 &2044098791
 GameObject:
   m_ObjectHideFlags: 0
