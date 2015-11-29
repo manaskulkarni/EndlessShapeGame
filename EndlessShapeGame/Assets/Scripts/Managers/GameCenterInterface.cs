@@ -62,7 +62,7 @@ public class GameCenterInterface : StoreInterface
   {
     Debug.Log ("Showing Achievements");
   
-    GameCenterManager.ShowAchievements ();
+    GameCenterManager.ShowLeaderboards ();
   }
   
   protected override void OnReportAchievement(StatsManager.AchievementData achievement)

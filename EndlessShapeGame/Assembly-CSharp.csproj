@@ -204,7 +204,6 @@
      <Compile Include="Assets\Scripts\Behaviors\BackgroundCamera.cs" />
      <Compile Include="Assets\Scripts\Behaviors\BackgroundObject.cs" />
      <Compile Include="Assets\Scripts\Behaviors\BackgroundSprite.cs" />
-     <Compile Include="Assets\Scripts\Behaviors\BetterContentPanelFitter.cs" />
      <Compile Include="Assets\Scripts\Behaviors\FFTVisualize.cs" />
      <Compile Include="Assets\Scripts\Behaviors\FullScreenQuad.cs" />
      <Compile Include="Assets\Scripts\Behaviors\HorizontalScrollSnap.cs" />

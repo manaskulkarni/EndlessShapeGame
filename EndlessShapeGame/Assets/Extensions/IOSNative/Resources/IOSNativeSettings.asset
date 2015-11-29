@@ -36,7 +36,7 @@ MonoBehaviour:
   ShowLeaderboards: 1
   ShowAchievementsParams: 1
   ShowUsersParams: 0
-  ShowOtherParams: 0
+  ShowOtherParams: 1
   ShowRPKParams: 0
   ExpandAPISettings: 1
   EnableGameCenterAPI: 1

@@ -43,6 +43,8 @@ public class UIManager : StateBehaviour
   private Text textGameOverScore { get; set; }
   private Text textGameOverFeedback { get; set; }
   
+  private GameManager.States previousState { get; set; }
+  
   void Awake ()
   {
     if (inst == null)
@@ -168,7 +170,19 @@ public class UIManager : StateBehaviour
   public void UseRevive ()
   {
     Debug.Log ("Using Revive");
-    GameManager.inst.ChangeState (GameManager.States.AcceptRevive);
+    Debug.Log (StatsManager.inst.canUseRevive);
+    if (StatsManager.inst.canUseRevive)
+    {
+      GameManager.inst.ChangeState (GameManager.States.AcceptRevive);
+    }
+    else
+    {
+      previousState = (GameManager.States)GameManager.inst.GetState ();
+      animRevive.SetActive (false);
+      StopAllCoroutines ();
+      StartCoroutine (FadeOutReviveCanvas ());
+      GameManager.inst.ChangeState (GameManager.States.ShowStore);
+    }
   }
   
   public void ReviveDeclined ()

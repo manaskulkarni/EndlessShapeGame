@@ -141,6 +141,11 @@ public class StatsManager : MonoBehaviour
 
     previousScore = highScore;
     coins = PlayerPrefs.GetInt ("Coins");
+    if (coins < 0)
+    {
+      coins = 0;
+    }
+    Debug.Log ("COINS : " + coins);
     maxAllowedRevives = PlayerPrefs.GetInt ("MaxAllowedRevives", 1);
     usedRevives = 0;
 #if UNITY_EDITOR
