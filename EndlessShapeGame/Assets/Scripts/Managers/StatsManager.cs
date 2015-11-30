@@ -279,19 +279,19 @@ public class StatsManager : MonoBehaviour
     {
       BroadcastMessage(ReportAchievementEvent, new AchievementData("ApprenticeSwyper",100.0f, true));
     }
-    else if(score >= 10)
+    if(score >= 10)
     {
       BroadcastMessage(ReportAchievementEvent,new AchievementData("MasterSwyperI",100.0f, true));
     }
-    else if(score >= 15)
+    if(score >= 15)
     {
       BroadcastMessage(ReportAchievementEvent, new AchievementData("MasterSwyperII",100.0f, true));
     }
-    else if(score >= 20)
+    if(score >= 20)
     {
       BroadcastMessage(ReportAchievementEvent, new AchievementData("MasterSwyperIII",100.0f, true));
     }
-    else if(score >= 30)
+    if(score >= 30)
     {
       BroadcastMessage(ReportAchievementEvent, new AchievementData("GrandMasterSwyper", 100.0f, true));
     }
