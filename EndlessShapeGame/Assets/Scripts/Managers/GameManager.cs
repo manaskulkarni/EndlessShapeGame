@@ -27,6 +27,8 @@ public class GameManager : StateBehaviour
     HideStore,
     GameOver,
     FirstBeat,
+    PurchaseCoins,
+    PurchasePotion,
   }
 
   public enum DifficultyLevel
@@ -97,6 +99,8 @@ public class GameManager : StateBehaviour
   public string HideOptionsEvent = "OnHideOptions";
   public string ShowStoreEvent = "OnShowStore";
   public string HideStoreEvent = "OnHideStore";
+  public string PurchaseCoinsEvent = "OnPurchaseCoins";
+  public string PurchasePotionEvent = "OnPurchasePotion";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -366,6 +370,22 @@ public class GameManager : StateBehaviour
   void HideStore_Enter ()
   {
     BroadcastMessage (HideStoreEvent);
+  }
+
+  void PurchaseItem (StoreButton button)
+  {
+    Debug.Log ("Purchasing Item : " + button.title.text);
+    Debug.Log ("Currency Type : " + button.currencyType);
+
+    switch (button.currencyType)
+    {
+    case StoreButtonList.CurrencyType.Coins:
+      BroadcastMessage (PurchasePotionEvent, button, SendMessageOptions.DontRequireReceiver);
+      break;
+    case StoreButtonList.CurrencyType.Money:
+      BroadcastMessage (PurchaseCoinsEvent, button, SendMessageOptions.DontRequireReceiver);
+      break;
+    }
   }
 
   private float duration = 0.3f;

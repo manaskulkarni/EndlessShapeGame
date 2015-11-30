@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Name: IOSNativeSettings
   m_EditorClassIdentifier: 
   AppleId: XXXXXXXXX
+<<<<<<< HEAD
   ToolbarIndex: 2
+=======
+  ToolbarIndex: 1
+>>>>>>> 687878252b30deef520029290674c81d33d609d5
   SendFakeEventsInEditor: 1
   DefaultStoreProductsView: []
   InAppProducts:

@@ -5,8 +5,11 @@ using System.Collections;
 
 public class StoreButton : MonoBehaviour
 {
-  public Text price;
-  public Text description;
+  public Text priceText;
+  public Text title;
   public Image icon;
+  public Image iconCurrency;
   public Button button;
+  public StoreButtonList.CurrencyType currencyType { get; set; }
+  public float price { get; set; }
 }

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -36,10 +36,12 @@ public class StatsManager : MonoBehaviour
   public PlayerStats playerStats;
   public int reviveCoinsPrice = 100;
   public int maxAllowedRevives = 1;
+<<<<<<< HEAD
   public int FillpedScore = 0;
   public bool isFlipped = false;
   Image image = null;
   
+=======
   public int numRevivePotions = 0;
   public int numSlowMotionPotions = 0;
 
@@ -48,6 +50,7 @@ public class StatsManager : MonoBehaviour
     { "REVIVE POTION", 0 },
     { "SLOW MOTION", 1 }
   };
+>>>>>>> 687878252b30deef520029290674c81d33d609d5
 
   #region Properties
   /// <summary>
@@ -165,7 +168,11 @@ public class StatsManager : MonoBehaviour
     playerStats.numBlackCollision = PlayerPrefs.GetInt("numBlackCollision");
     
     previousScore = highScore;
+<<<<<<< HEAD
     coins = PlayerPrefs.GetInt ("Coins"); 
+=======
+    coins = PlayerPrefs.GetInt ("Coins");
+>>>>>>> 687878252b30deef520029290674c81d33d609d5
     Debug.Log ("COINS : " + coins);
     maxAllowedRevives = PlayerPrefs.GetInt ("MaxAllowedRevives", 1);
     usedRevives = 0;
