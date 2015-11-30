@@ -80,8 +80,8 @@ public class PlayerManager : MonoBehaviour
   #region Coroutines
   private IEnumerator FadeInPlayer ()
   {
-    float alpha = startPlayerAlpha;
-    while (alpha <= 1.0f)
+    float alpha = player.triggers [0].spriteRenderer.color.a;
+    while (alpha < 1.0f)
     {
       alpha += Time.deltaTime * 5.0f;
       Color c = new Color ();
@@ -98,8 +98,8 @@ public class PlayerManager : MonoBehaviour
 
   private IEnumerator FadeOutPlayer ()
   {
-    float alpha = 1.0f;
-    while (alpha >= startPlayerAlpha)
+    float alpha = startPlayerAlpha;
+    while (alpha > 0.0f)
     {
       alpha -= Time.deltaTime * 5.0f;
       Color c = new Color ();
@@ -157,11 +157,13 @@ public class PlayerManager : MonoBehaviour
   void OnShowStore ()
   {
     playerInput.enabled = false;
+    StartCoroutine (FadeOutPlayer ());
   }
   
   void OnHideStore ()
   {
     playerInput.enabled = true;
+    StartCoroutine (FadeInPlayer ());
   }
 
   #endregion

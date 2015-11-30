@@ -25,6 +25,14 @@ public class StatsManager : MonoBehaviour
 
   public int reviveCoinsPrice = 100;
   public int maxAllowedRevives = 1;
+  public int numRevivePotions = 0;
+  public int numSlowMotionPotions = 0;
+
+  public Dictionary <string, int> potions = new Dictionary<string, int> ()
+  {
+    { "REVIVE POTION", 0 },
+    { "SLOW MOTION", 1 }
+  };
 
   #region Properties
   /// <summary>
@@ -69,7 +77,7 @@ public class StatsManager : MonoBehaviour
   {
     get
     {
-      if (usedRevives < maxAllowedRevives)
+      if (maxAllowedRevives == -1 || usedRevives < maxAllowedRevives)
       {
         return true;
       }
@@ -82,7 +90,7 @@ public class StatsManager : MonoBehaviour
   {
     get
     {
-      if (coins >= reviveCoinsPrice)
+      if (coins == -1 || coins >= reviveCoinsPrice)
       {
         return true;
       }
@@ -104,6 +112,7 @@ public class StatsManager : MonoBehaviour
   public string ShowLeaderboardEvent { get { return "OnShowLeaderboard"; } }
   public string ShowAchievementsEvent { get { return "OnShowAchievements"; } }
   public string ReportAchievementEvent { get { return "OnReportAchievement"; } }
+  public string PurchaseCoinsEvent { get { return "OnPurchaseItem"; } }
   #endregion 
 
   private int previousScore { get; set; }
@@ -141,15 +150,13 @@ public class StatsManager : MonoBehaviour
 
     previousScore = highScore;
     coins = PlayerPrefs.GetInt ("Coins");
-    if (coins < 0)
-    {
-      coins = 0;
-    }
     Debug.Log ("COINS : " + coins);
     maxAllowedRevives = PlayerPrefs.GetInt ("MaxAllowedRevives", 1);
     usedRevives = 0;
 #if UNITY_EDITOR
   score = startScore;
+  maxAllowedRevives = -1;
+  coins = -1;
 #endif
   }
 
@@ -233,6 +240,16 @@ public class StatsManager : MonoBehaviour
     ++numSessions;
   }
 
+  bool CanPurchasePotion (int count)
+  {
+    if (coins == -1)
+    {
+      return true;
+    }
+
+    return coins >= count ? true : false;
+  }
+
   void OnGameRestart ()
   {
     OnGameReset ();
@@ -241,6 +258,27 @@ public class StatsManager : MonoBehaviour
   void OnCompleteRevive ()
   {
     ++usedRevives;
+  }
+
+  void OnPurchaseCoins (StoreButton button)
+  {
+    BroadcastMessage (PurchaseCoinsEvent, button);
+  }
+
+  void OnPurchasePotion (StoreButton button)
+  {
+    if (CanPurchasePotion ((int)button.price))
+    {
+      if (potions.ContainsKey (button.title.text))
+      {
+        ++potions [button.title.text];
+      }
+      if (coins != -1)
+      {
+        coins -= (int)button.price;
+      }
+      Debug.Log ("Purchased " + button.title.text + " for " + button.priceText.text + " coins");
+    }
   }
 
   [System.Obsolete ("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]

@@ -22,6 +22,7 @@ public class StoreButtonList : MonoBehaviour
     public Button.ButtonClickedEvent onClick;
   }
   
+  public Sprite iconCoinCurrency;
   public GameObject storeButtonPrefab;
   public List <StoreItem> itemList;
 
@@ -35,15 +36,22 @@ public class StoreButtonList : MonoBehaviour
       
       if (item.currencyType == CurrencyType.Coins)
       {
-        button.price.text = ""+item.price+" coins";
+        button.priceText.text = ""+item.price;
+        button.iconCurrency.enabled = true;
+        button.iconCurrency.sprite = iconCoinCurrency;
       }
       else if (item.currencyType == CurrencyType.Money)
       {
-        button.price.text = "$ "+item.price+"";
+        button.priceText.text = "$ "+item.price+"";
+        button.iconCurrency.enabled = false;
       }
-      button.description.text = item.description; 
+      
+      button.currencyType = item.currencyType;
+      button.price = item.price;
+
+      button.title.text = item.description; 
       button.icon.sprite = item.icon;
-      button.button.onClick = item.onClick;
+      button.button.onClick.AddListener(() => { UIManager.inst.PurchaseItem(button); });
       go.transform.SetParent (this.transform);
       go.transform.localScale = Vector3.one;
     }

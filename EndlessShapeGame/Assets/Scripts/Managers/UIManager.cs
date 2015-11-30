@@ -192,6 +192,11 @@ public class UIManager : StateBehaviour
     GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
   }
   
+  public void PurchaseItem (StoreButton button)
+  {
+    GameManager.inst.SendMessage ("PurchaseItem", button);
+  }
+  
   #region Coroutines
   
   private IEnumerator HighScoreFeedback ()

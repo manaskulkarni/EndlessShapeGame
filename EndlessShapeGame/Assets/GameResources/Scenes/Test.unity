@@ -2483,6 +2483,8 @@ MonoBehaviour:
   HideOptionsEvent: OnHideOptions
   ShowStoreEvent: OnShowStore
   HideStoreEvent: OnHideStore
+  PurchaseCoinsEvent: OnPurchaseCoins
+  PurchasePotionEvent: OnPurchasePotion
   DifficultyChangeEvent: OnDifficultyChange
   SpeedChangeEvent: OnSpeedChange
 --- !u!114 &725390022
@@ -2499,6 +2501,8 @@ MonoBehaviour:
   startScore: 0
   reviveCoinsPrice: 100
   maxAllowedRevives: 1
+  numRevivePotions: 0
+  numSlowMotionPotions: 0
 --- !u!114 &725390023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5090,7 +5094,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1374201747}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -7955,6 +7959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f3ed80cf05045b0b830fe6c3b4e0bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconCoinCurrency: {fileID: 21300000, guid: beb38b87d7a3d46a09a3d720c02fb98a, type: 3}
   storeButtonPrefab: {fileID: 142318, guid: f4a2eef90080b4ec5908c86de641ae94, type: 2}
   itemList:
   - price: 100
@@ -7966,37 +7971,10 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
         Culture=neutral, PublicKeyToken=null
-  - price: 100
+  - price: .99000001
     icon: {fileID: 21300000, guid: 1abbf751d2efd457682b5fa76b12fe74, type: 3}
-    description: SLOW MOTION
-    currencyType: 0
-    onClick:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-  - price: 100
-    icon: {fileID: 21300000, guid: 1abbf751d2efd457682b5fa76b12fe74, type: 3}
-    description: SLOW MOTION
-    currencyType: 0
-    onClick:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-  - price: 100
-    icon: {fileID: 21300000, guid: 1abbf751d2efd457682b5fa76b12fe74, type: 3}
-    description: SLOW MOTION
-    currencyType: 0
-    onClick:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-  - price: 100
-    icon: {fileID: 21300000, guid: 1abbf751d2efd457682b5fa76b12fe74, type: 3}
-    description: SLOW MOTION
-    currencyType: 0
+    description: 500 Diamonds
+    currencyType: 1
     onClick:
       m_PersistentCalls:
         m_Calls: []
@@ -8619,7 +8597,7 @@ RectTransform:
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -76, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &2046696343
 MonoBehaviour:
@@ -8640,7 +8618,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2d4aced22340642b1959037efbb14ac0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: beb38b87d7a3d46a09a3d720c02fb98a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
