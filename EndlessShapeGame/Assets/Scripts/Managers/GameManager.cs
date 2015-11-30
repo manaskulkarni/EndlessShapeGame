@@ -132,6 +132,9 @@ public class GameManager : StateBehaviour
   void Awake ()
   {
     Initialize <States> ();
+    
+    Debug.Log ("Device Name : " + SystemInfo.deviceName);
+    Debug.Log ("Device Model : " + SystemInfo.deviceModel);
   }
   
   // Use this for initialization

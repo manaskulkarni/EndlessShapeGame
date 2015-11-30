@@ -219,40 +219,40 @@ public class StatsManager : MonoBehaviour
     }
   }
   
-  void Update()
-  {
-    Quaternion referenceRotation = Quaternion.identity;
-    Quaternion deviceRotation = DeviceRotation.Get();
-    Quaternion eliminationOfXY = Quaternion.Inverse(Quaternion.FromToRotation(referenceRotation * Vector3.forward,deviceRotation * Vector3.forward));
-    Quaternion rotationZ = eliminationOfXY * deviceRotation;
-    float roll = rotationZ.eulerAngles.z;
-    
-    //Debug.Log ("Orientation : " + roll);
-    
-    var a =  GameObject.Find("Separator");
-    if(a != null)
-    {
-      image = a.GetComponent<Image>();
-    }
-    
-    // TODO : Change that to a cleaner way and different location
-    if(roll > 170.0 && roll < 220.0f)
-    {
-      isFlipped = true;
-      if(image != null)
-      {
-        image.color = Color.red;
-      }
-   
-      Debug.Log("Phone Upside Down");
-    }
-    else
-    {
-      isFlipped = false;
-      image.color = Color.white;
-      Debug.Log("Phone Up");
-    }
-  }
+//  void Update()
+//  {
+//    Quaternion referenceRotation = Quaternion.identity;
+//    Quaternion deviceRotation = DeviceRotation.Get();
+//    Quaternion eliminationOfXY = Quaternion.Inverse(Quaternion.FromToRotation(referenceRotation * Vector3.forward,deviceRotation * Vector3.forward));
+//    Quaternion rotationZ = eliminationOfXY * deviceRotation;
+//    float roll = rotationZ.eulerAngles.z;
+//    
+//    //Debug.Log ("Orientation : " + roll);
+//    
+//    var a =  GameObject.Find("Separator");
+//    if(a != null)
+//    {
+//      image = a.GetComponent<Image>();
+//    }
+//    
+//    // TODO : Change that to a cleaner way and different location
+//    if(roll > 170.0 && roll < 220.0f)
+//    {
+//      isFlipped = true;
+//      if(image != null)
+//      {
+//        image.color = Color.red;
+//      }
+//   
+//      Debug.Log("Phone Upside Down");
+//    }
+//    else
+//    {
+//      isFlipped = false;
+//      image.color = Color.white;
+//      Debug.Log("Phone Up");
+//    }
+//  }
 
   public void AddPoint ()
   {
