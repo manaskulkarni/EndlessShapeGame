@@ -24,6 +24,7 @@ public class GameCenterInterface : StoreInterface
       
       foreach (var v in GameCenterManager.Achievements)
       {
+        Debug.Log ("Loading Achievement : " + v.Title);
         achievements.Add (v.Title, v);
       }
     }
@@ -67,12 +68,12 @@ public class GameCenterInterface : StoreInterface
   
   protected override void OnReportAchievement(StatsManager.AchievementData achievement)
   {
-    Debug.Log ("Reporting Achievement : " + achievement.name);
   
     if (IsAuthenticated () && IsInitialized () && achievements.ContainsKey (achievement.name))
     {
+      Debug.Log ("Reporting Achievement : " + achievement.name);
       var v = achievements [achievement.name];
-      if (v.IsOpen)
+      if (v.Progress < 100.0)
       {
         GameCenterManager.SubmitAchievement (achievement.progress, v.Id, achievement.showNotification);
       }

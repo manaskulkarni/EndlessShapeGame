@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
+using UnityEngine.UI;
+
+
 public class StatsManager : MonoBehaviour
 {
 
@@ -18,13 +21,25 @@ public class StatsManager : MonoBehaviour
     public float progress;
     public bool showNotification;
   }
+  
+  [System.Serializable]
+  public class PlayerStats
+  {
+    public int highScore { get; set; }
+    public int numBlackCollision { get; set; }
+  }
 
 #if UNITY_EDITOR
   public int startScore = 0;
 #endif
 
+  public PlayerStats playerStats;
   public int reviveCoinsPrice = 100;
   public int maxAllowedRevives = 1;
+  public int FillpedScore = 0;
+  public bool isFlipped = false;
+  Image image = null;
+  
 
   #region Properties
   /// <summary>
@@ -64,7 +79,7 @@ public class StatsManager : MonoBehaviour
   /// </summary>
   public bool firstSession { get; private set; }
   public int numSessions { get; private set; }
-  
+ 
   public bool canShowRevive
   {
     get
@@ -138,13 +153,10 @@ public class StatsManager : MonoBehaviour
     Debug.Log ("Leaderboard ID: " + leaderBoardId);
     Debug.Log ("Data Path: " + Application.dataPath);
     Debug.Log ("Persistent Data Path: " + Application.persistentDataPath);
-
+    playerStats.numBlackCollision = PlayerPrefs.GetInt("numBlackCollision");
+    
     previousScore = highScore;
-    coins = PlayerPrefs.GetInt ("Coins");
-    if (coins < 0)
-    {
-      coins = 0;
-    }
+    coins = PlayerPrefs.GetInt ("Coins"); 
     Debug.Log ("COINS : " + coins);
     maxAllowedRevives = PlayerPrefs.GetInt ("MaxAllowedRevives", 1);
     usedRevives = 0;
@@ -160,11 +172,87 @@ public class StatsManager : MonoBehaviour
   void OnDisable ()
   {
     PlayerPrefs.SetInt ("Coins", coins);
+    PlayerPrefs.SetInt("numBlackCollision",playerStats.numBlackCollision);
+  }
+  
+  public static class DeviceRotation
+  {
+    private static bool gyroInitialized = false;
+    
+    public static bool HasGyroscope {
+      get {
+        return SystemInfo.supportsGyroscope;
+      }
+    }
+    
+    public static Quaternion Get() {
+      if (!gyroInitialized) {
+        InitGyro();
+      }
+      
+      return HasGyroscope
+        ? ReadGyroscopeRotation()
+          : Quaternion.identity;
+    }
+    
+    private static void InitGyro() {
+      if (HasGyroscope) {
+        Input.gyro.enabled = true;                // enable the gyroscope
+        Input.gyro.updateInterval = 0.0167f;    // set the update interval to it's highest value (60 Hz)
+      }
+      gyroInitialized = true;
+    }
+    
+    private static Quaternion ReadGyroscopeRotation() {
+      return new Quaternion(0.5f, 0.5f, -0.5f, 0.5f) * Input.gyro.attitude * new Quaternion(0, 0, 1, 0);
+    }
+  }
+  
+  void Update()
+  {
+    Quaternion referenceRotation = Quaternion.identity;
+    Quaternion deviceRotation = DeviceRotation.Get();
+    Quaternion eliminationOfXY = Quaternion.Inverse(Quaternion.FromToRotation(referenceRotation * Vector3.forward,deviceRotation * Vector3.forward));
+    Quaternion rotationZ = eliminationOfXY * deviceRotation;
+    float roll = rotationZ.eulerAngles.z;
+    
+    //Debug.Log ("Orientation : " + roll);
+    
+    var a =  GameObject.Find("Separator");
+    if(a != null)
+    {
+      image = a.GetComponent<Image>();
+    }
+    
+    // TODO : Change that to a cleaner way and different location
+    if(roll > 170.0 && roll < 220.0f)
+    {
+      isFlipped = true;
+      if(image != null)
+      {
+        image.color = Color.red;
+      }
+   
+      Debug.Log("Phone Upside Down");
+    }
+    else
+    {
+      isFlipped = false;
+      image.color = Color.white;
+      Debug.Log("Phone Up");
+    }
   }
 
   public void AddPoint ()
   {
     ++score;
+    if(isFlipped)
+    {
+      FillpedScore++;
+    }
+    //Debug.Log("Flipped Score " + FillpedScore);
+    
+    BroadcastMessage (ReportAchievementEvent, new AchievementData ("StillLearning", 100.0f, true));
     
     if (!highScoreCrossed && score > highScore)
     {
@@ -172,7 +260,36 @@ public class StatsManager : MonoBehaviour
       highScoreCrossed = true;
     }
     
-    BroadcastMessage (ReportAchievementEvent, new AchievementData ("StillLearning", 100.0f, true));
+    if(FillpedScore > 5)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("AdjustYourView",100.0f,true));
+    }
+    if(score >= 5)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("ApprenticeSwyper",100.0f, true));
+    }
+    else if(score >= 10)
+    {
+      BroadcastMessage(ReportAchievementEvent,new AchievementData("MasterSwyperI",100.0f, true));
+    }
+    else if(score >= 15)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("MasterSwyperII",100.0f, true));
+    }
+    else if(score >= 20)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("MasterSwyperIII",100.0f, true));
+    }
+    else if(score >= 30)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("GrandMasterSwyper", 100.0f, true));
+    }
+
+    if(playerStats.numBlackCollision >= 100)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("NoMatch", 100.0f,true));
+    }
+    
   }
 
   public void AddCoin (int count = 1)
@@ -255,4 +372,14 @@ public class StatsManager : MonoBehaviour
     Debug.Log (leaderBoardId);
   }
   #endregion
+  
+  void OnShapeTriggered (ShapeBehavior shape)
+  {
+    if (shape.shapeResponse == ShapeBehavior.ShapeResponse.Opposite)
+    {
+      // Increment Black Counter
+      playerStats.numBlackCollision++;
+      //Debug.Log("NG " + playerStats.numBlackCollision);
+    }
+  }
 }

@@ -396,6 +396,9 @@ public class ShapeManager : MonoBehaviour
       times[currentIntervalIndex].Add(Time.fixedTime);
 #endif
 
+      Debug.Log ("bb");
+      GameManager.inst.BroadcastMessage ("OnShapeTriggered", shapeBehavior);
+
       /***********************************************************************/
       // If Player sprite collides with shape of same sprite
       /***********************************************************************/

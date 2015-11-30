@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: IOSNativeSettings
   m_EditorClassIdentifier: 
   AppleId: XXXXXXXXX
-  ToolbarIndex: 0
+  ToolbarIndex: 2
   SendFakeEventsInEditor: 1
   DefaultStoreProductsView: []
   InAppProducts: []
@@ -25,15 +25,58 @@ MonoBehaviour:
       Texture: {fileID: 0}
       MaxRange: 0
   Achievements:
-  - IsOpen: 1
+  - IsOpen: 0
     Id: S_L
     Title: StillLearning
     Description: Finish a game session with 0 points
     _progress: 0
     Texture: {fileID: 0}
+  - IsOpen: 0
+    Id: A_S
+    Title: ApprenticeSwyper
+    Description: Finish a game session with 50 points
+    _progress: 0
+    Texture: {fileID: 0}
+  - IsOpen: 0
+    Id: M_S_1
+    Title: MasterSwyperI
+    Description: Finish a game session with 100 points
+    _progress: 0
+    Texture: {fileID: 0}
+  - IsOpen: 0
+    Id: M_S_II
+    Title: MasterSwyperII
+    Description: Finish a game session with 150 points
+    _progress: 0
+    Texture: {fileID: 0}
+  - IsOpen: 0
+    Id: M_S_III
+    Title: MasterSwyperIII
+    Description: Finish a game session with 200 points
+    _progress: 0
+    Texture: {fileID: 0}
+  - IsOpen: 0
+    Id: G_M_S
+    Title: GrandMasterSwyper
+    Description: Finish a game session with 300 points
+    _progress: 0
+    Texture: {fileID: 0}
+  - IsOpen: 0
+    Id: A_Y_V
+    Title: AdjustYourView
+    Description: Finish a game session with 100 points while turning your phone upside
+      down
+    _progress: 0
+    Texture: {fileID: 0}
+  - IsOpen: 1
+    Id: N_M
+    Title: NoMatch
+    Description: Avoid 500 black shapes
+    _progress: 0
+    Texture: {fileID: 0}
   checkInternetBeforeLoadRequest: 0
   ShowStoreKitProducts: 1
-  ShowLeaderboards: 1
+  ShowLeaderboards: 0
   ShowAchievementsParams: 1
   ShowUsersParams: 0
   ShowOtherParams: 1

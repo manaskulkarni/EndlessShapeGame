@@ -273,10 +273,10 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
  </Reference>
  <Reference Include="TouchScript.Editor">
- <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Editor/TouchScript.Editor.dll</HintPath>
+ <HintPath>/Users/markmoukarzel/Desktop/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Editor/TouchScript.Editor.dll</HintPath>
  </Reference>
  <Reference Include="TouchScript">
- <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Plugins/TouchScript.dll</HintPath>
+ <HintPath>/Users/markmoukarzel/Desktop/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Plugins/TouchScript.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.Graphs.dll</HintPath>

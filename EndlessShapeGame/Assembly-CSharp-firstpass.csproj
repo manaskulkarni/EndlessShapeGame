@@ -296,7 +296,7 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="TouchScript">
- <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Plugins/TouchScript.dll</HintPath>
+ <HintPath>/Users/markmoukarzel/Desktop/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Plugins/TouchScript.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
