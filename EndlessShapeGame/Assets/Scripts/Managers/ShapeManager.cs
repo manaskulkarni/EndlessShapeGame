@@ -573,9 +573,18 @@ public class ShapeManager : MonoBehaviour
     }
   }
 
+  void ResetShapes ()
+  {
+    foreach (var v in shapes)
+    {
+      v.ResetProperties ();
+    }
+  }
+
   void OnGameOver()
   {
     OnGameStop ();
+    ResetShapes ();
     numCollisions = 0;
   }
 
@@ -759,7 +768,6 @@ public class ShapeManager : MonoBehaviour
     else
     {
       shape.StopSpecialShapeCoroutine();
-      shape.spriteRenderer.color = shape.originalColor;
     }
     
     if (CurveWeightedRandom (invisibleRandomCurve) > 0.5f && currentScore > minInvisibleScore)

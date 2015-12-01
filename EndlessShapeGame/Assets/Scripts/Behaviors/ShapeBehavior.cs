@@ -38,7 +38,7 @@ public class ShapeBehavior : MonoBehaviour
       updatePosition = StartCoroutine (UpdatePosition ());
     }
     update = true;
-    
+
     if (shapeType == ShapeType.Invisible)
     {
       updateInvisible = StartCoroutine (UpdateInvisible ());
@@ -60,6 +60,12 @@ public class ShapeBehavior : MonoBehaviour
       updateInvisible = null;
     }
   }
+
+  public void ResetProperties ()
+  {
+    StopSpecialShapeCoroutine ();
+    StopInvisibleCoroutine ();
+  }
   
   public void StartSpecialShapeCoroutine (ShapeResponse response)
   {
@@ -79,6 +85,7 @@ public class ShapeBehavior : MonoBehaviour
   public void StopSpecialShapeCoroutine ()
   {
     shapeResponse = ShapeResponse.Normal;
+    spriteRenderer.color = originalColor;
 
     if (updateSpecial != null)
     {

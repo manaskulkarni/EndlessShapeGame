@@ -7207,7 +7207,7 @@ MonoBehaviour:
   gameOverFeedback: {fileID: 996316314}
   invisibleFadeStartOffset: 1.5
   fadeOutSpeed: 1
-  minSpecialScore: 20
+  minSpecialScore: 0
   minInvisibleScore: 40
   currentSpeedPreset:
     speedMultiplier: {x: 0, y: 0}
