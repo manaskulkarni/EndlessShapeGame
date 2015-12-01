@@ -38,7 +38,6 @@ public class StatsManager : MonoBehaviour
   public int maxAllowedRevives = 1;
   public int FlippedScore = 0;
   public bool isFlipped = false;
-  Image image = null;
   
   public int numRevivePotions = 0;
   public int numSlowMotionPotions = 0;

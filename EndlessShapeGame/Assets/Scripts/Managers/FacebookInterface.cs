@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class FacebookInterface : MonoBehaviour
 {
+  public string appId = "1518212961805645";
+
 
   // Use this as constructor
   void Awake ()
@@ -12,6 +14,11 @@ public class FacebookInterface : MonoBehaviour
     SPFacebook.instance.OnInitCompleteAction += HandleOnInitCompleteAction;
     SPFacebook.instance.OnFocusChangedAction += HandleOnFocusChangedAction;
     SPFacebook.instance.OnAuthCompleteAction += HandleOnAuthCompleteAction;
+
+    SPFacebook.instance.OnPlayerScoresRequestCompleteAction += HandleOnPlayerScoresRequestCompleteAction;
+    SPFacebook.instance.OnAppScoresRequestCompleteAction += HandleOnAppScoresRequestCompleteAction; 
+    SPFacebook.instance.OnSubmitScoreRequestCompleteAction += HandleOnSubmitScoreRequestCompleteAction;; 
+    SPFacebook.instance.OnDeleteScoresRequestCompleteAction += HandleOnDeleteScoresRequestCompleteAction;; 
 
     SPFacebook.Instance.Init();
   }
@@ -44,6 +51,7 @@ public class FacebookInterface : MonoBehaviour
     if(SPFacebook.instance.IsLoggedIn)
     {
       SA_StatusBar.text = "user Login -> true";
+      SPFacebook.instance.LoadAppScores();
     }
     else
     {
@@ -51,9 +59,73 @@ public class FacebookInterface : MonoBehaviour
     }
   }
 
+  void HandleOnPlayerScoresRequestCompleteAction (FB_APIResult result)
+  {
+    if(result.IsSucceeded)
+    {
+      string msg = "Player has scores in " + SPFacebook.instance.userScores.Count + " apps" + "\n";
+      msg += "Current Player Score = " + SPFacebook.instance.GetCurrentPlayerIntScoreByAppId(appId);
+      SA_StatusBar.text = msg;
+      
+    }
+    else
+    {
+      SA_StatusBar.text = result.Responce;
+    }
+  }
+
+  void HandleOnAppScoresRequestCompleteAction (FB_APIResult result)
+  {
+    if(result.IsSucceeded)
+    {
+      string msg = "Loaded " + SPFacebook.instance.appScores.Count + " scores results" + "\n";
+      msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
+      SA_StatusBar.text = msg;
+      
+    }
+    else
+    {
+      SA_StatusBar.text = result.Responce;
+    }
+  }
+
+  void HandleOnSubmitScoreRequestCompleteAction (FB_APIResult result)
+  {
+    if(result.IsSucceeded)
+    {
+      string msg = "Score successfully submited" + "\n";
+      msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
+      SA_StatusBar.text = msg;
+      
+    }
+    else
+    {
+      SA_StatusBar.text = result.Responce;
+    }
+  }
+
+  void HandleOnDeleteScoresRequestCompleteAction (FB_APIResult result)
+  {
+    if(result.IsSucceeded)
+    {
+      string msg = "Score successfully deleted" + "\n";
+      msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
+      SA_StatusBar.text = msg;
+      
+    }
+    else
+    {
+      SA_StatusBar.text = result.Responce;
+    }
+  }
+
   void OnFacebookConnect ()
   {
     SPFacebook.instance.Login();
+  }
+
+  void OnShowFacebookLeaderboard ()
+  {
   }
 
 }

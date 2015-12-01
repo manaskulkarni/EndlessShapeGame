@@ -206,6 +206,11 @@ public class UIManager : StateBehaviour
   {
     GameManager.inst.ChangeState (GameManager.States.FacebookConnect);
   }
+
+  public void ShowFacebookLeaderboard ()
+  {
+    GameManager.inst.ChangeState (GameManager.States.ShowFacebookLeaderboard);
+  }
   
   #region Coroutines
   
@@ -681,6 +686,11 @@ public class UIManager : StateBehaviour
       Debug.Log ("PAUSED");
       StartCoroutine (StartPauseTimer ());
     }
+  }
+
+  void OnShowFacebookLeaderboard ()
+  {
+
   }
   
   //  void OnDifficultyChange ()

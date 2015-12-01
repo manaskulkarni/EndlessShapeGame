@@ -31,6 +31,8 @@ public class GameManager : StateBehaviour
     PurchaseCoins,
     PurchasePotion,
     FacebookConnect,
+    ShowFacebookLeaderboard,
+    HideFacebookLeaderboard,
   }
 
   public enum DifficultyLevel
@@ -104,6 +106,8 @@ public class GameManager : StateBehaviour
   public string PurchaseCoinsEvent = "OnPurchaseCoins";
   public string PurchasePotionEvent = "OnPurchasePotion";
   public string FacebookConnectEvent = "OnFacebookConnect";
+  public string ShowFacebookLeaderboardEvent = "OnShowFacebookLeaderboard";
+  public string HideFacebookLeaderboardEvent = "OnHideFacebookLeaderboard";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -385,6 +389,16 @@ public class GameManager : StateBehaviour
   void FacebookConnect_Enter ()
   {
     BroadcastMessage (FacebookConnectEvent);
+  }
+
+  void ShowFacebookLeaderboard_Enter ()
+  {
+    BroadcastMessage (ShowFacebookLeaderboardEvent);
+  }
+
+  void HideFacebookLeaderboard_Enter ()
+  {
+    BroadcastMessage (HideFacebookLeaderboardEvent);
   }
 
   void PurchaseItem (StoreButton button)
