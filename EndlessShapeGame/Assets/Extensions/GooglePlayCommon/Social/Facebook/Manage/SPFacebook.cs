@@ -1147,10 +1147,11 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 
 
 	public void ParseInvitableFriendsData(string data) {
-		ParseFriendsFromJson (data, _invitableFriends);		
+		_invitableFriends = ParseFriendsFromJson (data, _invitableFriends);		
 	}
 
-	private void ParseFriendsFromJson(string data, Dictionary<string, FacebookUserInfo> friends) {
+	private Dictionary <string, FacebookUserInfo> ParseFriendsFromJson(string data, Dictionary<string, FacebookUserInfo> friends)
+  {
 		Debug.Log("ParceFriendsData");
 		Debug.Log(data);
 		
@@ -1159,7 +1160,6 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 			IDictionary JSON =  ANMiniJSON.Json.Deserialize(data) as IDictionary;	
 			IDictionary f = JSON["friends"] as IDictionary;
 			IList flist = f["data"] as IList;
-			
 			
 			for(int i = 0; i < flist.Count; i++) {
 				FacebookUserInfo user = new FacebookUserInfo(flist[i] as IDictionary);
@@ -1170,6 +1170,8 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 			Debug.LogWarning("Parceing Friends Data failed");
 			Debug.LogWarning(ex.Message);
 		}
+
+    return friends;
 	}
 	
 	
@@ -1187,7 +1189,7 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 
 	
 	public void ParseFriendsData(string data) {
-		ParseFriendsFromJson (data, _friends);		
+		_friends = ParseFriendsFromJson (data, _friends);		
 	}
 	
 	private void ScoreLoadResult(FBResult result) {

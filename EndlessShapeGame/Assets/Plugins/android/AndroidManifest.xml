@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.unity3d.player" android:installLocation="preferExternal" android:theme="@android:style/Theme.NoTitleBar" android:versionCode="1" android:versionName="1.0">
   <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
   <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:smallScreens="true" android:xlargeScreens="true" />
@@ -9,7 +9,7 @@
     <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
     <meta-data android:name="applovin.sdk.key" android:value="M_tom-o_IROTf2mZSF4GNGGleuARfi81i0qT-bTH2sqiuaGLrKcCbtyEm6gQqpSWpG_otS4vIvbBTtXJC8Wo0S" />
     <meta-data android:name="adtoapp.sdk.plugin" android:value="unity" />
-    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="\ 1518212961805645" />
+    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="\ 1518246578468950" />
     <receiver android:name="com.inmobi.commons.core.utilities.uid.ImIdShareBroadCastReceiver" android:enabled="true" android:exported="true">
       <intent-filter>
         <action android:name="com.inmobi.share.id" />

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedAppIndex: 0
   appIds:
-  - 1518212961805645
+  - 1518246578468950
   appLabels:
   - EndlessShapeGame
   cookie: 1

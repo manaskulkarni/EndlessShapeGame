@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: IOSNativeSettings
   m_EditorClassIdentifier: 
   AppleId: XXXXXXXXX
-  ToolbarIndex: 0
+  ToolbarIndex: 2
   SendFakeEventsInEditor: 1
   DefaultStoreProductsView: []
   InAppProducts: []
@@ -23,7 +23,7 @@ MonoBehaviour:
   ShowLeaderboards: 1
   ShowAchievementsParams: 1
   ShowUsersParams: 0
-  ShowOtherParams: 0
+  ShowOtherParams: 1
   ShowRPKParams: 0
   ExpandAPISettings: 1
   EnableGameCenterAPI: 1
@@ -34,7 +34,7 @@ MonoBehaviour:
   EnableiAdAPI: 1
   EnableReplayKit: 0
   EnableSoomla: 0
-  EnablePushNotificationsAPI: 0
+  EnablePushNotificationsAPI: 1
   DisablePluginLogs: 0
   UseGCRequestCaching: 0
   UsePPForAchievements: 0

@@ -242,6 +242,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
      <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_image.xml" />
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.h.txt" />
+     <None Include="Assets\Plugins\StansAssets\Versions\ISN_VersionInfo.txt" />
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_Soomla.mm.txt" />
      <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_search_bar_layout.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-fr\common_strings.xml" />

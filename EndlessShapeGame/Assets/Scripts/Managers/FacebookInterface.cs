@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class FacebookInterface : MonoBehaviour
 {
-  public string appId = "1518212961805645";
+  public string appId = "1518246578468950";
 
 
   // Use this as constructor
@@ -29,9 +29,33 @@ public class FacebookInterface : MonoBehaviour
     if(SPFacebook.instance.IsLoggedIn)
     {
       //User alreayd authenticated, update your UI accordingly
+      Debug.Log ("User already authenticated");
+
+      SPFacebook.Instance.OnFriendsDataRequestCompleteAction += HandleOnFriendsDataRequestCompleteAction;
+      SPFacebook.Instance.OnInvitableFriendsDataRequestCompleteAction += HandleOnInvitableFriendsDataRequestCompleteAction;
+      SPFacebook.Instance.LoadFrientdsInfo (int.MaxValue);
+      SPFacebook.Instance.LoadInvitableFrientdsInfo (int.MaxValue);
     }
   }
 
+  void HandleOnInvitableFriendsDataRequestCompleteAction (FB_APIResult obj)
+  {
+    Debug.Log ("Number of Invitable Friends : " + SPFacebook.instance.InvitableFriends.Count);
+    foreach (var v in SPFacebook.Instance.InvitableFriends)
+    {
+      Debug.Log ("Invitable Friend Name : " + v.Value.name);
+    }
+  }
+
+  void HandleOnFriendsDataRequestCompleteAction (FB_APIResult obj)
+  {
+    Debug.Log ("Number of Friends : " + SPFacebook.instance.friends.Count);
+    foreach (var v in SPFacebook.Instance.friends)
+    {
+      Debug.Log ("Friend Name : " + v.Value.name);
+    }
+  }
+  
   void HandleOnFocusChangedAction (bool focus)
   {
     if (!focus)
@@ -50,8 +74,12 @@ public class FacebookInterface : MonoBehaviour
   {
     if(SPFacebook.instance.IsLoggedIn)
     {
-      SA_StatusBar.text = "user Login -> true";
-      SPFacebook.instance.LoadAppScores();
+      Debug.Log ("Already Logged In");
+      Debug.Log ("Number of Friends : " + SPFacebook.Instance._friends.Count);
+      foreach (var v in SPFacebook.Instance._friends)
+      {
+        Debug.Log ("Friend Name : " + v.Value.name);
+      }
     }
     else
     {
@@ -65,12 +93,11 @@ public class FacebookInterface : MonoBehaviour
     {
       string msg = "Player has scores in " + SPFacebook.instance.userScores.Count + " apps" + "\n";
       msg += "Current Player Score = " + SPFacebook.instance.GetCurrentPlayerIntScoreByAppId(appId);
-      SA_StatusBar.text = msg;
-      
+      Debug.Log (msg);
     }
     else
     {
-      SA_StatusBar.text = result.Responce;
+      Debug.Log (result.Responce);
     }
   }
 
@@ -80,12 +107,11 @@ public class FacebookInterface : MonoBehaviour
     {
       string msg = "Loaded " + SPFacebook.instance.appScores.Count + " scores results" + "\n";
       msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
-      SA_StatusBar.text = msg;
-      
+      Debug.Log (msg);
     }
     else
     {
-      SA_StatusBar.text = result.Responce;
+      Debug.Log (result.Responce);
     }
   }
 
@@ -95,12 +121,11 @@ public class FacebookInterface : MonoBehaviour
     {
       string msg = "Score successfully submited" + "\n";
       msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
-      SA_StatusBar.text = msg;
       
     }
     else
     {
-      SA_StatusBar.text = result.Responce;
+      Debug.Log (result.Responce);
     }
   }
 
@@ -110,12 +135,10 @@ public class FacebookInterface : MonoBehaviour
     {
       string msg = "Score successfully deleted" + "\n";
       msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
-      SA_StatusBar.text = msg;
-      
+      Debug.Log (msg);
     }
     else
     {
-      SA_StatusBar.text = result.Responce;
     }
   }
 

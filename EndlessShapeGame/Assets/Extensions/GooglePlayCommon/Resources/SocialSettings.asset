@@ -20,13 +20,9 @@ MonoBehaviour:
   - user_about_me
   - user_friends
   - email
-  - publish_actions
-  - read_friendlists
-  - user_games_activity
-  - user_activities
-  - user_likes
-  TWITTER_CONSUMER_KEY: REPLACE_WITH_YOUR_CONSUMER_KEY
-  TWITTER_CONSUMER_SECRET: REPLACE_WITH_YOUR_CONSUMER_SECRET
+  - public_profile
+  TWITTER_CONSUMER_KEY: wEvDyAUr2QabVAsWPDiGwg
+  TWITTER_CONSUMER_SECRET: igRxZbOrkLQPNLSvibNC3mdNJ5tOlVOPH3HNNKDY0
   TWITTER_ACCESS_TOKEN: 
   TWITTER_ACCESS_TOKEN_SECRET: 
   ShowEditorOauthTestingBlock: 0
