@@ -272,7 +272,7 @@ public class StatsManager : MonoBehaviour
       highScoreCrossed = true;
     }
     
-    if(FillpedScore > 5)
+    if(FlippedScore > 5)
     {
       BroadcastMessage(ReportAchievementEvent, new AchievementData("AdjustYourView",100.0f,true));
     }

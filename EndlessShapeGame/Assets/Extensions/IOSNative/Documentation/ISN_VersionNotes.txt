@@ -1,3 +1,13 @@
+8.0.7
+New Features:
+Device Info API added: Read More: https://goo.gl/ziEsCI
+
+Fixes:
+Push Notifications Crash fixed
+
+8.0.6
+GamceCenterManager.IsPlayerUnderage property added
+
 8.0.5
 Replay Kit IsMicEnabled property added
 Replay Kit IsRecodingAvailableToShare property added

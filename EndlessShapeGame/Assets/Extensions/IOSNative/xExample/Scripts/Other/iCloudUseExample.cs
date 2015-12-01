@@ -25,6 +25,7 @@ public class iCloudUseExample : MonoBehaviour {
 		iCloudManager.OnCloundInitAction += OnCloundInitAction;
 		iCloudManager.OnCloudDataReceivedAction += OnCloudDataReceivedAction;
 
+
 		iCloudManager.instance.init ();
 	
 
@@ -100,10 +101,6 @@ public class iCloudUseExample : MonoBehaviour {
 		}
 	}	
 	
-
-	private void OnCloundDataChangedAction () {
-		IOSNativePopUpManager.showMessage("iCloud", "Cloud Data Was Changed On Other Device");
-	}
 	
 	//--------------------------------------
 	//  PRIVATE METHODS

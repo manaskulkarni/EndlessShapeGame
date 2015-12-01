@@ -30,6 +30,7 @@ public class GameManager : StateBehaviour
     FirstBeat,
     PurchaseCoins,
     PurchasePotion,
+    FacebookConnect,
   }
 
   public enum DifficultyLevel
@@ -102,6 +103,7 @@ public class GameManager : StateBehaviour
   public string HideStoreEvent = "OnHideStore";
   public string PurchaseCoinsEvent = "OnPurchaseCoins";
   public string PurchasePotionEvent = "OnPurchasePotion";
+  public string FacebookConnectEvent = "OnFacebookConnect";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -378,6 +380,11 @@ public class GameManager : StateBehaviour
   void HideStore_Enter ()
   {
     BroadcastMessage (HideStoreEvent);
+  }
+
+  void FacebookConnect_Enter ()
+  {
+    BroadcastMessage (FacebookConnectEvent);
   }
 
   void PurchaseItem (StoreButton button)

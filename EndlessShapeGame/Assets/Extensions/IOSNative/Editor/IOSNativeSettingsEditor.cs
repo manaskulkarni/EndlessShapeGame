@@ -571,6 +571,36 @@ public class IOSNativeSettingsEditor : Editor {
 
 
 
+		EditorGUILayout.Space();
+		EditorGUILayout.LabelField("One Signal", EditorStyles.boldLabel);
+
+		EditorGUI.indentLevel++; {
+			
+			EditorGUI.BeginChangeCheck(); 
+
+			IOSNativeSettings.Instance.OneSignalEnabled = ToggleFiled("Enable One Signal", IOSNativeSettings.Instance.OneSignalEnabled);
+			if(EditorGUI.EndChangeCheck())  {
+				
+				if(IOSNativeSettings.Instance.OneSignalEnabled) {
+					if(!FileStaticAPI.IsFolderExists("Plugins/OneSignal")) {
+						bool res = EditorUtility.DisplayDialog("One Signal not found", "IOS Native wasn't able to find One Signal libraryes in your project. Would you like to donwload and install it?", "Download", "No Thanks");
+						if(res) {
+							Application.OpenURL(IOSNativeSettings.Instance.OneSignalDocsLink);
+						}
+						IOSNativeSettings.Instance.OneSignalEnabled = false;
+					}
+				}
+			}	
+
+		} EditorGUI.indentLevel--;
+		
+		EditorGUILayout.BeginHorizontal ();
+		EditorGUILayout.Space ();
+		if (GUILayout.Button("[?] Read More", GUILayout.Width(100.0f))) {
+			Application.OpenURL(IOSNativeSettings.Instance.OneSignalDocsLink);
+		}
+		EditorGUILayout.EndHorizontal();
+
 
 		EditorGUILayout.Space();
 		EditorGUILayout.LabelField("Soomla Configuration", EditorStyles.boldLabel);

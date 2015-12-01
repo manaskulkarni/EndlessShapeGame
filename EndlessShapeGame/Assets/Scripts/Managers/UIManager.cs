@@ -201,6 +201,11 @@ public class UIManager : StateBehaviour
   {
     GameManager.inst.SendMessage ("PurchaseItem", button);
   }
+
+  public void FacebookConnect ()
+  {
+    GameManager.inst.ChangeState (GameManager.States.FacebookConnect);
+  }
   
   #region Coroutines
   

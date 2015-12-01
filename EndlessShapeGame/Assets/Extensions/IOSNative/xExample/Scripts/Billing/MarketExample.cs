@@ -106,11 +106,6 @@ public class MarketExample : BaseIOSFeaturePreview {
 			ISN_Security.Instance.RetrieveLocalReceipt();
 		}
 
-		StartX += XButtonStep;
-		if(GUI.Button(new Rect(StartX, StartY, buttonWidth, buttonHeight), "Retrive Device GUID")) {
-			ISN_Security.OnGUIDLoaded += OnGUIDLoaded;
-			ISN_Security.Instance.RetrieveDeviceGUID();
-		}
 
 	}
 
@@ -127,13 +122,8 @@ public class MarketExample : BaseIOSFeaturePreview {
 	//--------------------------------------
 	//  EVENTS
 	//--------------------------------------
-
-
-	void OnGUIDLoaded (ISN_DeviceGUID result) {
-		ISN_Security.OnGUIDLoaded -= OnGUIDLoaded;
-		IOSNativePopUpManager.showMessage("GUID Loaded", result.Base64String);
-	}
 	
+
 
 	void OnReceiptLoaded (ISN_LocalReceiptResult result) {
 		Debug.Log("OnReceiptLoaded");

@@ -1,4 +1,4 @@
-#define PUSH_ENABLED
+//#define PUSH_ENABLED
 ////////////////////////////////////////////////////////////////////////////////
 //  
 // @module IOS Native Plugin for Unity3D 
@@ -212,6 +212,11 @@ public class IOSNotificationController : ISN_Singleton<IOSNotificationController
 	//--------------------------------------
 
 	public void RequestNotificationPermissions() {
+			if(ISN_Device.CurrentDevice.MajorSystemVersion < 8) {
+				return;
+			}
+
+
 			#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
 			_ISN_RequestNotificationPermissions ();
 		#endif
