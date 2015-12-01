@@ -75,8 +75,8 @@ public class FacebookInterface : MonoBehaviour
     if(SPFacebook.instance.IsLoggedIn)
     {
       Debug.Log ("Already Logged In");
-      Debug.Log ("Number of Friends : " + SPFacebook.Instance._friends.Count);
-      foreach (var v in SPFacebook.Instance._friends)
+      Debug.Log ("Number of Friends : " + SPFacebook.Instance.friends.Count);
+      foreach (var v in SPFacebook.Instance.friends)
       {
         Debug.Log ("Friend Name : " + v.Value.name);
       }
