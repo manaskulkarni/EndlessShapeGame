@@ -22,6 +22,10 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   public GameObject prevButton;
   [Tooltip("Button to go to the next page (optional)")]
   public GameObject nextButton;
+  [Tooltip("Color if can scroll to next item (optional)")]
+  public Color activeButtonColor;
+  [Tooltip("Color if cannot scroll to next item (optional)")]
+  public Color inactiveButtonColor;
   [Tooltip("Sprite for unselected page (optional)")]
   public Sprite unselectedPage;
   [Tooltip("Sprite for selected page (optional)")]
@@ -61,6 +65,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   private int _previousPageSelectionIndex;
   // container with Image components - one Image for each page
   private List<Image> _pageSelectionImages;
+
   
   //------------------------------------------------------------------------
   void Awake ()
@@ -198,6 +203,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   //------------------------------------------------------------------------
   public void SetPage(int aPageIndex)
   {
+    UpdateButtons (aPageIndex);
     aPageIndex = Mathf.Clamp(aPageIndex, 0, _pageCount - 1);
     _container.anchoredPosition = _pagePositions[aPageIndex];
     _currentPage = aPageIndex;
@@ -207,6 +213,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   public void LerpToPage(int aPageIndex)
   {
     Debug.Log ("PAGE COUNT : " + _pageCount);
+    UpdateButtons (aPageIndex);
     aPageIndex = Mathf.Clamp(aPageIndex, 0, _pageCount - 1);
     _lerpTo = _pagePositions[aPageIndex];
     _lerp = true;
@@ -276,6 +283,40 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   private void PreviousScreen()
   {
     LerpToPage(_currentPage - 1);
+  }
+  //------------------------------------------------------------------------
+  private void UpdateButtons (int aPageIndex)
+  {
+    if (_currentPage < aPageIndex)
+    {
+      if (_currentPage + 1 >= _pageCount - 1)
+      {
+        if (prevButton)
+        prevButton.GetComponent <Button> ().interactable = true;
+        if (nextButton)
+        nextButton.GetComponent <Button> ().interactable = false;
+      }
+      else
+      {
+        if (prevButton)
+        prevButton.GetComponent <Button> ().interactable = true;
+        if (nextButton)
+        nextButton.GetComponent <Button> ().interactable = true;
+      }
+    }
+    else
+    {
+      if (_currentPage - 1 <= 0)
+      {
+        prevButton.GetComponent <Button> ().interactable = false;
+        nextButton.GetComponent <Button> ().interactable = true;
+      }
+      else
+      {
+        prevButton.GetComponent <Button> ().interactable = true;
+        nextButton.GetComponent <Button> ().interactable = true;
+      }
+    }
   }
   
   //------------------------------------------------------------------------

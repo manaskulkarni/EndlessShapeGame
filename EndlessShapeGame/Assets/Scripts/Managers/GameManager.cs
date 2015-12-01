@@ -8,6 +8,7 @@ public class GameManager : StateBehaviour
 
   public enum States
   {
+    None,
     Play,
     Stop,
     Replay,
@@ -135,6 +136,8 @@ public class GameManager : StateBehaviour
     
     Debug.Log ("Device Name : " + SystemInfo.deviceName);
     Debug.Log ("Device Model : " + SystemInfo.deviceModel);
+
+    ChangeState (States.None);
   }
   
   // Use this for initialization
@@ -144,7 +147,9 @@ public class GameManager : StateBehaviour
   
   void OnApplicationPause (bool pause)
   {
-    if (GetState () == (System.Enum)(States.Playing) || GetState () == (System.Enum)(States.Pause) || GetState () == (System.Enum)(States.Resume))
+    Debug.Log ("Game State : " + GetState ());
+    
+    if ((States)GetState () == (States.Playing) || (States)GetState () == (States.Pause) || (States)GetState () == (States.Resume))
     {
       if (pause)
       {

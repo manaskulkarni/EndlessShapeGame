@@ -36,7 +36,7 @@ public class StatsManager : MonoBehaviour
   public PlayerStats playerStats;
   public int reviveCoinsPrice = 100;
   public int maxAllowedRevives = 1;
-  public int FillpedScore = 0;
+  public int FlippedScore = 0;
   public bool isFlipped = false;
   Image image = null;
   
@@ -259,10 +259,11 @@ public class StatsManager : MonoBehaviour
     ++score;
     if(isFlipped)
     {
-      FillpedScore++;
+      ++FlippedScore;
     }
     //Debug.Log("Flipped Score " + FillpedScore);
-    
+
+#if !UNITY_EDITOR
     BroadcastMessage (ReportAchievementEvent, new AchievementData ("StillLearning", 100.0f, true));
     
     if (!highScoreCrossed && score > highScore)
@@ -300,6 +301,7 @@ public class StatsManager : MonoBehaviour
     {
       BroadcastMessage(ReportAchievementEvent, new AchievementData("NoMatch", 100.0f,true));
     }
+#endif
     
   }
 

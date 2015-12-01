@@ -42,6 +42,8 @@ public class UIManager : StateBehaviour
   private Text textCoins { get; set; }
   private Text textGameOverScore { get; set; }
   private Text textGameOverFeedback { get; set; }
+  private Image imageCircle { get; set; }
+  private Color startImageCircleColor { get; set; }
   
   public ScrollSnapRect storeList;
   
@@ -72,6 +74,9 @@ public class UIManager : StateBehaviour
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
     animRevive = GameObject.Find ("ImageFill");
+    imageCircle = GameObject.Find ("ImageCircle").GetComponent <Image> ();
+    startImageCircleColor = imageCircle.color;
+    imageCircle.gameObject.SetActive (false);
     
     textGameOverScore.text = BestScore ();
     textGameOverFeedback.text = null;
@@ -358,37 +363,88 @@ public class UIManager : StateBehaviour
   private IEnumerator StartPauseTimer ()
   {
     int i = 3;
+
+    imageCircle.gameObject.SetActive (true);
+    imageCircle.color = startImageCircleColor;
+
     textPauseTimer.enabled = true;
     textPauseTimer.text = ""+i+"";
     textScore.enabled = false;
+    textPauseTimer.color = new Color (0.0f, 0.0f, 0.0f, textScore.color.a);
+    
     while (i > 0)
     {
       --i;
-      StartCoroutine (StartPopFeedback(textPauseTimer));
+      var cor = StartCoroutine (StartPopFeedback(textPauseTimer));
       yield return new WaitForSeconds (0.5f);
       textPauseTimer.text = ""+i+"";
+      StopCoroutine (cor);
     }
     
     textScore.enabled = true;
     textPauseTimer.enabled = false;
     GameManager.inst.ChangeState (GameManager.States.UnPause);
+    StartCoroutine (FadeOut (imageCircle, 5.0f));
+  }
+
+  private IEnumerator FadeOut (Image image, float speed = 1.0f)
+  {
+    Color c = image.color;
+
+    while (c.a > 0.0f)
+    {
+      c.a -= Time.deltaTime * speed;
+      image.color = c;
+      yield return null;
+    }
+
+    image.gameObject.SetActive (false);
+  }
+
+  private IEnumerator FadeIn (Image image, float speed = 1.0f)
+  {
+    Color c = image.color;
+    image.gameObject.SetActive (true);
+    
+    while (c.a < 1.0f)
+    {
+      c.a += Time.deltaTime * speed;
+      image.color = c;
+      yield return null;
+    }
   }
   
   private IEnumerator StartPopFeedback (Text text)
   {
-    while (text.transform.localScale.x < 1.2f)
+    float scale = text.transform.localScale.x;
+    while (scale < 2.0f)
     {
-      var scale = text.transform.localScale;
-      scale += Vector3.one * Time.deltaTime * 2.0f;
-      text.transform.localScale = scale;
+      scale += Time.deltaTime * 5.0f;
+      text.transform.localScale = Vector2.one * scale;
+      yield return null;
+    }
+    while (scale > 1.0f)
+    {
+      scale -= Time.deltaTime * 5.0f;
+      text.transform.localScale = Vector2.one * scale;
+      yield return null;
+    }
+  }
+
+  private IEnumerator StartColorFeedback (Text text)
+  {
+    float c = text.color.r;
+    while (c > 0.0f)
+    {
+      c -= Time.deltaTime * 5.0f;
+      text.color = new Color (c, c, c, text.color.a);
       yield return null;
     }
     
-    while (text.transform.localScale.x > 1.0f)
+    while (c < 1.0f)
     {
-      var scale = text.transform.localScale;
-      scale -= Vector3.one * Time.deltaTime * 2.0f;
-      text.transform.localScale = scale;
+      c += Time.deltaTime * 5.0f;
+      text.color = new Color (c, c, c, text.color.a);
       yield return null;
     }
   }

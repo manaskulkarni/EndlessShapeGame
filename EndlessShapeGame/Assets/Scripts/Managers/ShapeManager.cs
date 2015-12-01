@@ -620,6 +620,16 @@ public class ShapeManager : MonoBehaviour
     OnGameStart ();
   }
 
+  void OnShowStore ()
+  {
+    StartCoroutine (FadeOutShapes ());
+  }
+
+  void OnHideStore ()
+  {
+    StartCoroutine (FadeInShapes ());
+  }
+
   #endregion
   
   private int GetStartInterval ()
@@ -769,6 +779,42 @@ public class ShapeManager : MonoBehaviour
     shape.spriteRenderer.sprite = nextSprite;
     /*************************************************************************/
     /*************************************************************************/
+  }
+
+  private IEnumerator FadeOutShapes ()
+  {
+    float alpha = shapes [0].spriteRenderer.color.a;
+    while (alpha > 0.0f)
+    {
+      alpha -= Time.deltaTime * 5.0f;
+      Color c = new Color ();
+      foreach (var v in shapes)
+      {
+        c = v.spriteRenderer.color;
+        c.a = alpha;
+        v.spriteRenderer.color = c;
+      }
+      
+      yield return null;
+    }
+  }
+
+  private IEnumerator FadeInShapes ()
+  {
+    float alpha = shapes [0].spriteRenderer.color.a;
+    while (alpha < 1.0f)
+    {
+      alpha += Time.deltaTime * 5.0f;
+      Color c = new Color ();
+      foreach (var v in shapes)
+      {
+        c = v.spriteRenderer.color;
+        c.a = alpha;
+        v.spriteRenderer.color = c;
+      }
+      
+      yield return null;
+    }
   }
 
   private void SpawnShapes()
