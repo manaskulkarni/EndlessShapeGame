@@ -639,6 +639,16 @@ public class ShapeManager : MonoBehaviour
     StartCoroutine (FadeInShapes ());
   }
 
+  void OnShowOptions ()
+  {
+    OnShowStore ();
+  }
+
+  void OnHideOptions ()
+  {
+    OnHideStore ();
+  }
+
   #endregion
   
   private int GetStartInterval ()
