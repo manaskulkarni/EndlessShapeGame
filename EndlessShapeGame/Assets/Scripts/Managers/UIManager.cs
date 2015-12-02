@@ -347,7 +347,7 @@ public class UIManager : StateBehaviour
     
     textGameOverScore.text = ""+StatsManager.inst.score+"";
     textGameOverFeedback.text = BestScore ();
-    textGameOverFeedback.GetComponent <Animator> ().enabled = false;
+//    textGameOverFeedback.GetComponent <Animator> ().enabled = false;
     
     while (group.alpha < 1.0f)
     {
@@ -674,7 +674,12 @@ public class UIManager : StateBehaviour
   {
     textGameOverScore.text = ""+StatsManager.inst.score+"";
     textGameOverFeedback.text = NewHighScore ();
-    textGameOverFeedback.GetComponent <Animator> ().enabled = true;
+    textGameOverFeedback.GetComponent <Animator> ().Play ("HighScoreFeedback", 0);
+  }
+
+  void OnNoHighScore ()
+  {
+    textGameOverFeedback.GetComponent <Animator> ().Stop ();
   }
   
   void OnHighScoreCross ()

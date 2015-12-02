@@ -54,6 +54,7 @@
     <activity android:name="com.facebook.unity.FBUnityLoginActivity" />
     <activity android:name="com.facebook.unity.FBUnityDeepLinkingActivity" />
     <activity android:name="com.facebook.unity.FBUnityDialogsActivity" />
+    <activity android:name="com.facebook.FacebookActivity" />
   </application>
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

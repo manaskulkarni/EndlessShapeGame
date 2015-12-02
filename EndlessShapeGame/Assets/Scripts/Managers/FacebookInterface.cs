@@ -11,21 +11,21 @@ public class FacebookInterface : MonoBehaviour
   // Use this as constructor
   void Awake ()
   {
-    SPFacebook.instance.OnInitCompleteAction += HandleOnInitCompleteAction;
-    SPFacebook.instance.OnFocusChangedAction += HandleOnFocusChangedAction;
-    SPFacebook.instance.OnAuthCompleteAction += HandleOnAuthCompleteAction;
+    SPFacebook.OnInitCompleteAction += HandleOnInitCompleteAction;
+    SPFacebook.OnFocusChangedAction += HandleOnFocusChangedAction;
+    SPFacebook.OnAuthCompleteAction += HandleOnAuthCompleteAction;
 
     SPFacebook.Instance.Init();
 
-    SPFacebook.Instance.OnLogOut += HandleOnLogOut;
+    SPFacebook.OnLogOut += HandleOnLogOut;
 
-    SPFacebook.instance.OnPlayerScoresRequestCompleteAction += HandleOnPlayerScoresRequestCompleteAction;
-    SPFacebook.instance.OnAppScoresRequestCompleteAction += HandleOnAppScoresRequestCompleteAction; 
-    SPFacebook.instance.OnSubmitScoreRequestCompleteAction += HandleOnSubmitScoreRequestCompleteAction;
-    SPFacebook.instance.OnDeleteScoresRequestCompleteAction += HandleOnDeleteScoresRequestCompleteAction;
+    SPFacebook.OnPlayerScoresRequestCompleteAction += HandleOnPlayerScoresRequestCompleteAction;
+    SPFacebook.OnAppScoresRequestCompleteAction += HandleOnAppScoresRequestCompleteAction; 
+    SPFacebook.OnSubmitScoreRequestCompleteAction += HandleOnSubmitScoreRequestCompleteAction;
+    SPFacebook.OnDeleteScoresRequestCompleteAction += HandleOnDeleteScoresRequestCompleteAction;
 
-    SPFacebook.Instance.OnFriendsDataRequestCompleteAction += HandleOnFriendsDataRequestCompleteAction;
-    SPFacebook.Instance.OnInvitableFriendsDataRequestCompleteAction += HandleOnInvitableFriendsDataRequestCompleteAction;
+    SPFacebook.OnFriendsDataRequestCompleteAction += HandleOnFriendsDataRequestCompleteAction;
+    SPFacebook.OnInvitableFriendsDataRequestCompleteAction += HandleOnInvitableFriendsDataRequestCompleteAction;
   }
 
   void HandleOnInitCompleteAction ()
@@ -40,17 +40,17 @@ public class FacebookInterface : MonoBehaviour
     }
   }
 
-  void HandleOnInvitableFriendsDataRequestCompleteAction (FB_APIResult obj)
+  void HandleOnInvitableFriendsDataRequestCompleteAction (FB_Result obj)
   {
     Debug.Log ("Number of Invitable Friends : " + SPFacebook.instance.InvitableFriends.Count);
     foreach (var v in SPFacebook.Instance.InvitableFriends)
     {
-      Debug.Log ("Invitable Friend Name : " + v.Value.name);
-      Debug.Log ("Score : " + SPFacebook.Instance.GetScoreByUserId (v.Value.id));
+      Debug.Log ("Invitable Friend Name : " + v.Value.Name);
+      Debug.Log ("Score : " + SPFacebook.Instance.GetScoreByUserId (v.Value.Id));
     }
   }
 
-  void HandleOnFriendsDataRequestCompleteAction (FB_APIResult obj)
+  void HandleOnFriendsDataRequestCompleteAction (FB_Result obj)
   {
     Debug.Log ("Number of Friends : " + SPFacebook.instance.friends.Count);
 
@@ -72,7 +72,7 @@ public class FacebookInterface : MonoBehaviour
     }
   }
 
-  void HandleOnAuthCompleteAction (FB_APIResult obj)
+  void HandleOnAuthCompleteAction (FB_Result obj)
   {
     if(SPFacebook.instance.IsLoggedIn)
     {
@@ -86,7 +86,7 @@ public class FacebookInterface : MonoBehaviour
     }
   }
 
-  void HandleOnPlayerScoresRequestCompleteAction (FB_APIResult result)
+  void HandleOnPlayerScoresRequestCompleteAction (FB_Result result)
   {
     Debug.Log ("Player Score Request Complete");
     if(result.IsSucceeded)
@@ -97,11 +97,11 @@ public class FacebookInterface : MonoBehaviour
     }
     else
     {
-      Debug.Log (result.Responce);
+      Debug.Log (result.RawData);
     }
   }
 
-  void HandleOnAppScoresRequestCompleteAction (FB_APIResult result)
+  void HandleOnAppScoresRequestCompleteAction (FB_Result result)
   {
     Debug.Log ("App Score Request Complete");
     
@@ -115,25 +115,25 @@ public class FacebookInterface : MonoBehaviour
 
       foreach (var v in SPFacebook.Instance.friends)
       {
-        Debug.Log ("Friend Name : " + v.Value.name);
+        Debug.Log ("Friend Name : " + v.Value.Name);
 
-        if (SPFacebook.Instance.GetScoreObjectByUserId (v.Value.id) == null)
+        if (SPFacebook.Instance.GetScoreObjectByUserId (v.Value.Id) == null)
         {
           Debug.Log ("Score Not Recorded Yet");
         }
         else
         {
-          Debug.Log ("Score : " + SPFacebook.Instance.GetScoreObjectByUserId (v.Value.id).value);
+          Debug.Log ("Score : " + SPFacebook.Instance.GetScoreObjectByUserId (v.Value.Id).value);
         }
       }
     }
     else
     {
-      Debug.Log (result.Responce);
+      Debug.Log (result.RawData);
     }
   }
 
-  void HandleOnSubmitScoreRequestCompleteAction (FB_APIResult result)
+  void HandleOnSubmitScoreRequestCompleteAction (FB_Result result)
   {
     if(result.IsSucceeded)
     {
@@ -143,11 +143,11 @@ public class FacebookInterface : MonoBehaviour
     }
     else
     {
-      Debug.Log (result.Responce);
+      Debug.Log (result.RawData);
     }
   }
 
-  void HandleOnDeleteScoresRequestCompleteAction (FB_APIResult result)
+  void HandleOnDeleteScoresRequestCompleteAction (FB_Result result)
   {
     if(result.IsSucceeded)
     {

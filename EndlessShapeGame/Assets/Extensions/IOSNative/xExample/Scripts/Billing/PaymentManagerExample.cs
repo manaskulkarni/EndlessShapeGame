@@ -19,8 +19,8 @@ public class PaymentManagerExample {
 	// INITIALIZE
 	//--------------------------------------
 	
-	public const string SMALL_PACK 	=  "com.spk.esg.iap.d500";
-	public const string NC_PACK 	=  "com.spk.esg.iap.d1200";
+	public const string SMALL_PACK 	=  "your.product.id1.here";
+	public const string NC_PACK 	=  "your.product.id2.here";
 	
 
 

@@ -97,6 +97,7 @@ public class GameManager : StateBehaviour
   public string GameOverEvent = "OnGameOver";
   public string HighScoreEvent = "OnHighScore";
   public string HighScoreCrossEvent = "OnHighScoreCross";
+  public string NoHighScoreEvent = "OnNoHighScore";
   public string PauseEvent = "OnPause";
   public string ResumeEvent = "OnResume";
   public string UnPauseEvent = "OnUnPause";
@@ -309,6 +310,10 @@ public class GameManager : StateBehaviour
     if (StatsManager.inst.isHighScore)
     {
       BroadcastMessage (HighScoreEvent);
+    }
+    else
+    {
+      BroadcastMessage (NoHighScoreEvent);
     }
   }
   
