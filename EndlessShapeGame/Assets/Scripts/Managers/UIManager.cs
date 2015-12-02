@@ -74,6 +74,7 @@ public class UIManager : StateBehaviour
     buttonStart = GameObject.Find ("ButtonStart");
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
+    textGameOverFeedback.GetComponent <Animator> ().Stop ();
     textConnectStatus = GameObject.Find ("TextConnectStatus").GetComponent <Text> ();
     animRevive = GameObject.Find ("ImageFill");
     imageCircle = GameObject.Find ("ImageCircle").GetComponent <Image> ();
@@ -344,9 +345,6 @@ public class UIManager : StateBehaviour
     SetMenuActive (group.gameObject, true);
     
     //    textScore.text = "0";
-    
-    textGameOverScore.text = ""+StatsManager.inst.score+"";
-    textGameOverFeedback.text = BestScore ();
 //    textGameOverFeedback.GetComponent <Animator> ().enabled = false;
     
     while (group.alpha < 1.0f)
@@ -668,18 +666,21 @@ public class UIManager : StateBehaviour
     
 //    StartCoroutine(FadeOutGameCanvas());
     StartCoroutine(FadeInStartCanvas());
+    textGameOverScore.text = ""+StatsManager.inst.score+"";
+    textGameOverFeedback.text = BestScore ();
   }
   
   void OnHighScore ()
   {
     textGameOverScore.text = ""+StatsManager.inst.score+"";
     textGameOverFeedback.text = NewHighScore ();
+    textGameOverFeedback.GetComponent <Animator> ().enabled = true;
     textGameOverFeedback.GetComponent <Animator> ().Play ("HighScoreFeedback", 0);
   }
 
   void OnNoHighScore ()
   {
-    textGameOverFeedback.GetComponent <Animator> ().Stop ();
+    textGameOverFeedback.GetComponent <Animator> ().enabled = false;
   }
   
   void OnHighScoreCross ()
