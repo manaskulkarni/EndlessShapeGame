@@ -995,39 +995,47 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 		Dictionary<string, object> JSON = ANMiniJSON.Json.Deserialize(result.Text) as Dictionary<string, object>;
 		List<object> data = JSON["data"]  as List<object>;
 		
-		foreach(object row in data) {
+
+		foreach(object row in data)
+    {
 			FBScore score =  new FBScore();
 			Dictionary<string, object> dataRow = row as Dictionary<string, object>;
 
-			if (dataRow.ContainsKey("user")) {
+			if (dataRow.ContainsKey("user"))
+      {
 			
 				Dictionary<string, object> userInfo = dataRow["user"]  as Dictionary<string, object>;
 
-				if (userInfo.ContainsKey("id")) {
+				if (userInfo.ContainsKey("id"))
+        {
 					score.UserId = System.Convert.ToString(userInfo["id"]);
 				}
 
-				if (userInfo.ContainsKey("name")) {
+				if (userInfo.ContainsKey("name"))
+        {
 					score.UserName = System.Convert.ToString(userInfo["name"]);
 				}
-				
-				
 			}
 
-
-			if (dataRow.ContainsKey("score")) {
+			if (dataRow.ContainsKey("score"))
+      {
 				score.value = System.Convert.ToInt32(dataRow["score"]); 
-			}
+      }
 
+      Debug.Log ("DICTIONARY SIZE : " + dataRow.Count);
+      Debug.Log ("SCORE : " + dataRow ["score"]);
 
-			if (dataRow.ContainsKey("application")) {
+			if (dataRow.ContainsKey("application"))
+      {
 				Dictionary<string, object> AppInfo = dataRow["application"]  as Dictionary<string, object>;
 
-				if (AppInfo.ContainsKey("id")) {
+				if (AppInfo.ContainsKey("id"))
+        {
 					score.AppId = System.Convert.ToString(AppInfo["id"]);
 				}
 
-				if (AppInfo.ContainsKey("name")) {
+				if (AppInfo.ContainsKey("name"))
+        {
 					score.AppName = System.Convert.ToString(AppInfo["name"]);
 				}
 
@@ -1042,36 +1050,57 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 		OnAppScoresRequestCompleteAction(r);
 	}
 	
-	private void AddToAppScores(FBScore score) {
-		
-		if(_appScores.ContainsKey(score.UserId)) {
-			_appScores[score.UserId] = score;
-		} else {
+	private void AddToAppScores(FBScore score)
+  {
+    Debug.Log ("APP SCORES COUNT : " + _appScores.Count);
+    Debug.Log ("USER ID : " + score.UserId);
+
+    if(_appScores.ContainsKey(score.UserId))
+    {
+      _appScores[score.UserId] = score;
+		}
+    else
+    {
 			_appScores.Add(score.UserId, score);
 		}
+
+    Debug.Log ("USER SCORES COUNT : " + _userScores.Count);
 		
-		if(_userScores.ContainsKey(score.AppId)) {
+    if (score.AppId != null)
+    {
+		  if(_userScores.ContainsKey(score.AppId))
+      {
 			_userScores[score.AppId] = score;
-		} else {
+		  }
+      else
+      {
 			_userScores.Add(score.AppId, score);
-		}
-		
-		
-		
-		
+		  }
+    }
 	}
 	
-	private void AddToUserScores(FBScore score) {
-		if(_userScores.ContainsKey(score.AppId)) {
+	private void AddToUserScores(FBScore score)
+  {
+    Debug.Log ("REACHED HERE");
+    Debug.Log (_userScores);
+    Debug.Log (_userScores.Count);
+    Debug.Log ("REACHED HERE HERE");
+
+		if(_userScores.ContainsKey(score.AppId))
+    {
 			_userScores[score.AppId] = score;
-		} else {
+		}
+    else
+    {
 			_userScores.Add(score.AppId, score);
 		}
 		
-		
-		if(_appScores.ContainsKey(score.UserId)) {
+		if(_appScores.ContainsKey(score.UserId))
+    {
 			_appScores[score.UserId] = score;
-		} else {
+		}
+    else
+    {
 			_appScores.Add(score.UserId, score);
 		}
 		
@@ -1089,7 +1118,8 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 		Dictionary<string, object> JSON = ANMiniJSON.Json.Deserialize(result.Text) as Dictionary<string, object>;
 		List<object> data = JSON["data"]  as List<object>;
 		
-		foreach(object row in data) {
+		foreach(object row in data)
+    {
 			FBScore score =  new FBScore();
 			Dictionary<string, object> dataRow = row as Dictionary<string, object>;
 			

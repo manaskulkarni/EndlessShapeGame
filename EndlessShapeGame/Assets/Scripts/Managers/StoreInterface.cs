@@ -9,7 +9,7 @@ public abstract class StoreInterface : MonoBehaviour
 
   public abstract bool IsIAPInitialized ();
   
-  protected abstract void OnSubmitScore();
+  protected abstract void OnSubmitHighScore();
   protected abstract void OnShowLeaderboard();
   protected abstract void OnShowAchievements();
   protected abstract void OnReportAchievement(StatsManager.AchievementData achievement);

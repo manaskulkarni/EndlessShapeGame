@@ -15,11 +15,6 @@ public class FacebookInterface : MonoBehaviour
     SPFacebook.instance.OnFocusChangedAction += HandleOnFocusChangedAction;
     SPFacebook.instance.OnAuthCompleteAction += HandleOnAuthCompleteAction;
 
-    SPFacebook.instance.OnPlayerScoresRequestCompleteAction += HandleOnPlayerScoresRequestCompleteAction;
-    SPFacebook.instance.OnAppScoresRequestCompleteAction += HandleOnAppScoresRequestCompleteAction; 
-    SPFacebook.instance.OnSubmitScoreRequestCompleteAction += HandleOnSubmitScoreRequestCompleteAction;; 
-    SPFacebook.instance.OnDeleteScoresRequestCompleteAction += HandleOnDeleteScoresRequestCompleteAction;; 
-
     SPFacebook.Instance.Init();
   }
 
@@ -44,16 +39,20 @@ public class FacebookInterface : MonoBehaviour
     foreach (var v in SPFacebook.Instance.InvitableFriends)
     {
       Debug.Log ("Invitable Friend Name : " + v.Value.name);
+      Debug.Log ("Score : " + SPFacebook.Instance.GetScoreByUserId (v.Value.id));
     }
   }
 
   void HandleOnFriendsDataRequestCompleteAction (FB_APIResult obj)
   {
     Debug.Log ("Number of Friends : " + SPFacebook.instance.friends.Count);
-    foreach (var v in SPFacebook.Instance.friends)
-    {
-      Debug.Log ("Friend Name : " + v.Value.name);
-    }
+
+    SPFacebook.instance.OnPlayerScoresRequestCompleteAction += HandleOnPlayerScoresRequestCompleteAction;
+    SPFacebook.instance.OnAppScoresRequestCompleteAction += HandleOnAppScoresRequestCompleteAction; 
+    SPFacebook.instance.OnSubmitScoreRequestCompleteAction += HandleOnSubmitScoreRequestCompleteAction;; 
+    SPFacebook.instance.OnDeleteScoresRequestCompleteAction += HandleOnDeleteScoresRequestCompleteAction;
+    //      SPFacebook.Instance.LoadPlayerScores ();
+    SPFacebook.Instance.LoadAppScores ();
   }
   
   void HandleOnFocusChangedAction (bool focus)
@@ -89,6 +88,7 @@ public class FacebookInterface : MonoBehaviour
 
   void HandleOnPlayerScoresRequestCompleteAction (FB_APIResult result)
   {
+    Debug.Log ("Player Score Request Complete");
     if(result.IsSucceeded)
     {
       string msg = "Player has scores in " + SPFacebook.instance.userScores.Count + " apps" + "\n";
@@ -103,11 +103,19 @@ public class FacebookInterface : MonoBehaviour
 
   void HandleOnAppScoresRequestCompleteAction (FB_APIResult result)
   {
+    Debug.Log ("App Score Request Complete");
+    
     if(result.IsSucceeded)
     {
       string msg = "Loaded " + SPFacebook.instance.appScores.Count + " scores results" + "\n";
       msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
       Debug.Log (msg);
+
+      foreach (var v in SPFacebook.Instance.friends)
+      {
+        Debug.Log ("Friend Name : " + v.Value.name);
+        Debug.Log ("Score : " + SPFacebook.Instance.GetScoreByUserId (v.Value.id));
+      }
     }
     else
     {
@@ -149,6 +157,12 @@ public class FacebookInterface : MonoBehaviour
 
   void OnShowFacebookLeaderboard ()
   {
+  }
+
+  void OnSubmitScore ()
+  {
+    Debug.Log ("Submitting Score To Facebook");
+    SPFacebook.Instance.SubmitScore (StatsManager.inst.score);
   }
 
 }

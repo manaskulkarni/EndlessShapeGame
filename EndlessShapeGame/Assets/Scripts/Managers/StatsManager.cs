@@ -123,6 +123,7 @@ public class StatsManager : MonoBehaviour
   #endregion
   #region Events
   public string SubmitScoreEvent { get { return "OnSubmitScore"; } }
+  public string SubmitHighScoreEvent { get { return "OnSubmitHighScore"; } }
   public string ShowLeaderboardEvent { get { return "OnShowLeaderboard"; } }
   public string ShowAchievementsEvent { get { return "OnShowAchievements"; } }
   public string ReportAchievementEvent { get { return "OnReportAchievement"; } }
@@ -347,13 +348,15 @@ public class StatsManager : MonoBehaviour
 
   void OnGameOver ()
   {
+    BroadcastMessage (SubmitScoreEvent);
+
     isHighScore = CheckHighScore ();
     if (isHighScore)
     {
       previousScore = score;
-      if (SubmitScoreEvent != null)
+      if (SubmitHighScoreEvent != null)
       {
-        BroadcastMessage (SubmitScoreEvent);
+        BroadcastMessage (SubmitHighScoreEvent);
         PlayerPrefs.SetInt (leaderBoardId, score);
       }
     }
