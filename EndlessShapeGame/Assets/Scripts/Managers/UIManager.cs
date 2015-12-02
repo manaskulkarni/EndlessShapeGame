@@ -42,6 +42,7 @@ public class UIManager : StateBehaviour
   private Text textCoins { get; set; }
   private Text textGameOverScore { get; set; }
   private Text textGameOverFeedback { get; set; }
+  private Text textConnectStatus { get; set; }
   private Image imageCircle { get; set; }
   private Color startImageCircleColor { get; set; }
   
@@ -73,6 +74,7 @@ public class UIManager : StateBehaviour
     buttonStart = GameObject.Find ("ButtonStart");
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
+    textConnectStatus = GameObject.Find ("TextConnectStatus").GetComponent <Text> ();
     animRevive = GameObject.Find ("ImageFill");
     imageCircle = GameObject.Find ("ImageCircle").GetComponent <Image> ();
     startImageCircleColor = imageCircle.color;
@@ -686,6 +688,11 @@ public class UIManager : StateBehaviour
       Debug.Log ("PAUSED");
       StartCoroutine (StartPauseTimer ());
     }
+  }
+
+  void OnFacebookConnected (bool connected)
+  {
+    textConnectStatus.text = connected ? "Logout" : "Connect";
   }
 
   void OnShowFacebookLeaderboard ()

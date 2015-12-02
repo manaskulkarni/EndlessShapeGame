@@ -16,6 +16,16 @@ public class FacebookInterface : MonoBehaviour
     SPFacebook.instance.OnAuthCompleteAction += HandleOnAuthCompleteAction;
 
     SPFacebook.Instance.Init();
+
+    SPFacebook.Instance.OnLogOut += HandleOnLogOut;
+
+    SPFacebook.instance.OnPlayerScoresRequestCompleteAction += HandleOnPlayerScoresRequestCompleteAction;
+    SPFacebook.instance.OnAppScoresRequestCompleteAction += HandleOnAppScoresRequestCompleteAction; 
+    SPFacebook.instance.OnSubmitScoreRequestCompleteAction += HandleOnSubmitScoreRequestCompleteAction;
+    SPFacebook.instance.OnDeleteScoresRequestCompleteAction += HandleOnDeleteScoresRequestCompleteAction;
+
+    SPFacebook.Instance.OnFriendsDataRequestCompleteAction += HandleOnFriendsDataRequestCompleteAction;
+    SPFacebook.Instance.OnInvitableFriendsDataRequestCompleteAction += HandleOnInvitableFriendsDataRequestCompleteAction;
   }
 
   void HandleOnInitCompleteAction ()
@@ -25,11 +35,8 @@ public class FacebookInterface : MonoBehaviour
     {
       //User alreayd authenticated, update your UI accordingly
       Debug.Log ("User already authenticated");
-
-      SPFacebook.Instance.OnFriendsDataRequestCompleteAction += HandleOnFriendsDataRequestCompleteAction;
-      SPFacebook.Instance.OnInvitableFriendsDataRequestCompleteAction += HandleOnInvitableFriendsDataRequestCompleteAction;
-      SPFacebook.Instance.LoadFrientdsInfo (int.MaxValue);
-      SPFacebook.Instance.LoadInvitableFrientdsInfo (int.MaxValue);
+      LoadFriendsInfo ();
+      FacebookConnected (true);
     }
   }
 
@@ -47,10 +54,6 @@ public class FacebookInterface : MonoBehaviour
   {
     Debug.Log ("Number of Friends : " + SPFacebook.instance.friends.Count);
 
-    SPFacebook.instance.OnPlayerScoresRequestCompleteAction += HandleOnPlayerScoresRequestCompleteAction;
-    SPFacebook.instance.OnAppScoresRequestCompleteAction += HandleOnAppScoresRequestCompleteAction; 
-    SPFacebook.instance.OnSubmitScoreRequestCompleteAction += HandleOnSubmitScoreRequestCompleteAction;; 
-    SPFacebook.instance.OnDeleteScoresRequestCompleteAction += HandleOnDeleteScoresRequestCompleteAction;
     //      SPFacebook.Instance.LoadPlayerScores ();
     SPFacebook.Instance.LoadAppScores ();
   }
@@ -74,11 +77,8 @@ public class FacebookInterface : MonoBehaviour
     if(SPFacebook.instance.IsLoggedIn)
     {
       Debug.Log ("Already Logged In");
-      Debug.Log ("Number of Friends : " + SPFacebook.Instance.friends.Count);
-      foreach (var v in SPFacebook.Instance.friends)
-      {
-        Debug.Log ("Friend Name : " + v.Value.name);
-      }
+      LoadFriendsInfo ();
+      FacebookConnected (true);
     }
     else
     {
@@ -111,10 +111,12 @@ public class FacebookInterface : MonoBehaviour
       msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
       Debug.Log (msg);
 
+      CheckFirstLogin ();
+
       foreach (var v in SPFacebook.Instance.friends)
       {
         Debug.Log ("Friend Name : " + v.Value.name);
-        Debug.Log ("Score : " + SPFacebook.Instance.GetScoreByUserId (v.Value.id));
+        Debug.Log ("Score : " + SPFacebook.Instance.GetScoreObjectByUserId (v.Value.id).value);
       }
     }
     else
@@ -150,9 +152,49 @@ public class FacebookInterface : MonoBehaviour
     }
   }
 
+  void HandleOnLogOut ()
+  {
+    FacebookConnected (false);
+    StatsManager.inst.prevFacebookStatus = 0;
+  }
+
+  void FacebookConnected (bool connected)
+  {
+    BroadcastMessage ("OnFacebookConnected", connected);
+  }
+
+  void LoadFriendsInfo ()
+  {
+    SPFacebook.Instance.LoadFrientdsInfo (int.MaxValue);
+    SPFacebook.Instance.LoadInvitableFrientdsInfo (int.MaxValue);
+  }
+
+  void SubmitScore (int score)
+  {
+    Debug.Log ("Submitting Score To Facebook");
+    SPFacebook.Instance.SubmitScore (score);
+  }
+
+  void CheckFirstLogin ()
+  {
+    if (StatsManager.inst.prevFacebookStatus == 0)
+    {
+      SubmitScore (StatsManager.inst.highScore);
+      StatsManager.inst.prevFacebookStatus = 1;
+    }
+  }
+
   void OnFacebookConnect ()
   {
-    SPFacebook.instance.Login();
+    if (SPFacebook.Instance.IsLoggedIn)
+    {
+      Debug.Log ("Logging Out Of Facebook");
+      SPFacebook.Instance.Logout ();
+    }
+    else
+    {
+      SPFacebook.instance.Login();
+    }
   }
 
   void OnShowFacebookLeaderboard ()
@@ -161,8 +203,7 @@ public class FacebookInterface : MonoBehaviour
 
   void OnSubmitScore ()
   {
-    Debug.Log ("Submitting Score To Facebook");
-    SPFacebook.Instance.SubmitScore (StatsManager.inst.score);
+    SubmitScore (StatsManager.inst.score);
   }
 
 }
