@@ -396,7 +396,6 @@ public class ShapeManager : MonoBehaviour
       times[currentIntervalIndex].Add(Time.fixedTime);
 #endif
 
-      Debug.Log ("bb");
       GameManager.inst.BroadcastMessage ("OnShapeTriggered", shapeBehavior);
 
       /***********************************************************************/

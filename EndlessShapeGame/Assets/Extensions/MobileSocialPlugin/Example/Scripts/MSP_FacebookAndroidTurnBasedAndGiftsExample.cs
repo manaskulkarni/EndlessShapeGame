@@ -36,11 +36,11 @@ public class MSP_FacebookAndroidTurnBasedAndGiftsExample : MonoBehaviour {
 	void Awake() {
 		
 
-		SPFacebook.instance.OnInitCompleteAction += OnInit;
-		SPFacebook.instance.OnFocusChangedAction += OnFocusChanged;
+		SPFacebook.OnInitCompleteAction += OnInit;
+		SPFacebook.OnFocusChangedAction += OnFocusChanged;
 
 
-		SPFacebook.instance.OnAuthCompleteAction += OnAuth;
+		SPFacebook.OnAuthCompleteAction += OnAuth;
 	
 
 
@@ -73,11 +73,11 @@ public class MSP_FacebookAndroidTurnBasedAndGiftsExample : MonoBehaviour {
 		}
 		
 		if(IsUserInfoLoaded) {
-			if(SPFacebook.instance.userInfo.GetProfileImage(FacebookProfileImageSize.square) != null) {
-				avatar.texture = SPFacebook.instance.userInfo.GetProfileImage(FacebookProfileImageSize.square);
-				Name.text = SPFacebook.instance.userInfo.name + " aka " + SPFacebook.instance.userInfo.username;
-				Location.text = SPFacebook.instance.userInfo.location;
-				Language.text = SPFacebook.instance.userInfo.locale;
+			if(SPFacebook.instance.userInfo.GetProfileImage(FB_ProfileImageSize.square) != null) {
+				avatar.texture = SPFacebook.instance.userInfo.GetProfileImage(FB_ProfileImageSize.square);
+				Name.text = SPFacebook.instance.userInfo.Name + " aka " + SPFacebook.instance.userInfo.UserName;
+				Location.text = SPFacebook.instance.userInfo.Location;
+				Language.text = SPFacebook.instance.userInfo.Locale;
 			}
 		}
 		
@@ -86,19 +86,19 @@ public class MSP_FacebookAndroidTurnBasedAndGiftsExample : MonoBehaviour {
 
 	public void RetriveAppRequests() {
 		SPFacebook.instance.LoadPendingRequests();
-		SPFacebook.instance.OnAppRequestsLoaded += OnAppRequestsLoaded;
+		SPFacebook.OnAppRequestsLoaded += OnAppRequestsLoaded;
 	}
 
-	void OnAppRequestsLoaded (FB_APIResult result) {
+	void OnAppRequestsLoaded (FB_Result result) {
 		if(result.Error ==  null) {
 
 			//Printing all pending request's id's
-			foreach(FBAppRequest request in SPFacebook.instance.AppRequests) {
+			foreach(FB_AppRequest request in SPFacebook.instance.AppRequests) {
 				Debug.Log(request.Id);
 			}
 		}
 
-		SPFacebook.instance.OnAppRequestsLoaded -= OnAppRequestsLoaded;
+		SPFacebook.OnAppRequestsLoaded -= OnAppRequestsLoaded;
 	}
 
 
@@ -110,7 +110,7 @@ public class MSP_FacebookAndroidTurnBasedAndGiftsExample : MonoBehaviour {
 	public void SendTrunhRequestToSpecifiedFriend() {
 		string FriendId = "1405568046403868";
 		SPFacebook.instance.SendTrunRequest("Sample Titile", "Sample message", "some_request_dara", new string[]{FriendId, "716261781804613"});
-		SPFacebook.instance.OnAppRequestCompleteAction += OnAppRequestCompleteAction;
+		SPFacebook.OnAppRequestCompleteAction += OnAppRequestCompleteAction;
 	}
 
 
@@ -125,10 +125,10 @@ public class MSP_FacebookAndroidTurnBasedAndGiftsExample : MonoBehaviour {
 	public void SendToSpecifiedFriend() {
 		string FriendId = "1405568046403868";
 		SPFacebook.instance.SendGift("Sample Titile", "Sample message", BombItemId, "some_request_dara", new string[]{FriendId});
-		SPFacebook.instance.OnAppRequestCompleteAction += OnAppRequestCompleteAction;
+		SPFacebook.OnAppRequestCompleteAction += OnAppRequestCompleteAction;
 	}
 
-	void OnAppRequestCompleteAction (FBAppRequestResult result) {
+	void OnAppRequestCompleteAction (FB_AppRequestResult result) {
 
 		if(result.IsSucceeded) {
 			Debug.Log("App request succeeded");
@@ -137,13 +137,13 @@ public class MSP_FacebookAndroidTurnBasedAndGiftsExample : MonoBehaviour {
 				Debug.Log(UserId);
 			}
 
-			Debug.Log("Original Facebook Responce: " + result.Result.Text);
+			Debug.Log("Original Facebook Responce: " + result.RawData);
 		} else {
 			Debug.Log("App request has failed");
 		}
 
 
-		SPFacebook.instance.OnAppRequestCompleteAction -= OnAppRequestCompleteAction;
+		SPFacebook.OnAppRequestCompleteAction -= OnAppRequestCompleteAction;
 
 
 	}
@@ -160,7 +160,7 @@ public class MSP_FacebookAndroidTurnBasedAndGiftsExample : MonoBehaviour {
 	}
 	
 	private void LoadUserData() {
-		SPFacebook.instance.OnUserDataRequestCompleteAction += OnUserDataLoaded;
+		SPFacebook.OnUserDataRequestCompleteAction += OnUserDataLoaded;
 		SPFacebook.instance.LoadUserData();
 		SA_StatusBar.text = "Loadin user data..";
 	}
@@ -185,9 +185,9 @@ public class MSP_FacebookAndroidTurnBasedAndGiftsExample : MonoBehaviour {
 	
 
 	
-	private void OnUserDataLoaded(FB_APIResult result) {
+	private void OnUserDataLoaded(FB_Result result) {
 
-		SPFacebook.instance.OnUserDataRequestCompleteAction -= OnUserDataLoaded;
+		SPFacebook.OnUserDataRequestCompleteAction -= OnUserDataLoaded;
 
 		if (result.Error == null)  { 
 			SA_StatusBar.text = "User data loaded";
@@ -196,7 +196,7 @@ public class MSP_FacebookAndroidTurnBasedAndGiftsExample : MonoBehaviour {
 			//user data available, we can get info using
 			//SPFacebook.instance.userInfo getter
 			//and we can also use userInfo methods, for exmple download user avatar image
-			SPFacebook.instance.userInfo.LoadProfileImage(FacebookProfileImageSize.square);
+			SPFacebook.instance.userInfo.LoadProfileImage(FB_ProfileImageSize.square);
 
 
 		} else {
@@ -217,7 +217,7 @@ public class MSP_FacebookAndroidTurnBasedAndGiftsExample : MonoBehaviour {
 	}
 	
 	
-	private void OnAuth(FB_APIResult result) {
+	private void OnAuth(FB_Result result) {
 		if(SPFacebook.instance.IsLoggedIn) {
 			IsAuntificated = true;
 			LoadUserData();

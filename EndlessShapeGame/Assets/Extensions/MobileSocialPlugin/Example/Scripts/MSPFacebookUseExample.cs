@@ -46,23 +46,23 @@ public class MSPFacebookUseExample : MonoBehaviour {
 	void Awake() {
 
 
-		SPFacebook.instance.OnInitCompleteAction += OnInit;
-		SPFacebook.instance.OnFocusChangedAction += OnFocusChanged;
+		SPFacebook.OnInitCompleteAction += OnInit;
+		SPFacebook.OnFocusChangedAction += OnFocusChanged;
 
 
-		SPFacebook.instance.OnAuthCompleteAction += OnAuth;
+		SPFacebook.OnAuthCompleteAction += OnAuth;
 
 		
-		SPFacebook.instance.OnPostingCompleteAction += OnPost;
+		SPFacebook.OnPostingCompleteAction += OnPost;
 		
 		
 	
 		
 		//scores Api events
-		SPFacebook.instance.OnPlayerScoresRequestCompleteAction += OnPlayerScoreRequestComplete; 
-		SPFacebook.instance.OnAppScoresRequestCompleteAction += OnAppScoreRequestComplete; 
-		SPFacebook.instance.OnSubmitScoreRequestCompleteAction += OnSubmitScoreRequestComplete; 
-		SPFacebook.instance.OnDeleteScoresRequestCompleteAction += OnDeleteScoreRequestComplete; 
+		SPFacebook.OnPlayerScoresRequestCompleteAction += OnPlayerScoreRequestComplete; 
+		SPFacebook.OnAppScoresRequestCompleteAction += OnAppScoreRequestComplete; 
+		SPFacebook.OnSubmitScoreRequestCompleteAction += OnSubmitScoreRequestComplete; 
+		SPFacebook.OnDeleteScoresRequestCompleteAction += OnDeleteScoreRequestComplete; 
 		
 		
 		
@@ -95,11 +95,11 @@ public class MSPFacebookUseExample : MonoBehaviour {
 		}
 		
 		if(IsUserInfoLoaded) {
-			if(SPFacebook.instance.userInfo.GetProfileImage(FacebookProfileImageSize.square) != null) {
-				avatar.texture = SPFacebook.instance.userInfo.GetProfileImage(FacebookProfileImageSize.square);
-				Name.text = SPFacebook.instance.userInfo.name + " aka " + SPFacebook.instance.userInfo.username;
-				Location.text = SPFacebook.instance.userInfo.location;
-				Language.text = SPFacebook.instance.userInfo.locale;
+			if(SPFacebook.instance.userInfo.GetProfileImage(FB_ProfileImageSize.square) != null) {
+				avatar.texture = SPFacebook.instance.userInfo.GetProfileImage(FB_ProfileImageSize.square);
+				Name.text = SPFacebook.instance.userInfo.Name + " aka " + SPFacebook.instance.userInfo.UserName;
+				Location.text = SPFacebook.instance.userInfo.Location;
+				Language.text = SPFacebook.instance.userInfo.Locale;
 			}
 		}
 		
@@ -107,17 +107,17 @@ public class MSPFacebookUseExample : MonoBehaviour {
 		if(IsFrindsInfoLoaded) {
 			friends.SetActive(true);
 			int i = 0;
-			foreach(FacebookUserInfo friend in SPFacebook.instance.friendsList) {
+			foreach(FB_UserInfo friend in SPFacebook.instance.friendsList) {
 				
 				if(i == 0) {
-					f1.text = friend.name;
-					if(friend.GetProfileImage(FacebookProfileImageSize.square) != null) {
-						fi1.texture = friend.GetProfileImage(FacebookProfileImageSize.square);
+					f1.text = friend.Name;
+					if(friend.GetProfileImage(FB_ProfileImageSize.square) != null) {
+						fi1.texture = friend.GetProfileImage(FB_ProfileImageSize.square);
 					} 
 				} else {
-					f2.text = friend.name;
-					if(friend.GetProfileImage(FacebookProfileImageSize.square) != null) {
-						fi2.texture = friend.GetProfileImage(FacebookProfileImageSize.square);
+					f2.text = friend.Name;
+					if(friend.GetProfileImage(FB_ProfileImageSize.square) != null) {
+						fi2.texture = friend.GetProfileImage(FB_ProfileImageSize.square);
 					} 
 				}
 				
@@ -131,15 +131,9 @@ public class MSPFacebookUseExample : MonoBehaviour {
 		
 	}
 
-
-	private void TestPayment() {
-		SPFacebook.instance.Pay ("YOUR_PRODUCT_URL", 2);
-	}
-
-
 	
 	private void PostWithAuthCheck() {
-		SPFacebook.instance.PostWithAuthCheck (
+		SPFacebook.Instance.FeedShare (
 			link: "https://example.com/myapp/?storyID=thelarch",
 			linkName: "The Larch",
 			linkCaption: "I thought up a witty tagline about larches",
@@ -187,7 +181,7 @@ public class MSPFacebookUseExample : MonoBehaviour {
 	
 	private void Connect() {
 		if(!IsAuntificated) {
-			SPFacebook.instance.Login("email,publish_actions");
+			SPFacebook.instance.Login();
 			SA_StatusBar.text = "Log in...";
 		} else {
 			LogOut();
@@ -197,13 +191,13 @@ public class MSPFacebookUseExample : MonoBehaviour {
 	
 
 	private void LoadUserData() {
-		SPFacebook.instance.OnUserDataRequestCompleteAction += OnUserDataLoaded;
+		SPFacebook.OnUserDataRequestCompleteAction += OnUserDataLoaded;
 		SPFacebook.instance.LoadUserData();
 		SA_StatusBar.text = "Loadin user data..";
 	}
 	
 	private void PostMessage() {
-		SPFacebook.instance.Post (
+		SPFacebook.Instance.FeedShare (
 			link: "https://example.com/myapp/?storyID=thelarch",
 			linkName: "The Larch",
 			linkCaption: "I thought up a witty tagline about larches",
@@ -222,7 +216,7 @@ public class MSPFacebookUseExample : MonoBehaviour {
 
 	private void LoadFriends() {
 		
-		SPFacebook.instance.OnFriendsDataRequestCompleteAction += OnFriendsDataLoaded;
+		SPFacebook.OnFriendsDataRequestCompleteAction += OnFriendsDataLoaded;
 		
 		int limit = 5;
 		SPFacebook.instance.LoadFrientdsInfo(limit);
@@ -269,7 +263,7 @@ public class MSPFacebookUseExample : MonoBehaviour {
 		} else {
 			//user do not like the page or we han't yet downloaded likes data
 			//downloading likes for this page
-			SPFacebook.Instance.OnLikesListLoadedAction  += OnLikesLoaded; 
+			SPFacebook.OnLikesListLoadedAction  += OnLikesLoaded; 
 			SPFacebook.Instance.LoadLikes(SPFacebook.instance.UserId, UNION_ASSETS_PAGE_ID);
 		}
 		
@@ -281,7 +275,7 @@ public class MSPFacebookUseExample : MonoBehaviour {
 	// --------------------------------------
 
 
-	private void OnLikesLoaded(FB_APIResult res) {
+	private void OnLikesLoaded(FB_Result res) {
 		//The likes is loaded so now we can find out for sure if user is like our page
 		bool IsLikes = SPFacebook.Instance.IsUserLikesPage(SPFacebook.instance.UserId, UNION_ASSETS_PAGE_ID);
 		if(IsLikes) {
@@ -306,9 +300,9 @@ public class MSPFacebookUseExample : MonoBehaviour {
 	}
 	
 	
-	private void OnUserDataLoaded(FB_APIResult result) {
+	private void OnUserDataLoaded(FB_Result result) {
 		
-		SPFacebook.instance.OnUserDataRequestCompleteAction -= OnUserDataLoaded;
+		SPFacebook.OnUserDataRequestCompleteAction -= OnUserDataLoaded;
 		
 		if (result.IsSucceeded)  { 
 			SA_StatusBar.text = "User data loaded";
@@ -317,7 +311,7 @@ public class MSPFacebookUseExample : MonoBehaviour {
 			//user data available, we can get info using
 			//SPFacebook.instance.userInfo getter
 			//and we can also use userInfo methods, for exmple download user avatar image
-			SPFacebook.instance.userInfo.LoadProfileImage(FacebookProfileImageSize.square);
+			SPFacebook.instance.userInfo.LoadProfileImage(FB_ProfileImageSize.square);
 			
 			
 		} else {
@@ -327,16 +321,16 @@ public class MSPFacebookUseExample : MonoBehaviour {
 		
 	}
 	
-	private void OnFriendsDataLoaded(FB_APIResult res) {
-		SPFacebook.instance.OnFriendsDataRequestCompleteAction -= OnFriendsDataLoaded;
+	private void OnFriendsDataLoaded(FB_Result res) {
+		SPFacebook.OnFriendsDataRequestCompleteAction -= OnFriendsDataLoaded;
 		
 		if(res.Error == null) {
 			//friednds data available, we can get it using
 			//SPFacebook.instance.friendsList getter
 			//and we can also use FacebookUserInfo methods, for exmple download user avatar image
 			
-			foreach(FacebookUserInfo friend in SPFacebook.instance.friendsList) {
-				friend.LoadProfileImage(FacebookProfileImageSize.square);
+			foreach(FB_UserInfo friend in SPFacebook.instance.friendsList) {
+				friend.LoadProfileImage(FB_ProfileImageSize.square);
 			}
 			
 			IsFrindsInfoLoaded = true;
@@ -357,7 +351,7 @@ public class MSPFacebookUseExample : MonoBehaviour {
 	}
 	
 	
-	private void OnAuth(FB_APIResult result) {
+	private void OnAuth(FB_Result result) {
 		if(SPFacebook.instance.IsLoggedIn) {
 			IsAuntificated = true;
 			SA_StatusBar.text = "user Login -> true";
@@ -369,7 +363,7 @@ public class MSPFacebookUseExample : MonoBehaviour {
 
 
 	
-	private void OnPost(FBPostResult res) {
+	private void OnPost(FB_PostResult res) {
 		
 		if(res.IsSucceeded) {
 			Debug.Log("Posting complete");
@@ -382,56 +376,56 @@ public class MSPFacebookUseExample : MonoBehaviour {
 	}
 	
 	//scores Api events
-	private void OnPlayerScoreRequestComplete(FB_APIResult result) {
+	private void OnPlayerScoreRequestComplete(FB_Result result) {
 		
 		if(result.IsSucceeded) {
 			string msg = "Player has scores in " + SPFacebook.instance.userScores.Count + " apps" + "\n";
-			msg += "Current Player Score = " + SPFacebook.instance.GetCurrentPlayerIntScoreByAppId(FB.AppId);
+			msg += "Current Player Score = " + SPFacebook.instance.GetCurrentPlayerIntScoreByAppId(SPFacebook.Instance.FB.AppId);
 			SA_StatusBar.text = msg;
 			
 		} else {
-			SA_StatusBar.text = result.Responce;
+			SA_StatusBar.text = result.RawData;
 		}
 		
 		
 	}
 	
-	private void OnAppScoreRequestComplete(FB_APIResult result) {
+	private void OnAppScoreRequestComplete(FB_Result result) {
 		
 		if(result.IsSucceeded) {
 			string msg = "Loaded " + SPFacebook.instance.appScores.Count + " scores results" + "\n";
-			msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(FB.UserId);
+			msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.Instance.FB.UserId);
 			SA_StatusBar.text = msg;
 			
 		} else {
-			SA_StatusBar.text = result.Responce;
+			SA_StatusBar.text = result.RawData;
 		}
 		
 	}
 	
-	private void OnSubmitScoreRequestComplete(FB_APIResult result) {
+	private void OnSubmitScoreRequestComplete(FB_Result result) {
 		
 		
 		if(result.IsSucceeded) {
 			string msg = "Score successfully submited" + "\n";
-			msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(FB.UserId);
+			msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.Instance.FB.UserId);
 			SA_StatusBar.text = msg;
 			
 		} else {
-			SA_StatusBar.text = result.Responce;
+			SA_StatusBar.text = result.RawData;
 		}
 		
 		
 	}
 	
-	private void OnDeleteScoreRequestComplete(FB_APIResult result) {
+	private void OnDeleteScoreRequestComplete(FB_Result result) {
 		if(result.IsSucceeded) {
 			string msg = "Score successfully deleted" + "\n";
-			msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(FB.UserId);
+			msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.Instance.FB.UserId);
 			SA_StatusBar.text = msg;
 			
 		} else {
-			SA_StatusBar.text = result.Responce;
+			SA_StatusBar.text = result.RawData;
 		}
 		
 		

@@ -65,6 +65,7 @@ public class ShapeBehavior : MonoBehaviour
   {
     StopSpecialShapeCoroutine ();
     StopInvisibleCoroutine ();
+    transform.localScale = Vector2.one;
   }
   
   public void StartSpecialShapeCoroutine (ShapeResponse response)

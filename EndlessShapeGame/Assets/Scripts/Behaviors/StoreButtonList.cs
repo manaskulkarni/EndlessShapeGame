@@ -49,7 +49,7 @@ public class StoreButtonList : MonoBehaviour
       button.currencyType = item.currencyType;
       button.price = item.price;
 
-      button.title.text = item.description; 
+      button.title.text = item.description;
       button.icon.sprite = item.icon;
       button.button.onClick.AddListener(() => { UIManager.inst.PurchaseItem(button); });
       go.transform.SetParent (this.transform);

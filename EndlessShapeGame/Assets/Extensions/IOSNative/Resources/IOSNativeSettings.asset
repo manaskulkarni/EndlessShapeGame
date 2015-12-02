@@ -12,10 +12,58 @@ MonoBehaviour:
   m_Name: IOSNativeSettings
   m_EditorClassIdentifier: 
   AppleId: XXXXXXXXX
-  ToolbarIndex: 2
+  ToolbarIndex: 1
   SendFakeEventsInEditor: 1
   DefaultStoreProductsView: []
-  InAppProducts: []
+  InAppProducts:
+  - IsOpen: 1
+    _IsAvaliable: 0
+    _Id: com.spk.esg.iap.d500
+    _DisplayName: 500 Diamonds
+    _Description: Diamonds can be used to purchase potions
+    _Price: .99000001
+    _LocalizedPrice: 
+    _CurrencySymbol: $
+    _CurrencyCode: USD
+    _Texture: {fileID: 0}
+    _ProductType: 0
+    _PriceTier: 0
+  - IsOpen: 1
+    _IsAvaliable: 0
+    _Id: com.spk.esg.iap.d1200
+    _DisplayName: 1200 Diamonds
+    _Description: Diamonds can be used to purchase potions
+    _Price: 1.99000001
+    _LocalizedPrice: 
+    _CurrencySymbol: $
+    _CurrencyCode: USD
+    _Texture: {fileID: 0}
+    _ProductType: 0
+    _PriceTier: 1
+  - IsOpen: 1
+    _IsAvaliable: 0
+    _Id: com.spk.esg.iap.d300
+    _DisplayName: 3000 Diamonds
+    _Description: Diamonds can be used to purchase potions
+    _Price: 4.98999977
+    _LocalizedPrice: 
+    _CurrencySymbol: $
+    _CurrencyCode: USD
+    _Texture: {fileID: 0}
+    _ProductType: 0
+    _PriceTier: 4
+  - IsOpen: 1
+    _IsAvaliable: 0
+    _Id: com.spk.esg.iap.d7500
+    _DisplayName: 7500 Diamonds
+    _Description: Diamonds can be used to purchase potions
+    _Price: 9.98999977
+    _LocalizedPrice: 
+    _CurrencySymbol: $
+    _CurrencyCode: USD
+    _Texture: {fileID: 0}
+    _ProductType: 0
+    _PriceTier: 9
   Leaderboards: []
   Achievements: []
   checkInternetBeforeLoadRequest: 0

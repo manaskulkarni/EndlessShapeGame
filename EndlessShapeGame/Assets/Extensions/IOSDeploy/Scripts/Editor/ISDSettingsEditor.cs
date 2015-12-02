@@ -1,4 +1,4 @@
-
+#define DISABLED
 
 using UnityEngine;
 using System.Collections;
