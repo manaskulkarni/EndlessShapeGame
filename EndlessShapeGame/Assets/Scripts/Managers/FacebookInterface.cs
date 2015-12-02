@@ -7,6 +7,8 @@ public class FacebookInterface : MonoBehaviour
 {
   public string appId = "1518246578468950";
 
+  public Dictionary <string, Sprite> profilePictures;
+
 
   // Use this as constructor
   void Awake ()
@@ -125,12 +127,23 @@ public class FacebookInterface : MonoBehaviour
         {
           Debug.Log ("Score : " + SPFacebook.Instance.GetScoreObjectByUserId (v.Value.Id).value);
         }
+
+        v.Value.OnProfileImageLoaded += HandleOnProfileImageLoaded;
+        v.Value.LoadProfileImage (FB_ProfileImageSize.square);
       }
     }
     else
     {
       Debug.Log (result.RawData);
     }
+  }
+
+  void HandleOnProfileImageLoaded (FB_UserInfo res)
+  {
+    var profilePic = res.GetProfileImage (FB_ProfileImageSize.square);
+    var rect = new Rect (0.0f, 0.0f, profilePic.width, profilePic.height);
+    var s = Sprite.Create (profilePic, rect, Vector2.one * 0.5f);
+    profilePictures.Add (res.Id, s);
   }
 
   void HandleOnSubmitScoreRequestCompleteAction (FB_Result result)
