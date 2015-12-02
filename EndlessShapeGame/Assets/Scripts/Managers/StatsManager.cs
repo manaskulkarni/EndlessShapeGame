@@ -41,6 +41,7 @@ public class StatsManager : MonoBehaviour
   
   public int numRevivePotions = 0;
   public int numSlowMotionPotions = 0;
+  public int prevFacebookStatus = 0;
 
   public Dictionary <string, int> potions = new Dictionary<string, int> ()
   {
@@ -169,6 +170,7 @@ public class StatsManager : MonoBehaviour
     Debug.Log ("COINS : " + coins);
     maxAllowedRevives = PlayerPrefs.GetInt ("MaxAllowedRevives", 1);
     usedRevives = 0;
+    prevFacebookStatus = PlayerPrefs.GetInt ("FacebookConenct");
 #if UNITY_EDITOR
   score = startScore;
   maxAllowedRevives = -1;
@@ -184,6 +186,7 @@ public class StatsManager : MonoBehaviour
   {
     PlayerPrefs.SetInt ("Coins", coins);
     PlayerPrefs.SetInt("numBlackCollision",playerStats.numBlackCollision);
+    PlayerPrefs.SetInt ("FacebookConenct", prevFacebookStatus);
   }
   
   public static class DeviceRotation
