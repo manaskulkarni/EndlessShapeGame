@@ -33,6 +33,8 @@ public class GameManager : StateBehaviour
     FacebookConnect,
     ShowFacebookLeaderboard,
     HideFacebookLeaderboard,
+    TryRestorePurchase,
+    RestorePurchaseComplete,
   }
 
   public enum DifficultyLevel
@@ -108,6 +110,8 @@ public class GameManager : StateBehaviour
   public string FacebookConnectEvent = "OnFacebookConnect";
   public string ShowFacebookLeaderboardEvent = "OnShowFacebookLeaderboard";
   public string HideFacebookLeaderboardEvent = "OnHideFacebookLeaderboard";
+  public string TryRestorePurchaseEvent = "OnTryRestorePurchase";
+  public string RestorePurchaseCompleteEvent = "OnRestorePurchaseComplete";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -399,6 +403,16 @@ public class GameManager : StateBehaviour
   void HideFacebookLeaderboard_Enter ()
   {
     BroadcastMessage (HideFacebookLeaderboardEvent);
+  }
+
+  void TryRestorePurchase_Enter ()
+  {
+    BroadcastMessage (TryRestorePurchaseEvent);
+  }
+
+  void RestorePurchaseComplete_Enter ()
+  {
+    BroadcastMessage (RestorePurchaseCompleteEvent);
   }
 
   void PurchaseItem (StoreButton button)

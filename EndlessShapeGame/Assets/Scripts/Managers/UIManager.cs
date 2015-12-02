@@ -213,6 +213,11 @@ public class UIManager : StateBehaviour
   {
     GameManager.inst.ChangeState (GameManager.States.ShowFacebookLeaderboard);
   }
+
+  public void RestorePurchase ()
+  {
+    GameManager.inst.ChangeState (GameManager.States.TryRestorePurchase);
+  }
   
   #region Coroutines
   

@@ -14,5 +14,7 @@ public abstract class StoreInterface : MonoBehaviour
   protected abstract void OnShowAchievements();
   protected abstract void OnReportAchievement(StatsManager.AchievementData achievement);
   protected abstract void OnPurchaseItem (StoreButton button);
+  protected abstract void OnTryRestorePurchase ();
+  protected abstract void OnRestorePurchaseComplete ();
   #endregion
 }

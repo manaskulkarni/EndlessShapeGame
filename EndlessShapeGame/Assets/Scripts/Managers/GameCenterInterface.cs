@@ -17,6 +17,8 @@ public class GameCenterInterface : StoreInterface
     IOSInAppPurchaseManager.OnStoreKitInitComplete += HandleOnStoreKitInitComplete;
     IOSInAppPurchaseManager.OnTransactionComplete += HandleOnTransactionComplete;
     IOSInAppPurchaseManager.Instance.LoadStore ();
+
+    IOSInAppPurchaseManager.OnRestoreComplete += HandleOnRestoreComplete;
   }
 
   void HandleOnAuthFinished (ISN_Result res)
@@ -51,16 +53,21 @@ public class GameCenterInterface : StoreInterface
 
       foreach(IOSProductTemplate tpl in IOSInAppPurchaseManager.Instance.Products)
       {
-        Debug.Log("id" + tpl.Id);
-        Debug.Log("title" + tpl.DisplayName);
-        Debug.Log("description" + tpl.Description);
-        Debug.Log("price" + tpl.Price);
-        Debug.Log("localizedPrice" + tpl.LocalizedPrice);
-        Debug.Log("currencySymbol" + tpl.CurrencySymbol);
-        Debug.Log("currencyCode" + tpl.CurrencyCode);
-        Debug.Log("-------------");
+//        Debug.Log("id" + tpl.Id);
+//        Debug.Log("title" + tpl.DisplayName);
+//        Debug.Log("description" + tpl.Description);
+//        Debug.Log("price" + tpl.Price);
+//        Debug.Log("localizedPrice" + tpl.LocalizedPrice);
+//        Debug.Log("currencySymbol" + tpl.CurrencySymbol);
+//        Debug.Log("currencyCode" + tpl.CurrencyCode);
+//        Debug.Log("-------------");
 
         products.Add (tpl.DisplayName, tpl);
+      }
+
+      foreach (var v in products)
+      {
+        Debug.Log ("PRODUCT NAME : " + v.Value.DisplayName);
       }
     }
     else
@@ -72,6 +79,14 @@ public class GameCenterInterface : StoreInterface
   void HandleOnTransactionComplete (IOSStoreKitResult res)
   {
     
+  }
+
+  void HandleOnRestoreComplete (IOSStoreKitRestoreResult res)
+  {
+    if (res.IsSucceeded)
+    {
+      GameManager.inst.ChangeState (GameManager.States.RestorePurchaseComplete);
+    }
   }
 
   #region implemented abstract members of StoreManager
@@ -127,10 +142,21 @@ public class GameCenterInterface : StoreInterface
 
   protected override void OnPurchaseItem (StoreButton button)
   {
-    if (IsIAPInitialized ())
+    Debug.Log ("REQUEST NAME : " + button.title.text);
+    if (products.ContainsKey (button.title.text))
     {
-
+      Debug.Log ("Purchasing Item : " + products[button.title.text].DisplayName);
+      IOSInAppPurchaseManager.Instance.BuyProduct (products[button.title.text].Id);
     }
+  }
+
+  protected override void OnTryRestorePurchase ()
+  {
+    IOSInAppPurchaseManager.Instance.RestorePurchases ();
+  }
+
+  protected override void OnRestorePurchaseComplete ()
+  {
   }
   #endregion
 
