@@ -116,7 +116,15 @@ public class FacebookInterface : MonoBehaviour
       foreach (var v in SPFacebook.Instance.friends)
       {
         Debug.Log ("Friend Name : " + v.Value.name);
-        Debug.Log ("Score : " + SPFacebook.Instance.GetScoreObjectByUserId (v.Value.id).value);
+
+        if (SPFacebook.Instance.GetScoreObjectByUserId (v.Value.id) == null)
+        {
+          Debug.Log ("Score Not Recorded Yet");
+        }
+        else
+        {
+          Debug.Log ("Score : " + SPFacebook.Instance.GetScoreObjectByUserId (v.Value.id).value);
+        }
       }
     }
     else
