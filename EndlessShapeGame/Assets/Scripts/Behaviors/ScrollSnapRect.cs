@@ -287,6 +287,9 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   //------------------------------------------------------------------------
   private void UpdateButtons (int aPageIndex)
   {
+//    Debug.Log ("TARGET PAGE : " + aPageIndex);
+//    Debug.Log ("CURR PAGE : " + _currentPage);
+    
     if (_currentPage < aPageIndex)
     {
       if (_currentPage + 1 >= _pageCount - 1)
@@ -304,17 +307,38 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         nextButton.GetComponent <Button> ().interactable = true;
       }
     }
-    else
+    else if (_currentPage > aPageIndex)
     {
       if (_currentPage - 1 <= 0)
       {
+        if (prevButton)
         prevButton.GetComponent <Button> ().interactable = false;
+        if (nextButton)
         nextButton.GetComponent <Button> ().interactable = true;
       }
       else
       {
+        if (prevButton)
         prevButton.GetComponent <Button> ().interactable = true;
+        if (nextButton)
         nextButton.GetComponent <Button> ().interactable = true;
+      }
+    }
+    else
+    {
+      if (_currentPage == 0)
+      {
+        if (prevButton)
+        prevButton.GetComponent <Button> ().interactable = false;
+        if (nextButton)
+        nextButton.GetComponent <Button> ().interactable = true;
+      }
+      else
+      {
+        if (prevButton)
+          prevButton.GetComponent <Button> ().interactable = true;
+        if (nextButton)
+          nextButton.GetComponent <Button> ().interactable = false;
       }
     }
   }
