@@ -573,9 +573,18 @@ public class ShapeManager : MonoBehaviour
     }
   }
 
+  void ResetShapes ()
+  {
+    foreach (var v in shapes)
+    {
+      v.ResetProperties ();
+    }
+  }
+
   void OnGameOver()
   {
     OnGameStop ();
+    ResetShapes ();
     numCollisions = 0;
   }
 
@@ -618,6 +627,26 @@ public class ShapeManager : MonoBehaviour
   {
     OnGameRestart ();
     OnGameStart ();
+  }
+
+  void OnShowStore ()
+  {
+    StartCoroutine (FadeOutShapes ());
+  }
+
+  void OnHideStore ()
+  {
+    StartCoroutine (FadeInShapes ());
+  }
+
+  void OnShowOptions ()
+  {
+    OnShowStore ();
+  }
+
+  void OnHideOptions ()
+  {
+    OnHideStore ();
   }
 
   #endregion
@@ -749,7 +778,6 @@ public class ShapeManager : MonoBehaviour
     else
     {
       shape.StopSpecialShapeCoroutine();
-      shape.spriteRenderer.color = shape.originalColor;
     }
     
     if (CurveWeightedRandom (invisibleRandomCurve) > 0.5f && currentScore > minInvisibleScore)
@@ -769,6 +797,42 @@ public class ShapeManager : MonoBehaviour
     shape.spriteRenderer.sprite = nextSprite;
     /*************************************************************************/
     /*************************************************************************/
+  }
+
+  private IEnumerator FadeOutShapes ()
+  {
+    float alpha = shapes [0].spriteRenderer.color.a;
+    while (alpha > 0.0f)
+    {
+      alpha -= Time.deltaTime * 5.0f;
+      Color c = new Color ();
+      foreach (var v in shapes)
+      {
+        c = v.spriteRenderer.color;
+        c.a = alpha;
+        v.spriteRenderer.color = c;
+      }
+      
+      yield return null;
+    }
+  }
+
+  private IEnumerator FadeInShapes ()
+  {
+    float alpha = shapes [0].spriteRenderer.color.a;
+    while (alpha < 1.0f)
+    {
+      alpha += Time.deltaTime * 5.0f;
+      Color c = new Color ();
+      foreach (var v in shapes)
+      {
+        c = v.spriteRenderer.color;
+        c.a = alpha;
+        v.spriteRenderer.color = c;
+      }
+      
+      yield return null;
+    }
   }
 
   private void SpawnShapes()

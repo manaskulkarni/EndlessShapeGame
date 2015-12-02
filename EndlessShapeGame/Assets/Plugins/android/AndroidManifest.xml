@@ -1,140 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
-    package="com.unity3d.player" android:installLocation="preferExternal" 
-    android:theme="@android:style/Theme.NoTitleBar" 
-    android:versionCode="1" 
-    android:versionName="1.0">
-  <supports-screens 
-    android:smallScreens="true" 
-    android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
-  
-   <supports-screens
-        android:anyDensity="true"
-        android:largeScreens="true"
-        android:normalScreens="true"
-        android:smallScreens="true"
-        android:xlargeScreens="true" />
-  
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.unity3d.player" android:installLocation="preferExternal" android:theme="@android:style/Theme.NoTitleBar" android:versionCode="1" android:versionName="1.0">
+  <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
+  <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:smallScreens="true" android:xlargeScreens="true" />
+  <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+  <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="20" />
+  <application android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true">
+    <meta-data android:name="adtoapp.sdk.key" android:value="b748acbe-a722-4fa7-ad00-a4036410a4bf:4a649d49-9bff-46bb-b645-3bd8bd2b17fa" />
+    <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+    <meta-data android:name="applovin.sdk.key" android:value="M_tom-o_IROTf2mZSF4GNGGleuARfi81i0qT-bTH2sqiuaGLrKcCbtyEm6gQqpSWpG_otS4vIvbBTtXJC8Wo0S" />
+    <meta-data android:name="adtoapp.sdk.plugin" android:value="unity" />
+    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="\ 1518246578468950" />
+    <receiver android:name="com.inmobi.commons.core.utilities.uid.ImIdShareBroadCastReceiver" android:enabled="true" android:exported="true">
+      <intent-filter>
+        <action android:name="com.inmobi.share.id" />
+      </intent-filter>
+    </receiver>
+    <service android:enabled="true" android:name="com.inmobi.signals.activityrecognition.ActivityRecognitionManager" />
+    <activity android:name="com.unity3d.player.UnityPlayerNativeActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:label="@string/app_name">
+      <meta-data android:name="android.app.lib_name" android:value="unity" />
+      <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="true" />
+    </activity>
+    <activity android:name="com.unity3d.player.UnityPlayerActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:label="@string/app_name" android:launchMode="singleTask">
+      <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="true" />
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <activity android:name="com.chartboost.sdk.CBImpressionActivity" android:excludeFromRecents="true" android:hardwareAccelerated="true" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:configChanges="keyboardHidden|orientation|screenSize" />
+    <activity android:name="com.google.android.gms.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:excludeFromRecents="true" />
+    <activity android:name="com.startapp.android.publish.AppWallActivity" android:configChanges="orientation|keyboardHidden|screenSize" android:theme="@android:style/Theme.Translucent" />
+    <activity android:name="com.startapp.android.publish.list3d.List3DActivity" android:theme="@android:style/Theme" />
+    <activity android:name="com.startapp.android.publish.OverlayActivity" android:theme="@android:style/Theme.Translucent" android:configChanges="orientation|keyboardHidden|screenSize" />
+    <activity android:name="com.startapp.android.publish.FullScreenActivity" android:theme="@android:style/Theme" android:configChanges="orientation|keyboardHidden|screenSize" />
+    <activity android:name="com.jirbo.adcolony.AdColonyOverlay" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+    <activity android:name="com.jirbo.adcolony.AdColonyFullscreen" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+    <activity android:name="com.jirbo.adcolony.AdColonyBrowser" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+    <activity android:name="ru.mail.android.mytarget.ads.MyTargetActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+    <activity android:name="com.unity3d.ads.android.view.UnityAdsFullscreenActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:hardwareAccelerated="true" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+    <activity android:name="com.inmobi.rendering.InMobiAdActivity" android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:hardwareAccelerated="true" />
+    <activity android:name="com.applovin.adview.AppLovinInterstitialActivity" />
+    <activity android:name="com.applovin.adview.AppLovinConfirmationActivity" />
+    <activity android:name="com.androidnative.AndroidNativeProxy" android:launchMode="singleTask" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+    <activity android:name="com.androidnative.features.social.common.SocialProxyActivity" android:launchMode="singleTask" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="oauth" android:host="com.spk.esg" />
+      </intent-filter>
+    </activity>
+    <activity android:name="com.facebook.LoginActivity" />
+    <activity android:name="com.facebook.unity.FBUnityLoginActivity" />
+    <activity android:name="com.facebook.unity.FBUnityDeepLinkingActivity" />
+    <activity android:name="com.facebook.unity.FBUnityDialogsActivity" />
+  </application>
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-  <application android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true">
-        <activity
-            android:name="com.unity3d.player.UnityPlayerNativeActivity"
-            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
-            android:label="@string/app_name" >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="unity" />
-            <meta-data
-                android:name="unityplayer.ForwardNativeEventsToDalvik"
-                android:value="true" />
-        </activity>
-
-        <activity
-            android:name="com.unity3d.player.UnityPlayerActivity"
-            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
-            android:label="@string/app_name"
-            android:launchMode="singleTask" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            <meta-data
-                android:name="unityplayer.ForwardNativeEventsToDalvik"
-                android:value="true" />
-        </activity>
-		
-        <meta-data
-            android:name="adtoapp.sdk.key"
-            android:value="b748acbe-a722-4fa7-ad00-a4036410a4bf:4a649d49-9bff-46bb-b645-3bd8bd2b17fa" />
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="applovin.sdk.key"
-            android:value="M_tom-o_IROTf2mZSF4GNGGleuARfi81i0qT-bTH2sqiuaGLrKcCbtyEm6gQqpSWpG_otS4vIvbBTtXJC8Wo0S" />
-        <meta-data
-            android:name="adtoapp.sdk.plugin"
-            android:value="unity" />
-
-      <!-- CHARTBOOST -->
-      <activity android:name="com.chartboost.sdk.CBImpressionActivity"
-          android:excludeFromRecents="true"
-          android:hardwareAccelerated="true"
-          android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
-          android:configChanges="keyboardHidden|orientation|screenSize" />
-
-      <!-- ADMOB -->
-      <activity
-          android:name="com.google.android.gms.ads.AdActivity"
-          android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-          android:excludeFromRecents="true" />
-      <!-- STARTAPP -->
-      <activity
-          android:name="com.startapp.android.publish.AppWallActivity"
-          android:configChanges="orientation|keyboardHidden|screenSize"
-          android:theme="@android:style/Theme.Translucent" />
-      <activity
-          android:name="com.startapp.android.publish.list3d.List3DActivity"
-          android:theme="@android:style/Theme" />
-      <activity android:name="com.startapp.android.publish.OverlayActivity"
-          android:theme="@android:style/Theme.Translucent"
-          android:configChanges="orientation|keyboardHidden|screenSize" />
-      <activity android:name="com.startapp.android.publish.FullScreenActivity"
-          android:theme="@android:style/Theme"
-          android:configChanges="orientation|keyboardHidden|screenSize" />
-
-      <!-- ADCOLONY -->
-      <activity
-          android:name="com.jirbo.adcolony.AdColonyOverlay"
-          android:configChanges="keyboardHidden|orientation|screenSize"
-          android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-      <activity
-          android:name="com.jirbo.adcolony.AdColonyFullscreen"
-          android:configChanges="keyboardHidden|orientation|screenSize"
-          android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-      <activity
-          android:name="com.jirbo.adcolony.AdColonyBrowser"
-          android:configChanges="keyboardHidden|orientation|screenSize"
-          android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-
-      <!-- MYTARGET -->
-      <activity
-          android:name="ru.mail.android.mytarget.ads.MyTargetActivity"
-          android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
-
-      <!-- UNITY -->
-      <activity
-          android:name="com.unity3d.ads.android.view.UnityAdsFullscreenActivity"
-          android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
-          android:hardwareAccelerated="true"
-          android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-
-      <!-- INMOBI -->
-      <activity android:name="com.inmobi.rendering.InMobiAdActivity"
-          android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize"
-          android:theme="@android:style/Theme.Translucent.NoTitleBar"
-          android:hardwareAccelerated="true" />
-      <receiver android:name="com.inmobi.commons.core.utilities.uid.ImIdShareBroadCastReceiver"
-          android:enabled="true"
-          android:exported="true" >
-          <intent-filter>
-              <action android:name="com.inmobi.share.id" />
-          </intent-filter>
-      </receiver>
-      <service android:enabled="true" android:name="com.inmobi.signals.activityrecognition.ActivityRecognitionManager" />
-
-      <!-- APPLOVIN -->
-      <activity android:name="com.applovin.adview.AppLovinInterstitialActivity" />
-      <activity android:name="com.applovin.adview.AppLovinConfirmationActivity" />
-  </application>
-   <uses-feature android:glEsVersion="0x00020000"
-                android:required  = "true"  />
-  <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="20" />
- 
-    
 </manifest>

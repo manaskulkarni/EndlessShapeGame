@@ -166,6 +166,16 @@ public class PlayerManager : MonoBehaviour
     StartCoroutine (FadeInPlayer ());
   }
 
+  void OnShowOptions ()
+  {
+    OnShowStore ();
+  }
+  
+  void OnHideOptions ()
+  {
+    OnHideStore ();
+  }
+
   #endregion
 
   private void SpawnPlayer ()

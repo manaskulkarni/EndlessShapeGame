@@ -13,32 +13,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsfwSettingOpen: 0
   IsLibSettingOpen: 0
-  IslinkerSettingOpne: 1
+  IslinkerSettingOpne: 0
   IscompilerSettingsOpen: 0
-  IsPlistSettingsOpen: 1
+  IsPlistSettingsOpen: 0
   IsLanguageSettingOpen: 1
-  Frameworks:
-  - IsOpen: 1
-    Name: StoreKit.framework
-    IsOptional: 0
-  - IsOpen: 1
-    Name: GameKit.framework
-    IsOptional: 0
-  - IsOpen: 1
-    Name: Accounts.framework
-    IsOptional: 0
-  - IsOpen: 1
-    Name: Social.framework
-    IsOptional: 0
-  - IsOpen: 1
-    Name: MessageUI.framework
-    IsOptional: 0
-  - IsOpen: 1
-    Name: MediaPlayer.framework
-    IsOptional: 0
-  - IsOpen: 1
-    Name: MobileCoreServices.framework
-    IsOptional: 0
+  Frameworks: []
   Libraries: []
   compileFlags: []
   linkFlags: []

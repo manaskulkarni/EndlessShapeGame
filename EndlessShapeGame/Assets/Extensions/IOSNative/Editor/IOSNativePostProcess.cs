@@ -107,6 +107,7 @@ public class IOSNativePostProcess  {
 			if(!ISDSettings.Instance.ContainsFreamworkWithName(ReplayKit)) {
 				ISD_Framework F =  new ISD_Framework();
 				F.Name = ReplayKit;
+				F.IsOptional = true;
 				ISDSettings.Instance.Frameworks.Add(F);
 			}
 		}

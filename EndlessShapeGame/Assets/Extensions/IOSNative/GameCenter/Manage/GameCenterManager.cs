@@ -112,6 +112,9 @@ public class GameCenterManager : MonoBehaviour {
 	private static extern  void _ISN_ShowNotificationBanner (string title, string message);
 	
 
+	[DllImport ("__Internal")]
+	private static extern bool _ISN_GK_IsUnderage();
+
 	#endif
 
 
@@ -579,6 +582,17 @@ public class GameCenterManager : MonoBehaviour {
 		}
 	}
 
+
+
+	public static bool IsPlayerUnderage {
+		get {
+			#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+			return _ISN_GK_IsUnderage();
+			#else
+			return false;
+			#endif
+		}
+	}
 
 
 	

@@ -90,7 +90,7 @@ public class GameCenterInterface : StoreInterface
     return IOSInAppPurchaseManager.Instance.IsStoreLoaded;
   }
 
-  protected override void OnSubmitScore ()
+  protected override void OnSubmitHighScore ()
   {
     Debug.Log ("Submitting Score");
     

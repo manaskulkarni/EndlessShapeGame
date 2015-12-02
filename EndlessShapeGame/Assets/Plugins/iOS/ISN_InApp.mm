@@ -107,7 +107,6 @@ extern NSString *isn_kReachabilityChangedNotification;
 
 -(void) RetrieveLocalReceipt;
 -(void) ReceiptRefreshRequest;
--(void) RetrieveDeviceGUID;
 
 
 @end
@@ -1045,15 +1044,7 @@ static ISN_Security * security_sharedInstance;
 }
 
 
--(void) RetrieveDeviceGUID {
-    NSUUID *vendorIdentifier = [[UIDevice currentDevice] identifierForVendor];
-    uuid_t uuid;
-    [vendorIdentifier getUUIDBytes:uuid];
-    
-    NSData *vendorData = [NSData dataWithBytes:uuid length:16];
-    NSString *encodedString = [vendorData base64Encoding];
-    UnitySendMessage("ISN_Security", "Event_GUIDLoaded", [ISN_DataConvertor NSStringToChar:encodedString]);
-}
+
 
 
 // SKRequestDelegate
@@ -1086,16 +1077,10 @@ extern "C" {
         [[ISN_Security sharedInstance] RetrieveLocalReceipt];
     }
     
-    
-    void _ISN_RetrieveDeviceGUID ()  {
-        [[ISN_Security sharedInstance] RetrieveDeviceGUID];
-    }
-    
     void _ISN_ReceiptRefreshRequest ()  {
         [[ISN_Security sharedInstance] ReceiptRefreshRequest];
     }
 
-    
     
     //--------------------------------------
     //  MARKET

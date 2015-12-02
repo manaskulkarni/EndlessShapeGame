@@ -36,9 +36,8 @@ public class StatsManager : MonoBehaviour
   public PlayerStats playerStats;
   public int reviveCoinsPrice = 100;
   public int maxAllowedRevives = 1;
-  public int FillpedScore = 0;
+  public int FlippedScore = 0;
   public bool isFlipped = false;
-  Image image = null;
   
   public int numRevivePotions = 0;
   public int numSlowMotionPotions = 0;
@@ -124,6 +123,7 @@ public class StatsManager : MonoBehaviour
   #endregion
   #region Events
   public string SubmitScoreEvent { get { return "OnSubmitScore"; } }
+  public string SubmitHighScoreEvent { get { return "OnSubmitHighScore"; } }
   public string ShowLeaderboardEvent { get { return "OnShowLeaderboard"; } }
   public string ShowAchievementsEvent { get { return "OnShowAchievements"; } }
   public string ReportAchievementEvent { get { return "OnReportAchievement"; } }
@@ -259,10 +259,11 @@ public class StatsManager : MonoBehaviour
     ++score;
     if(isFlipped)
     {
-      FillpedScore++;
+      ++FlippedScore;
     }
     //Debug.Log("Flipped Score " + FillpedScore);
-    
+
+#if !UNITY_EDITOR
     BroadcastMessage (ReportAchievementEvent, new AchievementData ("StillLearning", 100.0f, true));
     
     if (!highScoreCrossed && score > highScore)
@@ -271,7 +272,7 @@ public class StatsManager : MonoBehaviour
       highScoreCrossed = true;
     }
     
-    if(FillpedScore > 5)
+    if(FlippedScore > 5)
     {
       BroadcastMessage(ReportAchievementEvent, new AchievementData("AdjustYourView",100.0f,true));
     }
@@ -300,6 +301,7 @@ public class StatsManager : MonoBehaviour
     {
       BroadcastMessage(ReportAchievementEvent, new AchievementData("NoMatch", 100.0f,true));
     }
+#endif
     
   }
 
@@ -346,13 +348,15 @@ public class StatsManager : MonoBehaviour
 
   void OnGameOver ()
   {
+    BroadcastMessage (SubmitScoreEvent);
+
     isHighScore = CheckHighScore ();
     if (isHighScore)
     {
       previousScore = score;
-      if (SubmitScoreEvent != null)
+      if (SubmitHighScoreEvent != null)
       {
-        BroadcastMessage (SubmitScoreEvent);
+        BroadcastMessage (SubmitHighScoreEvent);
         PlayerPrefs.SetInt (leaderBoardId, score);
       }
     }

@@ -1279,6 +1279,104 @@ extern "C" {
       
         return UIAccessibilityIsGuidedAccessEnabled;
     }
+
+    
+    // Helper method to create C string copy
+    char* MakeStringCopy (const char* string)
+    {
+        if (string == NULL)
+            return NULL;
+        
+        char* res = (char*)malloc(strlen(string) + 1);
+        strcpy(res, string);
+        return res;
+    }
+    
+    const char* _ISN_RetriveDeviceData() {
+        
+       
+        
+    
+	    NSMutableString * data = [[NSMutableString alloc] init];
+        
+        if([[UIDevice currentDevice] name] != nil) {
+            [data appendString:[[UIDevice currentDevice] name]];
+          
+        } else {
+            [data appendString:@""];
+        }
+        [data appendString:@"|"];
+        
+        
+        if([[UIDevice currentDevice] systemName] != nil) {
+            [data appendString:[[UIDevice currentDevice] systemName]];
+        
+        } else {
+            [data appendString:@""];
+        }
+        [data appendString:@"|"];
+        
+        
+        if([[UIDevice currentDevice] model] != nil) {
+            [data appendString:[[UIDevice currentDevice] model]];
+          
+        } else {
+            [data appendString:@""];
+        }
+        [data appendString:@"|"];
+        
+        
+        
+        if([[UIDevice currentDevice] localizedModel] != nil) {
+            [data appendString:[[UIDevice currentDevice] localizedModel]];
+          
+        } else {
+            [data appendString:@""];
+        }
+        [data appendString:@"|"];
+        
+        
+        
+        [data appendString:[[UIDevice currentDevice] systemVersion]];
+        [data appendString:@"|"];
+        
+        [data appendString:[NSString stringWithFormat: @"%d", [ISN_NativeUtility majorIOSVersion]]];
+        [data appendString:@"|"];
+        
+        
+        int Idiom = -1;
+        switch ([[UIDevice currentDevice] userInterfaceIdiom]) {
+            case UIUserInterfaceIdiomPhone:
+                Idiom = 0;
+                break;
+            case UIUserInterfaceIdiomPad:
+                Idiom = 1;
+                break;
+                
+            default:
+                Idiom = -1;
+                break;
+        }
+        
+        [data appendString:[NSString stringWithFormat: @"%d", Idiom]];
+        [data appendString:@"|"];
+
+        
+        NSUUID *vendorIdentifier = [[UIDevice currentDevice] identifierForVendor];
+        uuid_t uuid;
+        [vendorIdentifier getUUIDBytes:uuid];
+            
+        NSData *vendorData = [NSData dataWithBytes:uuid length:16];
+        NSString *encodedString = [vendorData base64Encoding];
+        [data appendString:encodedString];
+
+  
+	    #if UNITY_VERSION < 500
+	    [data autorelease];
+		#endif
+
+         return MakeStringCopy([ISN_DataConvertor NSStringToChar:data]);
+    }
     
  
    

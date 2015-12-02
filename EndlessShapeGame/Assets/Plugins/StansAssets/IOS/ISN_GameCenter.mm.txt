@@ -2729,6 +2729,12 @@ extern "C" {
         [[ISN_GameCenterManager sharedInstance] authenticateLocalPlayer];
     }
     
+    bool _ISN_GK_IsUnderage() {
+        return [[GKLocalPlayer localPlayer] isUnderage];
+    }
+    
+    
+    
     
     void _showLeaderboard(char* leaderboardId, int scope) {
         [[ISN_GameCenterManager sharedInstance] showLeaderboard:[ISN_DataConvertor charToNSString:leaderboardId] scope:scope];

@@ -8,6 +8,7 @@ public class GameManager : StateBehaviour
 
   public enum States
   {
+    None,
     Play,
     Stop,
     Replay,
@@ -29,6 +30,9 @@ public class GameManager : StateBehaviour
     FirstBeat,
     PurchaseCoins,
     PurchasePotion,
+    FacebookConnect,
+    ShowFacebookLeaderboard,
+    HideFacebookLeaderboard,
   }
 
   public enum DifficultyLevel
@@ -101,6 +105,9 @@ public class GameManager : StateBehaviour
   public string HideStoreEvent = "OnHideStore";
   public string PurchaseCoinsEvent = "OnPurchaseCoins";
   public string PurchasePotionEvent = "OnPurchasePotion";
+  public string FacebookConnectEvent = "OnFacebookConnect";
+  public string ShowFacebookLeaderboardEvent = "OnShowFacebookLeaderboard";
+  public string HideFacebookLeaderboardEvent = "OnHideFacebookLeaderboard";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -135,6 +142,8 @@ public class GameManager : StateBehaviour
     
     Debug.Log ("Device Name : " + SystemInfo.deviceName);
     Debug.Log ("Device Model : " + SystemInfo.deviceModel);
+
+    ChangeState (States.None);
   }
   
   // Use this for initialization
@@ -144,7 +153,9 @@ public class GameManager : StateBehaviour
   
   void OnApplicationPause (bool pause)
   {
-    if (GetState () == (System.Enum)(States.Playing) || GetState () == (System.Enum)(States.Pause) || GetState () == (System.Enum)(States.Resume))
+    Debug.Log ("Game State : " + GetState ());
+    
+    if ((States)GetState () == (States.Playing) || (States)GetState () == (States.Pause) || (States)GetState () == (States.Resume))
     {
       if (pause)
       {
@@ -373,6 +384,21 @@ public class GameManager : StateBehaviour
   void HideStore_Enter ()
   {
     BroadcastMessage (HideStoreEvent);
+  }
+
+  void FacebookConnect_Enter ()
+  {
+    BroadcastMessage (FacebookConnectEvent);
+  }
+
+  void ShowFacebookLeaderboard_Enter ()
+  {
+    BroadcastMessage (ShowFacebookLeaderboardEvent);
+  }
+
+  void HideFacebookLeaderboard_Enter ()
+  {
+    BroadcastMessage (HideFacebookLeaderboardEvent);
   }
 
   void PurchaseItem (StoreButton button)

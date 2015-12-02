@@ -61,8 +61,65 @@ public class PluginsInstalationUtil : MonoBehaviour {
 		FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_NativeCore.h.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_NativeCore.h");
 		FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_NativeCore.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_NativeCore.mm");
 	}
-	
-	
+
+
+
+	private static string AN_SoomlaGrowContent = "Extensions/AndroidNative/Other/Soomla/AN_SoomlaGrow.cs";
+
+
+	public static void Remove_FB_SDK() {
+
+
+		FileStaticAPI.DeleteFolder(PluginsInstalationUtil.ANDROID_DESTANATION_PATH + "facebook");
+		FileStaticAPI.DeleteFolder("Facebook");
+		FileStaticAPI.DeleteFolder("Extensions/GooglePlayCommon/Social/Facebook");
+
+
+		//AM
+		FileStaticAPI.DeleteFile("Extensions/AndroidNative/xExample/Scripts/Social/FacebookAndroidUseExample.cs");
+		FileStaticAPI.DeleteFile("Extensions/AndroidNative/xExample/Scripts/Social/FacebookAnalyticsExample.cs");
+		FileStaticAPI.DeleteFile("Extensions/AndroidNative/xExample/Scripts/Social/FacebookAndroidTurnBasedAndGiftsExample.cs");
+
+
+		//MSP
+		FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSPFacebookUseExample.cs");
+		FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSP_FacebookAnalyticsExample.cs");
+		FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSP_FacebookAndroidTurnBasedAndGiftsExample.cs");
+
+		ChnageDefineState(AN_SoomlaGrowContent, "FACEBOOK_ENABLED", false);
+
+
+	}
+
+
+
+
+	private static void ChnageDefineState(string file, string tag, bool IsEnabled) {
+
+		if(!FileStaticAPI.IsFileExists(file)) {
+			Debug.Log("ChnageDefineState for tag: " + tag + " File not found at path: " + file);
+			return;
+		}
+		
+		string content = FileStaticAPI.Read(file);
+		
+		int endlineIndex;
+		endlineIndex = content.IndexOf(System.Environment.NewLine);
+		if(endlineIndex == -1) {
+			endlineIndex = content.IndexOf("\n");
+		}
+		
+		string TagLine = content.Substring(0, endlineIndex);
+		
+		if(IsEnabled) {
+			content 	= content.Replace(TagLine, "#define " + tag);
+		} else {
+			content 	= content.Replace(TagLine, "//#define " + tag);
+		}
+		
+		FileStaticAPI.Write(file, content);
+		
+	}
 	
 	
 	public static void IOS_CleanUp() {
@@ -192,12 +249,12 @@ public class PluginsInstalationUtil : MonoBehaviour {
 
 
 	public static void EnableSoomlaAPI() {
-		FileStaticAPI.CopyFile(ANDROID_SOURCE_PATH + "libs/sa_soomla.txt", 	ANDROID_DESTANATION_PATH + "libs/sa_soomla.jar");
+		FileStaticAPI.CopyFile(ANDROID_SOURCE_PATH + "libs/an_sa_soomla.txt", 	ANDROID_DESTANATION_PATH + "libs/an_sa_soomla.jar");
 	}
 	
 	
 	public static void DisableSoomlaAPI() {
-		FileStaticAPI.DeleteFile(ANDROID_DESTANATION_PATH + "libs/sa_soomla.jar");
+		FileStaticAPI.DeleteFile(ANDROID_DESTANATION_PATH + "libs/an_sa_soomla.jar");
 	}
 
 	

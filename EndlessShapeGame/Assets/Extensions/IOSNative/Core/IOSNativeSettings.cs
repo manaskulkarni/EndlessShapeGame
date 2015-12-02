@@ -77,6 +77,10 @@ public class IOSNativeSettings : ScriptableObject {
 	public string SoomlaGameKey = "" ;
 	public string SoomlaEnvKey = "" ;
 
+	//One Signal
+	public bool OneSignalEnabled = false;
+	public string OneSignalDocsLink = "https://goo.gl/Royty6";
+
 
 	private const string ISNSettingsAssetName = "IOSNativeSettings";
 	private const string ISNSettingsPath = "Extensions/IOSNative/Resources";
