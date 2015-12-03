@@ -7,7 +7,7 @@ public class FacebookInterface : MonoBehaviour
 {
   public string appId = "1518246578468950";
 
-  public Dictionary <string, Sprite> profilePictures = new Dictionary<string, Sprite> ();
+  public List  <KeyValuePair <string, Texture2D>> profilePictures = new List <KeyValuePair <string, Texture2D>> ();
 
   static public FacebookInterface inst = null;
 
@@ -26,6 +26,8 @@ public class FacebookInterface : MonoBehaviour
     SPFacebook.Instance.Init();
 
     SPFacebook.OnLogOut += HandleOnLogOut;
+
+    SPFacebook.OnUserDataRequestCompleteAction += HandleOnUserDataRequestCompleteAction;
 
     SPFacebook.OnPlayerScoresRequestCompleteAction += HandleOnPlayerScoresRequestCompleteAction;
     SPFacebook.OnAppScoresRequestCompleteAction += HandleOnAppScoresRequestCompleteAction; 
@@ -46,6 +48,21 @@ public class FacebookInterface : MonoBehaviour
     return null;
   }
 
+  public FB_UserInfo GetPlayer ()
+  {
+    return SPFacebook.Instance.userInfo;
+  }
+
+  public int GetPlayerScore ()
+  {
+    return SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
+  }
+
+  public string GetPlayerName ()
+  {
+    return SPFacebook.Instance.userInfo.Name;
+  }
+
   public int GetScoreFromId (string id)
   {
     var scoreObject = SPFacebook.Instance.GetScoreObjectByUserId (id);
@@ -59,6 +76,18 @@ public class FacebookInterface : MonoBehaviour
     }
   }
 
+  public FB_UserInfo GetUserFromId (string id)
+  {
+    if (id == SPFacebook.Instance.UserId)
+    {
+      return SPFacebook.Instance.userInfo;
+    }
+    else
+    {
+      return GetFriendFromId (id);
+    }
+  }
+
   void HandleOnInitCompleteAction ()
   {
     Debug.Log("FB init finished");
@@ -66,7 +95,7 @@ public class FacebookInterface : MonoBehaviour
     {
       //User alreayd authenticated, update your UI accordingly
       Debug.Log ("User already authenticated");
-      LoadFriendsInfo ();
+      LoadUserInfo ();
       FacebookConnected (true);
     }
   }
@@ -103,12 +132,20 @@ public class FacebookInterface : MonoBehaviour
     }
   }
 
+  void HandleOnUserDataRequestCompleteAction (FB_Result obj)
+  {
+    if (obj.IsSucceeded)
+    {
+      LoadFriendsInfo ();
+    }
+  }
+
   void HandleOnAuthCompleteAction (FB_Result obj)
   {
     if(SPFacebook.instance.IsLoggedIn)
     {
       Debug.Log ("Already Logged In");
-      LoadFriendsInfo ();
+      LoadUserInfo ();
       FacebookConnected (true);
     }
     else
@@ -142,6 +179,11 @@ public class FacebookInterface : MonoBehaviour
       msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
       Debug.Log (msg);
 
+      {
+        SPFacebook.Instance.userInfo.OnProfileImageLoaded += HandleOnProfileImageLoaded;
+        SPFacebook.Instance.userInfo.LoadProfileImage (FB_ProfileImageSize.square);
+      }
+
       CheckFirstLogin ();
 
       foreach (var v in SPFacebook.Instance.friends)
@@ -169,13 +211,13 @@ public class FacebookInterface : MonoBehaviour
 
   void HandleOnProfileImageLoaded (FB_UserInfo res)
   {
+    Debug.Log ("LOADING IMAGE FOR : " + res.Name);
     var profilePic = res.GetProfileImage (FB_ProfileImageSize.square);
-    var rect = new Rect (0.0f, 0.0f, profilePic.width, profilePic.height);
-    var s = Sprite.Create (profilePic, rect, Vector2.one * 0.5f);
-    profilePictures.Add (res.Id, s);
+    profilePictures.Add (new KeyValuePair <string, Texture2D> (res.Id, profilePic));
 
-    if (profilePictures.Count == SPFacebook.Instance.friends.Count)
+    if (profilePictures.Count == SPFacebook.Instance.friends.Count + 1)
     {
+      profilePictures.Sort ((a, b) => GetScoreFromId (a.Key).CompareTo(GetScoreFromId(b.Key)));
       BroadcastMessage ("OnFriendListLoaded");
     }
   }
@@ -219,6 +261,11 @@ public class FacebookInterface : MonoBehaviour
     BroadcastMessage ("OnFacebookConnected", connected);
   }
 
+  void LoadUserInfo ()
+  {
+    SPFacebook.Instance.LoadUserData ();
+  }
+
   void LoadFriendsInfo ()
   {
     SPFacebook.Instance.LoadFrientdsInfo (int.MaxValue);
@@ -253,11 +300,23 @@ public class FacebookInterface : MonoBehaviour
     }
   }
 
+  void OnTryShowFacebookLeaderboard ()
+  {
+    if (SPFacebook.Instance.IsLoggedIn)
+    {
+      GameManager.inst.ChangeState (GameManager.States.ShowFacebookLeaderboard);
+    }
+    else
+    {
+      IOSNativePopUpManager.showDialog ("Not Logged In", "Login to Facebook");
+    }
+  }
+
   void OnShowFacebookLeaderboard ()
   {
   }
 
-  void OnSubmitScore ()
+  void OnSubmitHighScore ()
   {
     SubmitScore (StatsManager.inst.score);
   }

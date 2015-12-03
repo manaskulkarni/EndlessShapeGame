@@ -31,10 +31,12 @@ public class GameManager : StateBehaviour
     PurchaseCoins,
     PurchasePotion,
     FacebookConnect,
+    TryShowFacebookLeaderboard,
     ShowFacebookLeaderboard,
     HideFacebookLeaderboard,
     TryRestorePurchase,
     RestorePurchaseComplete,
+    RemoveAds,
   }
 
   public enum DifficultyLevel
@@ -109,6 +111,7 @@ public class GameManager : StateBehaviour
   public string PurchaseCoinsEvent = "OnPurchaseCoins";
   public string PurchasePotionEvent = "OnPurchasePotion";
   public string FacebookConnectEvent = "OnFacebookConnect";
+  public string TryShowFacebookLeaderboardEvent = "OnTryShowFacebookLeaderboard";
   public string ShowFacebookLeaderboardEvent = "OnShowFacebookLeaderboard";
   public string HideFacebookLeaderboardEvent = "OnHideFacebookLeaderboard";
   public string TryRestorePurchaseEvent = "OnTryRestorePurchase";
@@ -398,6 +401,11 @@ public class GameManager : StateBehaviour
   void FacebookConnect_Enter ()
   {
     BroadcastMessage (FacebookConnectEvent);
+  }
+
+  void TryShowFacebookLeaderboard_Enter ()
+  {
+    BroadcastMessage (TryShowFacebookLeaderboardEvent);
   }
 
   void ShowFacebookLeaderboard_Enter ()

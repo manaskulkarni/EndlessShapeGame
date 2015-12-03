@@ -90,7 +90,7 @@ public class UIManager : StateBehaviour
     SetMenuActive (menuStart, true);
     SetMenuActive (menuRevive, false);
     SetMenuActive (menuStore, false);
-    SetMenuActive (menuFacebookLeaderboard, false);
+//    SetMenuActive (menuFacebookLeaderboard, false);
     
     menuGame = GameObject.Find ("MenuGame");
     textScore = GameObject.Find ("TextScore").GetComponent <Text> ();
@@ -216,14 +216,24 @@ public class UIManager : StateBehaviour
 
   public void ShowFacebookLeaderboard ()
   {
-    GameManager.inst.ChangeState (GameManager.States.ShowFacebookLeaderboard);
+    GameManager.inst.ChangeState (GameManager.States.TryShowFacebookLeaderboard);
+  }
+
+  public void HideFacebookLeaderboard ()
+  {
+    GameManager.inst.ChangeState (GameManager.States.HideFacebookLeaderboard);
   }
 
   public void RestorePurchase ()
   {
     GameManager.inst.ChangeState (GameManager.States.TryRestorePurchase);
   }
-  
+
+  public void RemoveAds ()
+  {
+    GameManager.inst.ChangeState (GameManager.States.RemoveAds);
+  }
+
   #region Coroutines
   
   private IEnumerator HighScoreFeedback ()
@@ -743,11 +753,13 @@ public class UIManager : StateBehaviour
   void OnShowFacebookLeaderboard ()
   {
     StartCoroutine (FadeInFacebookLeaderboardCanvas ());
+    StartCoroutine (FadeOutOptionsCanvas ());
   }
 
   void OnHideFacebookLeaderboard ()
   {
     StartCoroutine (FadeOutFacebookLeaderboardCanvas ());
+    StartCoroutine (FadeInOptionsCanvas ());
   }
   
   //  void OnDifficultyChange ()
