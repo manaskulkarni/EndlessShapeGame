@@ -25,6 +25,11 @@ public class AudioManager : MonoBehaviour
   // Mode 2 Game Tracks
   public AudioObject _track2;
 
+  // Mode 2 Options Tracks
+  public AudioObject _main_menu2;
+  public AudioObject _options_menu2;
+  public AudioObject _store_menu2;
+
   // Sound Effects
   public AudioObject _lose_effect;
   #endregion
@@ -34,13 +39,18 @@ public class AudioManager : MonoBehaviour
   public AudioSource track1 { get; private set; }
   public AudioSource track1_loop { get; private set; }
 
-  // Mode 1 Option Tracks
+  // Mode 1 Options Tracks
   public AudioSource main_menu1 { get; private set; }
   public AudioSource options_menu1 { get; private set; }
   public AudioSource store_menu1 { get; private set; }
 
   // Mode 2 Game Tracks
   public AudioSource track2 { get; private set; }
+
+  // Mode 2 Options Tracks
+  public AudioSource main_menu2 { get; private set; }
+  public AudioSource options_menu2 { get; private set; }
+  public AudioSource store_menu2 { get; private set; }
 
   // Sound Effects
   public AudioSource lose_effect { get; private set; }
@@ -92,8 +102,29 @@ public class AudioManager : MonoBehaviour
       store_menu1.volume = 0.0f;
 
       // Initialize track (MODE 2)
-      track2 = sources[2];
+      track2 = sources[6];
       track2.clip = _track2.clip;
+      
+      // Initialize main menu loop (MODE 2)
+      main_menu2 = sources[7];
+      main_menu2.clip = _main_menu2.clip;
+      main_menu2.loop = true;
+      main_menu2.volume = 0.0f;
+      main_menu2.Play();
+
+      // Initialize options menu loop (MODE 2)
+      options_menu2 = sources[8];
+      options_menu2.clip = _options_menu2.clip;
+      options_menu2.loop = true;
+      options_menu2.volume = 0.0f;
+      options_menu2.Play();
+      
+      // Initialize store menu loop (MODE 2)
+      store_menu2 = sources[9];
+      store_menu2.clip = _store_menu2.clip;
+      store_menu2.loop = true;
+      store_menu2.volume = 0.0f;
+      store_menu2.Play();
     }
   }
 
