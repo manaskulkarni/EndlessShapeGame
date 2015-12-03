@@ -6,6 +6,7 @@ TagManager:
   tags:
   - p
   - s
+  - noinvert
   layers:
   - Default
   - TransparentFX

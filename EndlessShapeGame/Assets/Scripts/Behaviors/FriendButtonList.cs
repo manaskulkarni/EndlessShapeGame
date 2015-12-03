@@ -14,8 +14,6 @@ public class FriendButtonList : MonoBehaviour
   {
     var icons = FacebookInterface.inst.profilePictures;
     var player = FacebookInterface.inst.GetPlayer ();
-    var playerScore = FacebookInterface.inst.GetPlayerScore ();
-    var playerName = player.Name;
     int i = 0;
 
     for (int index = icons.Count - 1; index >= 0; --index)

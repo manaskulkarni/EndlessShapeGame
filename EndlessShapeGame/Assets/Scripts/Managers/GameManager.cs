@@ -38,7 +38,7 @@ public class GameManager : StateBehaviour
     TryRestorePurchase,
     RestorePurchaseComplete,
     RemoveAds,
-    InvertColor,
+    SwitchMode,
   }
 
   public enum DifficultyLevel
@@ -119,6 +119,7 @@ public class GameManager : StateBehaviour
   public string TryRestorePurchaseEvent = "OnTryRestorePurchase";
   public string RestorePurchaseCompleteEvent = "OnRestorePurchaseComplete";
   public string InvertColorEvent = "OnInvertColor";
+  public string SwitchModeEvent = "OnSwitchMode";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -431,11 +432,6 @@ public class GameManager : StateBehaviour
     BroadcastMessage (RestorePurchaseCompleteEvent);
   }
 
-  void InvertColor_Enter ()
-  {
-    BroadcastMessage (InvertColorEvent);
-  }
-
   void PurchaseItem (StoreButton button)
   {
     Debug.Log ("Purchasing Item : " + button.title.text);
@@ -450,6 +446,12 @@ public class GameManager : StateBehaviour
       BroadcastMessage (PurchaseCoinsEvent, button, SendMessageOptions.DontRequireReceiver);
       break;
     }
+  }
+
+  void SwitchMode (int mode)
+  {
+    Debug.Log ("GAME MANAGER SWITCH MODE : " + mode);
+    BroadcastMessage (SwitchModeEvent, mode);
   }
 
   private float duration = 0.3f;

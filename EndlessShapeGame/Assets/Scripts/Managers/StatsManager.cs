@@ -135,6 +135,8 @@ public class StatsManager : MonoBehaviour
   private bool highScoreCrossed { get; set; }
   private int usedRevives { get; set; }
 
+  public int vMode = 0;
+
   void Awake ()
   {
     if (inst == null)
@@ -147,6 +149,7 @@ public class StatsManager : MonoBehaviour
     }
 
     firstSession = true;
+    vMode = PlayerPrefs.GetInt ("VMode");
   }
 
   // Use this for initialization
@@ -182,11 +185,12 @@ public class StatsManager : MonoBehaviour
   {
   }
 
-  void OnDisable ()
+  void OnDestroy ()
   {
     PlayerPrefs.SetInt ("Coins", coins);
     PlayerPrefs.SetInt("numBlackCollision",playerStats.numBlackCollision);
     PlayerPrefs.SetInt ("FacebookConenct", prevFacebookStatus);
+    PlayerPrefs.SetInt ("VMode", vMode);
   }
   
   public static class DeviceRotation
@@ -407,6 +411,12 @@ public class StatsManager : MonoBehaviour
       }
       Debug.Log ("Purchased " + button.title.text + " for " + button.priceText.text + " coins");
     }
+  }
+
+  void OnSwitchMode (int mode)
+  {
+    vMode = mode;
+    Debug.Log ("SETTING VMODE TO : " + mode);
   }
 
   [System.Obsolete ("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]
