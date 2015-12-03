@@ -180,13 +180,16 @@ public class UIManager : StateBehaviour
   {
     GameManager.inst.ChangeState (GameManager.States.HideStore);
   }
+
+  bool usingRevive = false;
   
   public void UseRevive ()
   {
     Debug.Log ("Using Revive");
     Debug.Log (StatsManager.inst.canUseRevive);
-    if (StatsManager.inst.canUseRevive)
+    if (StatsManager.inst.canUseRevive && !usingRevive)
     {
+      usingRevive = true;
       GameManager.inst.ChangeState (GameManager.States.AcceptRevive);
     }
     else
@@ -202,6 +205,7 @@ public class UIManager : StateBehaviour
   public void ReviveDeclined ()
   {
     GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
+    usingRevive = false;
   }
   
   public void PurchaseItem (StoreButton button)
@@ -649,6 +653,7 @@ public class UIManager : StateBehaviour
     animRevive.SetActive (false);
     StartCoroutine (FadeOutReviveCanvas ());
     StartCoroutine (FadeOutGameCanvas ());
+    usingRevive = false;
   }
   
   void OnAcceptRevive ()
@@ -661,6 +666,7 @@ public class UIManager : StateBehaviour
   void OnCompleteRevive ()
   {
     ChangeState (States.None);
+    usingRevive = false;
   }
   
   void OnShowOptions ()
