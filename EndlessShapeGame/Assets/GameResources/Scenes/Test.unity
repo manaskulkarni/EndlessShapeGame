@@ -5559,7 +5559,7 @@ Transform:
   m_GameObject: {fileID: 1363093864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 6}
-  m_LocalScale: {x: 12.1609678, y: 8.59375, z: 0}
+  m_LocalScale: {x: 17.5701523, y: 8.59375, z: 0}
   m_Children: []
   m_Father: {fileID: 725390020}
   m_RootOrder: 6
@@ -7976,30 +7976,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc03aaa1318f03a40804b5d7978a8288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundMusic:
+  _track1:
     clip: {fileID: 8300000, guid: 26430bf951d1c9c44a601b845d07bcd3, type: 3}
-    volumeFadeSpeed: .800000012
-    pitchFadeSpeed: .0500000007
-  loseEffect:
-    clip: {fileID: 8300000, guid: f74b57d9a8fd8474f968daa9757b8aa2, type: 3}
-    volumeFadeSpeed: .469999999
-    pitchFadeSpeed: .469999999
-  backgroundLoop:
+    volumeFadeSpeed: .5
+  _track1_loop:
     clip: {fileID: 8300000, guid: 926bf84660e84cc419ea580b1c680b25, type: 3}
     volumeFadeSpeed: .5
-    pitchFadeSpeed: .0500000007
-  mainMenuLoop:
+  _main_menu1:
     clip: {fileID: 8300000, guid: 056eaf3c899736b488c7ef93548801f6, type: 3}
-    volumeFadeSpeed: .600000024
-    pitchFadeSpeed: 0
-  optionsMenuLoop:
+    volumeFadeSpeed: .800000012
+  _options_menu1:
     clip: {fileID: 8300000, guid: a845319af5180b94998a146de16938b7, type: 3}
-    volumeFadeSpeed: .600000024
-    pitchFadeSpeed: 0
-  storeMenuLoop:
+    volumeFadeSpeed: .800000012
+  _store_menu1:
     clip: {fileID: 8300000, guid: 6be47939542a17145b8823fee6278755, type: 3}
-    volumeFadeSpeed: .600000024
-    pitchFadeSpeed: 0
+    volumeFadeSpeed: .800000012
+  _lose_effect:
+    clip: {fileID: 8300000, guid: 0ee496eb171cdf34997d8084061e521a, type: 3}
+    volumeFadeSpeed: .5
 --- !u!1 &1969178116
 GameObject:
   m_ObjectHideFlags: 0

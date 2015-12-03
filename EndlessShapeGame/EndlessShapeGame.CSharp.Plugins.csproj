@@ -51,29 +51,11 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
@@ -83,6 +65,9 @@
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="IFacebook">
+      <HintPath>Assets\Facebook\Scripts\IFacebook.dll</HintPath>
     </Reference>
     <Reference Include="TouchScript">
       <HintPath>Assets\TouchScript\Plugins\TouchScript.dll</HintPath>
@@ -139,12 +124,96 @@
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
-    <Compile Include="Assets\Standard Assets\KTGameCenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AudioTesting\BPMData.xml" />
     <None Include="Assets\AudioTesting\InverseBPMData.txt" />
+    <None Include="Assets\Extensions\AndroidManifestManager\default.xml" />
+    <None Include="Assets\Extensions\IOSNative\Documentation\ISN_VersionNotes.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\AndroidManifest 1.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\analytics 1.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\analytics.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\ids 1.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\ids.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\version 1.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\version.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\xml\file_paths.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AndroidManifest 1.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\androidnative 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\androidnative 2.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\androidnative.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\libs\an_sa_soomla 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\libs\an_sa_soomla.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\libs\android-support-v4.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\libs\android-support-v5.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\res\xml\file_paths.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\social\an_social 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\social\an_social 2.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\social\an_social.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\social\twitter4j-core-3.0.5.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\social\twitter4j-core-3.0.6.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_Camera.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_GameCenter.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_InApp.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_Media.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NSData+Base64.h.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NSData+Base64.m.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.h 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.h.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.mm 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_ReplayKit.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_SocialGate.mm 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_SocialGate.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_Soomla.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_iAd.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\Versions\ISN_VersionInfo.txt" />
+    <None Include="Assets\Plugins\StansAssets\Versions\MSP_VersionInfo.txt" />
     <None Include="Assets\Plugins\android\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\android\facebook\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\android\facebook\build.xml" />
+    <None Include="Assets\Plugins\android\facebook\proguard-project.txt" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_button_blue.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_button_check.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_button_like.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_button_like_selected.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_loginbutton_silver.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_picker_item_background.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_picker_list_selector.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_picker_list_selector_background_transition.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_picker_top_button.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_top_background.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_top_button.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_usersettingsfragment_background_gradient.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_friendpickerfragment.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_login_activity_layout.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_activity_circle_row.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_checkbox.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_image.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_list_row.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_list_section_header.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_search_box.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_title_bar.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_title_bar_stub.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_placepickerfragment.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_placepickerfragment_list_row.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_search_bar_layout.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_tooltip_bubble.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_usersettingsfragment.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-es\strings.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-hdpi\dimens.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-he\strings.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-iw\strings.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-ldpi\dimens.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-mdpi\dimens.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-xhdpi\dimens.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values\attrs.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values\colors.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values\drawables.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values\strings.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values\styles.xml" />
     <None Include="Assets\Plugins\android\google-play-services_lib\AndroidManifest.xml" />
     <None Include="Assets\Plugins\android\google-play-services_lib\README.txt" />
     <None Include="Assets\Plugins\android\google-play-services_lib\proguard.txt" />
@@ -242,6 +311,7 @@
     <None Include="Assets\Plugins\android\google-play-services_lib\res\values\wallet_colors.xml" />
     <None Include="Assets\Plugins\android\google-play-services_lib\res\values\wallet_strings.xml" />
     <None Include="Assets\Plugins\android\google-play-services_lib\res\values\wallet_styles.xml" />
+    <None Include="Assets\Plugins\android\res\xml\file_paths.xml" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />

@@ -54,9 +54,6 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
     </Reference>
@@ -71,9 +68,6 @@
     </Reference>
     <Reference Include="UnityEditor.Networking">
       <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Graphs">
       <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
@@ -111,32 +105,14 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="IFacebook">
+      <HintPath>Assets\Facebook\Scripts\IFacebook.dll</HintPath>
     </Reference>
     <Reference Include="TouchScript.Editor">
       <HintPath>Assets\TouchScript\Editor\TouchScript.Editor.dll</HintPath>
@@ -163,6 +139,51 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\PBXModifier.cs.cs" />
+    <Compile Include="Assets\Extensions\AndroidManifestManager\Editor\AN_ManifestManagerMenu.cs" />
+    <Compile Include="Assets\Extensions\AndroidManifestManager\Editor\AN_ManifestManagerWindow.cs" />
+    <Compile Include="Assets\Extensions\AndroidManifestManager\Editor\AddPermissionDialog.cs" />
+    <Compile Include="Assets\Extensions\AndroidManifestManager\Editor\AddPropertyDialog.cs" />
+    <Compile Include="Assets\Extensions\AndroidManifestManager\Editor\AddValueDialog.cs" />
+    <Compile Include="Assets\Extensions\GooglePlayCommon\Editor\SocialPlatfromInit.cs" />
+    <Compile Include="Assets\Extensions\GooglePlayCommon\Editor\SocialPlatfromSettingsEditor.cs" />
+    <Compile Include="Assets\Extensions\GooglePlayCommon\Editor\SocialPlatfromSettingsHelper.cs" />
+    <Compile Include="Assets\Extensions\IOSDeploy\Scripts\Editor\IOSDeployPostProcess.cs" />
+    <Compile Include="Assets\Extensions\IOSDeploy\Scripts\Editor\ISDMenu.cs" />
+    <Compile Include="Assets\Extensions\IOSDeploy\Scripts\Editor\ISDSettingsEditor.cs" />
+    <Compile Include="Assets\Extensions\IOSNative\Editor\IOSNativeMenu.cs" />
+    <Compile Include="Assets\Extensions\IOSNative\Editor\IOSNativePostProcess.cs" />
+    <Compile Include="Assets\Extensions\IOSNative\Editor\IOSNativeSettingsEditor.cs" />
+    <Compile Include="Assets\Extensions\MobileSocialPlugin\Scripts\Editor\MSPPostProcess.cs" />
+    <Compile Include="Assets\Extensions\MobileSocialPlugin\Scripts\Editor\SocialPlatfromMenu.cs" />
+    <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\PluginsInstalationUtil.cs" />
+    <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\SA_Bool.cs" />
+    <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\SA_EditorTool.cs" />
+    <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\SA_RemoveTool.cs" />
+    <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\SA_VersionsManager.cs" />
+    <Compile Include="Assets\Facebook\Editor\FacebookPostprocess.cs" />
+    <Compile Include="Assets\Facebook\Editor\FacebookSettingsEditor.cs" />
+    <Compile Include="Assets\Facebook\Editor\android\FacebookAndroidUtil.cs" />
+    <Compile Include="Assets\Facebook\Editor\android\ManifestMod.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\FBPListParser.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\FixupFiles.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\PListDict.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXBuildFile.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXBuildPhase.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXDictionary.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXFileReference.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXGroup.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXList.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXObject.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXParser.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXProject.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCBuildConfiguration.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCConfigurationList.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCFileOperationQueue.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCMod.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCProject.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCSourceFile.cs" />
+    <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCTarget.cs" />
     <Compile Include="Assets\GameResources\Editor\ClearPlayerPrefs.cs" />
     <Compile Include="Assets\GameResources\Editor\ImageEffects\AntialiasingEditor.cs" />
     <Compile Include="Assets\GameResources\Editor\ImageEffects\BloomAndFlaresEditor.cs" />
@@ -177,41 +198,96 @@
     <Compile Include="Assets\GameResources\Editor\ImageEffects\SunShaftsEditor.cs" />
     <Compile Include="Assets\GameResources\Editor\ImageEffects\TonemappingEditor.cs" />
     <Compile Include="Assets\GameResources\Editor\ImageEffects\VignetteAndChromaticAberrationEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Base\VisBaseControllerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Base\VisBaseModifierEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Base\VisBasePropertyModifierEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Base\VisBasePropertyTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Base\VisBaseTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Base\VisCommonEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Base\VisManagerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Controllers\VisFrequencyControllerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Controllers\VisRandomControllerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Controllers\VisSineWaveControllerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Data\VisDataGroupEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Modifiers\VisAnimationStatePropertyModifierEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Modifiers\VisEmitterPropertyModifierEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Modifiers\VisGameObjectPropertyModifierEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Modifiers\VisLightPropertyModifierEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Modifiers\VisMaterialLerpModifierEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Modifiers\VisMaterialPropertyModifierEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Modifiers\VisTargetModifierEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisAddForceTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisAnimationStatePropertyTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisEmitParticlesTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisEmitterPropertyTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisGameObjectPropertyTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisLightPropertyTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisMaterialLerpTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisMaterialPropertyTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisMessageTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisSpawnPrefabTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Triggers\VisTargetTriggerEditor.cs" />
-    <Compile Include="Assets\VisualizerStudio\Editor\Utility\VisMicrophoneEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AudioTesting\BPMData.xml" />
     <None Include="Assets\AudioTesting\InverseBPMData.txt" />
+    <None Include="Assets\Extensions\AndroidManifestManager\default.xml" />
+    <None Include="Assets\Extensions\IOSNative\Documentation\ISN_VersionNotes.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\AndroidManifest 1.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\analytics 1.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\analytics.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\ids 1.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\ids.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\version 1.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\version.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\xml\file_paths.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AndroidManifest 1.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\androidnative 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\androidnative 2.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\androidnative.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\libs\an_sa_soomla 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\libs\an_sa_soomla.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\libs\android-support-v4.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\libs\android-support-v5.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\res\xml\file_paths.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\social\an_social 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\social\an_social 2.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\social\an_social.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\social\twitter4j-core-3.0.5.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\social\twitter4j-core-3.0.6.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_Camera.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_GameCenter.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_InApp.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_Media.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NSData+Base64.h.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NSData+Base64.m.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.h 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.h.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.mm 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_ReplayKit.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_SocialGate.mm 1.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_SocialGate.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_Soomla.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\IOS\ISN_iAd.mm.txt" />
+    <None Include="Assets\Plugins\StansAssets\Versions\ISN_VersionInfo.txt" />
+    <None Include="Assets\Plugins\StansAssets\Versions\MSP_VersionInfo.txt" />
     <None Include="Assets\Plugins\android\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\android\facebook\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\android\facebook\build.xml" />
+    <None Include="Assets\Plugins\android\facebook\proguard-project.txt" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_button_blue.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_button_check.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_button_like.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_button_like_selected.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_loginbutton_silver.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_picker_item_background.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_picker_list_selector.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_picker_list_selector_background_transition.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_picker_top_button.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_top_background.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_top_button.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_usersettingsfragment_background_gradient.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_friendpickerfragment.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_login_activity_layout.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_activity_circle_row.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_checkbox.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_image.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_list_row.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_list_section_header.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_search_box.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_title_bar.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_title_bar_stub.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_placepickerfragment.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_placepickerfragment_list_row.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_search_bar_layout.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_tooltip_bubble.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_usersettingsfragment.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-es\strings.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-hdpi\dimens.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-he\strings.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-iw\strings.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-ldpi\dimens.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-mdpi\dimens.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values-xhdpi\dimens.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values\attrs.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values\colors.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values\drawables.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values\strings.xml" />
+    <None Include="Assets\Plugins\android\facebook\res\values\styles.xml" />
     <None Include="Assets\Plugins\android\google-play-services_lib\AndroidManifest.xml" />
     <None Include="Assets\Plugins\android\google-play-services_lib\README.txt" />
     <None Include="Assets\Plugins\android\google-play-services_lib\proguard.txt" />
@@ -309,6 +385,7 @@
     <None Include="Assets\Plugins\android\google-play-services_lib\res\values\wallet_colors.xml" />
     <None Include="Assets\Plugins\android\google-play-services_lib\res\values\wallet_strings.xml" />
     <None Include="Assets\Plugins\android\google-play-services_lib\res\values\wallet_styles.xml" />
+    <None Include="Assets\Plugins\android\res\xml\file_paths.xml" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />
