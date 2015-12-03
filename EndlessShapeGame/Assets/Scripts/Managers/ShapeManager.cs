@@ -398,6 +398,11 @@ public class ShapeManager : MonoBehaviour
 
       GameManager.inst.BroadcastMessage ("OnShapeTriggered", shapeBehavior);
 
+      if (numCollisions == 0)
+      {
+        GameManager.inst.ChangeState(GameManager.States.FirstBeat);
+      }
+
       /***********************************************************************/
       // If Player sprite collides with shape of same sprite
       /***********************************************************************/
@@ -411,12 +416,7 @@ public class ShapeManager : MonoBehaviour
 //        fdb.transform.position = shapeBehavior.transform.position;
 //        fdb.Play();
           if (sameSprite)
-          {
-            if (numCollisions == 0)
-            {
-              GameManager.inst.ChangeState (GameManager.States.FirstBeat);
-            }
-          
+          {          
             // Shuffle the shape properties to increase randomness
             Shuffle<ShapeProperties>(shapeProperties);
 

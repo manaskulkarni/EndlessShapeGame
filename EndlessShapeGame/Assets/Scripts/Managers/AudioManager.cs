@@ -5,38 +5,44 @@ using System;
 public class AudioManager : MonoBehaviour
 {
   [System.Serializable]
-  public class SoundEffect
+
+  public class AudioObject
   {
     public AudioClip clip;
     public float volumeFadeSpeed;
-    public float pitchFadeSpeed;
   }
 
-  /// <summary>
-  /// Background Music Audio Clip
-  /// </summary>
-  public SoundEffect backgroundMusic;
-  public SoundEffect loseEffect;
-  public SoundEffect backgroundLoop;
-  public SoundEffect mainMenuLoop;
-  public SoundEffect optionsMenuLoop;
-  public SoundEffect storeMenuLoop;
+  #region AudioObjects
+  // Mode 1 Game Tracks
+  public AudioObject _track1;
+  public AudioObject _track1_loop;
 
-  #region Properties
-  public AudioSource bgm { get; private set; }
-  public AudioSource loseSFX { get; private set; }
-  public AudioSource bgmLoop { get; private set; }
-  public AudioSource mainMenu { get; private set; }
-  public AudioSource optionsMenu { get; private set; }
-  public AudioSource storeMenu { get; private set; }
+  // Mode 1 Options Tracks
+  public AudioObject _main_menu1;
+  public AudioObject _options_menu1;
+  public AudioObject _store_menu1;
+
+  // Sound Effects
+  public AudioObject _lose_effect;
   #endregion
 
-  /// <summary>
-  /// AudioPlayer attached to gameObject
-  /// </summary>
-  private float originalVolume { get; set; }
+  #region Properties
+  // Mode 1 Game Tracks
+  public AudioSource track1 { get; private set; }
+  public AudioSource track1_loop { get; private set; }
+
+  // Mode 1 Option Tracks
+  public AudioSource main_menu1 { get; private set; }
+  public AudioSource options_menu1 { get; private set; }
+  public AudioSource store_menu1 { get; private set; }
+
+  // Sound Effects
+  public AudioSource lose_effect { get; private set; }
+  #endregion
+
   static public AudioManager inst { get; private set; }
-  bool once;
+  bool playOnce;
+  int mode;
 
   void Awake()
   {
@@ -46,58 +52,54 @@ public class AudioManager : MonoBehaviour
 
       var sources = gameObject.GetComponentsInChildren<AudioSource>();
 
-      bgm = sources[0];
-      bgm.clip = backgroundMusic.clip;
+      // Initialize track (MODE 1)
+      track1 = sources[0];
+      track1.clip = _track1.clip;
 
-      loseSFX = sources[1];
-      loseSFX.clip = loseEffect.clip;
+      // Initialize track loop (MODE 1)
+      track1_loop = sources[2];
+      track1_loop.clip = _track1_loop.clip;
+      track1_loop.loop = true;
 
-      bgmLoop = sources[2];
-      bgmLoop.clip = backgroundLoop.clip;
-      bgmLoop.loop = true;
-      bgmLoop.mute = false;
+      // Initialize main menu loop (MODE 1)
+      main_menu1 = sources[3];
+      main_menu1.clip = _main_menu1.clip;
+      main_menu1.loop = true;
+      main_menu1.Play();
 
-      mainMenu = sources[3];
-      mainMenu.clip = mainMenuLoop.clip;
-      mainMenu.loop = true;
-      mainMenu.Play();
+      // Initialize options menu loop (MODE 1)
+      options_menu1 = sources[4];
+      options_menu1.clip = _options_menu1.clip;
+      options_menu1.loop = true;
+      options_menu1.Play();
+      options_menu1.volume = 0.0f;
 
-      optionsMenu = sources[4];
-      optionsMenu.clip = optionsMenuLoop.clip;
-      optionsMenu.loop = true;
-      optionsMenu.Play();
-      optionsMenu.volume = 0.0f;
-      
-      storeMenu = sources [5];
-      storeMenu.clip = storeMenuLoop.clip;
-      storeMenu.loop = true;
-      storeMenu.Play();
-      storeMenu.volume = 0.0f;
+      // Initialize store menu loop (MODE 1)
+      store_menu1 = sources[5];
+      store_menu1.clip = _store_menu1.clip;
+      store_menu1.loop = true;
+      store_menu1.Play();
+      store_menu1.volume = 0.0f;
 
-      originalVolume = bgm.volume;
-      bgm.volume = 0.0f;
-      bgm.Stop();
+      // Initialize lose sound effect
+      lose_effect = sources[1];
+      lose_effect.clip = _lose_effect.clip;
     }
   }
 
   // Use this for initialization
   void Start()
   {
-    once = true;
-  }
-
-  public void Play()
-  {
-    StopAllCoroutines();
-    StartCoroutine(FadeInPitch());
+    playOnce = true;
+    mode = 1;
   }
 
   void FixedUpdate()
   {
-    if (bgm.timeSamples > 2994740 && once == true)
+    if (track1.timeSamples > 2994740 && playOnce == true)
     {
-      bgmLoop.Play();
-      once = false;
+      track1_loop.Play();
+      playOnce = false;
     }
     if (Input.GetKeyUp(KeyCode.Q))
     {
@@ -124,71 +126,50 @@ public class AudioManager : MonoBehaviour
 
   void OnGameStart()
   {
+    FadeOutAllMenuTracks(mode);
+  }
+
+  void OnShowRevive()
+  {
+    PlayLoseEffect();
+    FadeOutMusicTrack(mode);
+  }
+
+  void OnDeclineRevive()
+  {
+    StopLoseEffect();
+  }
+
+  void OnCompleteRevive()
+  {
     StopAllCoroutines();
-    bgm.Stop();
-    loseSFX.Stop();
-    bgm.pitch = 1.0f;
-    bgm.volume = 1.0f;
-    loseSFX.pitch = 1.0f;
-    loseSFX.volume = 1.0f;
-    StartCoroutine(FadeOut(mainMenu, mainMenuLoop));
-  }
-  
-  void OnShowOptions ()
-  {
-    PlayOptionsTrack ();
-  }
-  
-  void OnHideOptions ()
-  {
-    StopOptionsTrack ();
-  }
-  
-  void OnShowStore ()
-  {
-    PlayStoreTrack ();
-  }
-  
-  void OnHideStore ()
-  {
-    StopStoreTrack ();
+    FadeInMusicTrack(mode);
   }
 
-  public void PlayOptionsTrack()
+  void OnShowOptions()
   {
-    StartCoroutine(FadeOut(mainMenu, mainMenuLoop));
-    StartCoroutine(FadeIn(optionsMenu, optionsMenuLoop));
-  }
-  
-  public void StopOptionsTrack()
-  {
-    StartCoroutine(FadeIn(mainMenu, mainMenuLoop));
-    StartCoroutine(FadeOut(optionsMenu, optionsMenuLoop));
-  }
-  
-  private void PlayStoreTrack()
-  {
-    StartCoroutine(FadeOut(mainMenu, mainMenuLoop));
-    StartCoroutine(FadeIn(storeMenu, storeMenuLoop));
+    PlayOptionsTrack(mode);
   }
 
-  private void StopStoreTrack()
+  void OnHideOptions()
   {
-    StartCoroutine(FadeIn(mainMenu, mainMenuLoop));
-    StartCoroutine(FadeOut(storeMenu, storeMenuLoop));
+    StopOptionsTrack(mode);
+  }
+
+  void OnShowStore()
+  {
+    PlayStoreTrack(mode);
+  }
+
+  void OnHideStore()
+  {
+    StopStoreTrack(mode);
   }
 
   void OnGameOver()
   {
-    StopAllCoroutines();
-    StartCoroutine(FadeOutPitch());
-    loseSFX.Play();
-    mainMenu.Play();
-    StartCoroutine(FadeIn(mainMenu, mainMenuLoop));
-    optionsMenu.Play();
-    optionsMenu.volume = 0;
-    storeMenu.Play ();
-    storeMenu.volume = 0;
+    StopMusicTrack(mode);
+    ReplayMenuTrack(mode);
   }
 
   void OnGameRestart()
@@ -201,71 +182,215 @@ public class AudioManager : MonoBehaviour
 
   void OnPause()
   {
-    bgm.Pause();
-    bgmLoop.Pause();
+    PauseAll();
   }
   void OnUnPause()
   {
-    bgm.UnPause();
-    bgmLoop.UnPause();
+    ResumeAll();
   }
-  
-  void OnFirstBeat ()
+
+  void OnFirstBeat()
   {
-    Play ();
+    track1.volume = 1.0f;
+    PlayMusicTrack(mode);
   }
 
   #endregion
+
   #region Coroutines
-  private IEnumerator FadeOutPitch()
+
+  private IEnumerator FadeOut(AudioSource source, AudioObject clip, float end = 0.0f)
   {
-    while (loseSFX.volume > 0.0f)
-    {
-      bgm.volume -= Time.deltaTime * backgroundMusic.volumeFadeSpeed;
-      bgmLoop.volume -= Time.deltaTime * backgroundLoop.volumeFadeSpeed;
-      loseSFX.volume -= Time.deltaTime * loseEffect.volumeFadeSpeed;
-      yield return null;
-    }
-
-    bgm.volume = 0.0f;
-    bgmLoop.volume = 0.0f;
-    loseSFX.volume = 0.0f;
-    bgm.Stop();
-    bgmLoop.Stop();
-    loseSFX.Stop();
-  }
-
-  private IEnumerator FadeInPitch()
-  {
-    bgm.Play();
-
-    while (bgm.volume < originalVolume)
-    {
-      bgm.volume += Time.deltaTime;
-      yield return null;
-    }
-
-    bgm.volume = originalVolume;
-  }
-
-  private IEnumerator FadeOut(AudioSource source, SoundEffect clip)
-  {
-    while (source.volume > 0.0f)
+    while (source.volume > end)
     {
       source.volume -= Time.deltaTime * clip.volumeFadeSpeed;
       yield return null;
     }
 
-    source.volume = 0;
+    source.volume = end;
   }
 
-  private IEnumerator FadeIn(AudioSource source, SoundEffect clip)
+  private IEnumerator FadeIn(AudioSource source, AudioObject clip, float start = 0.0f, float end = 1.0f)
   {
-    while (source.volume < 1.0f)
+    source.volume = start;
+
+    while (source.volume < end)
     {
       source.volume += Time.deltaTime * clip.volumeFadeSpeed;
       yield return null;
     }
+  }
+
+  private IEnumerator FadeInMusic(AudioSource source, AudioObject clip, float start = 0.0f, float end = 1.0f)
+  {
+    source.UnPause();
+
+    while (source.volume < end)
+    {
+      source.volume += Time.deltaTime * clip.volumeFadeSpeed;
+      yield return null;
+    }
+  }
+
+  private IEnumerator FadeOutMusic(AudioSource source, AudioObject clip, float end = 0.0f)
+  {
+    while (source.volume > end)
+    {
+      source.volume -= Time.deltaTime * clip.volumeFadeSpeed;
+      yield return null;
+    }
+
+    source.volume = end;
+    source.Pause();
+  }
+  #endregion
+
+  #region AudioFunctions
+  private void ReplayMenuTrack(int mode)
+  {
+    if (mode == 1)
+    {
+      main_menu1.Stop();
+      main_menu1.Play();
+      main_menu1.volume = 1.0f;
+
+      options_menu1.Stop();
+      options_menu1.Play();
+      options_menu1.volume = 0.0f;
+
+      store_menu1.Stop();
+      store_menu1.Play();
+      store_menu1.volume = 0.0f;
+    }
+  }
+
+  private void PlayOptionsTrack(int mode)
+  {
+    if (mode == 1)
+    {
+      StartCoroutine(FadeOut(main_menu1, _main_menu1));
+      StartCoroutine(FadeIn(options_menu1, _options_menu1));
+    }
+  }
+
+  private void StopOptionsTrack(int mode)
+  {
+    if (mode == 1)
+    {
+      StartCoroutine(FadeIn(main_menu1, _main_menu1));
+      StartCoroutine(FadeOut(options_menu1, _options_menu1));
+    }
+  }
+
+  private void PlayStoreTrack(int mode)
+  {
+    if (mode == 1)
+    {
+      StartCoroutine(FadeOut(main_menu1, _main_menu1));
+      StartCoroutine(FadeIn(store_menu1, _store_menu1));
+    }
+  }
+
+  private void StopStoreTrack(int mode)
+  {
+    if (mode == 1)
+    {
+      StartCoroutine(FadeIn(main_menu1, _main_menu1));
+      StartCoroutine(FadeOut(store_menu1, _store_menu1));
+    }
+  }
+
+  private void PlayMusicTrack(int mode)
+  {
+    if (mode == 1)
+    {
+      track1.Play();
+    }
+  }
+
+  private void StopMusicTrack(int mode)
+  {
+    if (mode == 1)
+    {
+      track1.Stop();
+    }
+  }
+
+  private void FadeOutMusicTrack(int mode)
+  {
+    if (mode == 1)
+    {
+      StartCoroutine(FadeOutMusic(track1, _track1));
+      StartCoroutine(FadeOutMusic(track1_loop, _track1_loop));
+    }
+  }
+
+  private void FadeInMusicTrack(int mode)
+  {
+    if (mode == 1)
+    {
+      StartCoroutine(FadeInMusic(track1, _track1));
+      StartCoroutine(FadeInMusic(track1_loop, _track1_loop));
+    }
+  }
+
+  private void PlayLoseEffect()
+  {
+    lose_effect.Play();
+    StartCoroutine(FadeIn(lose_effect, _lose_effect));
+  }
+
+  private void StopLoseEffect()
+  {
+    lose_effect.Stop();
+  }
+
+  private void FadeOutAllMenuTracks(int mode)
+  {
+    if (mode == 1)
+    {
+      StartCoroutine(FadeOut(main_menu1, _main_menu1));
+      StartCoroutine(FadeOut(store_menu1, _store_menu1));
+      StartCoroutine(FadeOut(options_menu1, _options_menu1));
+    }
+  }
+
+  private void PauseMusic(int mode)
+  {
+    if (mode == 1)
+    {
+      track1.Pause();
+      track1_loop.Pause();
+    }
+  }
+
+  private void UnPauseMusic(int mode)
+  {
+    if (mode == 1)
+    {
+      track1.UnPause();
+      track1_loop.UnPause();
+    }
+  }
+
+  private void PauseAll()
+  {
+    track1.Pause();
+    track1_loop.Pause();
+    options_menu1.Pause();
+    store_menu1.Pause();
+    main_menu1.Pause();
+    lose_effect.Pause();
+  }
+
+  private void ResumeAll()
+  {
+    track1.UnPause();
+    track1_loop.UnPause();
+    options_menu1.UnPause();
+    store_menu1.UnPause();
+    main_menu1.UnPause();
+    lose_effect.UnPause();
   }
   #endregion
 }
