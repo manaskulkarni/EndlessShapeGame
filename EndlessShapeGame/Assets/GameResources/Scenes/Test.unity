@@ -2108,7 +2108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: .627451003}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2239,7 +2239,7 @@ GameObject:
   - 222: {fileID: 670365451}
   - 114: {fileID: 670365450}
   m_Layer: 5
-  m_Name: TextRestore
+  m_Name: TextInvert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2293,9 +2293,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'RESTORE
+  m_Text: 'INVERT
 
-    PURCHASES'
+    COLOR'
 --- !u!222 &670365451
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2462,6 +2462,7 @@ MonoBehaviour:
   HideFacebookLeaderboardEvent: OnHideFacebookLeaderboard
   TryRestorePurchaseEvent: OnTryRestorePurchase
   RestorePurchaseCompleteEvent: OnRestorePurchaseComplete
+  InvertColorEvent: OnInvertColor
   DifficultyChangeEvent: OnDifficultyChange
   SpeedChangeEvent: OnSpeedChange
 --- !u!114 &725390022
@@ -5216,7 +5217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: .627451003}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5253,6 +5254,7 @@ GameObject:
   - 114: {fileID: 1351239451}
   - 114: {fileID: 1351239453}
   - 114: {fileID: 1351239454}
+  - 114: {fileID: 1351239455}
   - 114: {fileID: 1351239452}
   m_Layer: 0
   m_Name: MainCamera
@@ -5507,6 +5509,18 @@ MonoBehaviour:
   separableBlurShader: {fileID: 4800000, guid: e97c14fbb5ea04c3a902cc533d7fc5d1, type: 3}
   chromAberrationShader: {fileID: 4800000, guid: 2b4f29398d9484ccfa9fd220449f5eee,
     type: 3}
+--- !u!114 &1351239455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1351239445}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f4f0328a5bc2437bac9ab9d3a5b1515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 0cac495ce7b704fcdbe343d3dff51a34, type: 3}
 --- !u!1 &1363093864
 GameObject:
   m_ObjectHideFlags: 0
@@ -7379,7 +7393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: .627451003}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8055,7 +8069,7 @@ GameObject:
   - 222: {fileID: 1977502085}
   - 114: {fileID: 1977502084}
   m_Layer: 5
-  m_Name: ButtonRestore
+  m_Name: ButtonInvert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8120,7 +8134,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1801448026}
-        m_MethodName: RestorePurchase
+        m_MethodName: InvertColor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

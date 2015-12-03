@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using BadassProjects.StateMachine;
 
 public class UIManager : StateBehaviour
@@ -48,6 +49,8 @@ public class UIManager : StateBehaviour
   private Color startImageCircleColor { get; set; }
   
   public ScrollSnapRect storeList;
+
+  public MaskableGraphic [] allUI { get; set; }
   
   private GameManager.States previousState { get; set; }
   
@@ -67,6 +70,8 @@ public class UIManager : StateBehaviour
   // Use this for initialization
   void Start ()
   {
+    allUI = GameObject.FindObjectsOfType <MaskableGraphic> ();
+
     menuStart = GameObject.Find ("MenuStart");
     menuRevive = GameObject.Find ("MenuRevive");
     menuRevive.GetComponent <CanvasGroup> ().alpha = 0.0f;
@@ -236,6 +241,11 @@ public class UIManager : StateBehaviour
   public void RemoveAds ()
   {
     GameManager.inst.ChangeState (GameManager.States.RemoveAds);
+  }
+
+  public void InvertColor ()
+  {
+    GameManager.inst.ChangeState (GameManager.States.InvertColor);
   }
 
   #region Coroutines
@@ -766,6 +776,18 @@ public class UIManager : StateBehaviour
   {
     StartCoroutine (FadeOutFacebookLeaderboardCanvas ());
     StartCoroutine (FadeInOptionsCanvas ());
+  }
+
+  void OnInvertColor ()
+  {
+    var ui = UIManager.inst.allUI;
+    foreach (var v in ui)
+    {
+      v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
+    }
+    
+    Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled =
+      !Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().isActiveAndEnabled;
   }
   
   //  void OnDifficultyChange ()

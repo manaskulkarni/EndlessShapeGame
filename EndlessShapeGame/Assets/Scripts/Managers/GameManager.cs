@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using BadassProjects.StateMachine;
@@ -37,6 +38,7 @@ public class GameManager : StateBehaviour
     TryRestorePurchase,
     RestorePurchaseComplete,
     RemoveAds,
+    InvertColor,
   }
 
   public enum DifficultyLevel
@@ -116,6 +118,7 @@ public class GameManager : StateBehaviour
   public string HideFacebookLeaderboardEvent = "OnHideFacebookLeaderboard";
   public string TryRestorePurchaseEvent = "OnTryRestorePurchase";
   public string RestorePurchaseCompleteEvent = "OnRestorePurchaseComplete";
+  public string InvertColorEvent = "OnInvertColor";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -426,6 +429,11 @@ public class GameManager : StateBehaviour
   void RestorePurchaseComplete_Enter ()
   {
     BroadcastMessage (RestorePurchaseCompleteEvent);
+  }
+
+  void InvertColor_Enter ()
+  {
+    BroadcastMessage (InvertColorEvent);
   }
 
   void PurchaseItem (StoreButton button)

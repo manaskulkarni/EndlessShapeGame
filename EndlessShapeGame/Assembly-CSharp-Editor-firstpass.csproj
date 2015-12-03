@@ -271,6 +271,7 @@
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_Media.mm.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
      <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_button_like_selected.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\InvertColor.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-zu\common_strings.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-sk\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
