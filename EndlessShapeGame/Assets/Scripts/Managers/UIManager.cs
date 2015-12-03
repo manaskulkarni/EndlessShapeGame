@@ -36,6 +36,7 @@ public class UIManager : StateBehaviour
   private GameObject menuRevive { get; set; }
   private GameObject animRevive { get; set; }
   private GameObject menuStore { get; set; }
+  private GameObject menuFacebookLeaderboard { get; set; }
   
   private Text textScore { get; set; }
   private Text textPauseTimer { get; set; }
@@ -71,6 +72,8 @@ public class UIManager : StateBehaviour
     menuRevive.GetComponent <CanvasGroup> ().alpha = 0.0f;
     menuStore = GameObject.Find ("MenuStore");
     menuStore.GetComponent <CanvasGroup> ().alpha = 0.0f;
+    menuFacebookLeaderboard = GameObject.Find ("MenuFacebookLeaderboard");
+    menuFacebookLeaderboard.GetComponent <CanvasGroup> ().alpha = 0.0f;
     buttonStart = GameObject.Find ("ButtonStart");
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
@@ -87,6 +90,7 @@ public class UIManager : StateBehaviour
     SetMenuActive (menuStart, true);
     SetMenuActive (menuRevive, false);
     SetMenuActive (menuStore, false);
+    SetMenuActive (menuFacebookLeaderboard, false);
     
     menuGame = GameObject.Find ("MenuGame");
     textScore = GameObject.Find ("TextScore").GetComponent <Text> ();
@@ -545,6 +549,36 @@ public class UIManager : StateBehaviour
     store.alpha = 0.0f;
     SetMenuActive (menuStore, false);
   }
+
+  private IEnumerator FadeInFacebookLeaderboardCanvas ()
+  {
+    CanvasGroup store = menuFacebookLeaderboard.GetComponent <CanvasGroup> ();
+    SetMenuActive (menuFacebookLeaderboard, true);
+    
+    while (store.alpha < 1.0f)
+    {
+      float alpha = store.alpha;
+      alpha += Time.deltaTime * 5.0f;
+      store.alpha = alpha;
+      yield return null;
+    }
+  }
+  
+  private IEnumerator FadeOutFacebookLeaderboardCanvas ()
+  {
+    CanvasGroup store = menuFacebookLeaderboard.GetComponent <CanvasGroup> ();
+    
+    while (store.alpha > 0.0f)
+    {
+      float alpha = store.alpha;
+      alpha -= Time.deltaTime * 5.0f;
+      store.alpha = alpha;
+      yield return null;
+    }
+    
+    store.alpha = 0.0f;
+    SetMenuActive (menuFacebookLeaderboard, false);
+  }
   
   #endregion
   
@@ -708,7 +742,12 @@ public class UIManager : StateBehaviour
 
   void OnShowFacebookLeaderboard ()
   {
+    StartCoroutine (FadeInFacebookLeaderboardCanvas ());
+  }
 
+  void OnHideFacebookLeaderboard ()
+  {
+    StartCoroutine (FadeOutFacebookLeaderboardCanvas ());
   }
   
   //  void OnDifficultyChange ()

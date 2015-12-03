@@ -7,12 +7,18 @@ public class FacebookInterface : MonoBehaviour
 {
   public string appId = "1518246578468950";
 
-  public Dictionary <string, Sprite> profilePictures;
+  public Dictionary <string, Sprite> profilePictures = new Dictionary<string, Sprite> ();
 
+  static public FacebookInterface inst = null;
 
   // Use this as constructor
   void Awake ()
   {
+    if (inst == null)
+    {
+      inst = this;
+    }
+
     SPFacebook.OnInitCompleteAction += HandleOnInitCompleteAction;
     SPFacebook.OnFocusChangedAction += HandleOnFocusChangedAction;
     SPFacebook.OnAuthCompleteAction += HandleOnAuthCompleteAction;
@@ -28,6 +34,29 @@ public class FacebookInterface : MonoBehaviour
 
     SPFacebook.OnFriendsDataRequestCompleteAction += HandleOnFriendsDataRequestCompleteAction;
     SPFacebook.OnInvitableFriendsDataRequestCompleteAction += HandleOnInvitableFriendsDataRequestCompleteAction;
+  }
+
+  public FB_UserInfo GetFriendFromId (string id)
+  {
+    if (SPFacebook.Instance.friends.ContainsKey (id))
+    {
+      return SPFacebook.Instance.friends [id];
+    }
+
+    return null;
+  }
+
+  public int GetScoreFromId (string id)
+  {
+    var scoreObject = SPFacebook.Instance.GetScoreObjectByUserId (id);
+    if (scoreObject != null)
+    {
+      return scoreObject.value;
+    }
+    else
+    {
+      return -1;
+    }
   }
 
   void HandleOnInitCompleteAction ()
@@ -144,6 +173,11 @@ public class FacebookInterface : MonoBehaviour
     var rect = new Rect (0.0f, 0.0f, profilePic.width, profilePic.height);
     var s = Sprite.Create (profilePic, rect, Vector2.one * 0.5f);
     profilePictures.Add (res.Id, s);
+
+    if (profilePictures.Count == SPFacebook.Instance.friends.Count)
+    {
+      BroadcastMessage ("OnFriendListLoaded");
+    }
   }
 
   void HandleOnSubmitScoreRequestCompleteAction (FB_Result result)
@@ -177,6 +211,7 @@ public class FacebookInterface : MonoBehaviour
   {
     FacebookConnected (false);
     StatsManager.inst.prevFacebookStatus = 0;
+    profilePictures.Clear ();
   }
 
   void FacebookConnected (bool connected)
