@@ -153,6 +153,7 @@
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_NSData+Base64.h.txt" />
      <None Include="Assets\Plugins\StansAssets\Android\AndroidManifest.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-el\common_strings.xml" />
+     <None Include="Assets\Plugins\StansAssets\Android\social\an_social 2.txt" />
      <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_loginbutton_silver.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\MinMaxReduction.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
@@ -188,6 +189,7 @@
      <None Include="Assets\Plugins\android\google-play-services_lib\README.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\color\wallet_secondary_text_holo_dark.xml" />
      <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_picker_top_button.xml" />
+     <None Include="Assets\Plugins\StansAssets\Android\libs\android-support-v5.txt" />
      <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_tooltip_bubble.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values\wallet_styles.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-lv\common_strings.xml" />
@@ -221,6 +223,7 @@
      <None Include="Assets\Plugins\android\facebook\res\values-iw\strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
      <None Include="Assets\TouchScript\Shaders\DebugNoDepthTest.shader" />
+     <None Include="Assets\Plugins\StansAssets\Android\androidnative 2.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-ml-rIN\common_strings.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-hr\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
@@ -246,7 +249,6 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-si-rLK\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
-     <None Include="Assets\Plugins\StansAssets\Android\libs\android-support-v5.txt" />
      <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_image.xml" />
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.h.txt" />
      <None Include="Assets\Plugins\StansAssets\Versions\ISN_VersionInfo.txt" />
@@ -271,7 +273,6 @@
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_ReplayKit.mm.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-bn-rBD\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
-     <None Include="Assets\Plugins\StansAssets\Android\social\an_social 2.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values\admob_strings.xml" />
      <None Include="Assets\Plugins\StansAssets\Android\social\an_social.txt" />
      <None Include="Assets\Plugins\StansAssets\Android\libs\an_sa_soomla.txt" />
@@ -283,7 +284,6 @@
      <None Include="Assets\Plugins\android\res\xml\file_paths.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-am\common_strings.xml" />
      <None Include="Assets\Plugins\android\facebook\res\layout\com_facebook_picker_list_row.xml" />
-     <None Include="Assets\Plugins\StansAssets\Android\androidnative 2.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_NSData+Base64.m.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-mk-rMK\common_strings.xml" />
@@ -361,17 +361,23 @@
      <None Include="Assets\Plugins\android\facebook\proguard-project.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-uk\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
  <Reference Include="IFacebook">
- <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/Facebook/Scripts/IFacebook.dll</HintPath>
+ <HintPath>/Users/markmoukarzel/Desktop/EndlessShapeGame/EndlessShapeGame/Assets/Facebook/Scripts/IFacebook.dll</HintPath>
  </Reference>
  <Reference Include="TouchScript">
- <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Plugins/TouchScript.dll</HintPath>
+ <HintPath>/Users/markmoukarzel/Desktop/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Plugins/TouchScript.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
