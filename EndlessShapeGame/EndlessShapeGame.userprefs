@@ -1,5 +1,5 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/StatsManager.cs">
     <Files>
       <File FileName="Assets/Scripts/Behaviors/PlayerBehavior.cs" Line="1" Column="1" />
@@ -9,13 +9,13 @@
       <File FileName="Assets/Scripts/Managers/Manager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/AdManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/FFTVisualize.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/StatsManager.cs" Line="173" Column="5" />
+      <File FileName="Assets/Scripts/Managers/StatsManager.cs" Line="43" Column="1" />
       <File FileName="Assets/Scripts/Managers/GameCenterInterface.cs" Line="1" Column="1" />
       <File FileName="Assets/Extensions/IOSDeploy/Scripts/Editor/IOSDeployPostProcess.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="413" Column="1" />
-      <File FileName="Assets/Scripts/Managers/PlayerManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/ShapeManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="250" Column="4" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="127" Column="48" />
+      <File FileName="Assets/Scripts/Managers/PlayerManager.cs" Line="170" Column="24" />
+      <File FileName="Assets/Scripts/Managers/ShapeManager.cs" Line="627" Column="20" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="763" Column="6" />
       <File FileName="Assets/Scripts/Behaviors/ScrollSnapRect.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/ShapeBehavior.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/FacebookInterface.cs" Line="1" Column="1" />
@@ -25,7 +25,7 @@
       <File FileName="Assets/Extensions/GooglePlayCommon/Social/Facebook/Manage/SPFacebook.cs" Line="1" Column="1" />
       <File FileName="Assets/Extensions/StansAssetsPreviewUI/Scripts/SA_UI_Scripts/SA_StatusBar.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/StoreInterface.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/AudioManager.cs" Line="574" Column="1" />
+      <File FileName="Assets/Scripts/Managers/AudioManager.cs" Line="212" Column="20" />
       <File FileName="Assets/Scripts/Behaviors/StoreButtonList.cs" Line="1" Column="1" />
       <File FileName="Assets/Extensions/IOSNative/xExample/Scripts/Billing/PaymentManagerExample.cs" Line="1" Column="1" />
       <File FileName="Assets/Extensions/IOSNative/xExample/Scripts/Billing/MarketExample.cs" Line="1" Column="1" />
@@ -40,7 +40,7 @@
       <File FileName="Assets/Standard Assets/Effects/ImageEffects/Scripts/InvertColor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/PlayerInput.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/StoreButton.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Behaviors/InGameBuyButton.cs" Line="12" Column="14" />
+      <File FileName="Assets/Scripts/Behaviors/InGameBuyButton.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

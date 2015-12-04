@@ -624,6 +624,7 @@ public class ShapeManager : MonoBehaviour
   
   void OnCompleteRevive ()
   {
+    OnHideStore ();
     OnGameRestart ();
     OnGameStart ();
   }

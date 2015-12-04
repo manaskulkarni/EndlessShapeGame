@@ -32,6 +32,7 @@ public class GameManager : StateBehaviour
     PurchaseCoins,
     PurchasePotion,
     BuyRevive,
+    BoughtRevive,
     FacebookConnect,
     TryShowFacebookLeaderboard,
     ShowFacebookLeaderboard,
@@ -124,6 +125,7 @@ public class GameManager : StateBehaviour
   public string InvertColorEvent = "OnInvertColor";
   public string SwitchModeEvent = "OnSwitchMode";
   public string BuyReviveEvent = "OnBuyRevive";
+  public string BoughtReviveEvent = "OnBoughtRevive";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -440,6 +442,11 @@ public class GameManager : StateBehaviour
   void BuyRevive_Enter ()
   {
     BroadcastMessage (BuyReviveEvent);
+  }
+
+  void BoughtRevive_Enter ()
+  {
+    BroadcastMessage (BoughtReviveEvent);
   }
 
   void PurchaseItem (StoreButton button)

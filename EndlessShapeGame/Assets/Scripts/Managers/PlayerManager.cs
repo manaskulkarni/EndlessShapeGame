@@ -151,6 +151,7 @@ public class PlayerManager : MonoBehaviour
   
   void OnCompleteRevive ()
   {
+    OnHideStore ();
     OnGameStart ();
   }
   

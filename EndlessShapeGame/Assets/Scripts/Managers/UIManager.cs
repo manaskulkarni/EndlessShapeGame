@@ -236,6 +236,7 @@ public class UIManager : StateBehaviour
     else
     {
       previousState = (GameManager.States)GameManager.inst.GetState ();
+//      Debug.Log ("PREVIOUS STATE : " + previousState);
       animRevive.SetActive (false);
       StopAllCoroutines ();
       StartCoroutine (FadeOutReviveCanvas ());
@@ -750,6 +751,18 @@ public class UIManager : StateBehaviour
   {
     ChangeState (States.None);
     usingRevive = false;
+  }
+
+  void OnBoughtRevive ()
+  {
+    if (previousState == GameManager.States.ShowRevive)
+    {
+      StartCoroutine (FadeOutStoreCanvas ());
+      StartCoroutine (FadeInGameCanvas ());
+      GameManager.inst.ChangeState (GameManager.States.ReviveComplete);
+    }
+
+    textCoins.text = Coins ();
   }
   
   void OnShowOptions ()

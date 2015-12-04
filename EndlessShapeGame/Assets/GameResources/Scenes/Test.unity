@@ -3216,6 +3216,7 @@ MonoBehaviour:
   InvertColorEvent: OnInvertColor
   SwitchModeEvent: OnSwitchMode
   BuyReviveEvent: OnBuyRevive
+  BoughtReviveEvent: OnBoughtRevive
   DifficultyChangeEvent: OnDifficultyChange
   SpeedChangeEvent: OnSpeedChange
 --- !u!114 &725390022
@@ -3230,8 +3231,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startScore: 0
-  reviveCoinsPrice: 100
-  maxAllowedRevives: 1
   FlippedScore: 0
   isFlipped: 0
   numRevivePotions: 0

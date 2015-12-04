@@ -40,16 +40,12 @@ public class StatsManager : MonoBehaviour
 #endif
 
   public PlayerStats playerStats;
-  public int reviveCoinsPrice = 100;
-  public int maxAllowedRevives = 1;
   public int FlippedScore = 0;
   public bool isFlipped = false;
   
   public int numRevivePotions = 0;
   public int numSlowMotionPotions = 0;
   public int prevFacebookStatus = 0;
-
-  private int initialRevivePrice;
 
   #region Properties
   /// <summary>
@@ -94,12 +90,7 @@ public class StatsManager : MonoBehaviour
   {
     get
     {
-      if (maxAllowedRevives == -1 || usedRevives < maxAllowedRevives)
-      {
-        return true;
-      }
-      
-      return false;
+      return true;
     }
   }
   
@@ -107,7 +98,7 @@ public class StatsManager : MonoBehaviour
   {
     get
     {
-      if (coins == -1 || coins >= reviveCoinsPrice)
+      if (gameItems [InGameBuyButton.ButtonType.Revive] > 0)
       {
         return true;
       }
@@ -135,7 +126,6 @@ public class StatsManager : MonoBehaviour
 
   private int previousScore { get; set; }
   private bool highScoreCrossed { get; set; }
-  private int usedRevives { get; set; }
 
   public int vMode = 0;
 
@@ -150,7 +140,6 @@ public class StatsManager : MonoBehaviour
       GameObject.Destroy (gameObject);
     }
 
-    initialRevivePrice = reviveCoinsPrice;
     firstSession = true;
     vMode = PlayerPrefs.GetInt ("VMode");
 
@@ -162,8 +151,6 @@ public class StatsManager : MonoBehaviour
     previousScore = highScore;
     coins = PlayerPrefs.GetInt ("Coins"); 
     Debug.Log ("COINS : " + coins);
-    maxAllowedRevives = PlayerPrefs.GetInt ("MaxAllowedRevives", 1);
-    usedRevives = 0;
     prevFacebookStatus = PlayerPrefs.GetInt ("FacebookConenct");
 
     for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
@@ -174,7 +161,6 @@ public class StatsManager : MonoBehaviour
 
     #if UNITY_EDITOR
     score = startScore;
-    maxAllowedRevives = -1;
     Debug.Log ("CALLED FIRST");
     coins = 1000;
     #endif
@@ -371,7 +357,6 @@ public class StatsManager : MonoBehaviour
 
   void OnGameOver ()
   {
-    reviveCoinsPrice = initialRevivePrice;
     BroadcastMessage (SubmitScoreEvent);
 
     isHighScore = CheckHighScore ();
@@ -406,7 +391,8 @@ public class StatsManager : MonoBehaviour
   
   void OnCompleteRevive ()
   {
-    ++usedRevives;
+    --gameItems [InGameBuyButton.ButtonType.Revive];
+//    ++usedRevives;
   }
 
   void OnPurchaseCoins (StoreButton button)
@@ -415,12 +401,14 @@ public class StatsManager : MonoBehaviour
   }
 
   int numItems = 0;
+  int price = 0;
 
   void OnPurchaseInGameItem (UIManager.InGameBuyButtonData button)
   {
     if (CanPurchasePotion ((int)button.button.price * button.count))
     {
       numItems = button.count;
+      price = button.button.price;
       switch (button.button.type)
       {
       case InGameBuyButton.ButtonType.Revive:
@@ -435,16 +423,14 @@ public class StatsManager : MonoBehaviour
   void OnBuyRevive ()
   {
     Debug.Log ("BOUGHT REVIVES : " + numItems);
-    coins -= reviveCoinsPrice * numItems;
-    reviveCoinsPrice += initialRevivePrice;
+    coins -= price * numItems;
     gameItems [InGameBuyButton.ButtonType.Revive] += numItems;
+
+    GameManager.inst.ChangeState (GameManager.States.BoughtRevive);
   }
 
   void OnAcceptRevive ()
   {
-    Debug.Log ("BEFORE : " + coins);
-    coins -= reviveCoinsPrice;
-    Debug.Log ("AFTER : " + coins);
   }
 
   void OnSwitchMode (int mode)
