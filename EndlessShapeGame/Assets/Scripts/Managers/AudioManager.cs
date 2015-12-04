@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class AudioManager : MonoBehaviour
@@ -56,6 +57,19 @@ public class AudioManager : MonoBehaviour
   public AudioSource lose_effect { get; private set; }
   #endregion
 
+  public class CPair
+  {
+    public CPair(Coroutine FI, Coroutine FO)
+    {
+      fadeIn = FI;
+      fadeOut = FO;
+    }
+    public Coroutine fadeIn;
+    public Coroutine fadeOut;
+  }
+
+  private Dictionary<AudioObject, CPair> f = new Dictionary<AudioObject, CPair>();
+
   static public AudioManager inst { get; private set; }
   bool _playOnce;
   int _mode;
@@ -65,6 +79,17 @@ public class AudioManager : MonoBehaviour
     if (inst == null)
     {
       inst = this;
+
+      f.Add(_track1, new CPair (null, null));
+      f.Add(_track1_loop, new CPair(null, null));
+      f.Add(_track2, new CPair(null, null));
+      f.Add(_options_menu1, new CPair(null, null));
+      f.Add(_options_menu2, new CPair(null, null));
+      f.Add(_store_menu1, new CPair(null, null));
+      f.Add(_store_menu2, new CPair(null, null));
+      f.Add(_main_menu1, new CPair(null, null));
+      f.Add(_main_menu2, new CPair(null, null));
+      f.Add(_lose_effect, new CPair(null, null));
 
       var sources = gameObject.GetComponentsInChildren<AudioSource>();
 
@@ -245,6 +270,14 @@ public class AudioManager : MonoBehaviour
 
   #region Coroutines
 
+  private void StopCoroutineSafe(Coroutine c)
+  {
+    if (c != null)
+    {
+      StopCoroutine(c);
+    }
+  }
+
   private IEnumerator FadeOut(AudioSource source, AudioObject clip, float end = 0.0f)
   {
     while (source.volume > end)
@@ -308,14 +341,39 @@ public class AudioManager : MonoBehaviour
       store_menu1.Play();
       store_menu1.volume = 0.0f;
     }
+    else if (mode == 1)
+    {
+      main_menu2.Stop();
+      main_menu2.Play();
+      main_menu2.volume = 1.0f;
+
+      options_menu2.Stop();
+      options_menu2.Play();
+      options_menu2.volume = 0.0f;
+
+      store_menu2.Stop();
+      store_menu2.Play();
+      store_menu2.volume = 0.0f;
+    }
   }
 
   private void PlayOptionsTrack(int mode)
   {
     if (mode == 0)
     {
-      StartCoroutine(FadeOut(main_menu1, _main_menu1));
-      StartCoroutine(FadeIn(options_menu1, _options_menu1));
+      StopCoroutineSafe(f[_options_menu1].fadeOut);
+      StopCoroutineSafe(f[_main_menu1].fadeIn);
+
+      f[_main_menu1].fadeOut = StartCoroutine(FadeOut(main_menu1, _main_menu1));
+      f[_options_menu1].fadeIn = StartCoroutine(FadeIn(options_menu1, _options_menu1));
+    }
+    else if (mode == 1)
+    {
+      StopCoroutineSafe(f[_options_menu2].fadeOut);
+      StopCoroutineSafe(f[_main_menu2].fadeIn);
+
+      f[_main_menu2].fadeOut = StartCoroutine(FadeOut(main_menu2, _main_menu2));
+      f[_options_menu2].fadeIn = StartCoroutine(FadeIn(options_menu2, _options_menu2));
     }
   }
 
@@ -323,8 +381,19 @@ public class AudioManager : MonoBehaviour
   {
     if (mode == 0)
     {
-      StartCoroutine(FadeIn(main_menu1, _main_menu1));
-      StartCoroutine(FadeOut(options_menu1, _options_menu1));
+      StopCoroutineSafe(f[_options_menu1].fadeIn);
+      StopCoroutineSafe(f[_main_menu1].fadeOut);
+
+      f[_main_menu1].fadeIn = StartCoroutine(FadeIn(main_menu1, _main_menu1));
+      f[_options_menu1].fadeOut = StartCoroutine(FadeOut(options_menu1, _options_menu1));
+    }
+    else if (mode == 1)
+    {
+      StopCoroutineSafe(f[_options_menu2].fadeIn);
+      StopCoroutineSafe(f[_main_menu2].fadeOut);
+
+      f[_main_menu2].fadeIn = StartCoroutine(FadeIn(main_menu2, _main_menu2));
+      f[_options_menu2].fadeOut = StartCoroutine(FadeOut(options_menu2, _options_menu2));
     }
   }
 
@@ -332,8 +401,19 @@ public class AudioManager : MonoBehaviour
   {
     if (mode == 0)
     {
-      StartCoroutine(FadeOut(main_menu1, _main_menu1));
-      StartCoroutine(FadeIn(store_menu1, _store_menu1));
+      StopCoroutineSafe(f[_store_menu1].fadeOut);
+      StopCoroutineSafe(f[_main_menu1].fadeIn);
+
+      f[_main_menu1].fadeOut = StartCoroutine(FadeOut(main_menu1, _main_menu1));
+      f[_store_menu1].fadeIn = StartCoroutine(FadeIn(store_menu1, _store_menu1));
+    }
+    else if (mode == 1)
+    {
+      StopCoroutineSafe(f[_store_menu2].fadeOut);
+      StopCoroutineSafe(f[_main_menu2].fadeIn);
+
+      f[_main_menu2].fadeOut = StartCoroutine(FadeOut(main_menu2, _main_menu2));
+      f[_store_menu2].fadeIn = StartCoroutine(FadeIn(store_menu2, _store_menu2));
     }
   }
 
@@ -341,8 +421,19 @@ public class AudioManager : MonoBehaviour
   {
     if (mode == 0)
     {
-      StartCoroutine(FadeIn(main_menu1, _main_menu1));
-      StartCoroutine(FadeOut(store_menu1, _store_menu1));
+      StopCoroutineSafe(f[_store_menu1].fadeIn);
+      StopCoroutineSafe(f[_main_menu1].fadeOut);
+
+      f[_main_menu1].fadeIn = StartCoroutine(FadeIn(main_menu1, _main_menu1));
+      f[_store_menu1].fadeOut = StartCoroutine(FadeOut(store_menu1, _store_menu1));
+    }
+    else if (mode == 1)
+    {
+      StopCoroutineSafe(f[_store_menu2].fadeIn);
+      StopCoroutineSafe(f[_main_menu2].fadeOut);
+
+      f[_main_menu2].fadeIn = StartCoroutine(FadeIn(main_menu2, _main_menu2));
+      f[_store_menu2].fadeOut = StartCoroutine(FadeOut(store_menu2, _store_menu2));
     }
   }
 
@@ -374,12 +465,12 @@ public class AudioManager : MonoBehaviour
   {
     if (mode == 0)
     {
-      StartCoroutine(FadeOutMusic(track1, _track1));
-      StartCoroutine(FadeOutMusic(track1_loop, _track1_loop));
+      f[_track1].fadeOut = StartCoroutine(FadeOutMusic(track1, _track1));
+      f[_track1_loop].fadeOut = StartCoroutine(FadeOutMusic(track1_loop, _track1_loop));
     }
     else if (mode == 1)
     {
-      StartCoroutine(FadeOutMusic(track2, _track2));
+      f[_track2].fadeOut = StartCoroutine(FadeOutMusic(track2, _track2));
     }
   }
 
@@ -387,19 +478,19 @@ public class AudioManager : MonoBehaviour
   {
     if (mode == 0)
     {
-      StartCoroutine(FadeInMusic(track1, _track1));
-      StartCoroutine(FadeInMusic(track1_loop, _track1_loop));
+      f[_track1].fadeIn = StartCoroutine(FadeInMusic(track1, _track1));
+      f[_track1_loop].fadeIn = StartCoroutine(FadeInMusic(track1_loop, _track1_loop));
     }
     else if (mode == 1)
     {
-      StartCoroutine(FadeInMusic(track2, _track2));
+      f[_track2].fadeIn = StartCoroutine(FadeInMusic(track2, _track2));
     }
   }
 
   private void PlayLoseEffect()
   {
     lose_effect.Play();
-    StartCoroutine(FadeIn(lose_effect, _lose_effect));
+    f[_lose_effect].fadeIn = StartCoroutine(FadeIn(lose_effect, _lose_effect));
   }
 
   private void StopLoseEffect()
@@ -411,9 +502,23 @@ public class AudioManager : MonoBehaviour
   {
     if (mode == 0)
     {
-      StartCoroutine(FadeOut(main_menu1, _main_menu1));
-      StartCoroutine(FadeOut(store_menu1, _store_menu1));
-      StartCoroutine(FadeOut(options_menu1, _options_menu1));
+      StopCoroutineSafe(f[_options_menu1].fadeIn);
+      StopCoroutineSafe(f[_main_menu1].fadeIn);
+      StopCoroutineSafe(f[_store_menu1].fadeIn);
+
+      f[_main_menu1].fadeOut = StartCoroutine(FadeOut(main_menu1, _main_menu1));
+      f[_store_menu1].fadeOut = StartCoroutine(FadeOut(store_menu1, _store_menu1));
+      f[_options_menu1].fadeOut = StartCoroutine(FadeOut(options_menu1, _options_menu1));
+    }
+    else if (mode == 1)
+    {
+      StopCoroutineSafe(f[_options_menu2].fadeIn);
+      StopCoroutineSafe(f[_main_menu2].fadeIn);
+      StopCoroutineSafe(f[_store_menu2].fadeIn);
+
+      f[_main_menu2].fadeOut = StartCoroutine(FadeOut(main_menu2, _main_menu2));
+      f[_store_menu2].fadeOut = StartCoroutine(FadeOut(store_menu2, _store_menu2));
+      f[_options_menu2].fadeOut = StartCoroutine(FadeOut(options_menu2, _options_menu2));
     }
   }
 
