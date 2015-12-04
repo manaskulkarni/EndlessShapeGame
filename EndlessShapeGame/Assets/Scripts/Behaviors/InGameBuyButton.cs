@@ -9,6 +9,7 @@ public class InGameBuyButton : MonoBehaviour
   {
     Revive,
     SlowMotion,
+    NumTypes,
   }
 
   public ButtonType type;

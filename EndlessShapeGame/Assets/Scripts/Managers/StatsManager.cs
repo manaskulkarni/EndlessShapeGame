@@ -29,6 +29,12 @@ public class StatsManager : MonoBehaviour
     public int numBlackCollision { get; set; }
   }
 
+  public Dictionary <InGameBuyButton.ButtonType, int> gameItems = new Dictionary<InGameBuyButton.ButtonType, int> ()
+  {
+    { InGameBuyButton.ButtonType.Revive, 0 },
+    { InGameBuyButton.ButtonType.SlowMotion, 1 },
+  };
+
 #if UNITY_EDITOR
   public int startScore = 0;
 #endif
@@ -159,6 +165,13 @@ public class StatsManager : MonoBehaviour
     maxAllowedRevives = PlayerPrefs.GetInt ("MaxAllowedRevives", 1);
     usedRevives = 0;
     prevFacebookStatus = PlayerPrefs.GetInt ("FacebookConenct");
+
+    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
+    {
+      gameItems [(InGameBuyButton.ButtonType)i] = PlayerPrefs.GetInt ("Item" + i);
+      Debug.Log ("NUMBER OF ITEMS FOR " + i + "" + gameItems [(InGameBuyButton.ButtonType)i]);
+    }
+
     #if UNITY_EDITOR
     score = startScore;
     maxAllowedRevives = -1;
@@ -189,6 +202,11 @@ public class StatsManager : MonoBehaviour
     PlayerPrefs.SetInt("numBlackCollision",playerStats.numBlackCollision);
     PlayerPrefs.SetInt ("FacebookConenct", prevFacebookStatus);
     PlayerPrefs.SetInt ("VMode", vMode);
+
+    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
+    {
+      PlayerPrefs.SetInt ("Item" + i, gameItems [(InGameBuyButton.ButtonType)i]);
+    }
   }
   
   public static class DeviceRotation
@@ -419,6 +437,7 @@ public class StatsManager : MonoBehaviour
     Debug.Log ("BOUGHT REVIVES : " + numItems);
     coins -= reviveCoinsPrice * numItems;
     reviveCoinsPrice += initialRevivePrice;
+    gameItems [InGameBuyButton.ButtonType.Revive] += numItems;
   }
 
   void OnAcceptRevive ()
