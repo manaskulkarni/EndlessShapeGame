@@ -101,7 +101,8 @@ public class PlayerInput : MonoBehaviour
 
   void HandlePressed (object sender, System.EventArgs e)
   {
-    StartCoroutine (StartTimer ());
+    pressed = true;
+    lastPos = Input.mousePosition.x;
   }
 
   void HandlePanned (object sender, System.EventArgs e)
@@ -129,8 +130,6 @@ public class PlayerInput : MonoBehaviour
     }
 
     timer = 0.0f;
-    pressed = true;
-    lastPos = Input.mousePosition.x;
   }
 
   void Update ()

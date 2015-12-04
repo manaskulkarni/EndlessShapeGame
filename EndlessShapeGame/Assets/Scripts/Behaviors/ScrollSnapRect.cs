@@ -32,7 +32,9 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
   public Sprite selectedPage;
   [Tooltip("Container with page images (optional)")]
   public Transform pageSelectionIcons;
-  
+
+  public int currentPage { get { return _currentPage; } }
+  public Transform container { get { return _container; } }
   public bool initialized { get; private set; }
   
   // fast swipes should be fast and short. If too long, then it is not fast swipe
@@ -340,6 +342,11 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         if (nextButton)
           nextButton.GetComponent <Button> ().interactable = false;
       }
+    }
+
+    if (aPageIndex < _pagePositions.Count && aPageIndex >= 0)
+    {
+      UIManager.inst.SendMessage ("OnStoreButtonSwipe", aPageIndex);
     }
   }
   

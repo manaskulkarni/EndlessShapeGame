@@ -31,6 +31,7 @@ public class GameManager : StateBehaviour
     FirstBeat,
     PurchaseCoins,
     PurchasePotion,
+    BuyRevive,
     FacebookConnect,
     TryShowFacebookLeaderboard,
     ShowFacebookLeaderboard,
@@ -111,7 +112,9 @@ public class GameManager : StateBehaviour
   public string ShowStoreEvent = "OnShowStore";
   public string HideStoreEvent = "OnHideStore";
   public string PurchaseCoinsEvent = "OnPurchaseCoins";
-  public string PurchasePotionEvent = "OnPurchasePotion";
+  public string PurchaseInGameItemEvent = "OnPurchaseInGameItem";
+  public string AddInGameItemEvent = "OnAddInGameItem";
+  public string SubtractInGameItemEvent = "OnSubtractInGameItem";
   public string FacebookConnectEvent = "OnFacebookConnect";
   public string TryShowFacebookLeaderboardEvent = "OnTryShowFacebookLeaderboard";
   public string ShowFacebookLeaderboardEvent = "OnShowFacebookLeaderboard";
@@ -120,6 +123,7 @@ public class GameManager : StateBehaviour
   public string RestorePurchaseCompleteEvent = "OnRestorePurchaseComplete";
   public string InvertColorEvent = "OnInvertColor";
   public string SwitchModeEvent = "OnSwitchMode";
+  public string BuyReviveEvent = "OnBuyRevive";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -405,6 +409,7 @@ public class GameManager : StateBehaviour
   void FacebookConnect_Enter ()
   {
     BroadcastMessage (FacebookConnectEvent);
+    ChangeState (States.None);
   }
 
   void TryShowFacebookLeaderboard_Enter ()
@@ -432,20 +437,34 @@ public class GameManager : StateBehaviour
     BroadcastMessage (RestorePurchaseCompleteEvent);
   }
 
+  void BuyRevive_Enter ()
+  {
+    BroadcastMessage (BuyReviveEvent);
+  }
+
   void PurchaseItem (StoreButton button)
   {
     Debug.Log ("Purchasing Item : " + button.title.text);
     Debug.Log ("Currency Type : " + button.currencyType);
 
-    switch (button.currencyType)
-    {
-    case StoreButtonList.CurrencyType.Coins:
-      BroadcastMessage (PurchasePotionEvent, button, SendMessageOptions.DontRequireReceiver);
-      break;
-    case StoreButtonList.CurrencyType.Money:
-      BroadcastMessage (PurchaseCoinsEvent, button, SendMessageOptions.DontRequireReceiver);
-      break;
-    }
+    BroadcastMessage (PurchaseCoinsEvent, button, SendMessageOptions.DontRequireReceiver);
+  }
+
+
+  void PurchaseInGameItem (UIManager.InGameBuyButtonData button)
+  {
+    BroadcastMessage (PurchaseInGameItemEvent, button, SendMessageOptions.DontRequireReceiver);
+    ChangeState (States.None);
+  }
+
+  void AddInGameItem (InGameBuyButton button)
+  {
+    BroadcastMessage (AddInGameItemEvent, button, SendMessageOptions.DontRequireReceiver);
+  }
+
+  void SubtractInGameItem (InGameBuyButton button)
+  {
+    BroadcastMessage (SubtractInGameItemEvent, button, SendMessageOptions.DontRequireReceiver);
   }
 
   void SwitchMode (int mode)

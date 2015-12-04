@@ -22,6 +22,17 @@ public class UIManager : StateBehaviour
     Diamonds,
     Potions,
   }
+
+  public class InGameBuyButtonData
+  {
+    public InGameBuyButtonData (InGameBuyButton b, int c)
+    {
+      button = b;
+      count = c;
+    }
+    public InGameBuyButton button;
+    public int count;
+  }
   
   
   // Public Members
@@ -56,11 +67,17 @@ public class UIManager : StateBehaviour
   private Image imageCircle { get; set; }
   private Color startImageCircleColor { get; set; }
   
-  public ScrollSnapRect storeList;
+  public ScrollSnapRect diamondStoreList;
+  public ScrollSnapRect potionStoreList;
+
+  public Button buttonBuyDiamonds;
+  public Button buttonBuyPotions;
 
   public MaskableGraphic [] allUI { get; set; }
   
   private GameManager.States previousState { get; set; }
+
+  int counter = 1;
   
   void Awake ()
   {
@@ -235,6 +252,21 @@ public class UIManager : StateBehaviour
   public void PurchaseItem (StoreButton button)
   {
     GameManager.inst.SendMessage ("PurchaseItem", button);
+  }
+
+  public void PurchaseInGameItem (InGameBuyButton button)
+  {
+    GameManager.inst.SendMessage ("PurchaseInGameItem", new InGameBuyButtonData (button, counter));
+  }
+
+  public void AddInGameItem (InGameBuyButton button)
+  {
+    GameManager.inst.SendMessage ("AddInGameItem", button);
+  }
+
+  public void SubtractInGameItem (InGameBuyButton button)
+  {
+    GameManager.inst.SendMessage ("SubtractInGameItem", button);
   }
 
   public void FacebookConnect ()
@@ -663,6 +695,7 @@ public class UIManager : StateBehaviour
   
   private string Coins ()
   {
+    Debug.Log ("RETURN " + StatsManager.inst.coins);
     return ""+StatsManager.inst.coins+"";
   }
   
@@ -739,13 +772,14 @@ public class UIManager : StateBehaviour
     Debug.Log (previousState);
     if (previousState == GameManager.States.ShowRevive)
     {
-      if (!storeList.initialized)
+      if (!potionStoreList.initialized)
       {
-        storeList.gameObject.SetActive (true);
-        storeList.Start ();
+        potionStoreList.gameObject.SetActive (true);
+        potionStoreList.Start ();
       }
       
-      storeList.SetPage (2);
+      ShowPotionStore ();
+      potionStoreList.SetPage (0);
     }
   }
   
@@ -818,6 +852,40 @@ public class UIManager : StateBehaviour
     StartCoroutine (FadeInOptionsCanvas ());
   }
 
+  void OnAddInGameItem (InGameBuyButton button)
+  {
+    counter++;
+    buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
+  }
+
+  void OnSubtractInGameItem (InGameBuyButton button)
+  {
+    if (counter - 1 > 0)
+    {
+      --counter;
+      buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
+    }
+  }
+
+  void OnStoreButtonSwipe (int index)
+  {
+    if (menuDiamondStore != null && menuPotionStore != null)
+    {
+      if (menuDiamondStore.activeSelf)
+      {
+        Transform container = diamondStoreList.container;
+        StoreButton b = container.GetChild (index).GetComponent <StoreButton> ();
+        buttonBuyDiamonds.GetComponentInChildren <Text> ().text = b.priceText.text;
+      }
+      else if (menuPotionStore.activeSelf)
+      {
+        Transform container = potionStoreList.container;
+        InGameBuyButton b = container.GetChild (index).GetComponent <InGameBuyButton> ();
+        buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+b.price+"";
+      }
+    }
+  }
+
   void OnSwitchMode (int mode)
   {
     var ui = UIManager.inst.allUI;
@@ -854,6 +922,7 @@ public class UIManager : StateBehaviour
 
     menuDiamondStore.SetActive (true);
     menuPotionStore.SetActive (false);
+    OnStoreButtonSwipe (diamondStoreList.currentPage);
   }
 
   void ShowPotionStore ()
@@ -870,6 +939,8 @@ public class UIManager : StateBehaviour
 
     menuDiamondStore.SetActive (false);
     menuPotionStore.SetActive (true);
+
+    OnStoreButtonSwipe (potionStoreList.currentPage);
   }
   
   //  void OnDifficultyChange ()

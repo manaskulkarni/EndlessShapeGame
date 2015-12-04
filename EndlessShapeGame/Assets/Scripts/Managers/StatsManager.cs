@@ -43,11 +43,7 @@ public class StatsManager : MonoBehaviour
   public int numSlowMotionPotions = 0;
   public int prevFacebookStatus = 0;
 
-  public Dictionary <string, int> potions = new Dictionary<string, int> ()
-  {
-    { "REVIVE POTION", 0 },
-    { "SLOW MOTION", 1 }
-  };
+  private int initialRevivePrice;
 
   #region Properties
   /// <summary>
@@ -148,20 +144,9 @@ public class StatsManager : MonoBehaviour
       GameObject.Destroy (gameObject);
     }
 
+    initialRevivePrice = reviveCoinsPrice;
     firstSession = true;
     vMode = PlayerPrefs.GetInt ("VMode");
-  }
-
-  // Use this for initialization
-  void Start ()
-  {
-#if UNITY_IOS
-    gameObject.AddComponent <GameCenterInterface> ();
-#elif UNITY_ANDROID
-//    gameObject.AddComponentMenu <GooglePlayManager> ();
-#elif UNITY_WINRT
-    gameObject.AddComponent <WindowsStoreManager> ();
-#endif
 
     Debug.Log ("Leaderboard ID: " + leaderBoardId);
     Debug.Log ("Data Path: " + Application.dataPath);
@@ -174,10 +159,23 @@ public class StatsManager : MonoBehaviour
     maxAllowedRevives = PlayerPrefs.GetInt ("MaxAllowedRevives", 1);
     usedRevives = 0;
     prevFacebookStatus = PlayerPrefs.GetInt ("FacebookConenct");
-#if UNITY_EDITOR
-  score = startScore;
-  maxAllowedRevives = -1;
-  coins = -1;
+    #if UNITY_EDITOR
+    score = startScore;
+    maxAllowedRevives = -1;
+    Debug.Log ("CALLED FIRST");
+    coins = 1000;
+    #endif
+  }
+
+  // Use this for initialization
+  void Start ()
+  {
+#if UNITY_IOS
+    gameObject.AddComponent <GameCenterInterface> ();
+#elif UNITY_ANDROID
+//    gameObject.AddComponentMenu <GooglePlayManager> ();
+#elif UNITY_WINRT
+    gameObject.AddComponent <WindowsStoreManager> ();
 #endif
   }
 
@@ -355,6 +353,7 @@ public class StatsManager : MonoBehaviour
 
   void OnGameOver ()
   {
+    reviveCoinsPrice = initialRevivePrice;
     BroadcastMessage (SubmitScoreEvent);
 
     isHighScore = CheckHighScore ();
@@ -397,20 +396,36 @@ public class StatsManager : MonoBehaviour
     BroadcastMessage (PurchaseCoinsEvent, button);
   }
 
-  void OnPurchasePotion (StoreButton button)
+  int numItems = 0;
+
+  void OnPurchaseInGameItem (UIManager.InGameBuyButtonData button)
   {
-    if (CanPurchasePotion ((int)button.price))
+    if (CanPurchasePotion ((int)button.button.price * button.count))
     {
-      if (potions.ContainsKey (button.title.text))
+      numItems = button.count;
+      switch (button.button.type)
       {
-        ++potions [button.title.text];
+      case InGameBuyButton.ButtonType.Revive:
+        GameManager.inst.ChangeState (GameManager.States.BuyRevive);
+        break;
+      case InGameBuyButton.ButtonType.SlowMotion:
+        break;
       }
-      if (coins != -1)
-      {
-        coins -= (int)button.price;
-      }
-      Debug.Log ("Purchased " + button.title.text + " for " + button.priceText.text + " coins");
     }
+  }
+
+  void OnBuyRevive ()
+  {
+    Debug.Log ("BOUGHT REVIVES : " + numItems);
+    coins -= reviveCoinsPrice * numItems;
+    reviveCoinsPrice += initialRevivePrice;
+  }
+
+  void OnAcceptRevive ()
+  {
+    Debug.Log ("BEFORE : " + coins);
+    coins -= reviveCoinsPrice;
+    Debug.Log ("AFTER : " + coins);
   }
 
   void OnSwitchMode (int mode)
