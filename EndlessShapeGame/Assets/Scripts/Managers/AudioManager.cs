@@ -22,6 +22,14 @@ public class AudioManager : MonoBehaviour
   public AudioObject _options_menu1;
   public AudioObject _store_menu1;
 
+  // Mode 2 Game Tracks
+  public AudioObject _track2;
+
+  // Mode 2 Options Tracks
+  public AudioObject _main_menu2;
+  public AudioObject _options_menu2;
+  public AudioObject _store_menu2;
+
   // Sound Effects
   public AudioObject _lose_effect;
   #endregion
@@ -31,18 +39,26 @@ public class AudioManager : MonoBehaviour
   public AudioSource track1 { get; private set; }
   public AudioSource track1_loop { get; private set; }
 
-  // Mode 1 Option Tracks
+  // Mode 1 Options Tracks
   public AudioSource main_menu1 { get; private set; }
   public AudioSource options_menu1 { get; private set; }
   public AudioSource store_menu1 { get; private set; }
+
+  // Mode 2 Game Tracks
+  public AudioSource track2 { get; private set; }
+
+  // Mode 2 Options Tracks
+  public AudioSource main_menu2 { get; private set; }
+  public AudioSource options_menu2 { get; private set; }
+  public AudioSource store_menu2 { get; private set; }
 
   // Sound Effects
   public AudioSource lose_effect { get; private set; }
   #endregion
 
   static public AudioManager inst { get; private set; }
-  bool playOnce;
-  int mode;
+  bool _playOnce;
+  int _mode;
 
   void Awake()
   {
@@ -52,8 +68,12 @@ public class AudioManager : MonoBehaviour
 
       var sources = gameObject.GetComponentsInChildren<AudioSource>();
 
+      // Initialize lose sound effect
+      lose_effect = sources[0];
+      lose_effect.clip = _lose_effect.clip;
+
       // Initialize track (MODE 1)
-      track1 = sources[0];
+      track1 = sources[1];
       track1.clip = _track1.clip;
 
       // Initialize track loop (MODE 1)
@@ -81,25 +101,46 @@ public class AudioManager : MonoBehaviour
       store_menu1.Play();
       store_menu1.volume = 0.0f;
 
-      // Initialize lose sound effect
-      lose_effect = sources[1];
-      lose_effect.clip = _lose_effect.clip;
+      // Initialize track (MODE 2)
+      track2 = sources[6];
+      track2.clip = _track2.clip;
+      
+      // Initialize main menu loop (MODE 2)
+      main_menu2 = sources[7];
+      main_menu2.clip = _main_menu2.clip;
+      main_menu2.loop = true;
+      main_menu2.volume = 0.0f;
+      main_menu2.Play();
+
+      // Initialize options menu loop (MODE 2)
+      options_menu2 = sources[8];
+      options_menu2.clip = _options_menu2.clip;
+      options_menu2.loop = true;
+      options_menu2.volume = 0.0f;
+      options_menu2.Play();
+      
+      // Initialize store menu loop (MODE 2)
+      store_menu2 = sources[9];
+      store_menu2.clip = _store_menu2.clip;
+      store_menu2.loop = true;
+      store_menu2.volume = 0.0f;
+      store_menu2.Play();
     }
   }
 
   // Use this for initialization
   void Start()
   {
-    playOnce = true;
-    mode = 1;
+    _playOnce = true;
+    _mode = 0;
   }
 
   void FixedUpdate()
   {
-    if (track1.timeSamples > 2994740 && playOnce == true)
+    if (track1.timeSamples > 2994740 && _playOnce == true)
     {
       track1_loop.Play();
-      playOnce = false;
+      _playOnce = false;
     }
     if (Input.GetKeyUp(KeyCode.Q))
     {
@@ -126,13 +167,13 @@ public class AudioManager : MonoBehaviour
 
   void OnGameStart()
   {
-    FadeOutAllMenuTracks(mode);
+    FadeOutAllMenuTracks(_mode);
   }
 
   void OnShowRevive()
   {
     PlayLoseEffect();
-    FadeOutMusicTrack(mode);
+    FadeOutMusicTrack(_mode);
   }
 
   void OnDeclineRevive()
@@ -143,33 +184,33 @@ public class AudioManager : MonoBehaviour
   void OnCompleteRevive()
   {
     StopAllCoroutines();
-    FadeInMusicTrack(mode);
+    FadeInMusicTrack(_mode);
   }
 
   void OnShowOptions()
   {
-    PlayOptionsTrack(mode);
+    PlayOptionsTrack(_mode);
   }
 
   void OnHideOptions()
   {
-    StopOptionsTrack(mode);
+    StopOptionsTrack(_mode);
   }
 
   void OnShowStore()
   {
-    PlayStoreTrack(mode);
+    PlayStoreTrack(_mode);
   }
 
   void OnHideStore()
   {
-    StopStoreTrack(mode);
+    StopStoreTrack(_mode);
   }
 
   void OnGameOver()
   {
-    StopMusicTrack(mode);
-    ReplayMenuTrack(mode);
+    StopMusicTrack(_mode);
+    ReplayMenuTrack(_mode);
   }
 
   void OnGameRestart()
@@ -192,7 +233,12 @@ public class AudioManager : MonoBehaviour
   void OnFirstBeat()
   {
     track1.volume = 1.0f;
-    PlayMusicTrack(mode);
+    PlayMusicTrack(_mode);
+  }
+
+  void OnSwitchMode(int mode)
+  {
+    _mode = mode;
   }
 
   #endregion
@@ -248,7 +294,7 @@ public class AudioManager : MonoBehaviour
   #region AudioFunctions
   private void ReplayMenuTrack(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       main_menu1.Stop();
       main_menu1.Play();
@@ -266,7 +312,7 @@ public class AudioManager : MonoBehaviour
 
   private void PlayOptionsTrack(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       StartCoroutine(FadeOut(main_menu1, _main_menu1));
       StartCoroutine(FadeIn(options_menu1, _options_menu1));
@@ -275,7 +321,7 @@ public class AudioManager : MonoBehaviour
 
   private void StopOptionsTrack(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       StartCoroutine(FadeIn(main_menu1, _main_menu1));
       StartCoroutine(FadeOut(options_menu1, _options_menu1));
@@ -284,7 +330,7 @@ public class AudioManager : MonoBehaviour
 
   private void PlayStoreTrack(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       StartCoroutine(FadeOut(main_menu1, _main_menu1));
       StartCoroutine(FadeIn(store_menu1, _store_menu1));
@@ -293,7 +339,7 @@ public class AudioManager : MonoBehaviour
 
   private void StopStoreTrack(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       StartCoroutine(FadeIn(main_menu1, _main_menu1));
       StartCoroutine(FadeOut(store_menu1, _store_menu1));
@@ -302,35 +348,51 @@ public class AudioManager : MonoBehaviour
 
   private void PlayMusicTrack(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       track1.Play();
+    }
+    else if (mode == 1)
+    {
+      track2.Play();
     }
   }
 
   private void StopMusicTrack(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       track1.Stop();
+    }
+    else if (mode == 1)
+    {
+      track2.Stop();
     }
   }
 
   private void FadeOutMusicTrack(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       StartCoroutine(FadeOutMusic(track1, _track1));
       StartCoroutine(FadeOutMusic(track1_loop, _track1_loop));
+    }
+    else if (mode == 1)
+    {
+      StartCoroutine(FadeOutMusic(track2, _track2));
     }
   }
 
   private void FadeInMusicTrack(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       StartCoroutine(FadeInMusic(track1, _track1));
       StartCoroutine(FadeInMusic(track1_loop, _track1_loop));
+    }
+    else if (mode == 1)
+    {
+      StartCoroutine(FadeInMusic(track2, _track2));
     }
   }
 
@@ -347,7 +409,7 @@ public class AudioManager : MonoBehaviour
 
   private void FadeOutAllMenuTracks(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       StartCoroutine(FadeOut(main_menu1, _main_menu1));
       StartCoroutine(FadeOut(store_menu1, _store_menu1));
@@ -357,19 +419,27 @@ public class AudioManager : MonoBehaviour
 
   private void PauseMusic(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       track1.Pause();
       track1_loop.Pause();
+    }
+    else if (mode == 1)
+    {
+      track2.Pause();
     }
   }
 
   private void UnPauseMusic(int mode)
   {
-    if (mode == 1)
+    if (mode == 0)
     {
       track1.UnPause();
       track1_loop.UnPause();
+    }
+    else if (mode == 1)
+    {
+      track2.UnPause();
     }
   }
 
@@ -380,6 +450,7 @@ public class AudioManager : MonoBehaviour
     options_menu1.Pause();
     store_menu1.Pause();
     main_menu1.Pause();
+    track2.Pause();
     lose_effect.Pause();
   }
 
@@ -390,6 +461,7 @@ public class AudioManager : MonoBehaviour
     options_menu1.UnPause();
     store_menu1.UnPause();
     main_menu1.UnPause();
+    track2.UnPause();
     lose_effect.UnPause();
   }
   #endregion
