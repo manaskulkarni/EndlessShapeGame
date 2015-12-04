@@ -10,6 +10,6 @@ public class StoreButton : MonoBehaviour
   public Image icon;
   public Image iconCurrency;
   public Button button;
-  public StoreButtonList.CurrencyType currencyType { get; set; }
+  public StoreButtonList.CurrencyType currencyType;
   public float price { get; set; }
 }

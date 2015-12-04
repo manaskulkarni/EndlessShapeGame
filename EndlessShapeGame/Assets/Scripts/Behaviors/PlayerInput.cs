@@ -7,6 +7,7 @@ public class PlayerInput : MonoBehaviour
 {
 
   public float minDelta = 3.0f;
+  public float dampTime = 0.2f;
 
   #region Private Properties
   private FlickGesture flick { get; set; }
@@ -17,6 +18,7 @@ public class PlayerInput : MonoBehaviour
   private TouchScript.Gestures.MetaGesture meta { get; set; }
   private bool moving { get; set; }
   private float lastPos;
+  private float timer = 0.0f;
   
 //  public Transform swipeEffect;
   #endregion
@@ -99,8 +101,7 @@ public class PlayerInput : MonoBehaviour
 
   void HandlePressed (object sender, System.EventArgs e)
   {
-    pressed = true;
-    lastPos = Input.mousePosition.x;
+    StartCoroutine (StartTimer ());
   }
 
   void HandlePanned (object sender, System.EventArgs e)
@@ -119,6 +120,19 @@ public class PlayerInput : MonoBehaviour
     }
   }
 
+  private IEnumerator StartTimer ()
+  {
+    while (timer < dampTime)
+    {
+      timer += Time.deltaTime;
+      yield return null;
+    }
+
+    timer = 0.0f;
+    pressed = true;
+    lastPos = Input.mousePosition.x;
+  }
+
   void Update ()
   {  
 #if UNITY_EDITOR
@@ -134,7 +148,7 @@ public class PlayerInput : MonoBehaviour
       }
     }
 #endif
-    
+
     if (pressed)
     { 
       if (PlayerManager.inst.player.Ready ())
@@ -142,8 +156,8 @@ public class PlayerInput : MonoBehaviour
         var delta = Input.mousePosition.x - lastPos;
         lastPos = Input.mousePosition.x;
         
-//        StartCoroutine (Swipe (delta < 0.0f));
-
+        //        StartCoroutine (Swipe (delta < 0.0f));
+        
         if (delta == 0.0f)
         {
           moving = false;

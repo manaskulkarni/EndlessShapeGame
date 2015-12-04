@@ -29,32 +29,32 @@ public class StoreButtonList : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
-	  foreach (var item in itemList)
-    {
-      var go = Instantiate (storeButtonPrefab) as GameObject;
-      StoreButton button = go.GetComponent <StoreButton> ();
-      
-      if (item.currencyType == CurrencyType.Coins)
-      {
-        button.priceText.text = ""+item.price;
-        button.iconCurrency.enabled = true;
-        button.iconCurrency.sprite = iconCoinCurrency;
-      }
-      else if (item.currencyType == CurrencyType.Money)
-      {
-        button.priceText.text = "$ "+item.price+"";
-        button.iconCurrency.enabled = false;
-      }
-      
-      button.currencyType = item.currencyType;
-      button.price = item.price;
-
-      button.title.text = item.description;
-      button.icon.sprite = item.icon;
-      button.button.onClick.AddListener(() => { UIManager.inst.PurchaseItem(button); });
-      go.transform.SetParent (this.transform);
-      go.transform.localScale = Vector3.one;
-    }
+//	  foreach (var item in itemList)
+//    {
+//      var go = Instantiate (storeButtonPrefab) as GameObject;
+//      StoreButton button = go.GetComponent <StoreButton> ();
+//      
+//      if (item.currencyType == CurrencyType.Coins)
+//      {
+//        button.priceText.text = ""+item.price;
+//        button.iconCurrency.enabled = true;
+//        button.iconCurrency.sprite = iconCoinCurrency;
+//      }
+//      else if (item.currencyType == CurrencyType.Money)
+//      {
+//        button.priceText.text = "$ "+item.price+"";
+//        button.iconCurrency.enabled = false;
+//      }
+//      
+//      button.currencyType = item.currencyType;
+//      button.price = item.price;
+//
+//      button.title.text = item.description;
+//      button.icon.sprite = item.icon;
+//      button.button.onClick.AddListener(() => { UIManager.inst.PurchaseItem(button); });
+//      go.transform.SetParent (this.transform);
+//      go.transform.localScale = Vector3.one;
+//    }
     
     if (GetComponentInParent <ScrollSnapRect> ())
     {

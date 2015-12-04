@@ -16,6 +16,12 @@ public class UIManager : StateBehaviour
     FadeOutStore,
     None,
   }
+
+  public enum StoreType
+  {
+    Diamonds,
+    Potions,
+  }
   
   
   // Public Members
@@ -38,6 +44,8 @@ public class UIManager : StateBehaviour
   private GameObject animRevive { get; set; }
   private GameObject menuStore { get; set; }
   private GameObject menuFacebookLeaderboard { get; set; }
+  private GameObject menuDiamondStore { get; set; }
+  private GameObject menuPotionStore { get; set; }
   
   private Text textScore { get; set; }
   private Text textPauseTimer { get; set; }
@@ -95,6 +103,10 @@ public class UIManager : StateBehaviour
     imageCircle = GameObject.Find ("ImageCircle").GetComponent <Image> ();
     startImageCircleColor = imageCircle.color;
     imageCircle.gameObject.SetActive (false);
+
+    menuDiamondStore = GameObject.Find ("MenuDiamondStore");
+    menuPotionStore = GameObject.Find ("MenuPotionStore");
+    ShowDiamondStore ();
     
     textGameOverScore.text = BestScore ();
     textGameOverFeedback.text = null;
@@ -259,6 +271,20 @@ public class UIManager : StateBehaviour
     else
     {
       GameManager.inst.SendMessage ("SwitchMode", 0, SendMessageOptions.DontRequireReceiver);
+    }
+  }
+
+  public void SwitchStore (int store)
+  {
+    var type = (StoreType) store;
+    switch (type)
+    {
+    case StoreType.Diamonds:
+      ShowDiamondStore ();
+      break;
+    case StoreType.Potions:
+      ShowPotionStore ();
+      break;
     }
   }
 
@@ -812,6 +838,38 @@ public class UIManager : StateBehaviour
       Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = true;
       break;
     }
+  }
+
+  void ShowDiamondStore ()
+  {
+    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
+    Color c = diamond.color;
+    c.a = 100.0f / 255.0f;
+    diamond.color = c;
+
+    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
+    c = potion.color;
+    c.a = 30.0f / 255.0f;
+    potion.color = c;
+
+    menuDiamondStore.SetActive (true);
+    menuPotionStore.SetActive (false);
+  }
+
+  void ShowPotionStore ()
+  {
+    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
+    Color c = diamond.color;
+    c.a = 30.0f / 255.0f;
+    diamond.color = c;
+    
+    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
+    c = potion.color;
+    c.a = 100.0f / 255.0f;
+    potion.color = c;
+
+    menuDiamondStore.SetActive (false);
+    menuPotionStore.SetActive (true);
   }
   
   //  void OnDifficultyChange ()
