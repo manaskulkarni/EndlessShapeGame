@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using BadassProjects.StateMachine;
@@ -37,6 +38,7 @@ public class GameManager : StateBehaviour
     TryRestorePurchase,
     RestorePurchaseComplete,
     RemoveAds,
+    SwitchMode,
   }
 
   public enum DifficultyLevel
@@ -116,6 +118,8 @@ public class GameManager : StateBehaviour
   public string HideFacebookLeaderboardEvent = "OnHideFacebookLeaderboard";
   public string TryRestorePurchaseEvent = "OnTryRestorePurchase";
   public string RestorePurchaseCompleteEvent = "OnRestorePurchaseComplete";
+  public string InvertColorEvent = "OnInvertColor";
+  public string SwitchModeEvent = "OnSwitchMode";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -442,6 +446,12 @@ public class GameManager : StateBehaviour
       BroadcastMessage (PurchaseCoinsEvent, button, SendMessageOptions.DontRequireReceiver);
       break;
     }
+  }
+
+  void SwitchMode (int mode)
+  {
+    Debug.Log ("GAME MANAGER SWITCH MODE : " + mode);
+    BroadcastMessage (SwitchModeEvent, mode);
   }
 
   private float duration = 0.3f;

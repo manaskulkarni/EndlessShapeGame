@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using BadassProjects.StateMachine;
 
 public class UIManager : StateBehaviour
@@ -48,6 +49,8 @@ public class UIManager : StateBehaviour
   private Color startImageCircleColor { get; set; }
   
   public ScrollSnapRect storeList;
+
+  public MaskableGraphic [] allUI { get; set; }
   
   private GameManager.States previousState { get; set; }
   
@@ -67,6 +70,15 @@ public class UIManager : StateBehaviour
   // Use this for initialization
   void Start ()
   {
+    allUI = GameObject.FindObjectsOfType <MaskableGraphic> ();
+
+    Debug.Log ("LAST VMODE : " + StatsManager.inst.vMode);
+
+    if (StatsManager.inst.vMode != 0)
+    {
+      GameManager.inst.BroadcastMessage ("SwitchMode", StatsManager.inst.vMode);
+    }
+
     menuStart = GameObject.Find ("MenuStart");
     menuRevive = GameObject.Find ("MenuRevive");
     menuRevive.GetComponent <CanvasGroup> ().alpha = 0.0f;
@@ -236,6 +248,18 @@ public class UIManager : StateBehaviour
   public void RemoveAds ()
   {
     GameManager.inst.ChangeState (GameManager.States.RemoveAds);
+  }
+
+  public void InvertColor ()
+  {
+    if (StatsManager.inst.vMode == 0)
+    {
+      GameManager.inst.SendMessage ("SwitchMode", 1, SendMessageOptions.DontRequireReceiver);
+    }
+    else
+    {
+      GameManager.inst.SendMessage ("SwitchMode", 0, SendMessageOptions.DontRequireReceiver);
+    }
   }
 
   #region Coroutines
@@ -766,6 +790,28 @@ public class UIManager : StateBehaviour
   {
     StartCoroutine (FadeOutFacebookLeaderboardCanvas ());
     StartCoroutine (FadeInOptionsCanvas ());
+  }
+
+  void OnSwitchMode (int mode)
+  {
+    var ui = UIManager.inst.allUI;
+    foreach (var v in ui)
+    {
+      if (!v.gameObject.CompareTag ("noinvert"))
+      {
+        v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
+      }
+    }
+
+    switch (mode)
+    {
+    case 0:
+      Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = false;
+      break;
+    case 1:
+      Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = true;
+      break;
+    }
   }
   
   //  void OnDifficultyChange ()

@@ -656,6 +656,7 @@
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_Media.mm.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
      <None Include="Assets\Plugins\android\facebook\res\drawable\com_facebook_button_like_selected.xml" />
+     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\InvertColor.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-zu\common_strings.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-sk\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
@@ -714,17 +715,11 @@
      <None Include="Assets\Plugins\android\facebook\proguard-project.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-uk\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="IFacebook">
  <HintPath>/Users/markmoukarzel/Desktop/EndlessShapeGame/EndlessShapeGame/Assets/Facebook/Scripts/IFacebook.dll</HintPath>
