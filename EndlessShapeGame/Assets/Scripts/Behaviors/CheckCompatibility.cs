@@ -10,11 +10,23 @@ public class CheckCompatibility : MonoBehaviour
     if (SystemInfo.deviceModel.Contains ("iPhone3"))
     {
       Debug.Log ("Disable Post Process Effects");
-      var effects = GameObject.FindObjectsOfType <UnityStandardAssets.ImageEffects.PostEffectsBase> ();
+      var postEffects = GameObject.FindObjectsOfType <UnityStandardAssets.ImageEffects.PostEffectsBase> ();
+      var imageEffects = GameObject.FindObjectsOfType <UnityStandardAssets.ImageEffects.ImageEffectBase> ();
       
-      foreach (var v in effects)
+      foreach (var v in postEffects)
       {
-        Destroy (v);
+        if (!v.useOnLowPerformance)
+        {
+          Destroy (v);
+        }
+      }
+
+      foreach (var v in imageEffects)
+      {
+        if (!v.useOnLowPerformance)
+        {
+          Destroy (v);
+        }
       }
     }
 	}
