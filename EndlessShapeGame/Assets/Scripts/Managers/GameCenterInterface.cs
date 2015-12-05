@@ -7,7 +7,6 @@ public class GameCenterInterface : StoreInterface
   private Dictionary <string, GK_AchievementTemplate> achievements { get; set; }
   private Dictionary <string, IOSProductTemplate> products { get; set; }
 
-
   // Use this for initialization
   void Awake ()
   {
@@ -78,7 +77,13 @@ public class GameCenterInterface : StoreInterface
 
   void HandleOnTransactionComplete (IOSStoreKitResult res)
   {
-    
+    if (res.IsSucceeded)
+    {
+      var product = IOSInAppPurchaseManager.Instance.GetProductById (res.ProductIdentifier);
+      if (products.ContainsKey (product.DisplayName))
+      {
+      }
+    }
   }
 
   void HandleOnRestoreComplete (IOSStoreKitRestoreResult res)
