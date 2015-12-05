@@ -216,6 +216,7 @@ public class AudioManager : MonoBehaviour
   void OnDeclineRevive()
   {
     StopLoseEffect();
+    StopMusicTrack(_mode);
   }
 
   void OnCompleteRevive()
@@ -223,6 +224,7 @@ public class AudioManager : MonoBehaviour
     StopAllCoroutines();
     OnHideStore();
     FadeInMusicTrack(_mode);
+    FadeOutAllMenuTracks(_mode);
   }
 
   void OnShowOptions()
