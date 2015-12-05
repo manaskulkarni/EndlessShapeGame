@@ -72,6 +72,7 @@ public class AudioManager : MonoBehaviour
 
   static public AudioManager inst { get; private set; }
   bool _playOnce;
+  bool _inOptions;
   int _mode;
 
   void Awake()
@@ -154,6 +155,7 @@ public class AudioManager : MonoBehaviour
   void Start()
   {
     _playOnce = true;
+    _inOptions = false;
     _mode = StatsManager.inst.vMode;
 
     if (_mode == 0)
@@ -225,11 +227,13 @@ public class AudioManager : MonoBehaviour
 
   void OnShowOptions()
   {
+    _inOptions = true;
     PlayOptionsTrack(_mode);
   }
 
   void OnHideOptions()
   {
+    _inOptions = false;
     StopOptionsTrack(_mode);
   }
 
@@ -546,6 +550,7 @@ public class AudioManager : MonoBehaviour
     StopCoroutineSafe(f[_store_menu1].fadeIn);
     StopCoroutineSafe(f[_track1].fadeIn);
     StopCoroutineSafe(f[_track1_loop].fadeIn);
+    StopCoroutineSafe(f[_options_menu2].fadeOut);
 
     f[_main_menu1].fadeOut = StartCoroutine(FadeOut(main_menu1, _main_menu1));
     f[_store_menu2].fadeOut = StartCoroutine(FadeOut(store_menu1, _store_menu1));
@@ -553,8 +558,10 @@ public class AudioManager : MonoBehaviour
     f[_track1].fadeOut = StartCoroutine(FadeOutMusic(track1, _track1));
     f[_track1_loop].fadeOut = StartCoroutine(FadeOutMusic(track1_loop, _track1_loop));
 
-    //StopCoroutineSafe(f[_options_menu2].fadeOut);
-    //f[_options_menu2].fadeIn = StartCoroutine(FadeIn(options_menu2, _options_menu2));
+    if (_inOptions)
+    {
+      f[_options_menu2].fadeIn = StartCoroutine(FadeIn(options_menu2, _options_menu2));
+    }
   }
 
   private void FadeOutMode1()
@@ -563,14 +570,17 @@ public class AudioManager : MonoBehaviour
     StopCoroutineSafe(f[_main_menu2].fadeIn);
     StopCoroutineSafe(f[_store_menu2].fadeIn);
     StopCoroutineSafe(f[_track2].fadeIn);
+    StopCoroutineSafe(f[_options_menu1].fadeOut);
 
     f[_main_menu1].fadeOut = StartCoroutine(FadeOut(main_menu2, _main_menu2));
     f[_store_menu2].fadeOut = StartCoroutine(FadeOut(store_menu2, _store_menu2));
     f[_options_menu2].fadeOut = StartCoroutine(FadeOut(options_menu2, _options_menu2));
     f[_track1].fadeOut = StartCoroutine(FadeOutMusic(track2, _track2));
 
-    //StopCoroutineSafe(f[_options_menu1].fadeOut);
-    //f[_options_menu2].fadeIn = StartCoroutine(FadeIn(options_menu1, _options_menu1));
+    if (_inOptions)
+    {
+      f[_options_menu2].fadeIn = StartCoroutine(FadeIn(options_menu1, _options_menu1));
+    }
   }
 
   private void PauseMusic(int mode)
