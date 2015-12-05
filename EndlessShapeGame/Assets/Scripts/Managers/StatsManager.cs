@@ -29,11 +29,27 @@ public class StatsManager : MonoBehaviour
     public int numBlackCollision { get; set; }
   }
 
+  public delegate void BuyProductDel (int a);
+
+  public class ProductData
+  {
+    public ProductData (int c, BuyProductDel d)
+    {
+      count = c;
+      callback = d;
+    }
+    public int count;
+    public BuyProductDel callback;
+  }
+
   public Dictionary <InGameBuyButton.ButtonType, int> gameItems = new Dictionary<InGameBuyButton.ButtonType, int> ()
   {
     { InGameBuyButton.ButtonType.Revive, 0 },
     { InGameBuyButton.ButtonType.SlowMotion, 1 },
   };
+
+
+  public Dictionary <string, ProductData> productActions = new Dictionary<string, ProductData> ();
 
 #if UNITY_EDITOR
   public int startScore = 0;
@@ -427,6 +443,33 @@ public class StatsManager : MonoBehaviour
     gameItems [InGameBuyButton.ButtonType.Revive] += numItems;
 
     GameManager.inst.ChangeState (GameManager.States.BoughtRevive);
+  }
+
+  void OnProductsLoaded (Dictionary <string, IOSProductTemplate> products)
+  {
+    foreach (var v in products)
+    {
+      productActions.Add (v.Value.DisplayName, null);
+    }
+
+    productActions ["500 Diamonds"] = new ProductData (500, BuyDiamonds);
+    productActions ["1200 Diamonds"] = new ProductData (1200, BuyDiamonds);
+    productActions ["3000 Diamonds"] = new ProductData (3000, BuyDiamonds);
+    productActions ["7500 Diamonds"] = new ProductData (7500, BuyDiamonds);
+  }
+
+  void BuyDiamonds (int a)
+  {
+    coins += a;
+    GameManager.inst.ChangeState (GameManager.States.BoughtCoins);
+  }
+
+  void OnBoughtProduct (string name)
+  {
+    if (productActions.ContainsKey (name))
+    {
+      productActions [name].callback (productActions[name].count);
+    }
   }
 
   void OnAcceptRevive ()

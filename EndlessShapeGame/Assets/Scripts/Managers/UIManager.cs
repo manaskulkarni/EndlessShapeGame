@@ -757,6 +757,7 @@ public class UIManager : StateBehaviour
   {
     if (previousState == GameManager.States.ShowRevive)
     {
+      previousState = GameManager.States.None;
       StartCoroutine (FadeOutStoreCanvas ());
       StartCoroutine (FadeInGameCanvas ());
       GameManager.inst.ChangeState (GameManager.States.ReviveComplete);
@@ -919,6 +920,11 @@ public class UIManager : StateBehaviour
       Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = true;
       break;
     }
+  }
+
+  void OnBoughtDiamonds ()
+  {
+
   }
 
   void ShowDiamondStore ()

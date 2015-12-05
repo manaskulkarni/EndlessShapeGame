@@ -33,6 +33,7 @@ public class GameManager : StateBehaviour
     PurchasePotion,
     BuyRevive,
     BoughtRevive,
+    BoughtCoins,
     FacebookConnect,
     TryShowFacebookLeaderboard,
     ShowFacebookLeaderboard,
@@ -126,6 +127,8 @@ public class GameManager : StateBehaviour
   public string SwitchModeEvent = "OnSwitchMode";
   public string BuyReviveEvent = "OnBuyRevive";
   public string BoughtReviveEvent = "OnBoughtRevive";
+  public string BoughtProductEvent = "OnBoughtProduct";
+  public string BoughtCoinsEvent = "OnBoughtCoins";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -156,6 +159,9 @@ public class GameManager : StateBehaviour
   
   void Awake ()
   {
+    Application.targetFrameRate = 60;
+    Debug.Log ("QUALITY LEVEL : " + QualitySettings.GetQualityLevel ());
+
     Initialize <States> ();
     
     Debug.Log ("Device Name : " + SystemInfo.deviceName);
@@ -449,6 +455,12 @@ public class GameManager : StateBehaviour
     BroadcastMessage (BoughtReviveEvent);
   }
 
+  void BoughtCoins_Enter ()
+  {
+    BroadcastMessage (BoughtCoinsEvent);
+    ChangeState (States.None);
+  }
+
   void PurchaseItem (StoreButton button)
   {
     Debug.Log ("Purchasing Item : " + button.title.text);
@@ -456,7 +468,6 @@ public class GameManager : StateBehaviour
 
     BroadcastMessage (PurchaseCoinsEvent, button, SendMessageOptions.DontRequireReceiver);
   }
-
 
   void PurchaseInGameItem (UIManager.InGameBuyButtonData button)
   {
@@ -472,6 +483,11 @@ public class GameManager : StateBehaviour
   void SubtractInGameItem (InGameBuyButton button)
   {
     BroadcastMessage (SubtractInGameItemEvent, button, SendMessageOptions.DontRequireReceiver);
+  }
+
+  void BuyProduct (string name)
+  {
+    BroadcastMessage (BoughtProductEvent, name);
   }
 
   void SwitchMode (int mode)

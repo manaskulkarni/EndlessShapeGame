@@ -68,6 +68,8 @@ public class GameCenterInterface : StoreInterface
       {
         Debug.Log ("PRODUCT NAME : " + v.Value.DisplayName);
       }
+
+      SendMessage ("OnProductsLoaded", products);
     }
     else
     {
@@ -82,6 +84,7 @@ public class GameCenterInterface : StoreInterface
       var product = IOSInAppPurchaseManager.Instance.GetProductById (res.ProductIdentifier);
       if (products.ContainsKey (product.DisplayName))
       {
+        GameManager.inst.BroadcastMessage ("BuyProduct", product.DisplayName);
       }
     }
   }
@@ -133,7 +136,6 @@ public class GameCenterInterface : StoreInterface
   
   protected override void OnReportAchievement(StatsManager.AchievementData achievement)
   {
-  
     if (IsAuthenticated () && IsInitialized () && achievements.ContainsKey (achievement.name))
     {
       Debug.Log ("Reporting Achievement : " + achievement.name);

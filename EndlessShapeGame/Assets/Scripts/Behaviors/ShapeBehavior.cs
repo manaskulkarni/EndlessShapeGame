@@ -33,10 +33,10 @@ public class ShapeBehavior : MonoBehaviour
   {
     triggered = false;
     //    InvokeRepeating  ("UpdatePositionInvoke", Time.time, Time.deltaTime);
-    if (updatePosition == null)
-    {
-      updatePosition = StartCoroutine (UpdatePosition ());
-    }
+//    if (updatePosition == null)
+//    {
+//      updatePosition = StartCoroutine (UpdatePosition ());
+//    }
     update = true;
 
     if (shapeType == ShapeType.Invisible)
@@ -113,23 +113,29 @@ public class ShapeBehavior : MonoBehaviour
     }
   }
 
-//  void LateUpdate ()
-//  {
-//    if (update)
-//    {
-//      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime);
-//    }
-//  }
-
-  // Update is called once per frame
-  private IEnumerator UpdatePosition ()
+  void Update ()
   {
-    while (true)
+    if (update)
     {
-      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.smoothDeltaTime);
-      yield return null;
+      gameObject.transform.position = new Vector2
+        (transform.position.x,
+         transform.position.y + ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.smoothDeltaTime);
+//      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime);
     }
   }
+
+//  // Update is called once per frame
+//  private IEnumerator UpdatePosition ()
+//  {
+//    while (true)
+//    {
+//      gameObject.transform.position = new Vector2
+//        (transform.position.x,
+//         transform.position.y + ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime);
+////      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.smoothDeltaTime);
+//      yield return null;
+//    }
+//  }
 
   private IEnumerator UpdateSpecial ()
   {
