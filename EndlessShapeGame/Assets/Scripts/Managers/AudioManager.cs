@@ -268,7 +268,6 @@ public class AudioManager : MonoBehaviour
 
   void OnFirstBeat()
   {
-    track1.volume = 1.0f;
     PlayMusicTrack(_mode);
   }
 
@@ -457,10 +456,12 @@ public class AudioManager : MonoBehaviour
   {
     if (mode == 0)
     {
+      track1.volume = 1.0f;
       track1.Play();
     }
     else if (mode == 1)
     {
+      track2.volume = 1.0f;
       track2.Play();
     }
   }
