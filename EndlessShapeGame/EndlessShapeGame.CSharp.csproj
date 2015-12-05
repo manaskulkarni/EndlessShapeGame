@@ -453,6 +453,7 @@
     <Compile Include="Assets\Scripts\Behaviors\FriendButtonList.cs" />
     <Compile Include="Assets\Scripts\Behaviors\FullScreenQuad.cs" />
     <Compile Include="Assets\Scripts\Behaviors\HorizontalScrollSnap.cs" />
+    <Compile Include="Assets\Scripts\Behaviors\InGameBuyButton.cs" />
     <Compile Include="Assets\Scripts\Behaviors\PlayerBehavior.cs" />
     <Compile Include="Assets\Scripts\Behaviors\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\Behaviors\PlayerShapeTrigger.cs" />
