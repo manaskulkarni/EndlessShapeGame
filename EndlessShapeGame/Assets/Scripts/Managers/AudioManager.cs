@@ -219,6 +219,7 @@ public class AudioManager : MonoBehaviour
   void OnCompleteRevive()
   {
     StopAllCoroutines();
+    OnHideStore();
     FadeInMusicTrack(_mode);
   }
 
