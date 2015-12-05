@@ -80,7 +80,7 @@ public class AudioManager : MonoBehaviour
     {
       inst = this;
 
-      f.Add(_track1, new CPair (null, null));
+      f.Add(_track1, new CPair(null, null));
       f.Add(_track1_loop, new CPair(null, null));
       f.Add(_track2, new CPair(null, null));
       f.Add(_options_menu1, new CPair(null, null));
@@ -110,7 +110,6 @@ public class AudioManager : MonoBehaviour
       main_menu1 = sources[3];
       main_menu1.clip = _main_menu1.clip;
       main_menu1.loop = true;
-      main_menu1.Play();
 
       // Initialize options menu loop (MODE 1)
       options_menu1 = sources[4];
@@ -129,13 +128,11 @@ public class AudioManager : MonoBehaviour
       // Initialize track (MODE 2)
       track2 = sources[6];
       track2.clip = _track2.clip;
-      
+
       // Initialize main menu loop (MODE 2)
       main_menu2 = sources[7];
       main_menu2.clip = _main_menu2.clip;
       main_menu2.loop = true;
-      main_menu2.volume = 0.0f;
-      main_menu2.Play();
 
       // Initialize options menu loop (MODE 2)
       options_menu2 = sources[8];
@@ -143,7 +140,7 @@ public class AudioManager : MonoBehaviour
       options_menu2.loop = true;
       options_menu2.volume = 0.0f;
       options_menu2.Play();
-      
+
       // Initialize store menu loop (MODE 2)
       store_menu2 = sources[9];
       store_menu2.clip = _store_menu2.clip;
@@ -157,7 +154,20 @@ public class AudioManager : MonoBehaviour
   void Start()
   {
     _playOnce = true;
-    _mode = 0;
+    _mode = StatsManager.inst.vMode;
+
+    if (_mode == 0)
+    {
+      main_menu1.Play();
+      main_menu2.volume = 0.0f;
+      main_menu2.Play();
+    }
+    else if (_mode == 1)
+    {
+      main_menu2.Play();
+      main_menu1.volume = 0.0f;
+      main_menu1.Play();
+    }
   }
 
   void FixedUpdate()
@@ -209,7 +219,6 @@ public class AudioManager : MonoBehaviour
   void OnCompleteRevive()
   {
     StopAllCoroutines();
-    OnHideStore ();
     FadeInMusicTrack(_mode);
   }
 
@@ -265,6 +274,11 @@ public class AudioManager : MonoBehaviour
   void OnSwitchMode(int mode)
   {
     _mode = mode;
+
+    if (_mode == 0)
+      FadeOutMode1();
+    else if (_mode == 1)
+      FadeOutMode0();
   }
 
   #endregion
@@ -521,6 +535,40 @@ public class AudioManager : MonoBehaviour
       f[_store_menu2].fadeOut = StartCoroutine(FadeOut(store_menu2, _store_menu2));
       f[_options_menu2].fadeOut = StartCoroutine(FadeOut(options_menu2, _options_menu2));
     }
+  }
+
+  private void FadeOutMode0()
+  {
+    StopCoroutineSafe(f[_options_menu1].fadeIn);
+    StopCoroutineSafe(f[_main_menu1].fadeIn);
+    StopCoroutineSafe(f[_store_menu1].fadeIn);
+    StopCoroutineSafe(f[_track1].fadeIn);
+    StopCoroutineSafe(f[_track1_loop].fadeIn);
+
+    f[_main_menu1].fadeOut = StartCoroutine(FadeOut(main_menu1, _main_menu1));
+    f[_store_menu2].fadeOut = StartCoroutine(FadeOut(store_menu1, _store_menu1));
+    f[_options_menu2].fadeOut = StartCoroutine(FadeOut(options_menu1, _options_menu1));
+    f[_track1].fadeOut = StartCoroutine(FadeOutMusic(track1, _track1));
+    f[_track1_loop].fadeOut = StartCoroutine(FadeOutMusic(track1_loop, _track1_loop));
+
+    //StopCoroutineSafe(f[_options_menu2].fadeOut);
+    //f[_options_menu2].fadeIn = StartCoroutine(FadeIn(options_menu2, _options_menu2));
+  }
+
+  private void FadeOutMode1()
+  {
+    StopCoroutineSafe(f[_options_menu2].fadeIn);
+    StopCoroutineSafe(f[_main_menu2].fadeIn);
+    StopCoroutineSafe(f[_store_menu2].fadeIn);
+    StopCoroutineSafe(f[_track2].fadeIn);
+
+    f[_main_menu1].fadeOut = StartCoroutine(FadeOut(main_menu2, _main_menu2));
+    f[_store_menu2].fadeOut = StartCoroutine(FadeOut(store_menu2, _store_menu2));
+    f[_options_menu2].fadeOut = StartCoroutine(FadeOut(options_menu2, _options_menu2));
+    f[_track1].fadeOut = StartCoroutine(FadeOutMusic(track2, _track2));
+
+    //StopCoroutineSafe(f[_options_menu1].fadeOut);
+    //f[_options_menu2].fadeIn = StartCoroutine(FadeIn(options_menu1, _options_menu1));
   }
 
   private void PauseMusic(int mode)
