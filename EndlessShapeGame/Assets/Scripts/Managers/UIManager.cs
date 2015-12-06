@@ -50,17 +50,16 @@ public class UIManager : StateBehaviour
   private GameObject menuOptions { get; set; }
   private GameObject menuGameOver { get; set; }
   private GameObject menuCoins { get; set; }
-  private GameObject buttonStart { get; set; }
   private GameObject menuRevive { get; set; }
   private GameObject animRevive { get; set; }
   private GameObject menuStore { get; set; }
   private GameObject menuFacebookLeaderboard { get; set; }
   private GameObject menuDiamondStore { get; set; }
   private GameObject menuPotionStore { get; set; }
-  
+
   private Text textScore { get; set; }
   private Text textPauseTimer { get; set; }
-  private Text textCoins { get; set; }
+  public Text [] textCoins;
   private Text textGameOverScore { get; set; }
   private Text textGameOverFeedback { get; set; }
   private Text textConnectStatus { get; set; }
@@ -69,6 +68,12 @@ public class UIManager : StateBehaviour
   
   public ScrollSnapRect diamondStoreList;
   public ScrollSnapRect potionStoreList;
+
+  public Button buttonStart;
+  public Button buttonOptionsBack;
+  public Button buttonStoreBack;
+  public Button buttonFacebookBack;
+  public Button buttonRevive;
 
   public Button buttonBuyDiamonds;
   public Button buttonBuyPotions;
@@ -111,7 +116,6 @@ public class UIManager : StateBehaviour
     menuStore.GetComponent <CanvasGroup> ().alpha = 0.0f;
     menuFacebookLeaderboard = GameObject.Find ("MenuFacebookLeaderboard");
     menuFacebookLeaderboard.GetComponent <CanvasGroup> ().alpha = 0.0f;
-    buttonStart = GameObject.Find ("ButtonStart");
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
     textGameOverFeedback.GetComponent <Animator> ().Stop ();
@@ -131,6 +135,18 @@ public class UIManager : StateBehaviour
     SetMenuActive (menuStart, true);
     SetMenuActive (menuRevive, false);
     SetMenuActive (menuStore, false);
+//    buttonFacebookBack.interactable = false;
+//    buttonStoreBack.interactable = false;
+
+    menuOptions = GameObject.Find ("MenuOptions");
+//    buttonOptionsBack.interactable = false;
+    SetMenuActive (menuOptions, false);
+    
+    menuGameOver = GameObject.Find ("MenuGameOver");
+    SetMenuActive (menuGameOver, false);
+    
+    menuCoins = GameObject.Find ("MenuCoins");
+    SetMenuActive (menuCoins, false);
 //    SetMenuActive (menuFacebookLeaderboard, false);
     
     menuGame = GameObject.Find ("MenuGame");
@@ -139,22 +155,12 @@ public class UIManager : StateBehaviour
     textPauseTimer.enabled = false;
     textScore.text = ZeroScore ();
     
-    textCoins = GameObject.Find ("TextCoins").GetComponent <Text> ();
-    textCoins.text = Coins ();
+    UpdateCoinsText ();
     
     SetMenuActive (menuGame, false);
     
     //    menuGameOver = GameObject.Find ("MenuGameOver");
     //    SetMenuActive (menuGameOver, false);
-    
-    menuOptions = GameObject.Find ("MenuOptions");
-    SetMenuActive (menuOptions, false);
-    
-    menuGameOver = GameObject.Find ("MenuGameOver");
-    SetMenuActive (menuGameOver, false);
-    
-    menuCoins = GameObject.Find ("MenuCoins");
-    SetMenuActive (menuCoins, false);
   }
   
   public void UpdateScore ()
@@ -222,15 +228,12 @@ public class UIManager : StateBehaviour
     GameManager.inst.ChangeState (GameManager.States.HideStore);
   }
 
-  bool usingRevive = false;
-  
   public void UseRevive ()
   {
     Debug.Log ("Using Revive");
     Debug.Log (StatsManager.inst.canUseRevive);
-    if (StatsManager.inst.canUseRevive && !usingRevive)
+    if (StatsManager.inst.canUseRevive)
     {
-      usingRevive = true;
       GameManager.inst.ChangeState (GameManager.States.AcceptRevive);
     }
     else
@@ -247,7 +250,6 @@ public class UIManager : StateBehaviour
   public void ReviveDeclined ()
   {
     GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
-    usingRevive = false;
   }
   
   public void PurchaseItem (StoreButton button)
@@ -349,7 +351,7 @@ public class UIManager : StateBehaviour
   private IEnumerator FadeOutStartCanvas ()
   {
     CanvasGroup group = menuStart.GetComponent<CanvasGroup>();
-    buttonStart.SetActive (false);
+    buttonStart.interactable = false;
     
     while (group.alpha > 0.0f)
     {
@@ -407,6 +409,7 @@ public class UIManager : StateBehaviour
     }
     
     group.alpha = 1.0f;
+    buttonOptionsBack.interactable = true;
   }
   
   private IEnumerator FadeInGameOverCanvas ()
@@ -428,6 +431,8 @@ public class UIManager : StateBehaviour
   private IEnumerator FadeOutOptionsCanvas ()
   {
     CanvasGroup group = menuOptions.GetComponent<CanvasGroup>();
+    buttonOptionsBack.interactable = false;
+
     while (group.alpha > 0.0f)
     {
       float alpha = group.alpha;
@@ -457,7 +462,7 @@ public class UIManager : StateBehaviour
     }
     
     group.alpha = 1.0f;
-    buttonStart.SetActive (true);
+    buttonStart.interactable = (true);
   }
   
   private IEnumerator FadeInGameCanvas ()
@@ -578,11 +583,14 @@ public class UIManager : StateBehaviour
       revive.alpha = alpha;
       yield return null;
     }
+
+    buttonRevive.interactable = true;
   } 
   
   private IEnumerator FadeOutReviveCanvas ()
   {
     CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
+    buttonRevive.interactable = false;
     
     while (revive.alpha > 0.0f)
     {
@@ -599,6 +607,7 @@ public class UIManager : StateBehaviour
   private IEnumerator FadeOutReviveCanvasSpecial ()
   {
     CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
+    buttonRevive.interactable = false;
     
     while (revive.alpha > 0.0f)
     {
@@ -629,11 +638,14 @@ public class UIManager : StateBehaviour
       store.alpha = alpha;
       yield return null;
     }
+
+    buttonStoreBack.interactable = true;
   }
   
   private IEnumerator FadeOutStoreCanvas ()
   {
     CanvasGroup store = menuStore.GetComponent <CanvasGroup> ();
+    buttonStoreBack.interactable = false;
     
     while (store.alpha > 0.0f)
     {
@@ -659,11 +671,14 @@ public class UIManager : StateBehaviour
       store.alpha = alpha;
       yield return null;
     }
+
+    buttonStoreBack.interactable = true;
   }
   
   private IEnumerator FadeOutFacebookLeaderboardCanvas ()
   {
     CanvasGroup store = menuFacebookLeaderboard.GetComponent <CanvasGroup> ();
+    buttonStoreBack.interactable = false;
     
     while (store.alpha > 0.0f)
     {
@@ -734,10 +749,10 @@ public class UIManager : StateBehaviour
   
   void OnDeclineRevive ()
   {
+    previousState = GameManager.States.None;
     animRevive.SetActive (false);
     StartCoroutine (FadeOutReviveCanvas ());
     StartCoroutine (FadeOutGameCanvas ());
-    usingRevive = false;
   }
   
   void OnAcceptRevive ()
@@ -750,7 +765,6 @@ public class UIManager : StateBehaviour
   void OnCompleteRevive ()
   {
     ChangeState (States.None);
-    usingRevive = false;
   }
 
   void OnBoughtRevive ()
@@ -763,7 +777,7 @@ public class UIManager : StateBehaviour
       GameManager.inst.ChangeState (GameManager.States.ReviveComplete);
     }
 
-    textCoins.text = Coins ();
+    UpdateCoinsText ();
   }
   
   void OnShowOptions ()
@@ -805,7 +819,6 @@ public class UIManager : StateBehaviour
     Debug.Log ("STATE " + GameManager.inst.GetState ());
     if (previousState == GameManager.States.ShowRevive)
     {
-      Debug.Log ("AAAHAHAHAHAHAHAHAH");
       GameManager.inst.BroadcastMessage (GameManager.inst.DeclineReviveEvent);
     }
   }
@@ -897,12 +910,16 @@ public class UIManager : StateBehaviour
         Transform container = diamondStoreList.container;
         StoreButton b = container.GetChild (index).GetComponent <StoreButton> ();
         buttonBuyDiamonds.GetComponentInChildren <Text> ().text = b.priceText.text;
+        buttonBuyDiamonds.onClick.RemoveAllListeners ();
+        buttonBuyDiamonds.onClick.AddListener (() => {PurchaseItem (b);});
       }
       else if (menuPotionStore.activeSelf)
       {
         Transform container = potionStoreList.container;
         InGameBuyButton b = container.GetChild (index).GetComponent <InGameBuyButton> ();
         buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+b.price+"";
+        buttonBuyPotions.onClick.RemoveAllListeners ();
+        buttonBuyPotions.onClick.AddListener (() => {PurchaseInGameItem (b);});
       }
     }
   }
@@ -929,9 +946,9 @@ public class UIManager : StateBehaviour
     }
   }
 
-  void OnBoughtDiamonds ()
+  void OnBoughtCoins ()
   {
-
+    UpdateCoinsText ();
   }
 
   void ShowDiamondStore ()
@@ -967,6 +984,14 @@ public class UIManager : StateBehaviour
     menuPotionStore.SetActive (true);
 
     OnStoreButtonSwipe (potionStoreList.currentPage);
+  }
+
+  void UpdateCoinsText ()
+  {
+    foreach (var v in textCoins)
+    {
+      v.text = Coins ();
+    }
   }
   
   //  void OnDifficultyChange ()

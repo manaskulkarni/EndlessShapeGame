@@ -159,7 +159,9 @@ public class GameManager : StateBehaviour
   
   void Awake ()
   {
+#if !UNITY_EDITOR
     Application.targetFrameRate = 60;
+#endif
     Debug.Log ("QUALITY LEVEL : " + QualitySettings.GetQualityLevel ());
 
     Initialize <States> ();

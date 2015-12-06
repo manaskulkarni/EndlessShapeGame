@@ -373,7 +373,7 @@ public class StatsManager : MonoBehaviour
 
   void OnGameOver ()
   {
-    BroadcastMessage (SubmitScoreEvent);
+    BroadcastMessage (SubmitScoreEvent, SendMessageOptions.DontRequireReceiver);
 
     isHighScore = CheckHighScore ();
     if (isHighScore)
