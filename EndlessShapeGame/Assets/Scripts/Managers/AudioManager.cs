@@ -174,11 +174,8 @@ public class AudioManager : MonoBehaviour
 
   void FixedUpdate()
   {
-    if (track1.timeSamples > 2994740 && _playOnce == true)
-    {
-      track1_loop.Play();
-      _playOnce = false;
-    }
+    PlayLoopingTrack(_mode);
+    
     if (Input.GetKeyUp(KeyCode.Q))
     {
       Time.timeScale = 0.5f;
@@ -253,7 +250,7 @@ public class AudioManager : MonoBehaviour
   {
     StopMusicTrack(_mode);
     ReplayMenuTrack(_mode);
-    _playOnce = true;
+    ResetLoopingTracks(_mode);
   }
 
   void OnGameRestart()
@@ -459,6 +456,26 @@ public class AudioManager : MonoBehaviour
     }
   }
 
+  private void ResetLoopingTracks(int mode)
+  {
+    _playOnce = true;
+
+    if(mode == 0)
+      track1_loop.volume = 1.0f;
+  }
+
+  private void PlayLoopingTrack(int mode)
+  {
+    if (mode == 0)
+    {
+      if (track1.timeSamples > 2994740 && _playOnce == true)
+      {
+        track1_loop.Play();
+        _playOnce = false;
+      }
+    }
+  }
+
   private void PlayMusicTrack(int mode)
   {
     if (mode == 0)
@@ -478,6 +495,7 @@ public class AudioManager : MonoBehaviour
     if (mode == 0)
     {
       track1.Stop();
+      track1_loop.Stop();
     }
     else if (mode == 1)
     {
