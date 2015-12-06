@@ -403,6 +403,8 @@ public class ShapeManager : MonoBehaviour
         GameManager.inst.ChangeState(GameManager.States.FirstBeat);
       }
 
+      ++numCollisions;
+
       /***********************************************************************/
       // If Player sprite collides with shape of same sprite
       /***********************************************************************/
@@ -429,9 +431,7 @@ public class ShapeManager : MonoBehaviour
             {
               currentSpeedPreset = speedPresets[++currentIntervalIndex].preset;
             }
-            
-            ++numCollisions;
-            
+                        
             StartCoroutine(DestroyShape(shapeBehavior));
             StartCoroutine (PlayerFeedback (spriteRenderer));
           }
@@ -621,12 +621,17 @@ public class ShapeManager : MonoBehaviour
       v.StartGame ();
     }
   }
-  
+
   void OnCompleteRevive ()
   {
     OnHideStore ();
     OnGameRestart ();
     OnGameStart ();
+  }
+
+  void OnDeclineRevive ()
+  {
+    numCollisions = 0;
   }
 
   void OnShowStore ()

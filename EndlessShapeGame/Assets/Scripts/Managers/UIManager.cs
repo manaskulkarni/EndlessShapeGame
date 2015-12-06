@@ -801,6 +801,13 @@ public class UIManager : StateBehaviour
   {
     StartCoroutine (FadeOutStoreCanvas ());
     StartCoroutine (FadeInStartCanvas ());
+
+    Debug.Log ("STATE " + GameManager.inst.GetState ());
+    if (previousState == GameManager.States.ShowRevive)
+    {
+      Debug.Log ("AAAHAHAHAHAHAHAHAH");
+      GameManager.inst.BroadcastMessage (GameManager.inst.DeclineReviveEvent);
+    }
   }
   
   void OnGameOver ()

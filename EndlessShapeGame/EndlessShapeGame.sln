@@ -1,13 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessShapeGame.CSharp.Plugins", "EndlessShapeGame.CSharp.Plugins.csproj", "{446478A3-2A80-78E0-0B65-F0967D2EE2E1}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{80CE6F81-AC70-25A3-850A-AC697872E51F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessShapeGame.CSharp", "EndlessShapeGame.CSharp.csproj", "{BFCF9D73-0CD1-A5CE-E936-FA930BF7AEB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{D1BEF846-AF5E-714E-95C3-95651E7EA0D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessShapeGame.CSharp.Editor.Plugins", "EndlessShapeGame.CSharp.Editor.Plugins.csproj", "{FE4479E6-6F20-9FCF-CEE2-8691DDEEE21A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{66E370F0-5620-2E1D-C648-3B253E0674C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndlessShapeGame.CSharp.Editor", "EndlessShapeGame.CSharp.Editor.csproj", "{F709AFBA-A474-F040-735A-D3F3F7AF618A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{46E7405B-862D-8D8B-E57E-6CF18A699B1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,22 +15,44 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{446478A3-2A80-78E0-0B65-F0967D2EE2E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{446478A3-2A80-78E0-0B65-F0967D2EE2E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{446478A3-2A80-78E0-0B65-F0967D2EE2E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{446478A3-2A80-78E0-0B65-F0967D2EE2E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BFCF9D73-0CD1-A5CE-E936-FA930BF7AEB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFCF9D73-0CD1-A5CE-E936-FA930BF7AEB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFCF9D73-0CD1-A5CE-E936-FA930BF7AEB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFCF9D73-0CD1-A5CE-E936-FA930BF7AEB7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE4479E6-6F20-9FCF-CEE2-8691DDEEE21A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE4479E6-6F20-9FCF-CEE2-8691DDEEE21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE4479E6-6F20-9FCF-CEE2-8691DDEEE21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE4479E6-6F20-9FCF-CEE2-8691DDEEE21A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F709AFBA-A474-F040-735A-D3F3F7AF618A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F709AFBA-A474-F040-735A-D3F3F7AF618A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F709AFBA-A474-F040-735A-D3F3F7AF618A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F709AFBA-A474-F040-735A-D3F3F7AF618A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46E7405B-862D-8D8B-E57E-6CF18A699B1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66E370F0-5620-2E1D-C648-3B253E0674C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80CE6F81-AC70-25A3-850A-AC697872E51F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80CE6F81-AC70-25A3-850A-AC697872E51F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80CE6F81-AC70-25A3-850A-AC697872E51F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80CE6F81-AC70-25A3-850A-AC697872E51F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1BEF846-AF5E-714E-95C3-95651E7EA0D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1BEF846-AF5E-714E-95C3-95651E7EA0D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1BEF846-AF5E-714E-95C3-95651E7EA0D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1BEF846-AF5E-714E-95C3-95651E7EA0D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.TabWidth = 2
+		$1.IndentWidth = 2
+		$1.EolMarker = Unix
+		$1.inheritsSet = VisualStudio
+		$1.inheritsScope = text/plain
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
+		$0.TextStylePolicy = $3
+		$3.FileWidth = 120
+		$3.TabsToSpaces = False
+		$3.EolMarker = Unix
+		$3.inheritsSet = VisualStudio
+		$3.inheritsScope = text/plain
+		$3.scope = text/plain
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
