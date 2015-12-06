@@ -253,6 +253,7 @@ public class AudioManager : MonoBehaviour
   {
     StopMusicTrack(_mode);
     ReplayMenuTrack(_mode);
+    _playOnce = true;
   }
 
   void OnGameRestart()
