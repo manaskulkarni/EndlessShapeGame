@@ -816,10 +816,10 @@ public class UIManager : StateBehaviour
     StartCoroutine (FadeOutStoreCanvas ());
     StartCoroutine (FadeInStartCanvas ());
 
-    Debug.Log ("STATE " + GameManager.inst.GetState ());
+    Debug.Log ("STATE " + previousState);
     if (previousState == GameManager.States.ShowRevive)
     {
-      GameManager.inst.BroadcastMessage (GameManager.inst.DeclineReviveEvent);
+      GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
     }
   }
   

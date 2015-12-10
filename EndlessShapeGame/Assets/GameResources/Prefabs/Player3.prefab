@@ -45,7 +45,7 @@ GameObject:
   - 4: {fileID: 474056}
   - 212: {fileID: 21239056}
   - 114: {fileID: 11466738}
-  - 61: {fileID: 6140696}
+  - 60: {fileID: 6036252}
   - 50: {fileID: 5018632}
   m_Layer: 8
   m_Name: Triangle
@@ -64,7 +64,7 @@ GameObject:
   - 4: {fileID: 460166}
   - 212: {fileID: 21291548}
   - 114: {fileID: 11484320}
-  - 58: {fileID: 5860694}
+  - 61: {fileID: 6119352}
   - 50: {fileID: 5083856}
   m_Layer: 8
   m_Name: Square
@@ -184,33 +184,36 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: .5
---- !u!58 &5860694
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 190642}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: .5
---- !u!61 &6140696
-BoxCollider2D:
+  m_Radius: .600000024
+--- !u!60 &6036252
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 187230}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: 2.59745866e-06, y: .605486631}
+      - {x: .154559717, y: .300278902}
+      - {x: -.155146569, y: .300417423}
+--- !u!61 &6119352
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190642}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1, y: .5}
+  m_Size: {x: 1.20000005, y: 1.20000005}
 --- !u!114 &11436956
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -208,6 +208,8 @@ public class ShapeManager : MonoBehaviour
   Config config = new Config ();
 #endif
 
+  public Dictionary <int, System.Type> colliders;
+
 
 #endregion
   #region Static Properties
@@ -226,27 +228,27 @@ public class ShapeManager : MonoBehaviour
       specialFeedback.gameObject.SetActive(false);
       gameOverFeedback.gameObject.SetActive(false);
       
-      float [] bpms = new float[]
-      {
-      60.217f,
-      66.064f,
-      71.823f,
-      78.279f,
-      83.859f,
-      90.023f,
-      96.154f,
-      102.039f,
-      108.170f,
-    };
-//    
+//      float [] bpms = new float[]
+//      {
+//      60.217f,
+//      66.064f,
+//      71.823f,
+//      78.279f,
+//      83.859f,
+//      90.023f,
+//      96.154f,
+//      102.039f,
+//      108.170f,
+//    };
+////    
       Debug.Log ("FPS: " + Application.targetFrameRate);
-//      
-      for (int i = 0; i < speedPresets.Length; ++i)
-      {
-        var v = speedPresets[i];
-        v.preset.speedMultiplier.y = -((shapeSpawnOffset.y / 60) * bpms[i]);
-        Debug.Log ("Speed Preset [" + i + "]: " + v.preset.speedMultiplier.y);
-      }
+////      
+//      for (int i = 0; i < speedPresets.Length; ++i)
+//      {
+//        var v = speedPresets[i];
+//        v.preset.speedMultiplier.y = -((shapeSpawnOffset.y / 60) * bpms[i]);
+//        Debug.Log ("Speed Preset [" + i + "]: " + v.preset.speedMultiplier.y);
+//      }
     }
     else
     {
@@ -537,7 +539,7 @@ public class ShapeManager : MonoBehaviour
     shapePair.Clear();
     shapeProperties.Clear();
     player = null;
-    currentIntervalIndex = GetStartInterval ();;
+    currentIntervalIndex = GetStartInterval ();
     currentSpeedPreset = speedPresets[currentIntervalIndex].preset;
     numCollisions = 0;
 

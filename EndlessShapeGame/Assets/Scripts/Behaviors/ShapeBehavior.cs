@@ -117,9 +117,10 @@ public class ShapeBehavior : MonoBehaviour
   {
     if (update)
     {
-      gameObject.transform.position = new Vector2
+      gameObject.transform.position = new Vector3
         (transform.position.x,
-         transform.position.y + ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.smoothDeltaTime);
+         transform.position.y + ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.smoothDeltaTime,
+         transform.position.z);
 //      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime);
     }
   }
