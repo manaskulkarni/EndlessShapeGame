@@ -56,6 +56,8 @@ public class UIManager : StateBehaviour
   private GameObject menuFacebookLeaderboard { get; set; }
   private GameObject menuDiamondStore { get; set; }
   private GameObject menuPotionStore { get; set; }
+  private GameObject menuTutorialStart { get; set; }
+  private GameObject menuReady { get; set; }
 
   private Text textScore { get; set; }
   private Text textPauseTimer { get; set; }
@@ -77,6 +79,9 @@ public class UIManager : StateBehaviour
 
   public Button buttonBuyDiamonds;
   public Button buttonBuyPotions;
+
+  public Text textTutorial;
+  public Text textReady;
 
   public MaskableGraphic [] allUI { get; set; }
   
@@ -125,13 +130,17 @@ public class UIManager : StateBehaviour
     startImageCircleColor = imageCircle.color;
     imageCircle.gameObject.SetActive (false);
 
+    menuTutorialStart = GameObject.Find ("MenuTutorialStart");
+    menuReady = GameObject.Find ("MenuReady");
     menuDiamondStore = GameObject.Find ("MenuDiamondStore");
     menuPotionStore = GameObject.Find ("MenuPotionStore");
     ShowDiamondStore ();
     
     textGameOverScore.text = BestScore ();
     textGameOverFeedback.text = null;
-    
+
+    SetMenuActive (menuTutorialStart, false);
+    SetMenuActive (menuReady, false);
     SetMenuActive (menuStart, true);
     SetMenuActive (menuRevive, false);
     SetMenuActive (menuStore, false);
@@ -691,6 +700,66 @@ public class UIManager : StateBehaviour
     store.alpha = 0.0f;
     SetMenuActive (menuFacebookLeaderboard, false);
   }
+
+  private IEnumerator FadeInTutorialCanvas ()
+  {
+    CanvasGroup store = menuTutorialStart.GetComponent <CanvasGroup> ();
+    SetMenuActive (menuTutorialStart, true);
+    
+    while (store.alpha < 1.0f)
+    {
+      float alpha = store.alpha;
+      alpha += Time.deltaTime * 5.0f;
+      store.alpha = alpha;
+      yield return null;
+    }
+  }
+  
+  private IEnumerator FadeOutTutorialCanvas ()
+  {
+    CanvasGroup store = menuTutorialStart.GetComponent <CanvasGroup> ();
+    
+    while (store.alpha > 0.0f)
+    {
+      float alpha = store.alpha;
+      alpha -= Time.deltaTime * 5.0f;
+      store.alpha = alpha;
+      yield return null;
+    }
+    
+    store.alpha = 0.0f;
+    SetMenuActive (menuTutorialStart, false);
+  }
+
+  private IEnumerator FadeInReadyCanvas ()
+  {
+    CanvasGroup store = menuReady.GetComponent <CanvasGroup> ();
+    SetMenuActive (menuReady, true);
+    
+    while (store.alpha < 1.0f)
+    {
+      float alpha = store.alpha;
+      alpha += Time.deltaTime * 5.0f;
+      store.alpha = alpha;
+      yield return null;
+    }
+  }
+  
+  private IEnumerator FadeOutReadyCanvas ()
+  {
+    CanvasGroup store = menuReady.GetComponent <CanvasGroup> ();
+    
+    while (store.alpha > 0.0f)
+    {
+      float alpha = store.alpha;
+      alpha -= Time.deltaTime * 5.0f;
+      store.alpha = alpha;
+      yield return null;
+    }
+    
+    store.alpha = 0.0f;
+    SetMenuActive (menuReady, false);
+  }
   
   #endregion
   
@@ -949,6 +1018,24 @@ public class UIManager : StateBehaviour
   void OnBoughtCoins ()
   {
     UpdateCoinsText ();
+  }
+
+  void OnTutorialStart ()
+  {
+    StartCoroutine (FadeInTutorialCanvas ());
+    StartCoroutine (FadeOutGameCanvas ());
+  }
+
+  void OnTutorialEnd ()
+  {
+    StartCoroutine (FadeOutReadyCanvas ());
+    StartCoroutine (FadeInGameCanvas ());
+  }
+
+  void OnShowReadyMessage ()
+  {
+    StartCoroutine (FadeOutTutorialCanvas ());
+    StartCoroutine (FadeInReadyCanvas ());
   }
 
   void ShowDiamondStore ()

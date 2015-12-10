@@ -72,6 +72,8 @@ public class PlayerBehavior : MonoBehaviour
   private bool[] waitDone;
   private int state;
   private List <float> targets;
+
+  public event System.EventHandler SwipeEvent;
   #endregion
 
   // Use this for initialization
@@ -126,6 +128,7 @@ public class PlayerBehavior : MonoBehaviour
       StartCoroutine(SlideRight(i));
     }
 
+    EventManager.SendEvent (this, SwipeEvent, null);
     state = 1;
   }
 
@@ -148,6 +151,7 @@ public class PlayerBehavior : MonoBehaviour
       slideCoroutine [i] = StartCoroutine(SlideLeft(i));
     }
 
+    EventManager.SendEvent (this, SwipeEvent, null);
     state = -1;
   }
 

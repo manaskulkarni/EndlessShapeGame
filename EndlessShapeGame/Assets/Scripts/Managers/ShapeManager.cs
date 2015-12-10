@@ -172,6 +172,7 @@ public class ShapeManager : MonoBehaviour
   public PlayerBehavior player { get; private set; }
   public SortedDictionary<int, ShapeBehavior> shapePair { get; private set; }
   public int numCollisions {get; private set; }
+  public float startDelay { get; private set; }
   #endregion
   #region Private Properties
   // Private Members
@@ -181,7 +182,6 @@ public class ShapeManager : MonoBehaviour
   private int repeatCount { get; set; }
   private Sprite previousSprite { get; set; }
   private int shuffleCounter { get; set; }
-  private float startDelay { get; set; }
   
   /// <summary>
   /// Shape for hard-coding position of base shape on game over. Not used
@@ -654,6 +654,16 @@ public class ShapeManager : MonoBehaviour
   void OnHideOptions ()
   {
     OnHideStore ();
+  }
+
+  void OnTutorialStart ()
+  {
+    OnPause ();
+  }
+
+  void OnTutorialEnd ()
+  {
+    OnUnPause ();
   }
 
   #endregion

@@ -27,6 +27,7 @@ public class StatsManager : MonoBehaviour
   {
     public int highScore { get; set; }
     public int numBlackCollision { get; set; }
+    public int numGames { get; set; }
   }
 
   public delegate void BuyProductDel (int a);
@@ -122,7 +123,7 @@ public class StatsManager : MonoBehaviour
       return false;
     }
   }
-  
+
   #endregion
   #region Static Properties
   static public StatsManager inst
@@ -162,7 +163,8 @@ public class StatsManager : MonoBehaviour
     Debug.Log ("Leaderboard ID: " + leaderBoardId);
     Debug.Log ("Data Path: " + Application.dataPath);
     Debug.Log ("Persistent Data Path: " + Application.persistentDataPath);
-    playerStats.numBlackCollision = PlayerPrefs.GetInt("numBlackCollision");
+    playerStats.numBlackCollision = PlayerPrefs.GetInt("NumBlackCollision");
+    playerStats.numGames = PlayerPrefs.GetInt ("NumGames");
     
     previousScore = highScore;
     coins = PlayerPrefs.GetInt ("Coins"); 
@@ -201,7 +203,8 @@ public class StatsManager : MonoBehaviour
   void OnDestroy ()
   {
     PlayerPrefs.SetInt ("Coins", coins);
-    PlayerPrefs.SetInt("numBlackCollision",playerStats.numBlackCollision);
+    PlayerPrefs.SetInt("NumBlackCollision",playerStats.numBlackCollision);
+    PlayerPrefs.SetInt ("NumGames", ++playerStats.numGames);
     PlayerPrefs.SetInt ("FacebookConenct", prevFacebookStatus);
     PlayerPrefs.SetInt ("VMode", vMode);
 

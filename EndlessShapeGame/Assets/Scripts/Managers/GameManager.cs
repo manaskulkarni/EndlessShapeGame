@@ -42,6 +42,8 @@ public class GameManager : StateBehaviour
     RestorePurchaseComplete,
     RemoveAds,
     SwitchMode,
+    TutorialStart,
+    TutorialRevive,
   }
 
   public enum DifficultyLevel
@@ -129,6 +131,9 @@ public class GameManager : StateBehaviour
   public string BoughtReviveEvent = "OnBoughtRevive";
   public string BoughtProductEvent = "OnBoughtProduct";
   public string BoughtCoinsEvent = "OnBoughtCoins";
+  public string TutorialStartEvent = "OnTutorialStart";
+  public string TutorialEndEvent = "OnTutorialEnd";
+  public string ShowReadyMessageEvent = "OnShowReadyMessage";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -229,9 +234,16 @@ public class GameManager : StateBehaviour
   
     if (!played)
     {
-      played = true;
-      BroadcastMessage (GameStartEvent);
-      ChangeState (States.Playing);
+      if (StatsManager.inst.playerStats.numGames == 0)
+      {
+        ChangeState (States.TutorialStart);
+      }
+      else
+      {
+        played = true;
+        BroadcastMessage (GameStartEvent);
+        StartPlay ();
+      }
     }
     else
     {
@@ -242,12 +254,55 @@ public class GameManager : StateBehaviour
   private void Play_Exit ()
   {
   }
+
+  private void StartPlay ()
+  {
+    ChangeState (States.Playing);
+  }
+
+  int swipeCount = 0;
+
+  private IEnumerator TutorialStart_Enter ()
+  {
+    bool showingTutorial = true;
+    played = true;
+    BroadcastMessage (GameStartEvent);
+    yield return new WaitForSeconds (1.6f);
+
+    PlayerManager.inst.player.SwipeEvent += HandleSwipeEvent;
+    BroadcastMessage (TutorialStartEvent);
+
+    // Show the tutorial here
+    while (showingTutorial)
+    {
+      if (swipeCount == 1)
+      {
+        break;
+      }
+      yield return null;
+    }
+
+    PlayerManager.inst.player.SwipeEvent -= HandleSwipeEvent;
+    BroadcastMessage (ShowReadyMessageEvent);
+
+    yield return new WaitForSeconds (1.0f);
+
+    BroadcastMessage (TutorialEndEvent);
+
+    StartPlay ();
+  }
+
+
+  void HandleSwipeEvent (object sender, System.EventArgs e)
+  {
+    ++swipeCount;
+  }
   
   private void Replay_Enter ()
   {
     BroadcastMessage (GameRestartEvent);
     BroadcastMessage (GameStartEvent);
-    ChangeState (States.Playing);
+    StartPlay ();
   }
   
   private void Replay_Exit ()
