@@ -656,6 +656,43 @@ public class ShapeManager : MonoBehaviour
     OnHideStore ();
   }
 
+  void OnPreTutorialStart ()
+  {
+    foreach (var shape in shapes)
+    {
+      Vector3 pos = shape.transform.position;
+      Vector3 target = new Vector3 (pos.x, PlayerManager.inst.player.transform.position.y, pos.z);
+      var hit = Physics2D.RaycastAll (shape.transform.position, Vector2.down, Vector3.Distance(pos, target));
+      Debug.DrawLine (pos, target, Color.red, 100.0f, false);
+
+      if (hit.Length > 0)
+      {
+        foreach (var v in hit)
+        {
+          var sr = v.collider.GetComponent <SpriteRenderer> ();
+          if (sr && v.collider.gameObject.tag == "p")
+          {
+            int index = 0;
+            if (shape.spriteRenderer.sprite == sr.sprite)
+            {
+              for (int i = 0; i < shapeProperties.Count; ++i)
+              {
+                var sp = shapeProperties [i];
+                if (sp.sprite != sr.sprite)
+                {
+                  index = i;
+                  break;
+                }
+              }
+
+              shape.transform.position = new Vector3 (shapeProperties[index].position.x, pos.y, pos.z);
+            }
+          }
+        }
+      }
+    }
+  }
+
   void OnTutorialStart ()
   {
     OnPause ();

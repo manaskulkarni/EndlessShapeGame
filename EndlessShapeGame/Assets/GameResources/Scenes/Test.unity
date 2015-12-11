@@ -3141,6 +3141,7 @@ MonoBehaviour:
   BoughtReviveEvent: OnBoughtRevive
   BoughtProductEvent: OnBoughtProduct
   BoughtCoinsEvent: OnBoughtCoins
+  PreTutorialStartEvent: OnPreTutorialStart
   TutorialStartEvent: OnTutorialStart
   TutorialEndEvent: OnTutorialEnd
   ShowReadyMessageEvent: OnShowReadyMessage

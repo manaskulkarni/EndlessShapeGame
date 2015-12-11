@@ -131,6 +131,7 @@ public class GameManager : StateBehaviour
   public string BoughtReviveEvent = "OnBoughtRevive";
   public string BoughtProductEvent = "OnBoughtProduct";
   public string BoughtCoinsEvent = "OnBoughtCoins";
+  public string PreTutorialStartEvent = "OnPreTutorialStart";
   public string TutorialStartEvent = "OnTutorialStart";
   public string TutorialEndEvent = "OnTutorialEnd";
   public string ShowReadyMessageEvent = "OnShowReadyMessage";
@@ -266,6 +267,7 @@ public class GameManager : StateBehaviour
   {
     bool showingTutorial = true;
     played = true;
+    BroadcastMessage (PreTutorialStartEvent);
     BroadcastMessage (GameStartEvent);
     yield return new WaitForSeconds (1.6f);
 
