@@ -128,7 +128,6 @@ public class PlayerBehavior : MonoBehaviour
       StartCoroutine(SlideRight(i));
     }
 
-    EventManager.SendEvent (this, SwipeEvent, null);
     state = 1;
   }
 
@@ -151,7 +150,6 @@ public class PlayerBehavior : MonoBehaviour
       slideCoroutine [i] = StartCoroutine(SlideLeft(i));
     }
 
-    EventManager.SendEvent (this, SwipeEvent, null);
     state = -1;
   }
 
@@ -166,34 +164,34 @@ public class PlayerBehavior : MonoBehaviour
     return true;
   }
 
-  private IEnumerator WaitForSlide (int i, int s)
-  {
-    waitDone [i] = false;
-    var oldSwipeSpeedMult = swipeSpeedMultiplier;
-    swipeSpeedMultiplier = 1000.0f;
-    StopCoroutine (slideCoroutine[i]);
-    if (s == -1)
-    {
-      SlideLeft(i);
-    }
-    else
-    {
-      SlideRight(i);
-    }
-
-    swipeSpeedMultiplier = oldSwipeSpeedMult;
-    if (state == -1)
-    {
-      slideCoroutine[i] = StartCoroutine(SlideLeft(i));
-    }
-    else
-    {
-      slideCoroutine[i] = StartCoroutine(SlideRight(i));
-    }
-    
-    waitDone [i] = true;
-    yield return null;
-  }
+//  private IEnumerator WaitForSlide (int i, int s)
+//  {
+//    waitDone [i] = false;
+//    var oldSwipeSpeedMult = swipeSpeedMultiplier;
+//    swipeSpeedMultiplier = 1000.0f;
+//    StopCoroutine (slideCoroutine[i]);
+//    if (s == -1)
+//    {
+//      SlideLeft(i);
+//    }
+//    else
+//    {
+//      SlideRight(i);
+//    }
+//
+//    swipeSpeedMultiplier = oldSwipeSpeedMult;
+//    if (state == -1)
+//    {
+//      slideCoroutine[i] = StartCoroutine(SlideLeft(i));
+//    }
+//    else
+//    {
+//      slideCoroutine[i] = StartCoroutine(SlideRight(i));
+//    }
+//    
+//    waitDone [i] = true;
+//    yield return null;
+//  }
 
   #region Player Logic
   /// <summary>
@@ -324,6 +322,9 @@ public class PlayerBehavior : MonoBehaviour
     }
 
     done[i] = true;
+
+    EventManager.SendEvent (this, SwipeEvent, null);
+
     yield return null;
   }
 
@@ -419,6 +420,9 @@ public class PlayerBehavior : MonoBehaviour
 
     }
     done[i]  = true;
+
+    EventManager.SendEvent (this, SwipeEvent, null);
+
     yield return null;
   }
     #endregion

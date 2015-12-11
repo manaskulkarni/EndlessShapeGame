@@ -277,7 +277,7 @@ public class GameManager : StateBehaviour
     // Show the tutorial here
     while (showingTutorial)
     {
-      if (swipeCount == 1)
+      if (swipeCount > 0)
       {
         break;
       }
@@ -297,7 +297,10 @@ public class GameManager : StateBehaviour
 
   void HandleSwipeEvent (object sender, System.EventArgs e)
   {
-    ++swipeCount;
+    if (PlayerManager.inst.player.Ready () && ShapeManager.inst.PredictCollision ())
+    {
+      ++swipeCount;
+    }
   }
   
   private void Replay_Enter ()

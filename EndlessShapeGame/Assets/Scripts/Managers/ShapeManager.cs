@@ -498,6 +498,34 @@ public class ShapeManager : MonoBehaviour
       }
     }
   }
+
+  public bool PredictCollision ()
+  {
+    var shape = shapes [0];
+    {
+      Vector3 pos = shape.transform.position;
+      Vector3 target = new Vector3 (pos.x, PlayerManager.inst.player.transform.position.y, pos.z);
+      var hit = Physics2D.RaycastAll (shape.transform.position, Vector2.down, Vector3.Distance(pos, target));
+      Debug.DrawLine (pos, target, Color.red, 100.0f, false);
+      
+      if (hit.Length > 0)
+      {
+        foreach (var v in hit)
+        {
+          var sr = v.collider.GetComponent <SpriteRenderer> ();
+          if (sr && v.collider.gameObject.tag == "p")
+          {
+            if (sr.sprite == shape.spriteRenderer.sprite)
+            {
+              return true;
+            }
+          }
+        }
+      }
+    }
+
+    return false;
+  }
   
   private IEnumerator PlayerFeedback (SpriteRenderer spriteRenderer)
   {
@@ -663,7 +691,7 @@ public class ShapeManager : MonoBehaviour
       Vector3 pos = shape.transform.position;
       Vector3 target = new Vector3 (pos.x, PlayerManager.inst.player.transform.position.y, pos.z);
       var hit = Physics2D.RaycastAll (shape.transform.position, Vector2.down, Vector3.Distance(pos, target));
-      Debug.DrawLine (pos, target, Color.red, 100.0f, false);
+//      Debug.DrawLine (pos, target, Color.red, 100.0f, false);
 
       if (hit.Length > 0)
       {
