@@ -189,7 +189,7 @@ PlayerSettings:
   wiiUGamePadStartupScreen: {fileID: 0}
   wiiUProfilerLibPath: 
   actionOnDotNetUnhandledException: 1
-  enableInternalProfiler: 1
+  enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 1
   locationUsageDescription: 
