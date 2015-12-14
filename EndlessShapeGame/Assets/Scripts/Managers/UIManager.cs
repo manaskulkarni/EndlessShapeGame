@@ -107,8 +107,6 @@ public class UIManager : StateBehaviour
   {
     allUI = GameObject.FindObjectsOfType <MaskableGraphic> ();
 
-    Debug.Log ("LAST VMODE : " + StatsManager.inst.vMode);
-
     if (StatsManager.inst.vMode != 0)
     {
       GameManager.inst.BroadcastMessage ("SwitchMode", StatsManager.inst.vMode);
