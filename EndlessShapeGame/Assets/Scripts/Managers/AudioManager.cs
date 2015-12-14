@@ -478,7 +478,7 @@ public class AudioManager : MonoBehaviour
   {
     if (mode == 0)
     {
-      if (track1.timeSamples > 2994740 && _playOnce == true)
+      if (track1.timeSamples > 5734425 && _playOnce == true)
       {
         track1_loop.Play();
         _playOnce = false;
