@@ -177,6 +177,16 @@ public class PlayerManager : MonoBehaviour
     OnHideStore ();
   }
 
+  void OnPreTutorialStart ()
+  {
+    playerInput.enabled = false;
+  }
+
+  void OnTutorialStart ()
+  {
+    playerInput.enabled = true;
+  }
+
   #endregion
 
   private void SpawnPlayer ()
