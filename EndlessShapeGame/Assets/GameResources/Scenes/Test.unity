@@ -11282,10 +11282,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 81187700388c92b4f95e6841e4bd9cea, type: 3}
     volumeFadeSpeed: .800000012
   _track2:
-    clip: {fileID: 8300000, guid: 339ef401c5c9bf34791ab5d9e53ef8e4, type: 3}
+    clip: {fileID: 8300000, guid: f07b163ac15100546848c0972ab6b051, type: 3}
     volumeFadeSpeed: .5
   _track2_loop:
-    clip: {fileID: 8300000, guid: 9fea93084694cef44bd02073f2c7e16f, type: 3}
+    clip: {fileID: 8300000, guid: 7afffa6bc048d794487f8ce9848eb0f0, type: 3}
     volumeFadeSpeed: 0
   _main_menu2:
     clip: {fileID: 8300000, guid: 973725e222a14884d8ec132be269e0ac, type: 3}
