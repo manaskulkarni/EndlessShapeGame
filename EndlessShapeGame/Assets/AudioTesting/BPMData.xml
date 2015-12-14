@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfAudioData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <AudioData>
-    <bpm>56.19213</bpm>
+    <bpm>59.9999962</bpm>
     <speed>
       <x>0</x>
       <y>-5</y>
@@ -13,7 +13,7 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>61.7324562</bpm>
+    <bpm>66.262</bpm>
     <speed>
       <x>0</x>
       <y>-5.5</y>
@@ -25,7 +25,7 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>66.99578</bpm>
+    <bpm>71.92633</bpm>
     <speed>
       <x>0</x>
       <y>-6</y>
@@ -37,7 +37,7 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>68.33656</bpm>
+    <bpm>77.9724045</bpm>
     <speed>
       <x>0</x>
       <y>-6.5</y>
@@ -49,7 +49,7 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>84.032</bpm>
+    <bpm>84.06049</bpm>
     <speed>
       <x>0</x>
       <y>-7</y>
@@ -61,7 +61,7 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>90.1689453</bpm>
+    <bpm>90.24065</bpm>
     <speed>
       <x>0</x>
       <y>-7.5</y>
@@ -73,7 +73,7 @@
     <blocks>1</blocks>
   </AudioData>
   <AudioData>
-    <bpm>96.03075</bpm>
+    <bpm>96.22312</bpm>
     <speed>
       <x>0</x>
       <y>-8</y>
@@ -85,7 +85,7 @@
     <blocks>2</blocks>
   </AudioData>
   <AudioData>
-    <bpm>101.954018</bpm>
+    <bpm>102.208015</bpm>
     <speed>
       <x>0</x>
       <y>-8.5</y>

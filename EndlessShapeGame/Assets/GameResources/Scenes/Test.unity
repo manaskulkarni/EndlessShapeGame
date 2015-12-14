@@ -11867,7 +11867,7 @@ MonoBehaviour:
   - difficultyLevel: 2
     prefab: {fileID: 194950, guid: 2ed851d40443248b4964fcc4789b628c, type: 2}
   startPlayerAlpha: 1
-  invincible: 0
+  invincible: 1
 --- !u!1 &2046696341
 GameObject:
   m_ObjectHideFlags: 0
