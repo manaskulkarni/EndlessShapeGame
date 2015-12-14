@@ -11286,7 +11286,7 @@ MonoBehaviour:
     volumeFadeSpeed: .5
   _track2_loop:
     clip: {fileID: 8300000, guid: 7afffa6bc048d794487f8ce9848eb0f0, type: 3}
-    volumeFadeSpeed: 0
+    volumeFadeSpeed: .5
   _main_menu2:
     clip: {fileID: 8300000, guid: 973725e222a14884d8ec132be269e0ac, type: 3}
     volumeFadeSpeed: .800000012
