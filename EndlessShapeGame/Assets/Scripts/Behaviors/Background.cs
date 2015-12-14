@@ -166,41 +166,6 @@ public class Background : MonoBehaviour
       yield return null;
     }
   }
-  
-  private void OnGameOver()
-  {
-    // Animation 1 
-    var animation_1 = GameObject.Find("Parent5Squares");
-    // Animation 2 
-    var animation_2 = GameObject.Find("ParentTriangles");       
-    // Animation 3
-    var animation_3 = GameObject.Find("ParentCircleSqureTriangle");
-    
-    Transform child_1;
-    Transform child_2;
-    Transform child_3;
-    
-    child_1 = animation_1.transform.GetChild(0);
-    child_2 = animation_2.transform.GetChild(0);
-    child_3 = animation_3.transform.GetChild(0);
-        
-    if(child_1.gameObject.activeSelf == true)
-    {
-      child_1.gameObject.SetActive(false);
-      child_2.gameObject.SetActive(true);
-    }
-    else if(child_2.gameObject.activeSelf == true)
-    {
-      child_2.gameObject.SetActive(false);
-      child_3.gameObject.SetActive(true);
-    }
-    else if(child_3.gameObject.activeSelf == true)
-    {
-      child_3.gameObject.SetActive(false);
-      child_1.gameObject.SetActive(true);
-    }
-    
-  }
 }
 
 

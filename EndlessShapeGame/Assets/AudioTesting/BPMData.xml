@@ -12,28 +12,4 @@
     </score>
     <blocks>1</blocks>
   </AudioData>
-  <AudioData>
-    <bpm>66.25259</bpm>
-    <speed>
-      <x>0</x>
-      <y>-5.5</y>
-    </speed>
-    <score>
-      <min>8</min>
-      <max>15</max>
-    </score>
-    <blocks>1</blocks>
-  </AudioData>
-  <AudioData>
-    <bpm>72.59003</bpm>
-    <speed>
-      <x>0</x>
-      <y>-6</y>
-    </speed>
-    <score>
-      <min>16</min>
-      <max>23</max>
-    </score>
-    <blocks>1</blocks>
-  </AudioData>
 </ArrayOfAudioData>

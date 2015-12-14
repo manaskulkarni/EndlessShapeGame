@@ -132,7 +132,7 @@ public class PlayerInput : MonoBehaviour
     timer = 0.0f;
   }
 
-  void FixedUpdate ()
+  void Update ()
   {  
 #if UNITY_EDITOR
     if (PlayerManager.inst.player.Ready())
