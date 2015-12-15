@@ -7776,7 +7776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 0cac495ce7b704fcdbe343d3dff51a34, type: 3}
-  useOnLowPerformance: 1
+  useOnLowPerformance: 0
 --- !u!114 &1351239456
 MonoBehaviour:
   m_ObjectHideFlags: 0

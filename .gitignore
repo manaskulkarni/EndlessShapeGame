@@ -3,9 +3,11 @@
 [iI]OSBuild
 [iI]OSBuildRelease
 [aA]ndroidBuild
+[aA]ndroidBuildRelease/
 [aA]ndroidBuildRelease
 osxBuild
 *.DS_Store
 *.csproj
 *.sln
+*.apk
 EndlessShapeGame/Assets/Plugins/iOS/libAdToApp.a

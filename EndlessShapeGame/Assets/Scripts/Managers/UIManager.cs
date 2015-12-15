@@ -490,6 +490,7 @@ public class UIManager : StateBehaviour
   
   private IEnumerator StartPauseTimer ()
   {
+    yield return new WaitForSeconds (2.0f);
     int i = 3;
 
     imageCircle.gameObject.SetActive (true);
@@ -515,6 +516,24 @@ public class UIManager : StateBehaviour
     StartCoroutine (FadeOut (imageCircle, 5.0f));
   }
 
+  private IEnumerator StartPopFeedback (Text text)
+  {
+    text.transform.localScale = Vector3.one;
+    float scale = text.transform.localScale.x;
+    while (scale < 1.5f)
+    {
+      scale += Time.deltaTime * 5.0f;
+      text.transform.localScale = Vector2.one * scale;
+      yield return null;
+    }
+    while (scale > 1.0f)
+    {
+      scale -= Time.deltaTime * 5.0f;
+      text.transform.localScale = Vector2.one * scale;
+      yield return null;
+    }
+  }
+
   private IEnumerator FadeOut (Image image, float speed = 1.0f)
   {
     Color c = image.color;
@@ -538,23 +557,6 @@ public class UIManager : StateBehaviour
     {
       c.a += Time.deltaTime * speed;
       image.color = c;
-      yield return null;
-    }
-  }
-  
-  private IEnumerator StartPopFeedback (Text text)
-  {
-    float scale = text.transform.localScale.x;
-    while (scale < 2.0f)
-    {
-      scale += Time.deltaTime * 5.0f;
-      text.transform.localScale = Vector2.one * scale;
-      yield return null;
-    }
-    while (scale > 1.0f)
-    {
-      scale -= Time.deltaTime * 5.0f;
-      text.transform.localScale = Vector2.one * scale;
       yield return null;
     }
   }
@@ -1000,16 +1002,6 @@ public class UIManager : StateBehaviour
       {
         v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
       }
-    }
-
-    switch (mode)
-    {
-    case 0:
-      Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = false;
-      break;
-    case 1:
-      Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = true;
-      break;
     }
   }
 
