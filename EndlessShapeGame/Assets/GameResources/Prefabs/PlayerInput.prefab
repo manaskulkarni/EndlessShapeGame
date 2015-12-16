@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8adf537606dfd4d19b0ea4f1464c7543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDelta: .100000001
+  minDelta: 2
   dampTime: .300000012
 --- !u!114 &11467740
 MonoBehaviour:
@@ -150,7 +150,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: minDelta
-      value: .100000001
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxDelta
