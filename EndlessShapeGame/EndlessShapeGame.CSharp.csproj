@@ -438,6 +438,7 @@
     <Compile Include="Assets\Facebook\Scripts\NativeDialogModes.cs" />
     <Compile Include="Assets\Scripts\Behaviors\AudioFeedback.cs" />
     <Compile Include="Assets\Scripts\Behaviors\Background.cs" />
+    <Compile Include="Assets\Scripts\Behaviors\BackgroundAnimationPlayer.cs" />
     <Compile Include="Assets\Scripts\Behaviors\BackgroundCamera.cs" />
     <Compile Include="Assets\Scripts\Behaviors\BackgroundObject.cs" />
     <Compile Include="Assets\Scripts\Behaviors\BackgroundSprite.cs" />
@@ -446,6 +447,7 @@
     <Compile Include="Assets\Scripts\Behaviors\FriendButton.cs" />
     <Compile Include="Assets\Scripts\Behaviors\FriendButtonList.cs" />
     <Compile Include="Assets\Scripts\Behaviors\FullScreenQuad.cs" />
+    <Compile Include="Assets\Scripts\Behaviors\GameCamera.cs" />
     <Compile Include="Assets\Scripts\Behaviors\HorizontalScrollSnap.cs" />
     <Compile Include="Assets\Scripts\Behaviors\InGameBuyButton.cs" />
     <Compile Include="Assets\Scripts\Behaviors\PlayerBehavior.cs" />
