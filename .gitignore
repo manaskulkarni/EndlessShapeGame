@@ -1,5 +1,7 @@
 [Ll]ibrary/
 [Tt]emp/
+/[Oo]bj/
+/[Bb]uilds/
 [iI]OSBuild
 [iI]OSBuildRelease
 [aA]ndroidBuild
@@ -9,6 +11,9 @@ osxBuild
 *.DS_Store
 *.csproj
 *.sln
+*.userprefs
+*.unityproj
+*.suo
 *.apk
 *.DS_Store
 EndlessShapeGame/Assets/Plugins/iOS/libAdToApp.a
