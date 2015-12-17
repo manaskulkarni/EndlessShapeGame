@@ -134,6 +134,9 @@ public class GameManager : StateBehaviour
   public string PreTutorialStartEvent = "OnPreTutorialStart";
   public string TutorialStartEvent = "OnTutorialStart";
   public string TutorialEndEvent = "OnTutorialEnd";
+  public string PreTutorialReviveStartEvent = "OnPreTutorialReviveStart";
+  public string TutorialReviveStartEvent = "OnTutorialReviveStart";
+  public string TutorialReviveEndEvent = "OnTutorialReviveEnd";
   public string ShowReadyMessageEvent = "OnShowReadyMessage";
   
   [System.Obsolete]
@@ -338,9 +341,18 @@ public class GameManager : StateBehaviour
   {
   
   }
-  
+
+  private bool shownReviveTutorial = false;
+
   private void ShowRevive_Enter ()
   {
+    if (StatsManager.inst.playerStats.numGames == 0 && !shownReviveTutorial)
+    {
+      shownReviveTutorial = true;
+      ChangeState (States.TutorialRevive);
+      return;
+    }
+
     if (StatsManager.inst.canShowRevive)
     {
       BroadcastMessage (ShowReiviveEvent);
@@ -350,7 +362,18 @@ public class GameManager : StateBehaviour
       ChangeState (States.DeclineRevive);
     }
   }
-  
+
+  private IEnumerator TutorialRevive_Enter ()
+  {
+    bool showingTutorial = true;
+    BroadcastMessage (PreTutorialReviveStartEvent);
+
+    while (showingTutorial)
+    {
+      yield return null;
+    }
+  }
+
   private void ShowRevive_Exit ()
   {
   
@@ -533,7 +556,6 @@ public class GameManager : StateBehaviour
   void PurchaseInGameItem (UIManager.InGameBuyButtonData button)
   {
     BroadcastMessage (PurchaseInGameItemEvent, button, SendMessageOptions.DontRequireReceiver);
-    ChangeState (States.None);
   }
 
   void AddInGameItem (InGameBuyButton button)

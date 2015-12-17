@@ -190,7 +190,7 @@ public class StatsManager : MonoBehaviour
 #if UNITY_IOS
     gameObject.AddComponent <GameCenterInterface> ();
 #elif UNITY_ANDROID
-//    gameObject.AddComponentMenu <GooglePlayManager> ();
+//    gameObject.AddComponent <GooglePlayManager> ();
 #elif UNITY_WINRT
     gameObject.AddComponent <WindowsStoreManager> ();
 #endif
@@ -204,7 +204,14 @@ public class StatsManager : MonoBehaviour
   {
     PlayerPrefs.SetInt ("Coins", coins);
     PlayerPrefs.SetInt("NumBlackCollision",playerStats.numBlackCollision);
-    PlayerPrefs.SetInt ("NumGames", ++playerStats.numGames);
+    if (GameManager.inst.played)
+    {
+      PlayerPrefs.SetInt ("NumGames", playerStats.numGames + 1);
+    }
+    else
+    {
+      PlayerPrefs.SetInt ("NumGames", playerStats.numGames);
+    }
     PlayerPrefs.SetInt ("FacebookConenct", prevFacebookStatus);
     PlayerPrefs.SetInt ("VMode", vMode);
 

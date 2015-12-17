@@ -57,6 +57,7 @@ public class UIManager : StateBehaviour
   private GameObject menuDiamondStore { get; set; }
   private GameObject menuPotionStore { get; set; }
   private GameObject menuTutorialStart { get; set; }
+  private GameObject menuTutorialRevive { get; set; }
   private GameObject menuReady { get; set; }
 
   private Text textScore { get; set; }
@@ -129,6 +130,7 @@ public class UIManager : StateBehaviour
     imageCircle.gameObject.SetActive (false);
 
     menuTutorialStart = GameObject.Find ("MenuTutorialStart");
+    menuTutorialRevive = GameObject.Find ("MenuTutorialRevive");
     menuReady = GameObject.Find ("MenuReady");
     menuDiamondStore = GameObject.Find ("MenuDiamondStore");
     menuPotionStore = GameObject.Find ("MenuPotionStore");
@@ -138,6 +140,7 @@ public class UIManager : StateBehaviour
     textGameOverFeedback.text = null;
 
     SetMenuActive (menuTutorialStart, false);
+    SetMenuActive (menuTutorialRevive, false);
     SetMenuActive (menuReady, false);
     SetMenuActive (menuStart, true);
     SetMenuActive (menuRevive, false);
@@ -731,6 +734,36 @@ public class UIManager : StateBehaviour
     SetMenuActive (menuTutorialStart, false);
   }
 
+  private IEnumerator FadeInTutorialReviveCanvas ()
+  {
+    CanvasGroup store = menuTutorialRevive.GetComponent <CanvasGroup> ();
+    SetMenuActive (menuTutorialRevive, true);
+    
+    while (store.alpha < 1.0f)
+    {
+      float alpha = store.alpha;
+      alpha += Time.deltaTime * 5.0f;
+      store.alpha = alpha;
+      yield return null;
+    }
+  }
+  
+  private IEnumerator FadeOutTutorialReviveCanvas ()
+  {
+    CanvasGroup store = menuTutorialRevive.GetComponent <CanvasGroup> ();
+    
+    while (store.alpha > 0.0f)
+    {
+      float alpha = store.alpha;
+      alpha -= Time.deltaTime * 5.0f;
+      store.alpha = alpha;
+      yield return null;
+    }
+    
+    store.alpha = 0.0f;
+    SetMenuActive (menuTutorialRevive, false);
+  }
+
   private IEnumerator FadeInReadyCanvas ()
   {
     CanvasGroup store = menuReady.GetComponent <CanvasGroup> ();
@@ -1020,6 +1053,20 @@ public class UIManager : StateBehaviour
   {
     StartCoroutine (FadeOutReadyCanvas ());
     StartCoroutine (FadeInGameCanvas ());
+  }
+
+  void OnPreTutorialReviveStart ()
+  {
+    StartCoroutine (FadeOutGameCanvas ());
+    StartCoroutine (FadeInTutorialReviveCanvas ());
+  }
+
+  void OnTutorialReviveStart ()
+  {
+  }
+
+  void OnTutorialReviveEnd ()
+  {
   }
 
   void OnShowReadyMessage ()

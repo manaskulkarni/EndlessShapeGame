@@ -508,7 +508,7 @@ public class ShapeManager : MonoBehaviour
       var hit = Physics2D.RaycastAll (shape.transform.position, Vector2.down, Vector3.Distance(pos, target));
       Debug.DrawLine (pos, target, Color.red, 100.0f, false);
       
-      if (hit.Length > 0)
+//      if (hit.Length > 0)
       {
         foreach (var v in hit)
         {

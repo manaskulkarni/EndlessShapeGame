@@ -61,7 +61,7 @@ public class AudioManager : MonoBehaviour
 
   public class CPair
   {
-    public CPair(Coroutine FI, Coroutine FO)
+    public CPair(Coroutine FI = null, Coroutine FO = null)
     {
       fadeIn = FI;
       fadeOut = FO;
@@ -83,17 +83,17 @@ public class AudioManager : MonoBehaviour
     {
       inst = this;
 
-      f.Add(_track1, new CPair(null, null));
-      f.Add(_track1_loop, new CPair(null, null));
-      f.Add(_track2, new CPair(null, null));
-      f.Add(_track2_loop, new CPair(null, null));
-      f.Add(_options_menu1, new CPair(null, null));
-      f.Add(_options_menu2, new CPair(null, null));
-      f.Add(_store_menu1, new CPair(null, null));
-      f.Add(_store_menu2, new CPair(null, null));
-      f.Add(_main_menu1, new CPair(null, null));
-      f.Add(_main_menu2, new CPair(null, null));
-      f.Add(_lose_effect, new CPair(null, null));
+      f.Add(_track1, new CPair());
+      f.Add(_track1_loop, new CPair());
+      f.Add(_track2, new CPair());
+      f.Add(_track2_loop, new CPair());
+      f.Add(_options_menu1, new CPair());
+      f.Add(_options_menu2, new CPair());
+      f.Add(_store_menu1, new CPair());
+      f.Add(_store_menu2, new CPair());
+      f.Add(_main_menu1, new CPair());
+      f.Add(_main_menu2, new CPair());
+      f.Add(_lose_effect, new CPair());
 
       var sources = gameObject.GetComponentsInChildren<AudioSource>();
 
