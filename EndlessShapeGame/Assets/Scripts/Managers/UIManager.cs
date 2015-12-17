@@ -77,6 +77,7 @@ public class UIManager : StateBehaviour
   public Button buttonStoreBack;
   public Button buttonFacebookBack;
   public Button buttonRevive;
+  public Button buttonTutorialReviveDone;
 
   public Button buttonBuyDiamonds;
   public Button buttonBuyPotions;
@@ -331,6 +332,11 @@ public class UIManager : StateBehaviour
       ShowPotionStore ();
       break;
     }
+  }
+
+  public void TutorialReviveDone ()
+  {
+    GameManager.inst.SendMessage ("TutorialReviveDone");
   }
 
   #region Coroutines
@@ -738,7 +744,7 @@ public class UIManager : StateBehaviour
   {
     CanvasGroup store = menuTutorialRevive.GetComponent <CanvasGroup> ();
     SetMenuActive (menuTutorialRevive, true);
-    
+
     while (store.alpha < 1.0f)
     {
       float alpha = store.alpha;
@@ -746,12 +752,15 @@ public class UIManager : StateBehaviour
       store.alpha = alpha;
       yield return null;
     }
+
+    buttonTutorialReviveDone.interactable = true;
   }
   
   private IEnumerator FadeOutTutorialReviveCanvas ()
   {
     CanvasGroup store = menuTutorialRevive.GetComponent <CanvasGroup> ();
-    
+    buttonTutorialReviveDone.interactable = false;
+
     while (store.alpha > 0.0f)
     {
       float alpha = store.alpha;
@@ -1057,16 +1066,18 @@ public class UIManager : StateBehaviour
 
   void OnPreTutorialReviveStart ()
   {
-    StartCoroutine (FadeOutGameCanvas ());
-    StartCoroutine (FadeInTutorialReviveCanvas ());
   }
 
   void OnTutorialReviveStart ()
   {
+    StartCoroutine (FadeOutGameCanvas ());
+    StartCoroutine (FadeInTutorialReviveCanvas ());
   }
 
   void OnTutorialReviveEnd ()
   {
+    StartCoroutine (FadeOutTutorialReviveCanvas ());
+    GameManager.inst.ChangeState (GameManager.States.ShowRevive);
   }
 
   void OnShowReadyMessage ()

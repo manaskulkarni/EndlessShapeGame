@@ -402,7 +402,7 @@ public class ShapeManager : MonoBehaviour
 
       if (numCollisions == 0)
       {
-        GameManager.inst.ChangeState(GameManager.States.FirstBeat);
+        GameManager.inst.BroadcastMessage (GameManager.inst.FirstBeatEvent);
       }
 
       ++numCollisions;

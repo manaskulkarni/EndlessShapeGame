@@ -264,12 +264,13 @@ public class GameManager : StateBehaviour
     ChangeState (States.Playing);
   }
 
-  int swipeCount = 0;
+  bool showingHowToPlayTutorial = false;
+  bool showingReviveTutorial = false;
 
   private IEnumerator TutorialStart_Enter ()
   {
-    bool showingTutorial = true;
     played = true;
+    showingHowToPlayTutorial = true;
     BroadcastMessage (PreTutorialStartEvent);
     BroadcastMessage (GameStartEvent);
     yield return new WaitForSeconds (1.6f);
@@ -278,15 +279,12 @@ public class GameManager : StateBehaviour
     BroadcastMessage (TutorialStartEvent);
 
     // Show the tutorial here
-    while (showingTutorial)
+    while (showingHowToPlayTutorial)
     {
-      if (swipeCount > 0)
-      {
-        break;
-      }
       yield return null;
     }
 
+    showingHowToPlayTutorial = true;
     PlayerManager.inst.player.SwipeEvent -= HandleSwipeEvent;
     BroadcastMessage (ShowReadyMessageEvent);
 
@@ -302,7 +300,7 @@ public class GameManager : StateBehaviour
   {
     if (PlayerManager.inst.player.Ready () && ShapeManager.inst.PredictCollision ())
     {
-      ++swipeCount;
+      showingHowToPlayTutorial = false;
     }
   }
   
@@ -350,28 +348,38 @@ public class GameManager : StateBehaviour
     {
       shownReviveTutorial = true;
       ChangeState (States.TutorialRevive);
-      return;
-    }
-
-    if (StatsManager.inst.canShowRevive)
-    {
-      BroadcastMessage (ShowReiviveEvent);
     }
     else
     {
-      ChangeState (States.DeclineRevive);
+      if (StatsManager.inst.canShowRevive)
+      {
+        BroadcastMessage (ShowReiviveEvent);
+      }
+      else
+      {
+        ChangeState (States.DeclineRevive);
+      }
     }
   }
 
   private IEnumerator TutorialRevive_Enter ()
   {
-    bool showingTutorial = true;
+    showingReviveTutorial = true;
     BroadcastMessage (PreTutorialReviveStartEvent);
+    BroadcastMessage (TutorialReviveStartEvent);
 
-    while (showingTutorial)
+    while (showingReviveTutorial)
     {
       yield return null;
     }
+
+    showingReviveTutorial = true;
+    BroadcastMessage (TutorialReviveEndEvent);
+  }
+
+  private void TutorialReviveDone ()
+  {
+    showingReviveTutorial = false;
   }
 
   private void ShowRevive_Exit ()
