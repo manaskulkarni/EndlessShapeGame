@@ -264,11 +264,10 @@ public class GameManager : StateBehaviour
     ChangeState (States.Playing);
   }
 
-  int swipeCount = 0;
+  bool showingTutorial = true;
 
   private IEnumerator TutorialStart_Enter ()
   {
-    bool showingTutorial = true;
     played = true;
     BroadcastMessage (PreTutorialStartEvent);
     BroadcastMessage (GameStartEvent);
@@ -280,13 +279,10 @@ public class GameManager : StateBehaviour
     // Show the tutorial here
     while (showingTutorial)
     {
-      if (swipeCount > 0)
-      {
-        break;
-      }
       yield return null;
     }
 
+    showingTutorial = true;
     PlayerManager.inst.player.SwipeEvent -= HandleSwipeEvent;
     BroadcastMessage (ShowReadyMessageEvent);
 
@@ -302,7 +298,7 @@ public class GameManager : StateBehaviour
   {
     if (PlayerManager.inst.player.Ready () && ShapeManager.inst.PredictCollision ())
     {
-      ++swipeCount;
+      showingTutorial = false;
     }
   }
   
@@ -365,13 +361,22 @@ public class GameManager : StateBehaviour
 
   private IEnumerator TutorialRevive_Enter ()
   {
-    bool showingTutorial = true;
+    showingTutorial = true;
     BroadcastMessage (PreTutorialReviveStartEvent);
+    BroadcastMessage (TutorialReviveStartEvent);
 
     while (showingTutorial)
     {
       yield return null;
     }
+
+    showingTutorial = true;
+    BroadcastMessage (TutorialReviveEndEvent);
+  }
+
+  private void TutorialReviveDone ()
+  {
+    showingTutorial = false;
   }
 
   private void ShowRevive_Exit ()
