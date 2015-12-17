@@ -70,7 +70,7 @@ public class PlayerBehavior : MonoBehaviour
   private Coroutine[] slideCoroutine;
   private bool[] done;
   private bool[] waitDone;
-  private int state;
+//  private int state;
   private List <float> targets;
 
   public event System.EventHandler SwipeEvent;
@@ -128,7 +128,7 @@ public class PlayerBehavior : MonoBehaviour
       StartCoroutine(SlideRight(i));
     }
 
-    state = 1;
+//    state = 1;
   }
 
   /// <summary>
@@ -150,7 +150,7 @@ public class PlayerBehavior : MonoBehaviour
       slideCoroutine [i] = StartCoroutine(SlideLeft(i));
     }
 
-    state = -1;
+//    state = -1;
   }
 
   public bool Ready ()

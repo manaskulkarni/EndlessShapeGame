@@ -3,43 +3,43 @@ using System.Collections;
 
 public class CheckCompatibility : MonoBehaviour
 {
-  bool lowPerformance = false;
+//  bool lowPerformance = false;
 
   void Awake ()
   {
-    lowPerformance = SystemInfo.deviceModel.Contains ("iPhone3") || Application.platform == RuntimePlatform.Android;
+//    lowPerformance = SystemInfo.deviceModel.Contains ("iPhone3") || Application.platform == RuntimePlatform.Android;
   }
 
 	// Use this for initialization
 	void Start ()
   {
-    if (lowPerformance)
-    {
-      Debug.Log ("Disable Post Process Effects");
-      var postEffects = GameObject.FindObjectsOfType <UnityStandardAssets.ImageEffects.PostEffectsBase> ();
-      var imageEffects = GameObject.FindObjectsOfType <UnityStandardAssets.ImageEffects.ImageEffectBase> ();
-      
-      foreach (var v in postEffects)
-      {
-        if (!v.useOnLowPerformance)
-        {
-          Destroy (v);
-        }
-      }
-
-      foreach (var v in imageEffects)
-      {
-        if (!v.useOnLowPerformance)
-        {
-          Destroy (v);
-        }
-      }
-    }
+//    if (lowPerformance)
+//    {
+//      Debug.Log ("Disable Post Process Effects");
+//      var postEffects = GameObject.FindObjectsOfType <UnityStandardAssets.ImageEffects.PostEffectsBase> ();
+//      var imageEffects = GameObject.FindObjectsOfType <UnityStandardAssets.ImageEffects.ImageEffectBase> ();
+//      
+//      foreach (var v in postEffects)
+//      {
+//        if (!v.useOnLowPerformance)
+//        {
+//          Destroy (v);
+//        }
+//      }
+//
+//      foreach (var v in imageEffects)
+//      {
+//        if (!v.useOnLowPerformance)
+//        {
+//          Destroy (v);
+//        }
+//      }
+//    }
 	}
 
   void OnSwitchMode (int mode)
   {
-    if (lowPerformance)
+//    if (lowPerformance)
     {
       var renderers = GameObject.FindObjectsOfType <SpriteRenderer> ();
       foreach (var v in renderers)
@@ -60,17 +60,17 @@ public class CheckCompatibility : MonoBehaviour
                                          shape.originalColor.a);
       }
     }
-    else
-    {
-      switch (mode)
-      {
-      case 0:
-        Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = false;
-        break;
-      case 1:
-        Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = true;
-        break;
-      }
-    }
+//    else
+//    {
+//      switch (mode)
+//      {
+//      case 0:
+//        Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = false;
+//        break;
+//      case 1:
+//        Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = true;
+//        break;
+//      }
+//    }
   }
 }

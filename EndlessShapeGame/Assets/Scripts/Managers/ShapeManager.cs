@@ -384,7 +384,7 @@ public class ShapeManager : MonoBehaviour
   /// <param name="spriteRenderer"></param>
   public void ShapeTriggered(ShapeBehavior shapeBehavior, SpriteRenderer spriteRenderer)
   {
-    if (GameManager.inst.GetState ().Equals (GameManager.States.Playing))
+//    if (GameManager.inst.GetState ().Equals (GameManager.States.Playing))
     {
       bool sameSprite = shapeBehavior.spriteRenderer.sprite.GetHashCode() == spriteRenderer.sprite.GetHashCode();
 #if UNITY_EDITOR

@@ -10,4 +10,5 @@ osxBuild
 *.csproj
 *.sln
 *.apk
+*.DS_Store
 EndlessShapeGame/Assets/Plugins/iOS/libAdToApp.a
