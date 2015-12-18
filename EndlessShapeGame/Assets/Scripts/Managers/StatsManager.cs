@@ -386,6 +386,7 @@ public class StatsManager : MonoBehaviour
     BroadcastMessage (SubmitScoreEvent, SendMessageOptions.DontRequireReceiver);
 
     isHighScore = CheckHighScore ();
+    Debug.Log ("HIGH SCORE : " + isHighScore);
     if (isHighScore)
     {
       previousScore = score;

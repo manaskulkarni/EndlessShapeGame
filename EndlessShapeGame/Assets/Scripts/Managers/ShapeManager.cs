@@ -666,11 +666,13 @@ public class ShapeManager : MonoBehaviour
 
   void OnShowStore ()
   {
+//    Debug.Log ("HIDE SHAPES");
     StartCoroutine (FadeOutShapes ());
   }
 
   void OnHideStore ()
   {
+//    Debug.Log ("SHOW SHAPES");
     StartCoroutine (FadeInShapes ());
   }
 
@@ -901,20 +903,27 @@ public class ShapeManager : MonoBehaviour
 
   private IEnumerator FadeInShapes ()
   {
-    float alpha = shapes [0].spriteRenderer.color.a;
-    while (alpha < 1.0f)
+//    float alpha = shapes [0].spriteRenderer.color.a;
+//    while (alpha < 1.0f)
+//    {
+//      alpha += Time.deltaTime * 5.0f;
+//      Color c = new Color ();
+//      foreach (var v in shapes)
+//      {
+//        c = v.spriteRenderer.color;
+//        c.a = alpha;
+//        v.spriteRenderer.color = c;
+//      }
+//      
+//      yield return null;
+//    }
+
+    foreach (var v in shapes)
     {
-      alpha += Time.deltaTime * 5.0f;
-      Color c = new Color ();
-      foreach (var v in shapes)
-      {
-        c = v.spriteRenderer.color;
-        c.a = alpha;
-        v.spriteRenderer.color = c;
-      }
-      
-      yield return null;
+      v.spriteRenderer.color = v.originalColor;
     }
+
+    yield return null;
   }
 
   private void SpawnShapes()

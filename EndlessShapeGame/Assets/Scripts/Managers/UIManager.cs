@@ -123,7 +123,7 @@ public class UIManager : StateBehaviour
     menuFacebookLeaderboard.GetComponent <CanvasGroup> ().alpha = 0.0f;
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
-    textGameOverFeedback.GetComponent <Animator> ().Stop ();
+//    textGameOverFeedback.GetComponent <Animator> ().Stop ();
     textConnectStatus = GameObject.Find ("TextConnectStatus").GetComponent <Text> ();
     animRevive = GameObject.Find ("ImageFill");
     imageCircle = GameObject.Find ("ImageCircle").GetComponent <Image> ();
@@ -138,7 +138,7 @@ public class UIManager : StateBehaviour
     ShowDiamondStore ();
     
     textGameOverScore.text = BestScore ();
-    textGameOverFeedback.text = null;
+    textGameOverFeedback.text = "";
 
     SetMenuActive (menuTutorialStart, false);
     SetMenuActive (menuTutorialRevive, false);
@@ -953,13 +953,13 @@ public class UIManager : StateBehaviour
   {
     textGameOverScore.text = ""+StatsManager.inst.score+"";
     textGameOverFeedback.text = NewHighScore ();
-    textGameOverFeedback.GetComponent <Animator> ().enabled = true;
-    textGameOverFeedback.GetComponent <Animator> ().Play ("HighScoreFeedback", 0);
+//    textGameOverFeedback.GetComponent <Animator> ().SetTime (0.0);
+//    textGameOverFeedback.GetComponent <Animator> ().Play ("HighScoreFeedback");
   }
 
   void OnNoHighScore ()
   {
-    textGameOverFeedback.GetComponent <Animator> ().enabled = false;
+//    textGameOverFeedback.GetComponent <Animator> ().Play ("None");
   }
   
   void OnHighScoreCross ()
