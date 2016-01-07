@@ -445,6 +445,10 @@ public class StatsManager : MonoBehaviour
         break;
       }
     }
+    else
+    {
+      GameManager.inst.BroadcastMessage ("CannotPurchaseInGameItem");
+    }
   }
 
   void OnBuyRevive ()

@@ -117,6 +117,7 @@ public class GameManager : StateBehaviour
   public string HideStoreEvent = "OnHideStore";
   public string PurchaseCoinsEvent = "OnPurchaseCoins";
   public string PurchaseInGameItemEvent = "OnPurchaseInGameItem";
+  public string CannotPurchaseInGameItemEvent = "OnCannotPurchaseInGameItem";
   public string AddInGameItemEvent = "OnAddInGameItem";
   public string SubtractInGameItemEvent = "OnSubtractInGameItem";
   public string FacebookConnectEvent = "OnFacebookConnect";
@@ -564,6 +565,11 @@ public class GameManager : StateBehaviour
   void PurchaseInGameItem (UIManager.InGameBuyButtonData button)
   {
     BroadcastMessage (PurchaseInGameItemEvent, button, SendMessageOptions.DontRequireReceiver);
+  }
+
+  void CannotPurchaseInGameItem ()
+  {
+    BroadcastMessage (CannotPurchaseInGameItemEvent);
   }
 
   void AddInGameItem (InGameBuyButton button)

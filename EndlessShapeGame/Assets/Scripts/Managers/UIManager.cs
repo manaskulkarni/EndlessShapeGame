@@ -79,6 +79,9 @@ public class UIManager : StateBehaviour
   public Button buttonRevive;
   public Button buttonTutorialReviveDone;
 
+  public Button buttonSwitchToDiamond;
+  public Button buttonSwitchToPotion;
+
   public Button buttonBuyDiamonds;
   public Button buttonBuyPotions;
 
@@ -802,6 +805,55 @@ public class UIManager : StateBehaviour
     store.alpha = 0.0f;
     SetMenuActive (menuReady, false);
   }
+
+  bool promptingDiamond = false;
+
+  private IEnumerator BuyDiamondPrompt ()
+  {
+    promptingDiamond = true; 
+    float scale = 1.0f;
+    for (int i = 0; i < 2; ++i)
+    {
+      while (buttonSwitchToDiamond.transform.localScale.x < scale + 0.5f)
+      {
+        float s = buttonSwitchToDiamond.transform.localScale.x;
+        s += Time.deltaTime * 5.0f;
+        buttonSwitchToDiamond.transform.localScale = Vector2.one * s;
+        yield return null;
+      }
+
+      while (buttonSwitchToDiamond.transform.localScale.x > scale)
+      {
+        float s = buttonSwitchToDiamond.transform.localScale.x;
+        s -= Time.deltaTime * 5.0f;
+        buttonSwitchToDiamond.transform.localScale = Vector2.one * s;
+        yield return null;
+      }
+    }
+
+    promptingDiamond = false;
+//    Debug.Log ("HERE");
+//    var sprite = buttonBuyDiamonds.image;
+//    float alpha = sprite.color.a;
+//    for (int i = 0; i < 5; ++i)
+//    {
+//      while (sprite.color.a < 1.0f)
+//      {
+//        var c = sprite.color;
+//        c.a += Time.deltaTime * 5.0f;
+//        sprite.color = c;
+//        yield return null;
+//      }
+//
+//      while (sprite.color.a > alpha)
+//      {
+//        var c = sprite.color;
+//        c.a -= Time.deltaTime * 5.0f;
+//        sprite.color = c;
+//        yield return null;
+//      }
+//    }
+  }
   
   #endregion
   
@@ -1009,6 +1061,14 @@ public class UIManager : StateBehaviour
     {
       --counter;
       buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
+    }
+  }
+
+  void OnCannotPurchaseInGameItem ()
+  {
+    if (!promptingDiamond)
+    {
+      StartCoroutine (BuyDiamondPrompt ());
     }
   }
 
