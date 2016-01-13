@@ -1,3 +1,5 @@
+#if !TARGET_OS_TV
+
 //
 //  ISN_GameCenter.m
 //  Unity-iPhone
@@ -3054,4 +3056,4 @@ extern "C" {
     
     
 }
-
+#endif

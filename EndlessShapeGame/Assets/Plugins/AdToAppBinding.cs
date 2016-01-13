@@ -120,21 +120,21 @@ namespace AdToApp
               androidFunction: null);
         }
 
-        #endregion
-
         public static void loadNextBanner()
         {
             ConditionalRunAction(
               iOSAction: AdToApp_loadNextBanner_platform,
-              androidAction: () => AdToAppAndroidWrapper.LoadNextBanner());
+              androidAction: null);
         }
 
 		public static void setBannerRefreshInterval(double refreshInterval)
 		{
 			ConditionalRunAction (
 				iOSAction: () => AdToApp_setBannerRefreshInterval_platform (refreshInterval),
-				androidAction: () => AdToAppAndroidWrapper.SetBannerRefreshInterval(refreshInterval));
+				androidAction: null);
 		}
+
+        #endregion
 
         #region Android only methods
 #if UNITY_ANDROID

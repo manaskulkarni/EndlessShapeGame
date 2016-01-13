@@ -187,19 +187,9 @@ namespace AdToApp
             {
                 if (_sdkDelegate.OnRewardedDismissed != null)
                 {
-                    _sdkDelegate.OnRewardedDismissed(adProvider);
+                    _sdkDelegate.OnRewardedStarted(adProvider);
                 }
             }
-
-#if UNITY_ANDROID
-            public void onRewardedCompleted(String adProvider, AndroidJavaObject currencyName, AndroidJavaObject currencyValue)
-            {
-                if (_sdkDelegate.OnRewardedCompleted != null)
-                {
-                    _sdkDelegate.OnRewardedCompleted(adProvider, currencyName.ToString(), currencyValue.ToString());
-                }
-            }
-#endif
 
             public override void onRewardedCompleted(String adProvider, String currencyName, String currencyValue)
             {

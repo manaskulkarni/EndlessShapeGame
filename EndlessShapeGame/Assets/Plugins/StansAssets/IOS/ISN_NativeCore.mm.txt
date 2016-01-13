@@ -36,7 +36,7 @@ NSString * const UNITY_EOF = @"endofline";
 }
 
 +(const char *)NSIntToChar:(NSInteger)value {
-    NSString *tmp = [NSString stringWithFormat:@"%d", value];
+    NSString *tmp = [NSString stringWithFormat:@"%ld", (long)value];
     return [tmp UTF8String];
 }
 
@@ -87,7 +87,8 @@ NSString * const UNITY_EOF = @"endofline";
     if(error.description != nil) {
         description = error.description;
     }
-    return  [self serializeErrorWithDataToNSString:description code:error.code];
+    
+    return  [self serializeErrorWithDataToNSString:description code: (int) error.code];
 }
 
 + (NSString *)serializeErrorWithDataToNSString:(NSString *)description code:(int)code {
@@ -189,13 +190,17 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
 
 
 -(void) setApplicationBagesNumber:(int) count {
+    
+#if !TARGET_OS_TV
     [UIApplication sharedApplication].applicationIconBadgeNumber = count;
+#endif
 }
 
 
 
 - (void) ShowSpinner {
     
+    #if !TARGET_OS_TV
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     
     if([self spinner] != nil) {
@@ -208,13 +213,18 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
     [self setSpinner:[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge]];
     
     
+
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+
+    
+    
     
     NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     if ([[vComp objectAtIndex:0] intValue] >= 8) {
         NSLog(@"iOS 8 detected");
         [[self spinner] setFrame:CGRectMake(0,0, vc.view.frame.size.width, vc.view.frame.size.height)];
     } else {
+        
         if([[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait || [[UIDevice currentDevice] orientation] == UIDeviceOrientationPortraitUpsideDown) {
             NSLog(@"portrait detected");
             [[self spinner] setFrame:CGRectMake(0,0, vc.view.frame.size.width, vc.view.frame.size.height)];
@@ -225,9 +235,6 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
         }
         
     }
-    
-    
-    
     
     
     [self spinner].opaque = NO;
@@ -245,6 +252,8 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
     [[self spinner] startAnimating];
     
     //  [[self spinner] retain];
+    
+    #endif
     
 }
 
@@ -279,13 +288,17 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
     
     UIViewController *vc =  UnityGetGLViewController();
     
-    bool IsLandscape;
+    bool IsLandscape = true;
+    
+    #if !TARGET_OS_TV
+    
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if(orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
         IsLandscape = true;
     } else {
         IsLandscape = false;
     }
+    #endif
     
     CGFloat w;
     if(IsLandscape) {
@@ -304,6 +317,7 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
     return w;
 }
 
+#if !TARGET_OS_TV
 
 - (void)DP_changeDate:(UIDatePicker *)sender {
     
@@ -450,8 +464,12 @@ UIDatePicker *datePicker;
     [UIView commitAnimations];
 }
 
+#endif
+
 
 - (void) GetIFA {
+    
+    /*
     
 #if UNITY_VERSION < 500
     NSString* ifa = [[[NSClassFromString(@"ASIdentifierManager") sharedManager] advertisingIdentifier] UUIDString];
@@ -463,7 +481,7 @@ UIDatePicker *datePicker;
     
     UnitySendMessage("IOSSharedApplication", "OnAdvertisingIdentifierLoaded", [ISN_DataConvertor NSStringToChar:@""]);
     
-    
+    */
 }
 
 - (void) GetLocale {
@@ -865,6 +883,8 @@ static ISN_NativePopUpsManager *_sharedInstance;
 //  IOS 6,7 implementation
 //--------------------------------------
 
+#if !TARGET_OS_TV
+
 static UIAlertView* _currentAllert =  nil;
 
 + (void) unregisterAllertView_old {
@@ -942,7 +962,7 @@ static UIAlertView* _currentAllert =  nil;
     UnitySendMessage("IOSPopUp", "onPopUpCallBack",  [ISN_DataConvertor NSIntToChar:buttonIndex]);
     UnitySendMessage("IOSRateUsPopUp", "onPopUpCallBack",  [ISN_DataConvertor NSIntToChar:buttonIndex]);
 }
-
+#endif
 
 @end
 
@@ -987,6 +1007,9 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
 
 #pragma mark Music notification handlers
 
+
+
+#if !TARGET_OS_TV
 
 - (void) handle_NotificationEvent: (NSNotification *) receivedNotification {
     
@@ -1037,29 +1060,35 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
     
 }
 
+#endif
+
 - (void) RegisterForNotifications {
+    #if !TARGET_OS_TV
     
     NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     if ([[vComp objectAtIndex:0] intValue] >= 8) {
         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
         
     }
+    #endif
 }
 
 -(void) requestNotificationSettings {
+    #if !TARGET_OS_TV
+    
     UIUserNotificationSettings* NotificationSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
     
     NSString *str = [NSString stringWithFormat:@"%d", NotificationSettings.types];
     
     UnitySendMessage("IOSNotificationController", "OnNotificationSettingsInfoRetrived", [ISN_DataConvertor NSStringToChar:str]);
     
-    
+    #endif
 }
 
 
 -(void) scheduleNotification:(int)time message:(NSString *)message sound:(bool *)sound alarmID:(NSString *)alarmID badges:(int)badges notificationData:(NSString *)notificationData notificationSoundName:(NSString *)notificationSoundName{
     
-    
+     #if !TARGET_OS_TV
     
     NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     if ([[vComp objectAtIndex:0] intValue] >= 8) {
@@ -1145,8 +1174,10 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
     
     UnitySendMessage("IOSNotificationController", "OnNotificationScheduleResultAction", [ISN_DataConvertor NSStringToChar:data]);
     
-    
+     #endif
 }
+
+#if !TARGET_OS_TV
 
 - (UILocalNotification *)existingNotificationWithAlarmID:(NSString *)alarmID {
     for (UILocalNotification *notification in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
@@ -1158,7 +1189,13 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
     return nil;
 }
 
+ #endif
+
+
+
 - (void)cleanUpLocalNotificationWithAlarmID:(NSString *)alarmID {
+    #if !TARGET_OS_TV
+    
     NSLog(@"cleanUpLocalNotificationWithAlarmID AlarmKey: %@", alarmID);
     
     UILocalNotification *notification = [self existingNotificationWithAlarmID:alarmID];
@@ -1166,6 +1203,8 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
         NSLog(@"notification canceled");
         [[UIApplication sharedApplication] cancelLocalNotification:notification];
     }
+    
+    #endif
 }
 
 
@@ -1174,11 +1213,15 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
 
 
 - (void) cancelNotifications {
+     #if !TARGET_OS_TV
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    #endif
 }
 
 - (void) applicationIconBadgeNumber:(int) badges {
+     #if !TARGET_OS_TV
     [UIApplication sharedApplication].applicationIconBadgeNumber = badges;
+     #endif
 }
 
 
@@ -1227,7 +1270,9 @@ extern "C" {
     //--------------------------------------
     
     void _ISN_ShowDP(int mode) {
+         #if !TARGET_OS_TV
         [[ISN_NativeUtility sharedInstance] DP_show:mode];
+        #endif
     }
     
     
@@ -1494,7 +1539,12 @@ extern "C" {
         if([ISN_NativeUtility majorIOSVersion] >= 8) {
             [ISN_NativePopUpsManager showRateUsPopUp:[ISN_DataConvertor charToNSString:title] message:[ISN_DataConvertor charToNSString:message] b1:[ISN_DataConvertor charToNSString:b1] b2:[ISN_DataConvertor charToNSString:b2] b3:[ISN_DataConvertor charToNSString:b3]];
         } else {
+            
+            #if !TARGET_OS_TV
+            
             [ISN_NativePopUpsManager showRateUsPopUp_old:[ISN_DataConvertor charToNSString:title] message:[ISN_DataConvertor charToNSString:message] b1:[ISN_DataConvertor charToNSString:b1] b2:[ISN_DataConvertor charToNSString:b2] b3:[ISN_DataConvertor charToNSString:b3]];
+            
+            #endif
         }
     }
     
@@ -1504,7 +1554,12 @@ extern "C" {
         if([ISN_NativeUtility majorIOSVersion] >= 8) {
             [ISN_NativePopUpsManager showDialog:[ISN_DataConvertor charToNSString:title] message:[ISN_DataConvertor charToNSString:message] yesTitle:[ISN_DataConvertor charToNSString:yes] noTitle:[ISN_DataConvertor charToNSString:no]];
         } else {
+            
+            #if !TARGET_OS_TV
+            
             [ISN_NativePopUpsManager showDialog_old:[ISN_DataConvertor charToNSString:title] message:[ISN_DataConvertor charToNSString:message] yesTitle:[ISN_DataConvertor charToNSString:yes] noTitle:[ISN_DataConvertor charToNSString:no]];
+            
+            #endif
         }
         
     }
@@ -1513,7 +1568,11 @@ extern "C" {
         if([ISN_NativeUtility majorIOSVersion] >= 8) {
             [ISN_NativePopUpsManager showMessage:[ISN_DataConvertor charToNSString:title] message:[ISN_DataConvertor charToNSString:message] okTitle:[ISN_DataConvertor charToNSString:ok]];
         } else {
+            
+            #if !TARGET_OS_TV
+            
             [ISN_NativePopUpsManager showMessage_old:[ISN_DataConvertor charToNSString:title] message:[ISN_DataConvertor charToNSString:message] okTitle:[ISN_DataConvertor charToNSString:ok]];
+            #endif
         }
     }
     
@@ -1523,7 +1582,9 @@ extern "C" {
         if([ISN_NativeUtility majorIOSVersion] >= 8) {
             [ISN_NativePopUpsManager dismissCurrentAlert];
         } else {
+             #if !TARGET_OS_TV
             [ISN_NativePopUpsManager dismissCurrentAlert_old];
+             #endif
         }
         
     }
@@ -1590,11 +1651,15 @@ extern "C" {
     
     
     void _ISN_RegisterForRemoteNotifications(int types) {
+        #if !TARGET_OS_TV
+        
         NSLog(@"_ISN_RegisterForRemoteNotifications");
         
         UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert |  UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
+        
+        #endif
     }
     
     

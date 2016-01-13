@@ -197,23 +197,6 @@ namespace AdToApp.AndroidWrapper
             return GetResult<bool>("isRewardedAvailable");
         }
 
-        /// <summary>
-        /// Load next banner.
-        /// </summary>
-        public static void LoadNextBanner()
-        {
-            CallWrapperMethod ("loadNextBanner");
-        }
-
-        /// <summary>
-        /// Sets the banner refresh interval.
-        /// </summary>
-        /// <param name="refreshInterval">refresh interval in seconds.</param>
-        public static void SetBannerRefreshInterval(double refreshInterval)
-        {
-            CallWrapperMethod("setBannerRefreshInterval", refreshInterval);
-        }
-
 	    private static T GetResult<T>(string methodName)
 	    {
 #if UNITY_ANDROID && !UNITY_EDITOR

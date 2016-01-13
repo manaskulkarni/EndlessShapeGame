@@ -1,3 +1,5 @@
+#if !TARGET_OS_TV
+
 //
 //  SocialGate.m
 //  Unity-iPhone
@@ -977,5 +979,5 @@ extern "C" {
 }
 
 
-
+#endif
 

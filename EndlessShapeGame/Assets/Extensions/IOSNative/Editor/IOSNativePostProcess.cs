@@ -113,6 +113,17 @@ public class IOSNativePostProcess  {
 		}
 
 
+		if(IOSNativeSettings.Instance.EnableCloudKit) {
+			string CloudKit = "CloudKit.framework";
+			if(!ISDSettings.Instance.ContainsFreamworkWithName(CloudKit)) {
+				ISD_Framework F =  new ISD_Framework();
+				F.Name = CloudKit;
+				F.IsOptional = true;
+				ISDSettings.Instance.Frameworks.Add(F);
+			}
+		}
+
+
 		if(IOSNativeSettings.Instance.EnableSoomla) {
 			string AdSupport = "AdSupport.framework";
 			if(!ISDSettings.Instance.ContainsFreamworkWithName(AdSupport)) {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class FacebookInterface : MonoBehaviour
 {
-  public string appId = "1518246578468950";
+  public string appId = "1518212961805645";
 
   public List  <KeyValuePair <string, Texture2D>> profilePictures = new List <KeyValuePair <string, Texture2D>> ();
 
@@ -175,8 +175,8 @@ public class FacebookInterface : MonoBehaviour
     
     if(result.IsSucceeded)
     {
-      string msg = "Loaded " + SPFacebook.instance.appScores.Count + " scores results" + "\n";
-      msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
+      string msg = "Loaded " + SPFacebook.Instance.appScores.Count + " scores results" + "\n";
+      msg += "Current Player Score = " + SPFacebook.Instance.GetScoreByUserId(SPFacebook.Instance.UserId);
       Debug.Log (msg);
 
       {
@@ -227,7 +227,7 @@ public class FacebookInterface : MonoBehaviour
     if(result.IsSucceeded)
     {
       string msg = "Score successfully submited" + "\n";
-      msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
+      msg += "Current Player Score = " + SPFacebook.Instance.GetScoreByUserId(SPFacebook.Instance.UserId);
       
     }
     else
@@ -241,7 +241,7 @@ public class FacebookInterface : MonoBehaviour
     if(result.IsSucceeded)
     {
       string msg = "Score successfully deleted" + "\n";
-      msg += "Current Player Score = " + SPFacebook.instance.GetScoreByUserId(SPFacebook.instance.UserId);
+      msg += "Current Player Score = " + SPFacebook.Instance.GetScoreByUserId(SPFacebook.Instance.UserId);
       Debug.Log (msg);
     }
     else
@@ -296,7 +296,7 @@ public class FacebookInterface : MonoBehaviour
     }
     else
     {
-      SPFacebook.instance.Login();
+      SPFacebook.Instance.Login();
     }
   }
 

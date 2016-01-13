@@ -21,6 +21,12 @@ public class StatsManager : MonoBehaviour
     public float progress;
     public bool showNotification;
   }
+
+  public class RewardData
+  {
+    public string name;
+    public int value;
+  }
   
   [System.Serializable]
   public class PlayerStats
@@ -179,21 +185,28 @@ public class StatsManager : MonoBehaviour
 
     #if UNITY_EDITOR
     score = startScore;
-    Debug.Log ("CALLED FIRST");
     coins = 1000;
     #endif
+
+    #if UNITY_IOS
+    store = gameObject.AddComponent <GameCenterInterface> ();
+    #elif UNITY_ANDROID
+    //    store = gameObject.AddComponent <GooglePlayManager> ();
+    #elif UNITY_WINRT
+    //    store = gameObject.AddComponent <WindowsStoreManager> ();
+    #endif
   }
+  
+  #if UNITY_IOS
+  private GameCenterInterface store { get; set; }
+  #elif UNITY_ANDROID
+  #else
+  #endif
+  
 
   // Use this for initialization
   void Start ()
   {
-#if UNITY_IOS
-    gameObject.AddComponent <GameCenterInterface> ();
-#elif UNITY_ANDROID
-//    gameObject.AddComponent <GooglePlayManager> ();
-#elif UNITY_WINRT
-    gameObject.AddComponent <WindowsStoreManager> ();
-#endif
   }
 
   void OnEnable ()
@@ -220,74 +233,6 @@ public class StatsManager : MonoBehaviour
       PlayerPrefs.SetInt ("Item" + i, gameItems [(InGameBuyButton.ButtonType)i]);
     }
   }
-  
-  public static class DeviceRotation
-  {
-    private static bool gyroInitialized = false;
-    
-    public static bool HasGyroscope {
-      get {
-        return SystemInfo.supportsGyroscope;
-      }
-    }
-    
-    public static Quaternion Get() {
-      if (!gyroInitialized) {
-        InitGyro();
-      }
-      
-      return HasGyroscope
-        ? ReadGyroscopeRotation()
-          : Quaternion.identity;
-    }
-    
-    private static void InitGyro() {
-      if (HasGyroscope) {
-        Input.gyro.enabled = true;                // enable the gyroscope
-        Input.gyro.updateInterval = 0.0167f;    // set the update interval to it's highest value (60 Hz)
-      }
-      gyroInitialized = true;
-    }
-    
-    private static Quaternion ReadGyroscopeRotation() {
-      return new Quaternion(0.5f, 0.5f, -0.5f, 0.5f) * Input.gyro.attitude * new Quaternion(0, 0, 1, 0);
-    }
-  }
-  
-//  void Update()
-//  {
-//    Quaternion referenceRotation = Quaternion.identity;
-//    Quaternion deviceRotation = DeviceRotation.Get();
-//    Quaternion eliminationOfXY = Quaternion.Inverse(Quaternion.FromToRotation(referenceRotation * Vector3.forward,deviceRotation * Vector3.forward));
-//    Quaternion rotationZ = eliminationOfXY * deviceRotation;
-//    float roll = rotationZ.eulerAngles.z;
-//    
-//    //Debug.Log ("Orientation : " + roll);
-//    
-//    var a =  GameObject.Find("Separator");
-//    if(a != null)
-//    {
-//      image = a.GetComponent<Image>();
-//    }
-//    
-//    // TODO : Change that to a cleaner way and different location
-//    if(roll > 170.0 && roll < 220.0f)
-//    {
-//      isFlipped = true;
-//      if(image != null)
-//      {
-//        image.color = Color.red;
-//      }
-//   
-//      Debug.Log("Phone Upside Down");
-//    }
-//    else
-//    {
-//      isFlipped = false;
-//      image.color = Color.white;
-//      Debug.Log("Phone Up");
-//    }
-//  }
 
   public void AddPoint ()
   {
@@ -353,6 +298,21 @@ public class StatsManager : MonoBehaviour
   public void ShowAchievements ()
   {
     BroadcastMessage (ShowAchievementsEvent);
+  }
+
+  public string GetPrice (StoreButton product)
+  {
+    Debug.Log (store.GetPrice (product.title.text));
+
+    if (store != null && product.currencyType != StoreButtonList.CurrencyType.Ads)
+    {
+      var p = store.GetPrice (product.title.text);
+      return p == "" ? product.defaultPriceText : p;
+    }
+    else
+    {
+      return "Watch Video";
+    }
   }
 
   private bool CheckHighScore ()
@@ -424,7 +384,8 @@ public class StatsManager : MonoBehaviour
 
   void OnPurchaseCoins (StoreButton button)
   {
-    BroadcastMessage (PurchaseCoinsEvent, button);
+    GameManager.inst.BroadcastMessage ("ShowVideo");
+//    BroadcastMessage (PurchaseCoinsEvent, button);
   }
 
   int numItems = 0;
@@ -460,7 +421,7 @@ public class StatsManager : MonoBehaviour
     GameManager.inst.ChangeState (GameManager.States.BoughtRevive);
   }
 
-  void OnProductsLoaded (Dictionary <string, IOSProductTemplate> products)
+  void OnProductsLoaded (Dictionary <string, StoreInterface.ProductTemplate> products)
   {
     foreach (var v in products)
     {
@@ -471,6 +432,7 @@ public class StatsManager : MonoBehaviour
     productActions ["1200 Diamonds"] = new ProductData (1200, BuyDiamonds);
     productActions ["3000 Diamonds"] = new ProductData (3000, BuyDiamonds);
     productActions ["7500 Diamonds"] = new ProductData (7500, BuyDiamonds);
+    productActions.Add ("100 Diamonds", new ProductData (100, BuyDiamonds));
   }
 
   void BuyDiamonds (int a)
@@ -484,6 +446,15 @@ public class StatsManager : MonoBehaviour
     if (productActions.ContainsKey (name))
     {
       productActions [name].callback (productActions[name].count);
+    }
+  }
+
+  void OnRewardCompleted (string name)
+  {
+    Debug.Log ("Reward Name Received : " + name);
+    if (productActions.ContainsKey (name))
+    {
+      productActions [name].callback (productActions [name].count);
     }
   }
 

@@ -1,3 +1,13 @@
+8.1:
+New Features
+Cloud Kit. Read more: https://goo.gl/qxMHNf
+
+
+Fixes:
+Unity 5.3 compatibility
+Apple TV compilation
+
+
 8.0.7
 New Features:
 Device Info API added: Read More: https://goo.gl/ziEsCI

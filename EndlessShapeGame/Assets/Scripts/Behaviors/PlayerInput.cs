@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TouchScript.Gestures;
-using TouchScript.Gestures.Simple;
+//using TouchScript.Gestures.Simple;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class PlayerInput : MonoBehaviour
 
   #region Private Properties
   private FlickGesture flick { get; set; }
-  private SimplePanGesture pan { get; set; }
+//  private SimplePanGesture pan { get; set; }
   private PressGesture press { get; set; }
   private ReleaseGesture release { get; set; }
   private bool pressed { get; set; }
@@ -105,21 +105,21 @@ public class PlayerInput : MonoBehaviour
     lastPos = Input.mousePosition.x;
   }
 
-  void HandlePanned (object sender, System.EventArgs e)
-  {
-    if (PlayerManager.inst.player.Ready())
-    {
-      //    Debug.Log ("Flicked");
-      if (pan.LocalDeltaPosition.x < -0.2f)
-      {
-        PlayerManager.inst.player.GoLeft();
-      }
-      else if (pan.LocalDeltaPosition.x > 0.2f)
-      {
-        PlayerManager.inst.player.GoRight();
-      }
-    }
-  }
+//  void HandlePanned (object sender, System.EventArgs e)
+//  {
+//    if (PlayerManager.inst.player.Ready())
+//    {
+//      //    Debug.Log ("Flicked");
+//      if (pan.LocalDeltaPosition.x < -0.2f)
+//      {
+//        PlayerManager.inst.player.GoLeft();
+//      }
+//      else if (pan.LocalDeltaPosition.x > 0.2f)
+//      {
+//        PlayerManager.inst.player.GoRight();
+//      }
+//    }
+//  }
 
   private IEnumerator StartTimer ()
   {

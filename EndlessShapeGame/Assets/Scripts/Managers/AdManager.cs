@@ -8,10 +8,6 @@ public class AdManager : MonoBehaviour
 {
 
   static public AdManager inst { get; private set; }
-  
-#if UNITY_EDITOR
-  public bool editor = true;
-#endif
 
   void Awake ()
   {
@@ -24,22 +20,19 @@ public class AdManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
   {
-#if UNITY_EDITOR
-#else
   #if UNITY_ANDROID
     Debug.Log("AdToAppAndroidVersion: " + AdToAppAndroidWrapper.Version);
-    #else
+  #else
     var sdkDelegate = AdToAppSDKDelegate.CreateInstance(this);
     
-    sdkDelegate.OnInterstitialStarted += (adType, provider) => Debug.Log(String.Format("OnInterstitialStarted: type {0}, provider: {1}", adType, provider));
-    sdkDelegate.OnInterstitialClosed += (adType, provider) => Debug.Log(String.Format("OnInterstitialClosed: type {0}, provider: {1}", adType, provider));
-    sdkDelegate.OnInterstitialFailedToAppear += (adType, provider) => Debug.Log(String.Format("OnInterstitialFailedToAppear: type {0}, provider: {1}", adType, provider));
-    sdkDelegate.OnInterstitialClicked += (adType, provider) => Debug.Log(String.Format("OnInterstitialClicked: type {0}, provider: {1}", adType, provider));
-    sdkDelegate.OnRewardedCompleted += (adProvider, currencyName, currencyValue) => 
-      Debug.Log(String.Format("OnRewardedCompleted: adProvider {0}, currencyName: {1}, currencyValue: {2}", adProvider, currencyName, currencyValue));
-    sdkDelegate.OnBannerLoad += () => Debug.Log("OnBannerLoad");
-    sdkDelegate.OnBannerFailedToLoad += (error) => Debug.Log("OnBannerFailedToLoad " + error);
-    sdkDelegate.OnBannerClicked += () => Debug.Log("OnBannerClicked");
+    sdkDelegate.OnInterstitialStarted += SdkDelegate_OnInterstitialStarted;
+    sdkDelegate.OnInterstitialClosed += SdkDelegate_OnInterstitialClosed;
+    sdkDelegate.OnInterstitialFailedToAppear += SdkDelegate_OnInterstitialFailedToAppear;
+    sdkDelegate.OnInterstitialClicked += SdkDelegate_OnInterstitialClicked;
+    sdkDelegate.OnRewardedCompleted += SdkDelegate_OnRewardedCompleted;
+    sdkDelegate.OnBannerLoad += SdkDelegate_OnBannerLoad;
+    sdkDelegate.OnBannerFailedToLoad += SdkDelegate_OnBannerFailedToLoad;
+    sdkDelegate.OnBannerClicked += SdkDelegate_OnBannerClicked;
     
     AdToAppBinding.setCallbacks(sdkDelegate);
     
@@ -48,21 +41,55 @@ public class AdManager : MonoBehaviour
       appId:"0b03983b-769a-47aa-97e9-1bded06f5095:71c49bf9-ace9-45e5-8f97-fc5dfb1ec7ed"
       );
   #endif
-#endif
 	}
+
+  void SdkDelegate_OnInterstitialStarted (string adType, string provider)
+  {
+    Debug.Log(String.Format("OnInterstitialStarted: type {0}, provider: {1}", adType, provider));
+  }
+
+  void SdkDelegate_OnInterstitialClosed (string adType, string provider)
+  {
+    Debug.Log(String.Format("OnInterstitialClosed: type {0}, provider: {1}", adType, provider));
+  }
   
+  void SdkDelegate_OnInterstitialFailedToAppear (string adType, string provider)
+  {
+    Debug.Log(String.Format("OnInterstitialFailedToAppear: type {0}, provider: {1}", adType, provider));
+  }
+
+  void SdkDelegate_OnInterstitialClicked (string adType, string provider)
+  {
+    Debug.Log(String.Format("OnInterstitialClicked: type {0}, provider: {1}", adType, provider));
+  }
+
+  void SdkDelegate_OnRewardedCompleted (string adProvider, string currencyName, string currencyValue)
+  {
+    Debug.Log ("Currency Name: " + currencyName);
+    Debug.Log ("Currency Value: " + currencyValue);
+    GameManager.inst.BroadcastMessage ("OnRewardCompleted", String.Format (currencyName + currencyValue));
+  }
+
+  void SdkDelegate_OnBannerLoad ()
+  {
+    Debug.Log("OnBannerLoad");
+  }
+
+  void SdkDelegate_OnBannerFailedToLoad (string error)
+  {
+    Debug.Log("OnBannerFailedToLoad " + error);
+  }
+
+  void SdkDelegate_OnBannerClicked ()
+  {
+    Debug.Log("OnBannerClicked");
+  }
+
   public void ShowVideo ()
   {
-#if UNITY_EDITOR
-    if (!editor)
+//    if (!AdToAppBinding.isInterstitialDisplayed() && !AdToAppBinding.hasInterstitial (AdToAppContentType.VIDEO))
     {
-#endif
-    if (!AdToAppBinding.isInterstitialDisplayed() && !AdToAppBinding.hasInterstitial (AdToAppContentType.VIDEO))
-    {
-      AdToAppBinding.showInterstitial (AdToAppContentType.VIDEO);
+      AdToAppBinding.showInterstitial (AdToAppContentType.REWARDED);
     }
-#if UNITY_EDITOR
-    }
-#endif
   }
 }

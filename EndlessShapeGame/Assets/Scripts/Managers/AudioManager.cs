@@ -273,6 +273,19 @@ public class AudioManager : MonoBehaviour
   {
     PauseAll();
   }
+
+  void OnApplicationPause (bool pause)
+  {
+    if (pause)
+    {
+      OnPause ();
+    }
+    else
+    {
+      OnUnPause ();
+    }
+  }
+
   void OnUnPause()
   {
     ResumeAll();

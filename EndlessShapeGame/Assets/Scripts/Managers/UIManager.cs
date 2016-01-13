@@ -651,6 +651,15 @@ public class UIManager : StateBehaviour
   {
     CanvasGroup store = menuStore.GetComponent <CanvasGroup> ();
     SetMenuActive (menuStore, true);
+
+    if (menuDiamondStore.activeSelf)
+    {
+      ShowDiamondStore ();
+    }
+    else
+    {
+      ShowPotionStore ();
+    }
     
     while (store.alpha < 1.0f)
     {
@@ -1080,7 +1089,8 @@ public class UIManager : StateBehaviour
       {
         Transform container = diamondStoreList.container;
         StoreButton b = container.GetChild (index).GetComponent <StoreButton> ();
-        buttonBuyDiamonds.GetComponentInChildren <Text> ().text = b.priceText.text;
+        b.priceText = StatsManager.inst.GetPrice (b);
+        buttonBuyDiamonds.GetComponentInChildren <Text> ().text = b.priceText;
         buttonBuyDiamonds.onClick.RemoveAllListeners ();
         buttonBuyDiamonds.onClick.AddListener (() => {PurchaseItem (b);});
       }
@@ -1105,6 +1115,23 @@ public class UIManager : StateBehaviour
         v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
       }
     }
+  }
+
+  void OnProductsLoaded (Dictionary <string, StoreInterface.ProductTemplate> products)
+  {
+    Transform container = diamondStoreList.container;
+//    StoreButton b = container.GetChild (index).GetComponent <StoreButton> ();
+    foreach (Transform t in container)
+    {
+      var v = t.GetComponent <StoreButton> ();
+      if (v != null && products.ContainsKey (v.title.text))
+      {
+        v.priceText = products [v.title.text].Price;
+      }
+    }
+
+    buttonBuyDiamonds.GetComponentInChildren <Text> ().text =
+      container.GetChild (diamondStoreList.currentPage).GetComponent <StoreButton> ().priceText;
   }
 
   void OnBoughtCoins ()

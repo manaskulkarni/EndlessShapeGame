@@ -1,3 +1,5 @@
+#if !TARGET_OS_TV
+
 //
 //  ISNCamera.m
 //  Unity-iPhone
@@ -278,3 +280,5 @@ extern "C" {
 
 
 @end
+
+#endif

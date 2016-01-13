@@ -5,7 +5,9 @@ using System.Collections.Generic;
 public class GameCenterInterface : StoreInterface
 {
   private Dictionary <string, GK_AchievementTemplate> achievements { get; set; }
-  private Dictionary <string, IOSProductTemplate> products { get; set; }
+//  private Dictionary <string, IOSProductTemplate> allProducts { get; set; }
+
+  private string currencySymbol { get; set; }
 
   // Use this for initialization
   void Awake ()
@@ -15,16 +17,16 @@ public class GameCenterInterface : StoreInterface
 
     IOSInAppPurchaseManager.OnStoreKitInitComplete += HandleOnStoreKitInitComplete;
     IOSInAppPurchaseManager.OnTransactionComplete += HandleOnTransactionComplete;
+    IOSInAppPurchaseManager.OnRestoreComplete += HandleOnRestoreComplete;
     IOSInAppPurchaseManager.Instance.LoadStore ();
 
-    IOSInAppPurchaseManager.OnRestoreComplete += HandleOnRestoreComplete;
   }
 
   void HandleOnAuthFinished (ISN_Result res)
   {
     if (res.IsSucceeded)
     {
-      GameCenterManager.ResetAchievements ();
+//      GameCenterManager.ResetAchievements ();
       //IOSNativePopUpManager.showMessage("Player Authored ", "ID: " + GameCenterManager.Player.Id + "\n" + "Alias: " + GameCenterManager.Player.Alias);
       achievements = new Dictionary<string, GK_AchievementTemplate> ();
       
@@ -46,9 +48,9 @@ public class GameCenterInterface : StoreInterface
     
     if(res.IsSucceeded)
     {
-      Debug.Log("Inited successfully, Available products count: " + IOSInAppPurchaseManager.Instance.Products.Count.ToString());
+      Debug.Log("Inited successfully, Available allProducts count: " + IOSInAppPurchaseManager.Instance.Products.Count.ToString());
 
-      products = new Dictionary<string, IOSProductTemplate> ();
+      allProducts = new Dictionary<string, ProductTemplate> ();
 
       foreach(IOSProductTemplate tpl in IOSInAppPurchaseManager.Instance.Products)
       {
@@ -61,15 +63,16 @@ public class GameCenterInterface : StoreInterface
 //        Debug.Log("currencyCode" + tpl.CurrencyCode);
 //        Debug.Log("-------------");
 
-        products.Add (tpl.DisplayName, tpl);
+        allProducts.Add (tpl.DisplayName, new ProductTemplate (tpl.DisplayName, tpl.CurrencySymbol + " "+tpl.Price+"", tpl.Id));
+        currencySymbol = tpl.CurrencySymbol;
       }
 
-      foreach (var v in products)
+      foreach (var v in allProducts)
       {
         Debug.Log ("PRODUCT NAME : " + v.Value.DisplayName);
       }
 
-      SendMessage ("OnProductsLoaded", products);
+      GameManager.inst.BroadcastMessage ("OnProductsLoaded", allProducts);
     }
     else
     {
@@ -82,7 +85,7 @@ public class GameCenterInterface : StoreInterface
     if (res.IsSucceeded)
     {
       var product = IOSInAppPurchaseManager.Instance.GetProductById (res.ProductIdentifier);
-      if (products.ContainsKey (product.DisplayName))
+      if (allProducts.ContainsKey (product.DisplayName))
       {
         GameManager.inst.BroadcastMessage ("BuyProduct", product.DisplayName);
       }
@@ -111,6 +114,21 @@ public class GameCenterInterface : StoreInterface
   public override bool IsIAPInitialized ()
   {
     return IOSInAppPurchaseManager.Instance.IsStoreLoaded;
+  }
+
+  public override string GetCurrencySymbol ()
+  {
+    return currencySymbol;
+  }
+
+  public override string GetPrice (string productName)
+  {
+    if (allProducts != null && allProducts.ContainsKey (productName))
+    {
+      return allProducts[productName].Price;
+    }
+
+    return "";
   }
 
   protected override void OnSubmitHighScore ()
@@ -150,10 +168,10 @@ public class GameCenterInterface : StoreInterface
   protected override void OnPurchaseItem (StoreButton button)
   {
     Debug.Log ("REQUEST NAME : " + button.title.text);
-    if (products.ContainsKey (button.title.text))
+    if (allProducts.ContainsKey (button.title.text))
     {
-      Debug.Log ("Purchasing Item : " + products[button.title.text].DisplayName);
-      IOSInAppPurchaseManager.Instance.BuyProduct (products[button.title.text].Id);
+      Debug.Log ("Purchasing Item : " + allProducts[button.title.text].DisplayName);
+      IOSInAppPurchaseManager.Instance.BuyProduct (allProducts[button.title.text].Id);
     }
   }
 

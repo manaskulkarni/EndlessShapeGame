@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d5c8dadb03c4328a428367673ec4b2, type: 3}
   m_Name: IOSNativeSettings
   m_EditorClassIdentifier: 
-  AppleId: XXXXXXXXX
-  ToolbarIndex: 1
+  AppleId: 1024925295
+  ToolbarIndex: 0
   SendFakeEventsInEditor: 1
   DefaultStoreProductsView: []
   InAppProducts:
@@ -20,8 +20,8 @@ MonoBehaviour:
     _IsAvaliable: 0
     _Id: com.spk.esg.iap.d500
     _DisplayName: 500 Diamonds
-    _Description: Diamonds can be used to purchase potions
-    _Price: .99000001
+    _Description: 
+    _Price: 0.99
     _LocalizedPrice: 
     _CurrencySymbol: $
     _CurrencyCode: USD
@@ -32,8 +32,8 @@ MonoBehaviour:
     _IsAvaliable: 0
     _Id: com.spk.esg.iap.d1200
     _DisplayName: 1200 Diamonds
-    _Description: Diamonds can be used to purchase potions
-    _Price: 1.99000001
+    _Description: 
+    _Price: 1.99
     _LocalizedPrice: 
     _CurrencySymbol: $
     _CurrencyCode: USD
@@ -42,10 +42,10 @@ MonoBehaviour:
     _PriceTier: 1
   - IsOpen: 1
     _IsAvaliable: 0
-    _Id: com.spk.esg.iap.d300
+    _Id: com.spk.esg.iap.d3000
     _DisplayName: 3000 Diamonds
-    _Description: Diamonds can be used to purchase potions
-    _Price: 4.98999977
+    _Description: 
+    _Price: 4.99
     _LocalizedPrice: 
     _CurrencySymbol: $
     _CurrencyCode: USD
@@ -56,15 +56,22 @@ MonoBehaviour:
     _IsAvaliable: 0
     _Id: com.spk.esg.iap.d7500
     _DisplayName: 7500 Diamonds
-    _Description: Diamonds can be used to purchase potions
-    _Price: 9.98999977
+    _Description: 
+    _Price: 9.99
     _LocalizedPrice: 
     _CurrencySymbol: $
     _CurrencyCode: USD
     _Texture: {fileID: 0}
     _ProductType: 0
     _PriceTier: 9
-  Leaderboards: []
+  Leaderboards:
+  - IsOpen: 1
+    _info:
+      Title: High Score
+      Description: 
+      Identifier: Normal-Normal
+      Texture: {fileID: 0}
+      MaxRange: 0
   Achievements: []
   checkInternetBeforeLoadRequest: 0
   ShowStoreKitProducts: 1
@@ -81,15 +88,16 @@ MonoBehaviour:
   EnableMediaPlayerAPI: 1
   EnableiAdAPI: 1
   EnableReplayKit: 0
+  EnableCloudKit: 0
   EnableSoomla: 0
   EnablePushNotificationsAPI: 1
   DisablePluginLogs: 0
-  UseGCRequestCaching: 0
-  UsePPForAchievements: 0
+  UseGCRequestCaching: 1
+  UsePPForAchievements: 1
   AutoLoadUsersSmallImages: 1
   AutoLoadUsersBigImages: 0
   MaxImageLoadSize: 512
-  JPegCompressionRate: .800000012
+  JPegCompressionRate: 0.8
   GalleryImageFormat: 1
   RPK_iPadViewType: 0
   SoomlaDownloadLink: http://goo.gl/7LYwuj

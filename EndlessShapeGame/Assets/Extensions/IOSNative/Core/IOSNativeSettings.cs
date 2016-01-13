@@ -10,7 +10,7 @@ using UnityEditor;
 
 public class IOSNativeSettings : ScriptableObject {
 
-	public const string VERSION_NUMBER = "8.0.6";
+	public const string VERSION_NUMBER = "8.1";
 
 	public string AppleId = "XXXXXXXXX";
 
@@ -46,6 +46,7 @@ public class IOSNativeSettings : ScriptableObject {
 	public bool EnableMediaPlayerAPI = true;
 	public bool EnableiAdAPI = true;
 	public bool EnableReplayKit = false;
+	public bool EnableCloudKit = false;
 	public bool EnableSoomla = false;
 
 	public bool EnablePushNotificationsAPI = false;

@@ -77,27 +77,27 @@ public class SA_EditorTool {
 
 
 	public static void ChnageDefineState(string file, string tag, bool IsEnabled) {
-		
-		string content = FileStaticAPI.Read(file);
-	//	Debug.Log(file);
-		//Debug.Log(content);
-
-		int endlineIndex;
-		endlineIndex = content.IndexOf(System.Environment.NewLine);
-		if(endlineIndex == -1) {
-			endlineIndex = content.IndexOf("\n");
-		}
-		string TagLine = content.Substring(0, endlineIndex);
-		
-		if(IsEnabled) {
-			content 	= content.Replace(TagLine, "#define " + tag);
-		} else {
-			content 	= content.Replace(TagLine, "//#define " + tag);
-		}
-//		Debug.Log(content);
-		
-		FileStaticAPI.Write(file, content);
-		
+		if(FileStaticAPI.IsFileExists(file)) {
+			string content = FileStaticAPI.Read(file);
+			//	Debug.Log(file);
+			//Debug.Log(content);
+			
+			int endlineIndex;
+			endlineIndex = content.IndexOf(System.Environment.NewLine);
+			if(endlineIndex == -1) {
+				endlineIndex = content.IndexOf("\n");
+			}
+			string TagLine = content.Substring(0, endlineIndex);
+			
+			if(IsEnabled) {
+				content 	= content.Replace(TagLine, "#define " + tag);
+			} else {
+				content 	= content.Replace(TagLine, "//#define " + tag);
+			}
+			//		Debug.Log(content);
+			
+			FileStaticAPI.Write(file, content);
+		}		
 	}
 
 

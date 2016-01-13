@@ -1,3 +1,5 @@
+#if !TARGET_OS_TV
+
 //
 //  ISN_InApp.m
 //  Unity-iPhone
@@ -1132,6 +1134,6 @@ extern "C" {
 }
 
 
-
+#endif
 
 

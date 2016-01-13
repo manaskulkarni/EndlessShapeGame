@@ -1,13 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public abstract class StoreInterface : MonoBehaviour
 {
+  public class ProductTemplate
+  {
+    public ProductTemplate (string dn, string p, string id)
+    {
+      DisplayName = dn;
+      Price = p;
+      Id = id;
+    }
+    public string DisplayName;
+    public string Price;
+    public string Id;
+  }
+
+  protected Dictionary <string, ProductTemplate> allProducts;
+
   #region Abstract Methods
   public abstract bool IsInitialized ();
   public abstract bool IsAuthenticated ();
 
   public abstract bool IsIAPInitialized ();
+
+  public abstract string GetCurrencySymbol ();
+  public abstract string GetPrice (string productName);
   
   protected abstract void OnSubmitHighScore();
   protected abstract void OnShowLeaderboard();

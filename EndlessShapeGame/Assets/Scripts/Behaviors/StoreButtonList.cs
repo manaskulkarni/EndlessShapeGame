@@ -10,6 +10,7 @@ public class StoreButtonList : MonoBehaviour
   {
     Coins,
     Money,
+    Ads,
   }
 
   [System.Serializable]

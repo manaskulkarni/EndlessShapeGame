@@ -57,6 +57,7 @@ public class IOSNativeSettingsEditor : Editor {
 
 
 	private static string ISN_ReplayKit_Path = "Extensions/IOSNative/Other/VIdeo/ISN_ReplayKit.cs";
+	private static string ISN_CloudKit_Path = "Extensions/IOSNative/iCloud/ISN_CloudKit.cs";
 	private static string ISN_Soomla_Path = "Extensions/IOSNative/Addons/Soomla/Controllers/ISN_SoomlaGrow.cs";
 
 
@@ -81,7 +82,15 @@ public class IOSNativeSettingsEditor : Editor {
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.Space();
 		if(GUILayout.Button("Switch To IOS Platfrom",  GUILayout.Width(150))) {
+
+		#if UNITY_5
+			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iOS);
+		#else
 			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iPhone);
+		#endif
+			
+
+
 		}
 		EditorGUILayout.EndHorizontal();
 
@@ -257,7 +266,7 @@ public class IOSNativeSettingsEditor : Editor {
 
 			EditorGUILayout.BeginHorizontal();
 			IOSNativeSettings.Instance.EnableReplayKit = EditorGUILayout.Toggle("Replay Kit ",  IOSNativeSettings.Instance.EnableReplayKit);
-
+			IOSNativeSettings.Instance.EnableCloudKit = EditorGUILayout.Toggle("Cloud Kit ",  IOSNativeSettings.Instance.EnableCloudKit);
 			EditorGUILayout.EndHorizontal();
 
 
@@ -1073,6 +1082,14 @@ public class IOSNativeSettingsEditor : Editor {
 	}
 
 
+	public static void DisableAdditionalFeatures() {
+		ChnageDefineState(ISN_ReplayKit_Path, 					"REPLAY_KIT", false);
+		ChnageDefineState(ISN_CloudKit_Path, 					"CLOUD_KIT", false);
+
+		ChnageDefineState(IOSNotificationController_Path, 		"PUSH_ENABLED", false);
+		ChnageDefineState(DeviceTokenListener_Path,		 		"PUSH_ENABLED", false);
+	}
+
 	public static void UpdatePluginSettings() {
 		
 		
@@ -1106,6 +1123,7 @@ public class IOSNativeSettingsEditor : Editor {
 		ChnageDefineState(ISN_MediaController_Path, 			"VIDEO_API", IOSNativeSettings.Instance.EnableMediaPlayerAPI);
 		
 		ChnageDefineState(ISN_ReplayKit_Path, 					"REPLAY_KIT", IOSNativeSettings.Instance.EnableReplayKit);
+		ChnageDefineState(ISN_CloudKit_Path, 					"CLOUD_KIT", IOSNativeSettings.Instance.EnableCloudKit);
 
 
 		
@@ -1157,6 +1175,14 @@ public class IOSNativeSettingsEditor : Editor {
 		} else {
 			FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_ReplayKit.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_ReplayKit.mm");
 		}
+
+
+		if(!IOSNativeSettings.Instance.EnableCloudKit) {
+			PluginsInstalationUtil.RemoveIOSFile("ISN_CloudKit");
+		} else {
+			FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_CloudKit.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_CloudKit.mm");
+		}
+
 
 
 		if(!IOSNativeSettings.Instance.EnableSoomla) {
