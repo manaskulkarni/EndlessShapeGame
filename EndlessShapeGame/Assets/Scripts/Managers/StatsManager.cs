@@ -302,8 +302,8 @@ public class StatsManager : MonoBehaviour
 
   public string GetPrice (StoreButton product)
   {
+    #if !UNITY_EDITOR
     Debug.Log (store.GetPrice (product.title.text));
-
     if (store != null && product.currencyType != StoreButtonList.CurrencyType.Ads)
     {
       var p = store.GetPrice (product.title.text);
@@ -313,6 +313,10 @@ public class StatsManager : MonoBehaviour
     {
       return "Watch Video";
     }
+    #else
+      return product.defaultPriceText;
+    #endif
+
   }
 
   private bool CheckHighScore ()
