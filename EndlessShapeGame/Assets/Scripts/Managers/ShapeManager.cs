@@ -407,6 +407,12 @@ public class ShapeManager : MonoBehaviour
 
       ++numCollisions;
 
+      if (currentIntervalIndex + 1 < speedPresets.Length)
+      if (!speedPresets [currentIntervalIndex].scoreInterval.Contains (StatsManager.inst.score))
+      {
+        currentSpeedPreset = speedPresets[++currentIntervalIndex].preset;
+      }
+
       /***********************************************************************/
       // If Player sprite collides with shape of same sprite
       /***********************************************************************/
@@ -427,12 +433,6 @@ public class ShapeManager : MonoBehaviour
             // Add Point to Player Stats
             StatsManager.inst.AddPoint();
             UIManager.inst.UpdateScore();
-
-            if (currentIntervalIndex + 1 < speedPresets.Length)
-            if (!speedPresets [currentIntervalIndex].scoreInterval.Contains (StatsManager.inst.score))
-            {
-              currentSpeedPreset = speedPresets[++currentIntervalIndex].preset;
-            }
                         
             StartCoroutine(DestroyShape(shapeBehavior));
             StartCoroutine (PlayerFeedback (spriteRenderer));
@@ -445,10 +445,7 @@ public class ShapeManager : MonoBehaviour
             topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.21f, topShape.position.z);
 
             // Play Particle Effect
-            gameOverFeedback.startColor = shapeBehavior.originalColor;
-            gameOverFeedback.gameObject.SetActive(true);
-            gameOverFeedback.transform.position = shapeBehavior.transform.position;
-            gameOverFeedback.Play();
+            PlayParticleEffect (gameOverFeedback, shapeBehavior.transform.position, shapeBehavior.originalColor, gameOverFeedback.maxParticles);
 
             // Choose the properties of the shape for next game
             ChooseShapeProperties(shapeBehavior);
@@ -462,10 +459,8 @@ public class ShapeManager : MonoBehaviour
         case ShapeBehavior.ShapeResponse.Opposite:
           // Choose which particle system to use
           ParticleSystem feedback = sameSprite ? gameOverFeedback : specialFeedback;
-          feedback.startColor = specialColor;
-          feedback.gameObject.SetActive(true);
-          feedback.transform.position = shapeBehavior.transform.position;
-          feedback.Play();
+          PlayParticleEffect (feedback, shapeBehavior.transform.position, specialColor, feedback.maxParticles);
+//          feedback.Play();
 
           // Response is opposite, so send game over event is sprites are same
           if (sameSprite)
@@ -525,6 +520,15 @@ public class ShapeManager : MonoBehaviour
     }
 
     return false;
+  }
+
+  private void PlayParticleEffect (ParticleSystem feedback, Vector3 pos, Color col, int count)
+  {
+    feedback.startColor = col;
+    feedback.gameObject.SetActive(true);
+    feedback.transform.position = pos;
+    feedback.Emit (count);
+    feedback.startLifetime = feedback.startLifetime;
   }
   
   private IEnumerator PlayerFeedback (SpriteRenderer spriteRenderer)
