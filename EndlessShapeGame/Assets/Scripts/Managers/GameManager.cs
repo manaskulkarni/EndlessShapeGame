@@ -268,13 +268,29 @@ public class GameManager : StateBehaviour
   bool showingHowToPlayTutorial = false;
   bool showingReviveTutorial = false;
 
+  public GameObject tutorialPrefab;
+
   private IEnumerator TutorialStart_Enter ()
   {
     played = true;
     showingHowToPlayTutorial = true;
+
+    Debug.Log ("Starting Tutorial");
+    GameObject go = GameObject.Instantiate (tutorialPrefab) as GameObject;
+
+    // Create Trigger
     BroadcastMessage (PreTutorialStartEvent);
     BroadcastMessage (GameStartEvent);
-    yield return new WaitForSeconds (1.6f);
+//    yield return new WaitForSeconds (1.6f);
+
+    while (showingHowToPlayTutorial)
+    {
+      yield return null;
+    }
+
+    Destroy (go);
+
+    showingHowToPlayTutorial = true;
 
     PlayerManager.inst.player.SwipeEvent += HandleSwipeEvent;
     BroadcastMessage (TutorialStartEvent);
@@ -296,6 +312,10 @@ public class GameManager : StateBehaviour
     StartPlay ();
   }
 
+  void OnTutorialShapeTriggered ()
+  {
+    showingHowToPlayTutorial = false;
+  }
 
   void HandleSwipeEvent (object sender, System.EventArgs e)
   {
