@@ -88,6 +88,11 @@ public class UIManager : StateBehaviour
   public Text textTutorial;
   public Text textReady;
 
+  public GameObject menuSwitchDiamondStorePrompt;
+  public GameObject menuSwitchPotionStorePrompt;
+  public GameObject menuBuyDiamondMessage;
+  public GameObject menuBuyPotionMessage;
+
   public MaskableGraphic [] allUI { get; set; }
   
   private GameManager.States previousState { get; set; }
@@ -273,6 +278,7 @@ public class UIManager : StateBehaviour
 
   public void PurchaseInGameItem (InGameBuyButton button)
   {
+    Debug.Log ("PURCHASE IN GAME ITEM");
     GameManager.inst.SendMessage ("PurchaseInGameItem", new InGameBuyButtonData (button, counter));
   }
 
@@ -326,6 +332,12 @@ public class UIManager : StateBehaviour
   public void SwitchStore (int store)
   {
     var type = (StoreType) store;
+    if (menuDiamondStore.activeSelf && type == StoreType.Diamonds ||
+      menuPotionStore.activeSelf && type == StoreType.Potions)
+    {
+      return;
+    }
+
     switch (type)
     {
     case StoreType.Diamonds:
@@ -335,6 +347,8 @@ public class UIManager : StateBehaviour
       ShowPotionStore ();
       break;
     }
+
+    GameManager.inst.SendMessage ("OnSwitchStore", store);
   }
 
   public void TutorialReviveDone ()
@@ -591,11 +605,11 @@ public class UIManager : StateBehaviour
     }
   }
   
-  private IEnumerator FadeInReviveCanvas ()
+  private IEnumerator FadeInReviveCanvas (bool animate = true)
   {
     CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
     SetMenuActive (menuRevive, true);
-    animRevive.SetActive (true);
+    animRevive.SetActive (animate);
     
     while (revive.alpha < 1.0f)
     {
@@ -606,8 +620,8 @@ public class UIManager : StateBehaviour
     }
 
     buttonRevive.interactable = true;
-  } 
-  
+  }
+
   private IEnumerator FadeOutReviveCanvas ()
   {
     CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
@@ -670,6 +684,7 @@ public class UIManager : StateBehaviour
     }
 
     buttonStoreBack.interactable = true;
+    GameManager.inst.SendMessage ("OnStoreFadeIn");
   }
   
   private IEnumerator FadeOutStoreCanvas ()
@@ -941,7 +956,7 @@ public class UIManager : StateBehaviour
 
   void OnBoughtRevive ()
   {
-    if (previousState == GameManager.States.ShowRevive)
+    if (TransitionFromRevive ())
     {
       previousState = GameManager.States.None;
       StartCoroutine (FadeOutStoreCanvas ());
@@ -963,6 +978,11 @@ public class UIManager : StateBehaviour
     StartCoroutine (FadeOutOptionsCanvas ());
     StartCoroutine (FadeInStartCanvas ());
   }
+
+  bool TransitionFromRevive ()
+  {
+    return previousState == GameManager.States.ShowRevive || previousState == GameManager.States.ShowTutorialRevive;
+  }
   
   void OnShowStore ()
   {
@@ -970,7 +990,7 @@ public class UIManager : StateBehaviour
     StartCoroutine (FadeOutStartCanvas ());
     
     Debug.Log (previousState);
-    if (previousState == GameManager.States.ShowRevive)
+    if (TransitionFromRevive ())
     {
       if (!potionStoreList.initialized)
       {
@@ -989,7 +1009,7 @@ public class UIManager : StateBehaviour
     StartCoroutine (FadeInStartCanvas ());
 
     Debug.Log ("STATE " + previousState);
-    if (previousState == GameManager.States.ShowRevive)
+    if (TransitionFromRevive ())
     {
       GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
     }
@@ -1164,7 +1184,50 @@ public class UIManager : StateBehaviour
   void OnTutorialReviveEnd ()
   {
     StartCoroutine (FadeOutTutorialReviveCanvas ());
-    GameManager.inst.ChangeState (GameManager.States.ShowRevive);
+    GameManager.inst.ChangeState (GameManager.States.ShowTutorialRevive);
+  }
+
+  void OnShowTutorialRevive ()
+  {
+    StartCoroutine (FadeOutGameCanvas ());
+    StartCoroutine (FadeInReviveCanvas (false));
+  }
+
+  void OnShowSwitchToDiamondStorePrompt ()
+  {
+    buttonSwitchToDiamond.interactable = true;
+    SetMenuActive (menuSwitchDiamondStorePrompt, true);
+  }
+
+  void OnShowBuyDiamondPrompt ()
+  {
+    buttonBuyDiamonds.GetComponent <Animator> ().Play ("ScaleInOut");
+    SetMenuActive (menuSwitchDiamondStorePrompt, false);
+    SetMenuActive (menuBuyDiamondMessage, true);
+
+    SetMenuActive (menuSwitchPotionStorePrompt, true);
+
+    buttonSwitchToPotion.interactable = true;
+  }
+
+  void OnShowBuyPotionPrompt ()
+  {
+    SetMenuActive (menuSwitchPotionStorePrompt, false);
+    SetMenuActive (menuBuyDiamondMessage, false);
+    buttonBuyDiamonds.GetComponent <Animator> ().Play ("None");
+
+    buttonBuyPotions.interactable = true;
+
+    SetMenuActive (menuBuyPotionMessage, true);
+
+    buttonBuyPotions.GetComponent <Animator> ().Play ("ScaleInOut");
+  }
+
+  void OnTutorialReviveDone ()
+  {
+    Debug.Log ("HHHH");
+    SetMenuActive (menuBuyPotionMessage, false);
+    buttonBuyPotions.GetComponent <Animator> ().Play ("None");
   }
 
   void OnShowReadyMessage ()
@@ -1208,11 +1271,29 @@ public class UIManager : StateBehaviour
     OnStoreButtonSwipe (potionStoreList.currentPage);
   }
 
+  private IEnumerator IncreaseCoins ()
+  {
+    int target = StatsManager.inst.coins, curr = 0;
+    int.TryParse (textCoins [0].text, out curr);
+
+    while (curr <= target)
+    {
+      curr += 1;
+      foreach (var v in textCoins)
+      {
+        v.text = ""+curr+"";
+      }
+
+      yield return null;
+    }
+  }
+
   void UpdateCoinsText ()
   {
+    string c = Coins ();
     foreach (var v in textCoins)
     {
-      v.text = Coins ();
+      v.text = c;
     }
   }
   

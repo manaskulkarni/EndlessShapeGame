@@ -27,7 +27,7 @@ public class StatsManager : MonoBehaviour
     public string name;
     public int value;
   }
-  
+
   [System.Serializable]
   public class PlayerStats
   {
@@ -58,14 +58,14 @@ public class StatsManager : MonoBehaviour
 
   public Dictionary <string, ProductData> productActions = new Dictionary<string, ProductData> ();
 
-#if UNITY_EDITOR
+  #if UNITY_EDITOR
   public int startScore = 0;
-#endif
+  #endif
 
   public PlayerStats playerStats;
   public int FlippedScore = 0;
   public bool isFlipped = false;
-  
+
   public int numRevivePotions = 0;
   public int numSlowMotionPotions = 0;
   public int prevFacebookStatus = 0;
@@ -108,7 +108,7 @@ public class StatsManager : MonoBehaviour
   /// </summary>
   public bool firstSession { get; private set; }
   public int numSessions { get; private set; }
- 
+
   public bool canShowRevive
   {
     get
@@ -116,7 +116,7 @@ public class StatsManager : MonoBehaviour
       return true;
     }
   }
-  
+
   public bool canUseRevive
   {
     get
@@ -125,7 +125,7 @@ public class StatsManager : MonoBehaviour
       {
         return true;
       }
-      
+
       return false;
     }
   }
@@ -152,6 +152,10 @@ public class StatsManager : MonoBehaviour
 
   public int vMode = 0;
 
+  #if UNITY_IOS
+  private GameCenterInterface store { get; set; }
+  #endif
+
   void Awake ()
   {
     if (inst == null)
@@ -171,7 +175,7 @@ public class StatsManager : MonoBehaviour
     Debug.Log ("Persistent Data Path: " + Application.persistentDataPath);
     playerStats.numBlackCollision = PlayerPrefs.GetInt("NumBlackCollision");
     playerStats.numGames = PlayerPrefs.GetInt ("NumGames");
-    
+
     previousScore = highScore;
     coins = PlayerPrefs.GetInt ("Coins"); 
     Debug.Log ("COINS : " + coins);
@@ -191,18 +195,9 @@ public class StatsManager : MonoBehaviour
     #if UNITY_IOS
     store = gameObject.AddComponent <GameCenterInterface> ();
     #elif UNITY_ANDROID
-    //    store = gameObject.AddComponent <GooglePlayManager> ();
-    #elif UNITY_WINRT
-    //    store = gameObject.AddComponent <WindowsStoreManager> ();
+    store = gameObject.AddComponent <GooglePlayInterface> ();
     #endif
   }
-  
-  #if UNITY_IOS
-  private GameCenterInterface store { get; set; }
-  #elif UNITY_ANDROID
-  #else
-  #endif
-  
 
   // Use this for initialization
   void Start ()
@@ -243,46 +238,46 @@ public class StatsManager : MonoBehaviour
     }
     //Debug.Log("Flipped Score " + FillpedScore);
 
-#if !UNITY_EDITOR
+    #if !UNITY_EDITOR
     BroadcastMessage (ReportAchievementEvent, new AchievementData ("StillLearning", 100.0f, true));
-    
+
     if (!highScoreCrossed && score > highScore)
     {
-      GameManager.inst.ChangeState (GameManager.States.HighScoreCrossed);
-      highScoreCrossed = true;
+    GameManager.inst.ChangeState (GameManager.States.HighScoreCrossed);
+    highScoreCrossed = true;
     }
-    
+
     if(FlippedScore > 5)
     {
-      BroadcastMessage(ReportAchievementEvent, new AchievementData("AdjustYourView",100.0f,true));
+    BroadcastMessage(ReportAchievementEvent, new AchievementData("AdjustYourView",100.0f,true));
     }
     if(score >= 5)
     {
-      BroadcastMessage(ReportAchievementEvent, new AchievementData("ApprenticeSwyper",100.0f, true));
+    BroadcastMessage(ReportAchievementEvent, new AchievementData("ApprenticeSwyper",100.0f, true));
     }
     if(score >= 10)
     {
-      BroadcastMessage(ReportAchievementEvent,new AchievementData("MasterSwyperI",100.0f, true));
+    BroadcastMessage(ReportAchievementEvent,new AchievementData("MasterSwyperI",100.0f, true));
     }
     if(score >= 15)
     {
-      BroadcastMessage(ReportAchievementEvent, new AchievementData("MasterSwyperII",100.0f, true));
+    BroadcastMessage(ReportAchievementEvent, new AchievementData("MasterSwyperII",100.0f, true));
     }
     if(score >= 20)
     {
-      BroadcastMessage(ReportAchievementEvent, new AchievementData("MasterSwyperIII",100.0f, true));
+    BroadcastMessage(ReportAchievementEvent, new AchievementData("MasterSwyperIII",100.0f, true));
     }
     if(score >= 30)
     {
-      BroadcastMessage(ReportAchievementEvent, new AchievementData("GrandMasterSwyper", 100.0f, true));
+    BroadcastMessage(ReportAchievementEvent, new AchievementData("GrandMasterSwyper", 100.0f, true));
     }
 
     if(playerStats.numBlackCollision >= 100)
     {
-      BroadcastMessage(ReportAchievementEvent, new AchievementData("NoMatch", 100.0f,true));
+    BroadcastMessage(ReportAchievementEvent, new AchievementData("NoMatch", 100.0f,true));
     }
-#endif
-    
+    #endif
+
   }
 
   public void AddCoin (int count = 1)
@@ -306,15 +301,15 @@ public class StatsManager : MonoBehaviour
     Debug.Log (store.GetPrice (product.title.text));
     if (store != null && product.currencyType != StoreButtonList.CurrencyType.Ads)
     {
-      var p = store.GetPrice (product.title.text);
-      return p == "" ? product.defaultPriceText : p;
+    var p = store.GetPrice (product.title.text);
+    return p == "" ? product.defaultPriceText : p;
     }
     else
     {
-      return "Watch Video";
+    return "Watch Video";
     }
     #else
-      return product.defaultPriceText;
+    return product.defaultPriceText;
     #endif
 
   }
@@ -333,11 +328,11 @@ public class StatsManager : MonoBehaviour
   #region implemented abstract members of Manager
   void OnGameReset ()
   {
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     score = startScore;
-#else
+    #else
     score = 0;
-#endif
+    #endif
   }
 
   void OnGameStart ()
@@ -379,17 +374,23 @@ public class StatsManager : MonoBehaviour
   {
     OnGameReset ();
   }
-  
+
   void OnCompleteRevive ()
   {
     --gameItems [InGameBuyButton.ButtonType.Revive];
-//    ++usedRevives;
+    //    ++usedRevives;
   }
 
   void OnPurchaseCoins (StoreButton button)
   {
-    GameManager.inst.BroadcastMessage ("ShowVideo");
-//    BroadcastMessage (PurchaseCoinsEvent, button);
+    if (button.currencyType == StoreButtonList.CurrencyType.Ads)
+    {
+      GameManager.inst.BroadcastMessage ("ShowVideo");
+    }
+    else
+    {
+      BroadcastMessage (PurchaseCoinsEvent, button);
+    }
   }
 
   int numItems = 0;
@@ -472,6 +473,19 @@ public class StatsManager : MonoBehaviour
     Debug.Log ("SETTING VMODE TO : " + mode);
   }
 
+  void OnShowBuyPotionPrompt ()
+  {
+    foreach (var igb in GameObject.FindObjectsOfType <InGameBuyButton> ())
+    {
+      if (igb.type == InGameBuyButton.ButtonType.Revive)
+      {
+        BuyDiamonds (igb.price);
+        break;
+      }
+    }
+
+  }
+
   [System.Obsolete ("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]
   void OnDifficultyChange ()
   {
@@ -484,7 +498,7 @@ public class StatsManager : MonoBehaviour
     Debug.Log (leaderBoardId);
   }
   #endregion
-  
+
   void OnShapeTriggered (ShapeBehavior shape)
   {
     if (shape.shapeResponse == ShapeBehavior.ShapeResponse.Opposite)

@@ -9,7 +9,7 @@ public class ClearPlayerPrefs : EditorWindow
 
   // Private Members
 
-  public static void  ShowWindow ()
+  public static void ShowWindow ()
   {
     PlayerPrefs.DeleteAll ();
   }

@@ -218,6 +218,11 @@ public class AudioManager : MonoBehaviour
     FadeOutMusicTrack(_mode);
   }
 
+  void OnShowTutorialRevive ()
+  {
+    OnShowRevive ();
+  }
+
   void OnDeclineRevive()
   {
     StopLoseEffect();

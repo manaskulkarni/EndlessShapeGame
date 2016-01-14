@@ -44,6 +44,7 @@ public class GameManager : StateBehaviour
     SwitchMode,
     TutorialStart,
     TutorialRevive,
+    ShowTutorialRevive,
   }
 
   public enum DifficultyLevel
@@ -139,6 +140,11 @@ public class GameManager : StateBehaviour
   public string TutorialReviveStartEvent = "OnTutorialReviveStart";
   public string TutorialReviveEndEvent = "OnTutorialReviveEnd";
   public string ShowReadyMessageEvent = "OnShowReadyMessage";
+  public string ShowTutorialReviveEvent = "OnShowTutorialRevive";
+  public string ShowSwitchToDiamondStorePromptEvent = "OnShowSwitchToDiamondStorePrompt";
+  public string ShowBuyPotionPromptEvent = "OnShowBuyPotionPrompt";
+  public string ShowBuyDiamondPromptEvent = "OnShowBuyDiamondPrompt";
+  public string TutorialReviveDoneEvent = "OnTutorialReviveDone";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -367,6 +373,7 @@ public class GameManager : StateBehaviour
   {
     if (StatsManager.inst.playerStats.numGames == 0 && !shownReviveTutorial)
     {
+      Debug.Log ("TUTORIAL REVIVE");
       shownReviveTutorial = true;
       ChangeState (States.TutorialRevive);
     }
@@ -383,6 +390,11 @@ public class GameManager : StateBehaviour
     }
   }
 
+  private void ShowTutorialRevive_Enter ()
+  {
+    BroadcastMessage (ShowTutorialReviveEvent);
+  }
+
   private IEnumerator TutorialRevive_Enter ()
   {
     showingReviveTutorial = true;
@@ -396,6 +408,86 @@ public class GameManager : StateBehaviour
 
     showingReviveTutorial = true;
     BroadcastMessage (TutorialReviveEndEvent);
+
+    while (showingReviveTutorial)
+    {
+      yield return null;
+    }
+
+    foreach (var button in GameObject.FindObjectsOfType <Button> ())
+    {
+      button.interactable = false;
+    }
+
+    showingReviveTutorial = true;
+    BroadcastMessage (ShowSwitchToDiamondStorePromptEvent);
+
+    while (showingReviveTutorial)
+    {
+      yield return null;
+    }
+
+    Debug.Log ("SWITCH TO DIAMOND");
+
+    showingReviveTutorial = true;
+
+    BroadcastMessage (ShowBuyDiamondPromptEvent);
+
+    while (showingReviveTutorial)
+    {
+      yield return null;
+    }
+
+    Debug.Log ("SHOWING BUY DIAMOND");
+
+    BroadcastMessage (ShowBuyPotionPromptEvent);
+    showingReviveTutorial = true;
+
+    while (showingReviveTutorial)
+    {
+//      Debug.Log ("SSM");
+      yield return null;
+    }
+
+    BroadcastMessage (TutorialReviveDoneEvent);
+  }
+
+  private void OnStoreFadeIn ()
+  {
+    Debug.Log ("GAMEMANGER");
+    if (showingReviveTutorial)
+    {
+      showingReviveTutorial = false;
+    }
+  }
+
+  private void OnSwitchStore (int store)
+  {
+    if (showingReviveTutorial)
+    {
+      showingReviveTutorial = false;
+//      if (store == (int)UIManager.StoreType.Diamonds)
+//      {
+//        showingReviveTutorial = false;
+//      }
+//      else if (store == (int)UIManager.StoreType.Potions)
+//      {
+//        showingReviveTutorial = false;
+//      }
+    }
+  }
+
+  private void OnBuyRevive ()
+  {
+    if (showingReviveTutorial)
+    {
+      showingReviveTutorial = false;
+
+      foreach (var v in GameObject.FindObjectsOfType <Button> ())
+      {
+        v.interactable = true;
+      }
+    }
   }
 
   private void TutorialReviveDone ()
