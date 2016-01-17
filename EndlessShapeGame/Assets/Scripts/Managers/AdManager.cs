@@ -33,7 +33,7 @@ public class AdManager : MonoBehaviour
     sdkDelegate.OnBannerLoad += SdkDelegate_OnBannerLoad;
     sdkDelegate.OnBannerFailedToLoad += SdkDelegate_OnBannerFailedToLoad;
     sdkDelegate.OnBannerClicked += SdkDelegate_OnBannerClicked;
-    
+
     AdToAppBinding.setCallbacks(sdkDelegate);
     
     AdToAppBinding.start(
@@ -68,6 +68,7 @@ public class AdManager : MonoBehaviour
     Debug.Log ("Currency Name: " + currencyName);
     Debug.Log ("Currency Value: " + currencyValue);
     GameManager.inst.BroadcastMessage ("OnRewardCompleted", String.Format (currencyName + currencyValue));
+    GameManager.inst.BroadcastMessage ("OnEndVideo");
   }
 
   void SdkDelegate_OnBannerLoad ()
@@ -85,7 +86,7 @@ public class AdManager : MonoBehaviour
     Debug.Log("OnBannerClicked");
   }
 
-  public void ShowVideo ()
+  public void OnShowVideo ()
   {
 //    if (!AdToAppBinding.isInterstitialDisplayed() && !AdToAppBinding.hasInterstitial (AdToAppContentType.VIDEO))
     {

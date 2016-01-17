@@ -17,22 +17,24 @@ public class UIManager : StateBehaviour
     None,
   }
 
-  public enum StoreType
-  {
-    Diamonds,
-    Potions,
-  }
+  // TODO
+//  public enum StoreType
+//  {
+//    Diamonds,
+//    Potions,
+//  }
 
-  public class InGameBuyButtonData
-  {
-    public InGameBuyButtonData (InGameBuyButton b, int c)
-    {
-      button = b;
-      count = c;
-    }
-    public InGameBuyButton button;
-    public int count;
-  }
+  // TODO
+//  public class InGameBuyButtonData
+//  {
+//    public InGameBuyButtonData (InGameBuyButton b, int c)
+//    {
+//      button = b;
+//      count = c;
+//    }
+//    public InGameBuyButton button;
+//    public int count;
+//  }
   
   
   // Public Members
@@ -53,9 +55,12 @@ public class UIManager : StateBehaviour
   private GameObject menuRevive { get; set; }
   private GameObject animRevive { get; set; }
   private GameObject menuStore { get; set; }
-  private GameObject menuFacebookLeaderboard { get; set; }
-  private GameObject menuDiamondStore { get; set; }
-  private GameObject menuPotionStore { get; set; }
+  // TODO
+//  private GameObject menuFacebookLeaderboard { get; set; }
+  // TODO
+//  private GameObject menuDiamondStore { get; set; }
+  // TODO
+//  private GameObject menuPotionStore { get; set; }
   private GameObject menuTutorialStart { get; set; }
   private GameObject menuTutorialRevive { get; set; }
   private GameObject menuReady { get; set; }
@@ -70,28 +75,31 @@ public class UIManager : StateBehaviour
   private Color startImageCircleColor { get; set; }
   
   public ScrollSnapRect diamondStoreList;
-  public ScrollSnapRect potionStoreList;
+//  public ScrollSnapRect potionStoreList;
 
   public Button buttonStart;
   public Button buttonOptionsBack;
   public Button buttonStoreBack;
-  public Button buttonFacebookBack;
+  // TODO
+//  public Button buttonFacebookBack;
   public Button buttonRevive;
   public Button buttonTutorialReviveDone;
 
-  public Button buttonSwitchToDiamond;
-  public Button buttonSwitchToPotion;
+  // TODO
+//  public Button buttonSwitchToDiamond;
+//  public Button buttonSwitchToPotion;
 
   public Button buttonBuyDiamonds;
-  public Button buttonBuyPotions;
+//  public Button buttonBuyPotions;
 
   public Text textTutorial;
   public Text textReady;
 
-  public GameObject menuSwitchDiamondStorePrompt;
-  public GameObject menuSwitchPotionStorePrompt;
-  public GameObject menuBuyDiamondMessage;
-  public GameObject menuBuyPotionMessage;
+  // TODO
+//  public GameObject menuSwitchDiamondStorePrompt;
+//  public GameObject menuSwitchPotionStorePrompt;
+//  public GameObject menuBuyDiamondMessage;
+//  public GameObject menuBuyPotionMessage;
 
   public MaskableGraphic [] allUI { get; set; }
   
@@ -127,8 +135,8 @@ public class UIManager : StateBehaviour
     menuRevive.GetComponent <CanvasGroup> ().alpha = 0.0f;
     menuStore = GameObject.Find ("MenuStore");
     menuStore.GetComponent <CanvasGroup> ().alpha = 0.0f;
-    menuFacebookLeaderboard = GameObject.Find ("MenuFacebookLeaderboard");
-    menuFacebookLeaderboard.GetComponent <CanvasGroup> ().alpha = 0.0f;
+//    menuFacebookLeaderboard = GameObject.Find ("MenuFacebookLeaderboard");
+//    menuFacebookLeaderboard.GetComponent <CanvasGroup> ().alpha = 0.0f;
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
 //    textGameOverFeedback.GetComponent <Animator> ().Stop ();
@@ -141,9 +149,10 @@ public class UIManager : StateBehaviour
     menuTutorialStart = GameObject.Find ("MenuTutorialStart");
     menuTutorialRevive = GameObject.Find ("MenuTutorialRevive");
     menuReady = GameObject.Find ("MenuReady");
-    menuDiamondStore = GameObject.Find ("MenuDiamondStore");
-    menuPotionStore = GameObject.Find ("MenuPotionStore");
-    ShowDiamondStore ();
+    // TODO
+//    menuDiamondStore = GameObject.Find ("MenuDiamondStore");
+//    menuPotionStore = GameObject.Find ("MenuPotionStore");
+//    ShowDiamondStore ();
     
     textGameOverScore.text = BestScore ();
     textGameOverFeedback.text = "";
@@ -276,35 +285,47 @@ public class UIManager : StateBehaviour
     GameManager.inst.SendMessage ("PurchaseItem", button);
   }
 
+  // TODO
   public void PurchaseInGameItem (InGameBuyButton button)
   {
-    Debug.Log ("PURCHASE IN GAME ITEM");
-    GameManager.inst.SendMessage ("PurchaseInGameItem", new InGameBuyButtonData (button, counter));
+//    Debug.Log ("PURCHASE IN GAME ITEM");
+//    GameManager.inst.SendMessage ("PurchaseInGameItem", new InGameBuyButtonData (button, counter));
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   public void AddInGameItem (InGameBuyButton button)
   {
-    GameManager.inst.SendMessage ("AddInGameItem", button);
+//    GameManager.inst.SendMessage ("AddInGameItem", button);
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   public void SubtractInGameItem (InGameBuyButton button)
   {
-    GameManager.inst.SendMessage ("SubtractInGameItem", button);
+//    GameManager.inst.SendMessage ("SubtractInGameItem", button);
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   public void FacebookConnect ()
   {
-    GameManager.inst.ChangeState (GameManager.States.FacebookConnect);
+//    GameManager.inst.ChangeState (GameManager.States.FacebookConnect);
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   public void ShowFacebookLeaderboard ()
   {
-    GameManager.inst.ChangeState (GameManager.States.TryShowFacebookLeaderboard);
+//    GameManager.inst.ChangeState (GameManager.States.TryShowFacebookLeaderboard);
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   public void HideFacebookLeaderboard ()
   {
-    GameManager.inst.ChangeState (GameManager.States.HideFacebookLeaderboard);
+//    GameManager.inst.ChangeState (GameManager.States.HideFacebookLeaderboard);
+    throw new System.NotImplementedException ();
   }
 
   public void RestorePurchase ()
@@ -329,28 +350,30 @@ public class UIManager : StateBehaviour
     }
   }
 
+  // TODO
   public void SwitchStore (int store)
   {
-    var type = (StoreType) store;
-    if (menuDiamondStore.activeSelf && type == StoreType.Diamonds ||
-      menuPotionStore.activeSelf && type == StoreType.Potions)
-    {
-      return;
-    }
-
-    switch (type)
-    {
-    case StoreType.Diamonds:
-      ShowDiamondStore ();
-      break;
-    case StoreType.Potions:
-      ShowPotionStore ();
-      break;
-    }
-
-    GameManager.inst.SendMessage ("OnSwitchStore", store);
+//    var type = (StoreType) store;
+//    if (menuDiamondStore.activeSelf && type == StoreType.Diamonds ||
+//      menuPotionStore.activeSelf && type == StoreType.Potions)
+//    {
+//      return;
+//    }
+//
+//    switch (type)
+//    {
+//    case StoreType.Diamonds:
+//      ShowDiamondStore ();
+//      break;
+//    case StoreType.Potions:
+//      ShowPotionStore ();
+//      break;
+//    }
+//
+//    GameManager.inst.SendMessage ("OnSwitchStore", store);
+    throw new System.NotImplementedException ();
   }
-
+    
   public void TutorialReviveDone ()
   {
     GameManager.inst.SendMessage ("TutorialReviveDone");
@@ -666,14 +689,15 @@ public class UIManager : StateBehaviour
     CanvasGroup store = menuStore.GetComponent <CanvasGroup> ();
     SetMenuActive (menuStore, true);
 
-    if (menuDiamondStore.activeSelf)
-    {
-      ShowDiamondStore ();
-    }
-    else
-    {
-      ShowPotionStore ();
-    }
+    // TODO
+//    if (menuDiamondStore.activeSelf)
+//    {
+//      ShowDiamondStore ();
+//    }
+//    else
+//    {
+//      ShowPotionStore ();
+//    }
     
     while (store.alpha < 1.0f)
     {
@@ -704,38 +728,38 @@ public class UIManager : StateBehaviour
     SetMenuActive (menuStore, false);
   }
 
-  private IEnumerator FadeInFacebookLeaderboardCanvas ()
-  {
-    CanvasGroup store = menuFacebookLeaderboard.GetComponent <CanvasGroup> ();
-    SetMenuActive (menuFacebookLeaderboard, true);
-    
-    while (store.alpha < 1.0f)
-    {
-      float alpha = store.alpha;
-      alpha += Time.deltaTime * 5.0f;
-      store.alpha = alpha;
-      yield return null;
-    }
-
-    buttonStoreBack.interactable = true;
-  }
-  
-  private IEnumerator FadeOutFacebookLeaderboardCanvas ()
-  {
-    CanvasGroup store = menuFacebookLeaderboard.GetComponent <CanvasGroup> ();
-    buttonStoreBack.interactable = false;
-    
-    while (store.alpha > 0.0f)
-    {
-      float alpha = store.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      store.alpha = alpha;
-      yield return null;
-    }
-    
-    store.alpha = 0.0f;
-    SetMenuActive (menuFacebookLeaderboard, false);
-  }
+//  private IEnumerator FadeInFacebookLeaderboardCanvas ()
+//  {
+//    CanvasGroup store = menuFacebookLeaderboard.GetComponent <CanvasGroup> ();
+//    SetMenuActive (menuFacebookLeaderboard, true);
+//    
+//    while (store.alpha < 1.0f)
+//    {
+//      float alpha = store.alpha;
+//      alpha += Time.deltaTime * 5.0f;
+//      store.alpha = alpha;
+//      yield return null;
+//    }
+//
+//    buttonStoreBack.interactable = true;
+//  }
+//  
+//  private IEnumerator FadeOutFacebookLeaderboardCanvas ()
+//  {
+//    CanvasGroup store = menuFacebookLeaderboard.GetComponent <CanvasGroup> ();
+//    buttonStoreBack.interactable = false;
+//    
+//    while (store.alpha > 0.0f)
+//    {
+//      float alpha = store.alpha;
+//      alpha -= Time.deltaTime * 5.0f;
+//      store.alpha = alpha;
+//      yield return null;
+//    }
+//    
+//    store.alpha = 0.0f;
+//    SetMenuActive (menuFacebookLeaderboard, false);
+//  }
 
   private IEnumerator FadeInTutorialCanvas ()
   {
@@ -830,54 +854,56 @@ public class UIManager : StateBehaviour
     SetMenuActive (menuReady, false);
   }
 
-  bool promptingDiamond = false;
+  // TODO
+//  bool promptingDiamond = false;
 
-  private IEnumerator BuyDiamondPrompt ()
-  {
-    promptingDiamond = true; 
-    float scale = 1.0f;
-    for (int i = 0; i < 2; ++i)
-    {
-      while (buttonSwitchToDiamond.transform.localScale.x < scale + 0.5f)
-      {
-        float s = buttonSwitchToDiamond.transform.localScale.x;
-        s += Time.deltaTime * 5.0f;
-        buttonSwitchToDiamond.transform.localScale = Vector2.one * s;
-        yield return null;
-      }
-
-      while (buttonSwitchToDiamond.transform.localScale.x > scale)
-      {
-        float s = buttonSwitchToDiamond.transform.localScale.x;
-        s -= Time.deltaTime * 5.0f;
-        buttonSwitchToDiamond.transform.localScale = Vector2.one * s;
-        yield return null;
-      }
-    }
-
-    promptingDiamond = false;
-//    Debug.Log ("HERE");
-//    var sprite = buttonBuyDiamonds.image;
-//    float alpha = sprite.color.a;
-//    for (int i = 0; i < 5; ++i)
+  // TODO
+//  private IEnumerator BuyDiamondPrompt ()
+//  {
+//    promptingDiamond = true; 
+//    float scale = 1.0f;
+//    for (int i = 0; i < 2; ++i)
 //    {
-//      while (sprite.color.a < 1.0f)
+//      while (buttonSwitchToDiamond.transform.localScale.x < scale + 0.5f)
 //      {
-//        var c = sprite.color;
-//        c.a += Time.deltaTime * 5.0f;
-//        sprite.color = c;
+//        float s = buttonSwitchToDiamond.transform.localScale.x;
+//        s += Time.deltaTime * 5.0f;
+//        buttonSwitchToDiamond.transform.localScale = Vector2.one * s;
 //        yield return null;
 //      }
 //
-//      while (sprite.color.a > alpha)
+//      while (buttonSwitchToDiamond.transform.localScale.x > scale)
 //      {
-//        var c = sprite.color;
-//        c.a -= Time.deltaTime * 5.0f;
-//        sprite.color = c;
+//        float s = buttonSwitchToDiamond.transform.localScale.x;
+//        s -= Time.deltaTime * 5.0f;
+//        buttonSwitchToDiamond.transform.localScale = Vector2.one * s;
 //        yield return null;
 //      }
 //    }
-  }
+//
+//    promptingDiamond = false;
+////    Debug.Log ("HERE");
+////    var sprite = buttonBuyDiamonds.image;
+////    float alpha = sprite.color.a;
+////    for (int i = 0; i < 5; ++i)
+////    {
+////      while (sprite.color.a < 1.0f)
+////      {
+////        var c = sprite.color;
+////        c.a += Time.deltaTime * 5.0f;
+////        sprite.color = c;
+////        yield return null;
+////      }
+////
+////      while (sprite.color.a > alpha)
+////      {
+////        var c = sprite.color;
+////        c.a -= Time.deltaTime * 5.0f;
+////        sprite.color = c;
+////        yield return null;
+////      }
+////    }
+//  }
   
   #endregion
   
@@ -988,19 +1014,20 @@ public class UIManager : StateBehaviour
   {
     StartCoroutine (FadeInStoreCanvas ());
     StartCoroutine (FadeOutStartCanvas ());
-    
+
     Debug.Log (previousState);
-    if (TransitionFromRevive ())
-    {
-      if (!potionStoreList.initialized)
-      {
-        potionStoreList.gameObject.SetActive (true);
-        potionStoreList.Start ();
-      }
-      
-      ShowPotionStore ();
-      potionStoreList.SetPage (0);
-    }
+    // TODO
+//    if (TransitionFromRevive ())
+//    {
+//      if (!potionStoreList.initialized)
+//      {
+//        potionStoreList.gameObject.SetActive (true);
+//        potionStoreList.Start ();
+//      }
+//      
+//      ShowPotionStore ();
+//      potionStoreList.SetPage (0);
+//    }
   }
   
   void OnHideStore ()
@@ -1066,46 +1093,57 @@ public class UIManager : StateBehaviour
     textConnectStatus.text = connected ? "Logout" : "Connect";
   }
 
+  // TODO
   void OnShowFacebookLeaderboard ()
   {
-    StartCoroutine (FadeInFacebookLeaderboardCanvas ());
-    StartCoroutine (FadeOutOptionsCanvas ());
+//    StartCoroutine (FadeInFacebookLeaderboardCanvas ());
+//    StartCoroutine (FadeOutOptionsCanvas ());
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   void OnHideFacebookLeaderboard ()
   {
-    StartCoroutine (FadeOutFacebookLeaderboardCanvas ());
-    StartCoroutine (FadeInOptionsCanvas ());
+//    StartCoroutine (FadeOutFacebookLeaderboardCanvas ());
+//    StartCoroutine (FadeInOptionsCanvas ());
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   void OnAddInGameItem (InGameBuyButton button)
   {
-    counter++;
-    buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
+//    counter++;
+//    buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   void OnSubtractInGameItem (InGameBuyButton button)
   {
-    if (counter - 1 > 0)
-    {
-      --counter;
-      buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
-    }
+//    if (counter - 1 > 0)
+//    {
+//      --counter;
+//      buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
+//    }
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   void OnCannotPurchaseInGameItem ()
   {
-    if (!promptingDiamond)
-    {
-      StartCoroutine (BuyDiamondPrompt ());
-    }
+//    if (!promptingDiamond)
+//    {
+//      StartCoroutine (BuyDiamondPrompt ());
+//    }
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   void OnStoreButtonSwipe (int index)
   {
-    if (menuDiamondStore != null && menuPotionStore != null)
+//    if (menuDiamondStore != null && menuPotionStore != null)
     {
-      if (menuDiamondStore.activeSelf)
+//      if (menuDiamondStore.activeSelf)
       {
         Transform container = diamondStoreList.container;
         StoreButton b = container.GetChild (index).GetComponent <StoreButton> ();
@@ -1114,14 +1152,14 @@ public class UIManager : StateBehaviour
         buttonBuyDiamonds.onClick.RemoveAllListeners ();
         buttonBuyDiamonds.onClick.AddListener (() => {PurchaseItem (b);});
       }
-      else if (menuPotionStore.activeSelf)
-      {
-        Transform container = potionStoreList.container;
-        InGameBuyButton b = container.GetChild (index).GetComponent <InGameBuyButton> ();
-        buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+b.price+"";
-        buttonBuyPotions.onClick.RemoveAllListeners ();
-        buttonBuyPotions.onClick.AddListener (() => {PurchaseInGameItem (b);});
-      }
+//      else if (menuPotionStore.activeSelf)
+//      {
+//        Transform container = potionStoreList.container;
+//        InGameBuyButton b = container.GetChild (index).GetComponent <InGameBuyButton> ();
+//        buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+b.price+"";
+//        buttonBuyPotions.onClick.RemoveAllListeners ();
+//        buttonBuyPotions.onClick.AddListener (() => {PurchaseInGameItem (b);});
+//      }
     }
   }
 
@@ -1193,41 +1231,48 @@ public class UIManager : StateBehaviour
     StartCoroutine (FadeInReviveCanvas (false));
   }
 
+  // TODO
   void OnShowSwitchToDiamondStorePrompt ()
   {
-    buttonSwitchToDiamond.interactable = true;
-    SetMenuActive (menuSwitchDiamondStorePrompt, true);
+//    buttonSwitchToDiamond.interactable = true;
+//    SetMenuActive (menuSwitchDiamondStorePrompt, true);
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   void OnShowBuyDiamondPrompt ()
   {
-    buttonBuyDiamonds.GetComponent <Animator> ().Play ("ScaleInOut");
-    SetMenuActive (menuSwitchDiamondStorePrompt, false);
-    SetMenuActive (menuBuyDiamondMessage, true);
-
-    SetMenuActive (menuSwitchPotionStorePrompt, true);
-
-    buttonSwitchToPotion.interactable = true;
+//    buttonBuyDiamonds.GetComponent <Animator> ().Play ("ScaleInOut");
+//    SetMenuActive (menuSwitchDiamondStorePrompt, false);
+//    SetMenuActive (menuBuyDiamondMessage, true);
+//
+//    SetMenuActive (menuSwitchPotionStorePrompt, true);
+//
+//    buttonSwitchToPotion.interactable = true;
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   void OnShowBuyPotionPrompt ()
   {
-    SetMenuActive (menuSwitchPotionStorePrompt, false);
-    SetMenuActive (menuBuyDiamondMessage, false);
-    buttonBuyDiamonds.GetComponent <Animator> ().Play ("None");
-
-    buttonBuyPotions.interactable = true;
-
-    SetMenuActive (menuBuyPotionMessage, true);
-
-    buttonBuyPotions.GetComponent <Animator> ().Play ("ScaleInOut");
+//    SetMenuActive (menuSwitchPotionStorePrompt, false);
+//    SetMenuActive (menuBuyDiamondMessage, false);
+//    buttonBuyDiamonds.GetComponent <Animator> ().Play ("None");
+//
+//    buttonBuyPotions.interactable = true;
+//
+//    SetMenuActive (menuBuyPotionMessage, true);
+//
+//    buttonBuyPotions.GetComponent <Animator> ().Play ("ScaleInOut");
+    throw new System.NotImplementedException ();
   }
 
+  // TODO
   void OnTutorialReviveDone ()
   {
-    Debug.Log ("HHHH");
-    SetMenuActive (menuBuyPotionMessage, false);
-    buttonBuyPotions.GetComponent <Animator> ().Play ("None");
+//    SetMenuActive (menuBuyPotionMessage, false);
+//    buttonBuyPotions.GetComponent <Animator> ().Play ("None");
+    throw new System.NotImplementedException ();
   }
 
   void OnShowReadyMessage ()
@@ -1236,40 +1281,41 @@ public class UIManager : StateBehaviour
     StartCoroutine (FadeInReadyCanvas ());
   }
 
-  void ShowDiamondStore ()
-  {
-    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
-    Color c = diamond.color;
-    c.a = 100.0f / 255.0f;
-    diamond.color = c;
-
-    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
-    c = potion.color;
-    c.a = 30.0f / 255.0f;
-    potion.color = c;
-
-    menuDiamondStore.SetActive (true);
-    menuPotionStore.SetActive (false);
-    OnStoreButtonSwipe (diamondStoreList.currentPage);
-  }
-
-  void ShowPotionStore ()
-  {
-    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
-    Color c = diamond.color;
-    c.a = 30.0f / 255.0f;
-    diamond.color = c;
-    
-    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
-    c = potion.color;
-    c.a = 100.0f / 255.0f;
-    potion.color = c;
-
-    menuDiamondStore.SetActive (false);
-    menuPotionStore.SetActive (true);
-
-    OnStoreButtonSwipe (potionStoreList.currentPage);
-  }
+  // TODO
+//  void ShowDiamondStore ()
+//  {
+//    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
+//    Color c = diamond.color;
+//    c.a = 100.0f / 255.0f;
+//    diamond.color = c;
+//
+//    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
+//    c = potion.color;
+//    c.a = 30.0f / 255.0f;
+//    potion.color = c;
+//
+//    menuDiamondStore.SetActive (true);
+//    menuPotionStore.SetActive (false);
+//    OnStoreButtonSwipe (diamondStoreList.currentPage);
+//  }
+//
+//  void ShowPotionStore ()
+//  {
+//    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
+//    Color c = diamond.color;
+//    c.a = 30.0f / 255.0f;
+//    diamond.color = c;
+//    
+//    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
+//    c = potion.color;
+//    c.a = 100.0f / 255.0f;
+//    potion.color = c;
+//
+//    menuDiamondStore.SetActive (false);
+//    menuPotionStore.SetActive (true);
+//
+//    OnStoreButtonSwipe (potionStoreList.currentPage);
+//  }
 
   private IEnumerator IncreaseCoins ()
   {

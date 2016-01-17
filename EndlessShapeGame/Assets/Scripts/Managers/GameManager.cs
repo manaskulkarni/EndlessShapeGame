@@ -145,6 +145,8 @@ public class GameManager : StateBehaviour
   public string ShowBuyPotionPromptEvent = "OnShowBuyPotionPrompt";
   public string ShowBuyDiamondPromptEvent = "OnShowBuyDiamondPrompt";
   public string TutorialReviveDoneEvent = "OnTutorialReviveDone";
+  public string ShowVideoEvent = "OnShowVideo";
+  public string EndVideoEvent = "OnEndVideo";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -409,47 +411,47 @@ public class GameManager : StateBehaviour
     showingReviveTutorial = true;
     BroadcastMessage (TutorialReviveEndEvent);
 
-    while (showingReviveTutorial)
-    {
-      yield return null;
-    }
+//    while (showingReviveTutorial)
+//    {
+//      yield return null;
+//    }
 
-    foreach (var button in GameObject.FindObjectsOfType <Button> ())
-    {
-      button.interactable = false;
-    }
-
-    showingReviveTutorial = true;
-    BroadcastMessage (ShowSwitchToDiamondStorePromptEvent);
-
-    while (showingReviveTutorial)
-    {
-      yield return null;
-    }
-
-    Debug.Log ("SWITCH TO DIAMOND");
-
-    showingReviveTutorial = true;
-
-    BroadcastMessage (ShowBuyDiamondPromptEvent);
-
-    while (showingReviveTutorial)
-    {
-      yield return null;
-    }
-
-    Debug.Log ("SHOWING BUY DIAMOND");
-
-    BroadcastMessage (ShowBuyPotionPromptEvent);
-    showingReviveTutorial = true;
-
-    while (showingReviveTutorial)
-    {
-//      Debug.Log ("SSM");
-      yield return null;
-    }
-
-    BroadcastMessage (TutorialReviveDoneEvent);
+//    foreach (var button in GameObject.FindObjectsOfType <Button> ())
+//    {
+//      button.interactable = false;
+//    }
+//
+//    showingReviveTutorial = true;
+//    BroadcastMessage (ShowSwitchToDiamondStorePromptEvent);
+//
+//    while (showingReviveTutorial)
+//    {
+//      yield return null;
+//    }
+//
+//    Debug.Log ("SWITCH TO DIAMOND");
+//
+//    showingReviveTutorial = true;
+//
+//    BroadcastMessage (ShowBuyDiamondPromptEvent);
+//
+//    while (showingReviveTutorial)
+//    {
+//      yield return null;
+//    }
+//
+//    Debug.Log ("SHOWING BUY DIAMOND");
+//
+//    BroadcastMessage (ShowBuyPotionPromptEvent);
+//    showingReviveTutorial = true;
+//
+//    while (showingReviveTutorial)
+//    {
+////      Debug.Log ("SSM");
+//      yield return null;
+//    }
+//
+//    BroadcastMessage (TutorialReviveDoneEvent);
   }
 
   private void OnStoreFadeIn ()
@@ -526,7 +528,7 @@ public class GameManager : StateBehaviour
     BroadcastMessage (CompleteReviveEvent);
     ChangeState (States.Playing);
   }
-  
+
   private void GameOver_Enter ()
   {
     BroadcastMessage (GameOverEvent);
@@ -674,10 +676,11 @@ public class GameManager : StateBehaviour
     BroadcastMessage (PurchaseCoinsEvent, button, SendMessageOptions.DontRequireReceiver);
   }
 
-  void PurchaseInGameItem (UIManager.InGameBuyButtonData button)
-  {
-    BroadcastMessage (PurchaseInGameItemEvent, button, SendMessageOptions.DontRequireReceiver);
-  }
+  // TODO
+//  void PurchaseInGameItem (UIManager.InGameBuyButtonData button)
+//  {
+//    BroadcastMessage (PurchaseInGameItemEvent, button, SendMessageOptions.DontRequireReceiver);
+//  }
 
   void CannotPurchaseInGameItem ()
   {

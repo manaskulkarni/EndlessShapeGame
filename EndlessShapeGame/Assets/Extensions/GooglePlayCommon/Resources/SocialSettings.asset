@@ -8,9 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1a9a6d66393b4088930138323da9797, type: 3}
+  m_Script: {fileID: 0}
   m_Name: SocialSettings
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::SocialPlatfromSettings
   ShowImageSharingSettings: 0
   SaveImageToGallery: 0
   showPermitions: 1
@@ -25,8 +25,8 @@ MonoBehaviour:
   - user_games_activity
   - user_activities
   - user_likes
-  TWITTER_CONSUMER_KEY: wEvDyAUr2QabVAsWPDiGwg
-  TWITTER_CONSUMER_SECRET: igRxZbOrkLQPNLSvibNC3mdNJ5tOlVOPH3HNNKDY0
+  TWITTER_CONSUMER_KEY: REPLACE_WITH_YOUR_CONSUMER_KEY
+  TWITTER_CONSUMER_SECRET: REPLACE_WITH_YOUR_CONSUMER_SECRET
   TWITTER_ACCESS_TOKEN: 
   TWITTER_ACCESS_TOKEN_SECRET: 
   ShowEditorOauthTestingBlock: 0

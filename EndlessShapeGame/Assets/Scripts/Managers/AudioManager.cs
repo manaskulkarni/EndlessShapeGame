@@ -279,16 +279,14 @@ public class AudioManager : MonoBehaviour
     PauseAll();
   }
 
-  void OnApplicationPause (bool pause)
+  void OnShowVideo ()
   {
-    if (pause)
-    {
-      OnPause ();
-    }
-    else
-    {
-      OnUnPause ();
-    }
+    OnPause ();
+  }
+
+  void OnEndVideo ()
+  {
+    OnUnPause ();
   }
 
   void OnUnPause()

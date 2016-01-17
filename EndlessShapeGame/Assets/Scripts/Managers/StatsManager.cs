@@ -385,7 +385,7 @@ public class StatsManager : MonoBehaviour
   {
     if (button.currencyType == StoreButtonList.CurrencyType.Ads)
     {
-      GameManager.inst.BroadcastMessage ("ShowVideo");
+      GameManager.inst.BroadcastMessage ("OnShowVideo");
     }
     else
     {
@@ -393,38 +393,41 @@ public class StatsManager : MonoBehaviour
     }
   }
 
-  int numItems = 0;
-  int price = 0;
+  // TODO
+//  int numItems = 0;
+//  int price = 0;
 
-  void OnPurchaseInGameItem (UIManager.InGameBuyButtonData button)
-  {
-    if (CanPurchasePotion ((int)button.button.price * button.count))
-    {
-      numItems = button.count;
-      price = button.button.price;
-      switch (button.button.type)
-      {
-      case InGameBuyButton.ButtonType.Revive:
-        GameManager.inst.ChangeState (GameManager.States.BuyRevive);
-        break;
-      case InGameBuyButton.ButtonType.SlowMotion:
-        break;
-      }
-    }
-    else
-    {
-      GameManager.inst.BroadcastMessage ("CannotPurchaseInGameItem");
-    }
-  }
+  // TODO
+//  void OnPurchaseInGameItem (UIManager.InGameBuyButtonData button)
+//  {
+//    if (CanPurchasePotion ((int)button.button.price * button.count))
+//    {
+//      numItems = button.count;
+//      price = button.button.price;
+//      switch (button.button.type)
+//      {
+//      case InGameBuyButton.ButtonType.Revive:
+//        GameManager.inst.ChangeState (GameManager.States.BuyRevive);
+//        break;
+//      case InGameBuyButton.ButtonType.SlowMotion:
+//        break;
+//      }
+//    }
+//    else
+//    {
+//      GameManager.inst.BroadcastMessage ("CannotPurchaseInGameItem");
+//    }
+//  }
 
-  void OnBuyRevive ()
-  {
-    Debug.Log ("BOUGHT REVIVES : " + numItems);
-    coins -= price * numItems;
-    gameItems [InGameBuyButton.ButtonType.Revive] += numItems;
-
-    GameManager.inst.ChangeState (GameManager.States.BoughtRevive);
-  }
+  // TODO
+//  void OnBuyRevive ()
+//  {
+//    Debug.Log ("BOUGHT REVIVES : " + numItems);
+//    coins -= price * numItems;
+//    gameItems [InGameBuyButton.ButtonType.Revive] += numItems;
+//
+//    GameManager.inst.ChangeState (GameManager.States.BoughtRevive);
+//  }
 
   void OnProductsLoaded (Dictionary <string, StoreInterface.ProductTemplate> products)
   {
