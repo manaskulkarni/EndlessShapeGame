@@ -49,11 +49,12 @@ public class StatsManager : MonoBehaviour
     public BuyProductDel callback;
   }
 
-  public Dictionary <InGameBuyButton.ButtonType, int> gameItems = new Dictionary<InGameBuyButton.ButtonType, int> ()
-  {
-    { InGameBuyButton.ButtonType.Revive, 0 },
-    { InGameBuyButton.ButtonType.SlowMotion, 1 },
-  };
+  // TODO
+//  public Dictionary <InGameBuyButton.ButtonType, int> gameItems = new Dictionary<InGameBuyButton.ButtonType, int> ()
+//  {
+//    { InGameBuyButton.ButtonType.Revive, 0 },
+//    { InGameBuyButton.ButtonType.SlowMotion, 1 },
+//  };
 
 
   public Dictionary <string, ProductData> productActions = new Dictionary<string, ProductData> ();
@@ -69,6 +70,8 @@ public class StatsManager : MonoBehaviour
   public int numRevivePotions = 0;
   public int numSlowMotionPotions = 0;
   public int prevFacebookStatus = 0;
+
+  public int reviveCoinsPrice = 150;
 
   #region Properties
   /// <summary>
@@ -121,12 +124,12 @@ public class StatsManager : MonoBehaviour
   {
     get
     {
-      if (gameItems [InGameBuyButton.ButtonType.Revive] > 0)
-      {
-        return true;
-      }
+//      if (gameItems [InGameBuyButton.ButtonType.Revive] > 0)
+//      {
+//        return true;
+//      }
 
-      return false;
+      return coins >= reviveCoinsPrice ? true : false;
     }
   }
 
@@ -181,11 +184,12 @@ public class StatsManager : MonoBehaviour
     Debug.Log ("COINS : " + coins);
     prevFacebookStatus = PlayerPrefs.GetInt ("FacebookConenct");
 
-    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
-    {
-      gameItems [(InGameBuyButton.ButtonType)i] = PlayerPrefs.GetInt ("Item" + i);
-      Debug.Log ("NUMBER OF ITEMS FOR " + i + "" + gameItems [(InGameBuyButton.ButtonType)i]);
-    }
+    // TODO
+//    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
+//    {
+//      gameItems [(InGameBuyButton.ButtonType)i] = PlayerPrefs.GetInt ("Item" + i);
+//      Debug.Log ("NUMBER OF ITEMS FOR " + i + "" + gameItems [(InGameBuyButton.ButtonType)i]);
+//    }
 
     #if UNITY_EDITOR
     score = startScore;
@@ -223,10 +227,11 @@ public class StatsManager : MonoBehaviour
     PlayerPrefs.SetInt ("FacebookConenct", prevFacebookStatus);
     PlayerPrefs.SetInt ("VMode", vMode);
 
-    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
-    {
-      PlayerPrefs.SetInt ("Item" + i, gameItems [(InGameBuyButton.ButtonType)i]);
-    }
+    // TODO
+//    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
+//    {
+//      PlayerPrefs.SetInt ("Item" + i, gameItems [(InGameBuyButton.ButtonType)i]);
+//    }
   }
 
   public void AddPoint ()
@@ -377,8 +382,9 @@ public class StatsManager : MonoBehaviour
 
   void OnCompleteRevive ()
   {
-    --gameItems [InGameBuyButton.ButtonType.Revive];
-    //    ++usedRevives;
+//    --gameItems [InGameBuyButton.ButtonType.Revive];
+//        ++usedRevives;
+    coins -= reviveCoinsPrice;
   }
 
   void OnPurchaseCoins (StoreButton button)

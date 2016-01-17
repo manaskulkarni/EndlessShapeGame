@@ -665,7 +665,7 @@ public class GameManager : StateBehaviour
   void BoughtCoins_Enter ()
   {
     BroadcastMessage (BoughtCoinsEvent);
-    ChangeState (States.None);
+//    ChangeState (States.None);
   }
 
   void PurchaseItem (StoreButton button)

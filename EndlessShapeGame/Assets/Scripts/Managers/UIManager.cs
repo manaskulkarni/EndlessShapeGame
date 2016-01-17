@@ -4,18 +4,18 @@ using System.Collections;
 using System.Collections.Generic;
 using BadassProjects.StateMachine;
 
-public class UIManager : StateBehaviour
+public class UIManager : MonoBehaviour
 {
-  public enum States
-  {
-    FadeInStart,
-    FadeOutStart,
-    FadeInRevive,
-    FadeOutRevive,
-    FadeInStore,
-    FadeOutStore,
-    None,
-  }
+//  public enum States
+//  {
+//    FadeInStart,
+//    FadeOutStart,
+//    FadeInRevive,
+//    FadeOutRevive,
+//    FadeInStore,
+//    FadeOutStore,
+//    None,
+//  }
 
   // TODO
 //  public enum StoreType
@@ -51,7 +51,7 @@ public class UIManager : StateBehaviour
   private GameObject menuGame { get; set; }
   private GameObject menuOptions { get; set; }
   private GameObject menuGameOver { get; set; }
-  private GameObject menuCoins { get; set; }
+//  private GameObject menuCoins { get; set; }
   private GameObject menuRevive { get; set; }
   private GameObject animRevive { get; set; }
   private GameObject menuStore { get; set; }
@@ -105,14 +105,14 @@ public class UIManager : StateBehaviour
   
   private GameManager.States previousState { get; set; }
 
-  int counter = 1;
+//  int counter = 1;
   
   void Awake ()
   {
     if (inst == null)
     {
       inst = this;
-      Initialize <States> ();
+//      Initialize <States> ();
     }
     else
     {
@@ -173,8 +173,8 @@ public class UIManager : StateBehaviour
     menuGameOver = GameObject.Find ("MenuGameOver");
     SetMenuActive (menuGameOver, false);
     
-    menuCoins = GameObject.Find ("MenuCoins");
-    SetMenuActive (menuCoins, false);
+//    menuCoins = GameObject.Find ("MenuCoins");
+//    SetMenuActive (menuCoins, false);
 //    SetMenuActive (menuFacebookLeaderboard, false);
     
     menuGame = GameObject.Find ("MenuGame");
@@ -977,16 +977,18 @@ public class UIManager : StateBehaviour
   
   void OnCompleteRevive ()
   {
-    ChangeState (States.None);
+    previousState = GameManager.States.None;
+    StartCoroutine (FadeOutStoreCanvas ());
+    StartCoroutine (FadeInGameCanvas ());
+    UpdateCoinsText ();
+//    ChangeState (States.None);
   }
 
   void OnBoughtRevive ()
   {
     if (TransitionFromRevive ())
     {
-      previousState = GameManager.States.None;
-      StartCoroutine (FadeOutStoreCanvas ());
-      StartCoroutine (FadeInGameCanvas ());
+      Debug.Log ("CODE HERE");
       GameManager.inst.ChangeState (GameManager.States.ReviveComplete);
     }
 
@@ -1194,7 +1196,8 @@ public class UIManager : StateBehaviour
 
   void OnBoughtCoins ()
   {
-    UpdateCoinsText ();
+//    UpdateCoinsText ();
+    OnBoughtRevive ();
   }
 
   void OnTutorialStart ()
@@ -1393,10 +1396,4 @@ public class UIManager : StateBehaviour
   {
     menu.SetActive (active);
   }
-  
-  //  // Update is called once per frame
-  //  void Update ()
-  //  {
-  //  }
-  
 }

@@ -143,7 +143,10 @@ namespace BadassProjects.StateMachine
 
 			var nextState = stateLookup[newState];
 
-			if (currentState == nextState) return;
+//			if (currentState == nextState)
+//      {
+//        return;
+//      }
 
 			//Cancel any queued changes.
 			if (queuedChange != null)

@@ -442,7 +442,7 @@ public class ShapeManager : MonoBehaviour
             // Store the currrent top shape position to avoid artifacts (Currently not used)
             baseShape = spriteRenderer.transform;
             topShape = shapeBehavior.transform;
-            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.21f, topShape.position.z);
+            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
 
             // Play Particle Effect
             PlayParticleEffect (gameOverFeedback, shapeBehavior.transform.position, shapeBehavior.originalColor, gameOverFeedback.maxParticles);
@@ -468,7 +468,7 @@ public class ShapeManager : MonoBehaviour
             // Shuffle the shape properties to increase randomness
             baseShape = spriteRenderer.transform;
             topShape = shapeBehavior.transform;
-            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.21f, topShape.position.z);
+            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
 
             ChooseShapeProperties(shapeBehavior);
             shapes.RemoveAt(0);
