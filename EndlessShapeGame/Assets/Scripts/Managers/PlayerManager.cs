@@ -149,7 +149,7 @@ public class PlayerManager : MonoBehaviour
 //    StartCoroutine (FadeOutPlayer ());
   }
   
-  void OnCompleteRevive ()
+  void OnReviveCompleteStart ()
   {
     OnHideStore ();
     OnGameStart ();

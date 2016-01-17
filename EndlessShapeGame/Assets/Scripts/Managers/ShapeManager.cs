@@ -656,10 +656,15 @@ public class ShapeManager : MonoBehaviour
     }
   }
 
-  void OnCompleteRevive ()
+  void OnReviveCompleteStart ()
   {
     OnHideStore ();
-    OnGameRestart ();
+  }
+
+  void OnReviveCompleteEnd ()
+  {
+    currentIntervalIndex = GetStartInterval ();
+    currentSpeedPreset = speedPresets[currentIntervalIndex].preset;
     OnGameStart ();
   }
 
@@ -924,7 +929,9 @@ public class ShapeManager : MonoBehaviour
 
     foreach (var v in shapes)
     {
-      v.spriteRenderer.color = v.originalColor;
+      Color c = v.spriteRenderer.color;
+      c.a = 1.0f;
+      v.spriteRenderer.color = c;
     }
 
     yield return null;

@@ -53,6 +53,7 @@ public class AdManager : MonoBehaviour
   void SdkDelegate_OnInterstitialStarted (string adType, string provider)
   {
     Debug.Log(String.Format("OnInterstitialStarted: type {0}, provider: {1}", adType, provider));
+    GameManager.inst.BroadcastMessage ("OnInterstitialStarted");
   }
 
   void SdkDelegate_OnInterstitialClosed (string adType, string provider)

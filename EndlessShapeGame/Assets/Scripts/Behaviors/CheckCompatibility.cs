@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CheckCompatibility : MonoBehaviour
 {
 //  bool lowPerformance = false;
+
+  public HashSet <SpriteRenderer> invertAnimationList = new HashSet<SpriteRenderer> ();
 
   void Awake ()
   {
@@ -13,6 +16,7 @@ public class CheckCompatibility : MonoBehaviour
 	// Use this for initialization
 	void Start ()
   {
+    invertAnimationList.UnionWith (GameObject.FindObjectsOfType <SpriteRenderer> ());
 //    if (lowPerformance)
 //    {
 //      Debug.Log ("Disable Post Process Effects");
@@ -41,8 +45,9 @@ public class CheckCompatibility : MonoBehaviour
   {
 //    if (lowPerformance)
     {
-      var renderers = GameObject.FindObjectsOfType <SpriteRenderer> ();
-      foreach (var v in renderers)
+      invertAnimationList.UnionWith (GameObject.FindObjectsOfType <SpriteRenderer> ());
+
+      foreach (var v in invertAnimationList)
       {
         v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
       }

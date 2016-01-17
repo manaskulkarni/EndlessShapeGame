@@ -274,6 +274,11 @@ public class UIManager : MonoBehaviour
       GameManager.inst.ChangeState (GameManager.States.ShowStore);
     }
   }
+
+  public void ShowRewardVideo ()
+  {
+    GameManager.inst.BroadcastMessage ("OnShowVideo");
+  }
   
   public void ReviveDeclined ()
   {
@@ -348,11 +353,6 @@ public class UIManager : MonoBehaviour
     {
       GameManager.inst.SendMessage ("SwitchMode", 0, SendMessageOptions.DontRequireReceiver);
     }
-  }
-
-  public void ShowRewardVideo ()
-  {
-    GameManager.inst.BroadcastMessage ("OnShowVideo");
   }
 
   // TODO
@@ -570,6 +570,34 @@ public class UIManager : MonoBehaviour
     StartCoroutine (FadeOut (imageCircle, 5.0f));
   }
 
+  private IEnumerator StartReviveTimer ()
+  {
+    //    yield return new WaitForSeconds (2.0f);
+    int i = 3;
+
+    imageCircle.gameObject.SetActive (true);
+    imageCircle.color = startImageCircleColor;
+
+    textPauseTimer.enabled = true;
+    textPauseTimer.text = ""+i+"";
+    textScore.enabled = false;
+    textPauseTimer.color = new Color (0.0f, 0.0f, 0.0f, textScore.color.a);
+
+    while (i > 0)
+    {
+      --i;
+      var cor = StartCoroutine (StartPopFeedback(textPauseTimer));
+      yield return new WaitForSeconds (0.5f);
+      textPauseTimer.text = ""+i+"";
+      StopCoroutine (cor);
+    }
+
+    textScore.enabled = true;
+    textPauseTimer.enabled = false;
+    GameManager.inst.ChangeState (GameManager.States.ReviveCompleteEnd);
+    StartCoroutine (FadeOut (imageCircle, 5.0f));
+  }
+
   private IEnumerator StartPopFeedback (Text text)
   {
     text.transform.localScale = Vector3.one;
@@ -685,7 +713,7 @@ public class UIManager : MonoBehaviour
     
     if (GameManager.inst.GetState ().Equals (GameManager.States.AcceptRevive))
     {
-      GameManager.inst.ChangeState (GameManager.States.ReviveComplete);
+      GameManager.inst.ChangeState (GameManager.States.ReviveCompleteStart);
     }
   }
   
@@ -980,12 +1008,14 @@ public class UIManager : MonoBehaviour
     StartCoroutine (FadeInGameCanvas ());
   }
   
-  void OnCompleteRevive ()
+  void OnReviveCompleteStart ()
   {
     previousState = GameManager.States.None;
     StartCoroutine (FadeOutStoreCanvas ());
     StartCoroutine (FadeInGameCanvas ());
     UpdateCoinsText ();
+
+    StartCoroutine (StartReviveTimer ());
 //    ChangeState (States.None);
   }
 
@@ -994,7 +1024,7 @@ public class UIManager : MonoBehaviour
     if (TransitionFromRevive ())
     {
       Debug.Log ("CODE HERE");
-      GameManager.inst.ChangeState (GameManager.States.ReviveComplete);
+      GameManager.inst.ChangeState (GameManager.States.ReviveCompleteStart);
     }
 
     UpdateCoinsText ();
@@ -1287,6 +1317,14 @@ public class UIManager : MonoBehaviour
   {
     StartCoroutine (FadeOutTutorialCanvas ());
     StartCoroutine (FadeInReadyCanvas ());
+  }
+
+  void OnRewardVideoAvaliable (bool available)
+  {
+    previousState =  (GameManager.States)GameManager.inst.GetState ();
+    animRevive.SetActive (false);
+    StopAllCoroutines ();
+    StartCoroutine (FadeOutReviveCanvas ());
   }
 
   // TODO

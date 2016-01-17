@@ -22,7 +22,8 @@ public class GameManager : StateBehaviour
     ShowRevive,
     DeclineRevive,
     AcceptRevive,
-    ReviveComplete,
+    ReviveCompleteStart,
+    ReviveCompleteEnd,
     ShowOptions,
     HideOptions,
     ShowStore,
@@ -98,7 +99,8 @@ public class GameManager : StateBehaviour
   public string GameStartEvent = "OnGameStart";
   public string GameRestartEvent = "OnGameRestart";
   public string GameStopEvent = "OnGameStop";
-  public string CompleteReviveEvent = "OnCompleteRevive";
+  public string ReviveCompleteStartEvent = "OnReviveCompleteStart";
+  public string ReviveCompleteEndEvent = "OnReviveCompleteEnd";
   
   public string ShowReiviveEvent = "OnShowRevive";
   public string DeclineReviveEvent = "OnDeclineRevive";
@@ -523,10 +525,16 @@ public class GameManager : StateBehaviour
   
   }
   
-  private void ReviveComplete_Enter ()
+  private void ReviveCompleteStart_Enter ()
   {
-    BroadcastMessage (CompleteReviveEvent);
-    ChangeState (States.Playing);
+    BroadcastMessage (ReviveCompleteStartEvent);
+//    ChangeState (States.Playing);
+  }
+
+  private void ReviveCompleteEnd_Enter ()
+  {
+    BroadcastMessage (ReviveCompleteEndEvent);
+    //    ChangeState (States.Playing);
   }
 
   private void GameOver_Enter ()

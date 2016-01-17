@@ -229,7 +229,7 @@ public class AudioManager : MonoBehaviour
     StopMusicTrack(_mode);
   }
 
-  void OnCompleteRevive()
+  void OnReviveCompleteEnd()
   {
     StopAllCoroutines();
     OnHideStore();
@@ -279,7 +279,7 @@ public class AudioManager : MonoBehaviour
     PauseAll();
   }
 
-  void OnShowVideo ()
+  void OnInterstitialStarted ()
   {
     OnPause ();
   }

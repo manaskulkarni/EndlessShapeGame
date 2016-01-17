@@ -9,9 +9,19 @@ public class BackgroundAnimationPlayer : MonoBehaviour
   private int currentAnimation = 0;
   public GameObject [] animations;
 
+  static public BackgroundAnimationPlayer inst { get; private set; }
+
   // Use this as constructor
   void Awake ()
   {
+    if (inst == null)
+    {
+      inst = this;
+    }
+    else
+    {
+      Destroy (this);
+    }
   }
 
   // Use this for initialization
