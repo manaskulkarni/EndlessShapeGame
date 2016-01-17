@@ -350,6 +350,11 @@ public class UIManager : MonoBehaviour
     }
   }
 
+  public void ShowRewardVideo ()
+  {
+    GameManager.inst.BroadcastMessage ("OnShowVideo");
+  }
+
   // TODO
   public void SwitchStore (int store)
   {

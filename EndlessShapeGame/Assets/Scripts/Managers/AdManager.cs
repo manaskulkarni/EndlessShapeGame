@@ -34,12 +34,19 @@ public class AdManager : MonoBehaviour
     sdkDelegate.OnBannerFailedToLoad += SdkDelegate_OnBannerFailedToLoad;
     sdkDelegate.OnBannerClicked += SdkDelegate_OnBannerClicked;
 
-    AdToAppBinding.setCallbacks(sdkDelegate);
-    
-    AdToAppBinding.start(
-      adContentType:AdToAppContentType.VIDEO + AdToAppContentType.REWARDED,
-      appId:"0b03983b-769a-47aa-97e9-1bded06f5095:71c49bf9-ace9-45e5-8f97-fc5dfb1ec7ed"
-      );
+    try
+    {
+      AdToAppBinding.setCallbacks(sdkDelegate);
+      
+      AdToAppBinding.start(
+        adContentType:AdToAppContentType.VIDEO + AdToAppContentType.REWARDED,
+        appId:"0b03983b-769a-47aa-97e9-1bded06f5095:71c49bf9-ace9-45e5-8f97-fc5dfb1ec7ed"
+        );
+    }
+    catch (EntryPointNotFoundException e)
+    {
+      Debug.Log ("Ads not shown in editor");
+    }
   #endif
 	}
 
@@ -89,8 +96,13 @@ public class AdManager : MonoBehaviour
   public void OnShowVideo ()
   {
 //    if (!AdToAppBinding.isInterstitialDisplayed() && !AdToAppBinding.hasInterstitial (AdToAppContentType.VIDEO))
+    try
     {
       AdToAppBinding.showInterstitial (AdToAppContentType.REWARDED);
+    }
+    catch (EntryPointNotFoundException e)
+    {
+      Debug.Log ("Ads not shown in editor");
     }
   }
 }
