@@ -85,6 +85,7 @@ public class UIManager : MonoBehaviour
   public Button buttonRevive;
   public Button buttonTutorialReviveDone;
 
+
   // TODO
 //  public Button buttonSwitchToDiamond;
 //  public Button buttonSwitchToPotion;
@@ -94,6 +95,11 @@ public class UIManager : MonoBehaviour
 
   public Text textTutorial;
   public Text textReady;
+
+  public Text textRevivePrice;
+
+  public GameObject menuReviveWatchVideo;
+  public GameObject menuReviveUseCoins;
 
   // TODO
 //  public GameObject menuSwitchDiamondStorePrompt;
@@ -105,7 +111,7 @@ public class UIManager : MonoBehaviour
   
   private GameManager.States previousState { get; set; }
 
-//  int counter = 1;
+  private Vector2 originalReviveButtonPosition;
   
   void Awake ()
   {
@@ -189,6 +195,8 @@ public class UIManager : MonoBehaviour
     
     //    menuGameOver = GameObject.Find ("MenuGameOver");
     //    SetMenuActive (menuGameOver, false);
+
+    originalReviveButtonPosition = menuReviveUseCoins.GetComponent <RectTransform> ().position;
   }
   
   public void UpdateScore ()
@@ -664,8 +672,10 @@ public class UIManager : MonoBehaviour
   private IEnumerator FadeInReviveCanvas (bool animate = true)
   {
     CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
+
     SetMenuActive (menuRevive, true);
     animRevive.SetActive (animate);
+
     
     while (revive.alpha < 1.0f)
     {
@@ -986,9 +996,23 @@ public class UIManager : MonoBehaviour
     //    textGameOverScore.text = null;
     //    Reset ();
   }
-  
+
   void OnShowRevive ()
   {
+    if (!FirstRevive ())
+    {
+      menuReviveWatchVideo.SetActive (false);
+      Vector2 v = menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition;
+      v.x = 0.0f;
+      menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition = v;
+    }
+    else
+    {
+      menuReviveWatchVideo.SetActive (true);
+      menuReviveUseCoins.GetComponent <RectTransform> ().position = originalReviveButtonPosition;
+    }
+
+    UpdateRevivePriceText ();
     StartCoroutine (FadeOutGameCanvas ());
     StartCoroutine (FadeInReviveCanvas ());
   }
@@ -1019,6 +1043,11 @@ public class UIManager : MonoBehaviour
 //    ChangeState (States.None);
   }
 
+  void OnReviveCompleteEnd ()
+  {
+    UpdateRevivePriceText ();
+  }
+
   void OnBoughtRevive ()
   {
     if (TransitionFromRevive ())
@@ -1042,9 +1071,22 @@ public class UIManager : MonoBehaviour
     StartCoroutine (FadeInStartCanvas ());
   }
 
+  /// <summary>
+  /// Check if store was opened from Revive Menu
+  /// </summary>
+  /// <returns><c>true</c>, if from revive was transitioned, <c>false</c> otherwise.</returns>
   bool TransitionFromRevive ()
   {
     return previousState == GameManager.States.ShowRevive || previousState == GameManager.States.ShowTutorialRevive;
+  }
+
+  /// <summary>
+  /// For now just check if original and current revive price match
+  /// </summary>
+  /// <returns><c>true</c>, if revive was firsted, <c>false</c> otherwise.</returns>
+  bool FirstRevive ()
+  {
+    return StatsManager.inst.reviveCoinsPrice == StatsManager.inst.originalRevivePrice;
   }
   
   void OnShowStore ()
@@ -1387,6 +1429,14 @@ public class UIManager : MonoBehaviour
     {
       v.text = c;
     }
+  }
+
+  void UpdateRevivePriceText ()
+  {
+    int price = StatsManager.inst.reviveCoinsPrice;
+    Debug.Log ("UI MANAGER : " + price);
+
+    textRevivePrice.text = ""+price+"";
   }
   
   //  void OnDifficultyChange ()

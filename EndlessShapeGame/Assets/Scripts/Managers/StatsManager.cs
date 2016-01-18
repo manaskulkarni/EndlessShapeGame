@@ -112,6 +112,8 @@ public class StatsManager : MonoBehaviour
   public bool firstSession { get; private set; }
   public int numSessions { get; private set; }
 
+  public int originalRevivePrice { get; private set; }
+
   public bool canShowRevive
   {
     get
@@ -201,6 +203,8 @@ public class StatsManager : MonoBehaviour
     #elif UNITY_ANDROID
     store = gameObject.AddComponent <GooglePlayInterface> ();
     #endif
+
+    originalRevivePrice = reviveCoinsPrice;
   }
 
   // Use this for initialization
@@ -362,6 +366,7 @@ public class StatsManager : MonoBehaviour
     }
 
     highScoreCrossed = false;
+    reviveCoinsPrice = originalRevivePrice;
     ++numSessions;
   }
 
@@ -380,11 +385,11 @@ public class StatsManager : MonoBehaviour
     OnGameReset ();
   }
 
-  void OnCompleteRevive ()
+  void OnReviveCompleteStart ()
   {
 //    --gameItems [InGameBuyButton.ButtonType.Revive];
-//        ++usedRevives;
     coins -= reviveCoinsPrice;
+    reviveCoinsPrice *= 2;
   }
 
   void OnPurchaseCoins (StoreButton button)

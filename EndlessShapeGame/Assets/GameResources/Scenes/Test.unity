@@ -10295,6 +10295,9 @@ MonoBehaviour:
   buttonBuyDiamonds: {fileID: 1150745469}
   textTutorial: {fileID: 0}
   textReady: {fileID: 0}
+  textRevivePrice: {fileID: 74092871}
+  menuReviveWatchVideo: {fileID: 1422578234}
+  menuReviveUseCoins: {fileID: 1829585720}
 --- !u!1 &1816188253
 GameObject:
   m_ObjectHideFlags: 0
@@ -11447,7 +11450,7 @@ MonoBehaviour:
   - difficultyLevel: 2
     prefab: {fileID: 194950, guid: 2ed851d40443248b4964fcc4789b628c, type: 2}
   startPlayerAlpha: 1
-  invincible: 1
+  invincible: 0
 --- !u!1 &2046696341
 GameObject:
   m_ObjectHideFlags: 0
