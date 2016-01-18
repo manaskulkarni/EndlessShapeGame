@@ -92,6 +92,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-ta-rIN\common_strings.xml" />
      <None Include="Assets\Plugins\android\AN_Res\res\values\analytics.xml" />
+     <None Include="Assets\Plugins\android\OneSignalConfig\AndroidManifest.xml" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values\wallet_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
      <None Include="Assets\Extensions\IOSNative\Documentation\ISN_VersionNotes.txt" />
@@ -148,6 +149,7 @@
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-hu\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\Plugins\android\AN_Res\res\values\ids.xml" />
+     <None Include="Assets\Plugins\android\OneSignalConfig\README.txt" />
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_InApp.mm.txt" />
      <None Include="Assets\Plugins\android\google-play-services_lib\res\values-pt\common_strings.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
@@ -308,6 +310,12 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="OneSignalSDK_WP_WNS">
+ <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/OneSignal/Platforms/OneSignalSDK_WP_WNS.dll</HintPath>
+ </Reference>
+ <Reference Include="OneSignalSDK_WP80">
+ <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/OneSignal/Platforms/OneSignalSDK_WP80.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

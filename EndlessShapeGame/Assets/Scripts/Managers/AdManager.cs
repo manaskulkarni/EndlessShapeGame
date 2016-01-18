@@ -43,7 +43,7 @@ public class AdManager : MonoBehaviour
         appId:"0b03983b-769a-47aa-97e9-1bded06f5095:71c49bf9-ace9-45e5-8f97-fc5dfb1ec7ed"
         );
     }
-    catch (EntryPointNotFoundException e)
+    catch (EntryPointNotFoundException)
     {
       Debug.Log ("Ads not shown in editor");
     }
@@ -101,7 +101,7 @@ public class AdManager : MonoBehaviour
     {
       AdToAppBinding.showInterstitial (AdToAppContentType.REWARDED);
     }
-    catch (EntryPointNotFoundException e)
+    catch (EntryPointNotFoundException)
     {
       Debug.Log ("Ads not shown in editor");
     }

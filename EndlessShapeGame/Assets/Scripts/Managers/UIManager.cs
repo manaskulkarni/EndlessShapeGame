@@ -196,7 +196,7 @@ public class UIManager : MonoBehaviour
     //    menuGameOver = GameObject.Find ("MenuGameOver");
     //    SetMenuActive (menuGameOver, false);
 
-    originalReviveButtonPosition = menuReviveUseCoins.GetComponent <RectTransform> ().position;
+    originalReviveButtonPosition = menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition;
   }
   
   public void UpdateScore ()
@@ -1009,7 +1009,7 @@ public class UIManager : MonoBehaviour
     else
     {
       menuReviveWatchVideo.SetActive (true);
-      menuReviveUseCoins.GetComponent <RectTransform> ().position = originalReviveButtonPosition;
+      menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition = originalReviveButtonPosition;
     }
 
     UpdateRevivePriceText ();

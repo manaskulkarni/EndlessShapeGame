@@ -1,11 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/GameManager.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="425" Column="13" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/Manager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/PlayerBehavior.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/AudioManager.cs" Line="224" Column="4" />
+      <File FileName="Assets/Scripts/Managers/AudioManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/GameCenterInterface.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/Background.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/ShapeBehavior.cs" Line="1" Column="1" />
@@ -13,7 +13,7 @@
       <File FileName="Assets/Scripts/Behaviors/BackgroundAnimationPlayer.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/GameCamera.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/PlayerManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/StatsManager.cs" Line="399" Column="4" />
+      <File FileName="Assets/Scripts/Managers/StatsManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/CheckCompatibility.cs" Line="1" Column="1" />
       <File FileName="Assets/Standard Assets/Effects/ImageEffects/Scripts/InvertColor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/ShapeManager.cs" Line="1" Column="1" />
@@ -21,9 +21,10 @@
       <File FileName="Assets/Scripts/Managers/FacebookInterface.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/GameOverFeedback.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/AdToAppBinding.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Behaviors/TutorialStartTrigger.cs" Line="20" Column="4" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="1195" Column="43" />
-      <File FileName="Assets/Scripts/Classes/StateMachine/StateEngine.cs" Line="246" Column="1" />
+      <File FileName="Assets/Scripts/Behaviors/TutorialStartTrigger.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Classes/StateMachine/StateEngine.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/AdManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
