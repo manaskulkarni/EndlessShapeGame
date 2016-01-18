@@ -1361,7 +1361,7 @@ public class UIManager : MonoBehaviour
     StartCoroutine (FadeInReadyCanvas ());
   }
 
-  void OnRewardVideoAvaliable (bool available)
+  void OnRewardStarted ()
   {
     previousState =  (GameManager.States)GameManager.inst.GetState ();
     animRevive.SetActive (false);

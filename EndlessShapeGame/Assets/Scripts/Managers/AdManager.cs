@@ -33,7 +33,6 @@ public class AdManager : MonoBehaviour
     sdkDelegate.OnBannerLoad += SdkDelegate_OnBannerLoad;
     sdkDelegate.OnBannerFailedToLoad += SdkDelegate_OnBannerFailedToLoad;
     sdkDelegate.OnBannerClicked += SdkDelegate_OnBannerClicked;
-
     try
     {
       AdToAppBinding.setCallbacks(sdkDelegate);
@@ -53,7 +52,15 @@ public class AdManager : MonoBehaviour
   void SdkDelegate_OnInterstitialStarted (string adType, string provider)
   {
     Debug.Log(String.Format("OnInterstitialStarted: type {0}, provider: {1}", adType, provider));
-    GameManager.inst.BroadcastMessage ("OnInterstitialStarted");
+
+    if (adType == AdToAppContentType.INTERSTITIAL)
+    {
+      GameManager.inst.BroadcastMessage ("OnInterstitialStarted");
+    }
+    else if (adType == AdToAppContentType.REWARDED)
+    {
+      GameManager.inst.BroadcastMessage ("OnRewardStarted");
+    }
   }
 
   void SdkDelegate_OnInterstitialClosed (string adType, string provider)

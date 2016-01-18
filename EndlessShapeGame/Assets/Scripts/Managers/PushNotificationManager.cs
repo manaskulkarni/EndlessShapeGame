@@ -6,7 +6,7 @@ using OneSignalPush.MiniJSON;
 
 public class PushNotificationManager : MonoBehaviour
 {
-  private static string extraMessage = null;
+  public string extraMessage = null;
 
   // Use this as constructor
   void Awake ()
@@ -31,14 +31,16 @@ public class PushNotificationManager : MonoBehaviour
     {
       if (pushToken != null)
       {
-        string languageCode = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+        string languageCode = GetLanguageCode ();
         Debug.Log ("LANGUAGE CODE IS : " + languageCode);
-        string notificationText = "Hello World!";
+        string notificationText = "Hello World";
+
         // See http://documentation.onesignal.com/v2.0/docs/notifications-create-notification for a full list of options.
         // You can not use included_segments or any fields that require your OneSignal 'REST API Key' in your app for security reasons.
         // If you need to use your OneSignal 'REST API Key' you will need your own server where you can make this call.
         var notification = new Dictionary<string, object>();
-        notification["contents"] = new Dictionary<string, string>() { {"en", notificationText} };
+          notification["contents"] = new Dictionary<string, string>() { { languageCode, notificationText} };
+
         // Send notification to this device.
         notification["include_player_ids"] = new List<string>() { userId };
         // Example of scheduling a notification in the future.
@@ -63,7 +65,7 @@ public class PushNotificationManager : MonoBehaviour
   // Gets called when the user opens the notification or gets one while in your app.
   // The name of the method can be anything as long as the signature matches.
   // Method must be static or this object should be marked as DontDestroyOnLoad
-  private static void HandleNotification(string message, Dictionary <string, object> additionalData, bool isActive)
+  private void HandleNotification(string message, Dictionary <string, object> additionalData, bool isActive)
   {
     // Only go inside if notification was received when app is suspended
     if (!isActive)
@@ -87,6 +89,145 @@ public class PushNotificationManager : MonoBehaviour
           extraMessage = "Pressed ButtonId: " + additionalData["actionSelected"];
         }
       }
+    }
+  }
+
+  private static string GetLanguageCode ()
+  {
+    switch (Application.systemLanguage)
+    {
+    case SystemLanguage.Afrikaans:
+      return "af";
+      break;
+    case SystemLanguage.Arabic:
+      return "ar";
+      break;
+    case SystemLanguage.Basque:
+      return "eu";
+      break;
+    case SystemLanguage.Belarusian:
+      return "be";
+      break;
+    case SystemLanguage.Bulgarian:
+      return "bg";
+      break;
+    case SystemLanguage.Catalan:
+      return "ca";
+      break;
+    case SystemLanguage.Chinese:
+      return "zh";
+      break;
+    case SystemLanguage.ChineseSimplified:
+      return "zh";
+      break;
+    case SystemLanguage.ChineseTraditional:
+      return "zh";
+      break;
+    case SystemLanguage.Czech:
+      return "cs";
+      break;
+    case SystemLanguage.Danish:
+      return "da";
+      break;
+    case SystemLanguage.Dutch:
+      return "nl";
+      break;
+    case SystemLanguage.English:
+      return "en";
+      break;
+    case SystemLanguage.Estonian:
+      return "et";
+      break;
+    case SystemLanguage.Faroese:
+      return "fo";
+      break;
+    case SystemLanguage.Finnish:
+      return "fi";
+      break;
+    case SystemLanguage.French:
+      return "fr";
+      break;
+    case SystemLanguage.German:
+      return "de";
+      break;
+    case SystemLanguage.Greek:
+      return "el";
+      break;
+    case SystemLanguage.Hebrew:
+      return "he";
+      break;
+    case SystemLanguage.Hungarian:
+      return "hu";
+      break;
+    case SystemLanguage.Icelandic:
+      return "is";
+      break;
+    case SystemLanguage.Indonesian:
+      return "id";
+      break;
+    case SystemLanguage.Italian:
+      return "it";
+      break;
+    case SystemLanguage.Japanese:
+      return "ja";
+      break;
+    case SystemLanguage.Korean:
+      return "ko";
+      break;
+    case SystemLanguage.Latvian:
+      return "lv";
+      break;
+    case SystemLanguage.Lithuanian:
+      return "lt";
+      break;
+    case SystemLanguage.Norwegian:
+      return "no";
+      break;
+    case SystemLanguage.Polish:
+      return "pl";
+      break;
+    case SystemLanguage.Portuguese:
+      return "pt";
+      break;
+    case SystemLanguage.Romanian:
+      return "ro";
+      break;
+    case SystemLanguage.Russian:
+      return "ru";
+      break;
+    case SystemLanguage.SerboCroatian:
+      return "sr";
+      break;
+    case SystemLanguage.Slovak:
+      return "sk";
+      break;
+    case SystemLanguage.Slovenian:
+      return "sl";
+      break;
+    case SystemLanguage.Spanish:
+      return "es";
+      break;
+    case SystemLanguage.Swedish:
+      return "sv";
+      break;
+    case SystemLanguage.Thai:
+      return "th";
+      break;
+    case SystemLanguage.Turkish:
+      return "tr";
+      break;
+    case SystemLanguage.Ukrainian:
+      return "uk";
+      break;
+    case SystemLanguage.Unknown:
+      goto default;
+      break;
+    case SystemLanguage.Vietnamese:
+      return "vi";
+      break;
+    default:
+      return "en";
+      break;  
     }
   }
 }
