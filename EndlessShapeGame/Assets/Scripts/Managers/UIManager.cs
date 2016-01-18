@@ -561,7 +561,7 @@ public class UIManager : MonoBehaviour
     textPauseTimer.enabled = true;
     textPauseTimer.text = ""+i+"";
     textScore.enabled = false;
-    textPauseTimer.color = new Color (0.0f, 0.0f, 0.0f, textScore.color.a);
+//    textPauseTimer.color = new Color (0.0f, 0.0f, 0.0f, textScore.color.a);
     
     while (i > 0)
     {
@@ -589,7 +589,7 @@ public class UIManager : MonoBehaviour
     textPauseTimer.enabled = true;
     textPauseTimer.text = ""+i+"";
     textScore.enabled = false;
-    textPauseTimer.color = new Color (0.0f, 0.0f, 0.0f, textScore.color.a);
+//    textPauseTimer.color = new Color (0.0f, 0.0f, 0.0f, textScore.color.a);
 
     while (i > 0)
     {
