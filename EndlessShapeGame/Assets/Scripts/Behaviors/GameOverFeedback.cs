@@ -24,7 +24,6 @@ public class GameOverFeedback : MonoBehaviour
 
   void PlayFeedback ()
   {
-    Debug.Log ("FEEDBACK");
     if (StatsManager.inst.isHighScore)
     {
       GetComponent <Animator> ().Play ("HighScoreFeedback");

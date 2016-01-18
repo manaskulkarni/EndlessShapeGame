@@ -682,7 +682,10 @@ public class ShapeManager : MonoBehaviour
   void OnHideStore ()
   {
 //    Debug.Log ("SHOW SHAPES");
-    StartCoroutine (FadeInShapes ());
+    if (fadeIn == null)
+    {
+      fadeIn = StartCoroutine (FadeInShapes ());
+    }
   }
 
   void OnShowOptions ()
@@ -910,31 +913,35 @@ public class ShapeManager : MonoBehaviour
     }
   }
 
+  Coroutine fadeIn = null;
+
   private IEnumerator FadeInShapes ()
   {
-//    float alpha = shapes [0].spriteRenderer.color.a;
-//    while (alpha < 1.0f)
-//    {
-//      alpha += Time.deltaTime * 5.0f;
-//      Color c = new Color ();
-//      foreach (var v in shapes)
-//      {
-//        c = v.spriteRenderer.color;
-//        c.a = alpha;
-//        v.spriteRenderer.color = c;
-//      }
-//      
-//      yield return null;
-//    }
-
-    foreach (var v in shapes)
+    float alpha = shapes [0].spriteRenderer.color.a;
+    while (alpha < 1.0f)
     {
-      Color c = v.spriteRenderer.color;
-      c.a = 1.0f;
-      v.spriteRenderer.color = c;
+      alpha += Time.deltaTime * 5.0f;
+      Color c = new Color ();
+      foreach (var v in shapes)
+      {
+        c = v.spriteRenderer.color;
+        c.a = alpha;
+        v.spriteRenderer.color = c;
+      }
+      
+      yield return null;
     }
 
-    yield return null;
+//    foreach (var v in shapes)
+//    {
+//      Color c = v.spriteRenderer.color;
+//      c.a = 1.0f;
+//      v.spriteRenderer.color = c;
+//    }
+
+//    yield return null;
+
+    fadeIn = null;
   }
 
   private void SpawnShapes()

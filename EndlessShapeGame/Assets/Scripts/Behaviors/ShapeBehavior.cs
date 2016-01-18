@@ -63,7 +63,17 @@ public class ShapeBehavior : MonoBehaviour
 
   public void ResetProperties ()
   {
-    StopSpecialShapeCoroutine ();
+    shapeResponse = ShapeResponse.Normal;
+    Color c = originalColor;
+    c.a = spriteRenderer.color.a;
+    spriteRenderer.color = c;
+
+    if (updateSpecial != null)
+    {
+      StopCoroutine (updateSpecial);
+      updateSpecial = null;
+    }
+
     StopInvisibleCoroutine ();
     transform.localScale = Vector2.one;
   }

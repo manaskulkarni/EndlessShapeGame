@@ -458,7 +458,6 @@ public class GameManager : StateBehaviour
 
   private void OnStoreFadeIn ()
   {
-    Debug.Log ("GAMEMANGER");
     if (showingReviveTutorial)
     {
       showingReviveTutorial = false;

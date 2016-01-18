@@ -267,7 +267,7 @@ public class UIManager : MonoBehaviour
   public void UseRevive ()
   {
     Debug.Log ("Using Revive");
-    Debug.Log (StatsManager.inst.canUseRevive);
+    Debug.Log ("Enough Coins : " + StatsManager.inst.canUseRevive);
     if (StatsManager.inst.canUseRevive)
     {
       GameManager.inst.ChangeState (GameManager.States.AcceptRevive);
@@ -1114,7 +1114,7 @@ public class UIManager : MonoBehaviour
     StartCoroutine (FadeOutStoreCanvas ());
     StartCoroutine (FadeInStartCanvas ());
 
-    Debug.Log ("STATE " + previousState);
+//    Debug.Log ("STATE " + previousState);
     if (TransitionFromRevive ())
     {
       GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
@@ -1434,8 +1434,6 @@ public class UIManager : MonoBehaviour
   void UpdateRevivePriceText ()
   {
     int price = StatsManager.inst.reviveCoinsPrice;
-    Debug.Log ("UI MANAGER : " + price);
-
     textRevivePrice.text = ""+price+"";
   }
   
