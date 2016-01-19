@@ -12,7 +12,7 @@ public class PushNotificationManager : MonoBehaviour
   void Awake ()
   {
     // Enable line below to debug issues with setuping OneSignal. (logLevel, visualLogLevel)
-    OneSignal.SetLogLevel(OneSignal.LOG_LEVEL.INFO, OneSignal.LOG_LEVEL.INFO);
+//    OneSignal.SetLogLevel(OneSignal.LOG_LEVEL.INFO, OneSignal.LOG_LEVEL.INFO);
 
     // The only required method you need to call to setup OneSignal to receive push notifications.
     // Call before using any other methods on OneSignal.

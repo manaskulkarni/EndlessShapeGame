@@ -137,11 +137,6 @@ public class UIManager : MonoBehaviour
   {
     allUI = GameObject.FindObjectsOfType <MaskableGraphic> ();
 
-    if (StatsManager.inst.vMode != 0)
-    {
-      GameManager.inst.BroadcastMessage ("SwitchMode", StatsManager.inst.vMode);
-    }
-
     menuStart = GameObject.Find ("MenuStart");
     menuRevive = GameObject.Find ("MenuRevive");
     menuRevive.GetComponent <CanvasGroup> ().alpha = 0.0f;
@@ -1109,7 +1104,7 @@ public class UIManager : MonoBehaviour
     StartCoroutine (FadeInStoreCanvas ());
     StartCoroutine (FadeOutStartCanvas ());
 
-    Debug.Log (previousState);
+//    Debug.Log (previousState);
     // TODO
 //    if (TransitionFromRevive ())
 //    {

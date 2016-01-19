@@ -284,6 +284,11 @@ public class AudioManager : MonoBehaviour
     OnPause ();
   }
 
+  void OnRewardStarted ()
+  {
+    OnPause ();
+  }
+
   void OnEndVideo ()
   {
     OnUnPause ();

@@ -3004,6 +3004,7 @@ GameObject:
   - 114: {fileID: 725390023}
   - 114: {fileID: 725390024}
   - 114: {fileID: 725390025}
+  - 114: {fileID: 725390026}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3161,6 +3162,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   extraMessage: 
+--- !u!114 &725390026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 725390019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 845bcb27841034fa192a7a9dc9bff9d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &731968105
 GameObject:
   m_ObjectHideFlags: 0
@@ -4353,7 +4365,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: GAME NAME
+  m_Text: Ternion
 --- !u!222 &941548496
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7175,7 +7187,6 @@ GameObject:
   - 124: {fileID: 1351239447}
   - 81: {fileID: 1351239446}
   - 114: {fileID: 1351239451}
-  - 114: {fileID: 1351239452}
   - 114: {fileID: 1351239456}
   m_Layer: 0
   m_Name: MainCamera
@@ -7267,17 +7278,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   layerIds: 00000000dd20a1bc
---- !u!114 &1351239452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1351239445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 845bcb27841034fa192a7a9dc9bff9d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1351239456
 MonoBehaviour:
   m_ObjectHideFlags: 0
