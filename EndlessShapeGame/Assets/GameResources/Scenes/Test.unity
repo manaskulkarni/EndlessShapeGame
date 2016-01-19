@@ -3125,7 +3125,7 @@ MonoBehaviour:
   numRevivePotions: 0
   numSlowMotionPotions: 0
   prevFacebookStatus: 0
-  reviveCoinsPrice: 150
+  reviveCoinsPrice: 100
   vMode: 0
 --- !u!114 &725390023
 MonoBehaviour:
@@ -3160,6 +3160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b51314252bc480ea5e9796c2785346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  extraMessage: 
 --- !u!1 &731968105
 GameObject:
   m_ObjectHideFlags: 0

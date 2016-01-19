@@ -55,6 +55,12 @@ public class UIManager : MonoBehaviour
   private GameObject menuRevive { get; set; }
   private GameObject animRevive { get; set; }
   private GameObject menuStore { get; set; }
+
+  /// <summary>
+  /// Safety check if revive at last minute and ReviveDeclined called at same time
+  /// </summary>
+  /// <value><c>true</c> if using revive; otherwise, <c>false</c>.</value>
+//  private bool usingRevive { get; set; }
   // TODO
 //  private GameObject menuFacebookLeaderboard { get; set; }
   // TODO
@@ -290,7 +296,10 @@ public class UIManager : MonoBehaviour
   
   public void ReviveDeclined ()
   {
-    GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
+//    if (!usingRevive)
+    {
+      GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
+    }
   }
   
   public void PurchaseItem (StoreButton button)
@@ -686,12 +695,16 @@ public class UIManager : MonoBehaviour
     }
 
     buttonRevive.interactable = true;
+    menuReviveUseCoins.GetComponentInChildren <Button> ().interactable = true;
+    menuReviveWatchVideo.GetComponentInChildren <Button> ().interactable = true;
   }
 
   private IEnumerator FadeOutReviveCanvas ()
   {
     CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
     buttonRevive.interactable = false;
+    menuReviveUseCoins.GetComponentInChildren <Button> ().interactable = false;
+    menuReviveWatchVideo.GetComponentInChildren <Button> ().interactable = false;
     
     while (revive.alpha > 0.0f)
     {
@@ -709,6 +722,8 @@ public class UIManager : MonoBehaviour
   {
     CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
     buttonRevive.interactable = false;
+    menuReviveUseCoins.GetComponentInChildren <Button> ().interactable = false;
+    menuReviveWatchVideo.GetComponentInChildren <Button> ().interactable = false;
     
     while (revive.alpha > 0.0f)
     {

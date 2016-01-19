@@ -1,9 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/PushNotificationManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/AdManager.cs">
     <Files>
-      <File FileName="Assets/OneSignal/Example/GameControllerExample.cs" Line="113" Column="11" />
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/OneSignal/Example/GameControllerExample.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="137" Column="50" />
       <File FileName="Assets/Scripts/Managers/Manager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/PlayerBehavior.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/AudioManager.cs" Line="1" Column="1" />
@@ -14,7 +14,7 @@
       <File FileName="Assets/Scripts/Behaviors/BackgroundAnimationPlayer.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/GameCamera.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/PlayerManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/StatsManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/StatsManager.cs" Line="454" Column="28" />
       <File FileName="Assets/Scripts/Behaviors/CheckCompatibility.cs" Line="1" Column="1" />
       <File FileName="Assets/Standard Assets/Effects/ImageEffects/Scripts/InvertColor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/ShapeManager.cs" Line="1" Column="1" />
@@ -23,12 +23,13 @@
       <File FileName="Assets/Scripts/Behaviors/GameOverFeedback.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/AdToAppBinding.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/TutorialStartTrigger.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="1366" Column="1" />
       <File FileName="Assets/Scripts/Classes/StateMachine/StateEngine.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/AdManager.cs" Line="104" Column="39" />
-      <File FileName="Assets/DemoGUI.cs" Line="54" Column="10" />
-      <File FileName="Assets/Scripts/Managers/PushNotificationManager.cs" Line="70" Column="10" />
-      <File FileName="Assets/TouchScript/Scripts/TouchManagerInstance.cs" Line="580" Column="39" />
+      <File FileName="Assets/Scripts/Managers/AdManager.cs" Line="77" Column="4" />
+      <File FileName="Assets/DemoGUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/PushNotificationManager.cs" Line="25" Column="4" />
+      <File FileName="Assets/TouchScript/Scripts/TouchManagerInstance.cs" Line="1" Column="1" />
+      <File FileName="Assets/Plugins/AdToAppContentType.cs" Line="8" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
