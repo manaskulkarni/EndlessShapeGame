@@ -3126,7 +3126,7 @@ MonoBehaviour:
   numRevivePotions: 0
   numSlowMotionPotions: 0
   prevFacebookStatus: 0
-  reviveCoinsPrice: 100
+  reviveCoinsPrice: 1000
   vMode: 0
 --- !u!114 &725390023
 MonoBehaviour:

@@ -19,3 +19,5 @@
 /Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Temp/bin/Debug/Mono.Cecil.Mdb.dll
 /Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Temp/bin/Debug/OSCsharp.dll
 /Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Temp/bin/Debug/TUIOsharp.dll
+/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Temp/bin/Debug/OneSignalSDK_WP80.dll
+/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Temp/bin/Debug/OneSignalSDK_WP_WNS.dll

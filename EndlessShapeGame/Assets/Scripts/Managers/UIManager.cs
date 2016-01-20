@@ -275,7 +275,7 @@ public class UIManager : MonoBehaviour
     }
     else
     {
-      previousState = (GameManager.States)GameManager.inst.GetState ();
+      previousState = GameManager.States.ShowRevive;
 //      Debug.Log ("PREVIOUS STATE : " + previousState);
       animRevive.SetActive (false);
       StopAllCoroutines ();
@@ -355,15 +355,22 @@ public class UIManager : MonoBehaviour
     GameManager.inst.ChangeState (GameManager.States.RemoveAds);
   }
 
+  private bool switchingMode = false;
+
   public void InvertColor ()
   {
-    if (StatsManager.inst.vMode == 0)
+    if (!switchingMode)
     {
-      GameManager.inst.SendMessage ("SwitchMode", 1, SendMessageOptions.DontRequireReceiver);
-    }
-    else
-    {
-      GameManager.inst.SendMessage ("SwitchMode", 0, SendMessageOptions.DontRequireReceiver);
+      switchingMode = true;
+
+      if (StatsManager.inst.vMode == 0)
+      {
+        GameManager.inst.SendMessage ("SwitchMode", 1, SendMessageOptions.DontRequireReceiver);
+      }
+      else
+      {
+        GameManager.inst.SendMessage ("SwitchMode", 0, SendMessageOptions.DontRequireReceiver);
+      }
     }
   }
 
@@ -907,6 +914,13 @@ public class UIManager : MonoBehaviour
     SetMenuActive (menuReady, false);
   }
 
+  private IEnumerator IgnoreSwitchMode (float time)
+  {
+    yield return new WaitForSeconds (time);
+
+    switchingMode = false;
+  }
+
   // TODO
 //  bool promptingDiamond = false;
 
@@ -1037,6 +1051,7 @@ public class UIManager : MonoBehaviour
   
   void OnAcceptRevive ()
   {
+    Debug.Log ("CALLED");
     StartCoroutine (FadeOutReviveCanvasSpecial ());
     animRevive.SetActive (false);
     StartCoroutine (FadeInGameCanvas ());
@@ -1060,7 +1075,7 @@ public class UIManager : MonoBehaviour
 
   void OnBoughtRevive ()
   {
-    if (TransitionFromRevive ())
+    if (TransitionFromRevive () && StatsManager.inst.canUseRevive)
     {
       Debug.Log ("CODE HERE");
       GameManager.inst.ChangeState (GameManager.States.ReviveCompleteStart);
@@ -1254,6 +1269,7 @@ public class UIManager : MonoBehaviour
 
   void OnSwitchMode (int mode)
   {
+    StartCoroutine (IgnoreSwitchMode (AudioManager.inst._options_menu1.volumeFadeSpeed * 2.0f));
     var ui = UIManager.inst.allUI;
     foreach (var v in ui)
     {
@@ -1371,9 +1387,9 @@ public class UIManager : MonoBehaviour
     StartCoroutine (FadeInReadyCanvas ());
   }
 
-  void OnRewardStarted ()
+  void OnInterstitialStarted ()
   {
-    previousState =  (GameManager.States)GameManager.inst.GetState ();
+//    previousState =  (GameManager.States)GameManager.inst.GetState ();
     animRevive.SetActive (false);
     StopAllCoroutines ();
     StartCoroutine (FadeOutReviveCanvas ());

@@ -53,14 +53,15 @@ public class AdManager : MonoBehaviour
   {
     Debug.Log(String.Format("OnInterstitialStarted: type {0}, provider: {1}", adType, provider));
 
-    if (adType == AdToAppContentType.INTERSTITIAL)
-    {
-      GameManager.inst.BroadcastMessage ("OnInterstitialStarted");
-    }
-    else if (adType == AdToAppContentType.REWARDED)
-    {
-      GameManager.inst.BroadcastMessage ("OnRewardStarted");
-    }
+//    if (adType == AdToAppContentType.INTERSTITIAL)
+//    {
+//      GameManager.inst.BroadcastMessage ("OnInterstitialStarted");
+//    }
+//    else if (adType == AdToAppContentType.REWARDED)
+//    {
+//      GameManager.inst.BroadcastMessage ("OnRewardStarted");
+//    }
+    GameManager.inst.BroadcastMessage ("OnInterstitialStarted");
   }
 
   void SdkDelegate_OnInterstitialClosed (string adType, string provider)
@@ -82,7 +83,7 @@ public class AdManager : MonoBehaviour
   {
     Debug.Log ("Currency Name: " + currencyName);
     Debug.Log ("Currency Value: " + currencyValue);
-    GameManager.inst.BroadcastMessage ("OnRewardCompleted", String.Format (currencyName + currencyValue));
+    GameManager.inst.BroadcastMessage ("OnRewardCompleted", "100 Diamonds");
     GameManager.inst.BroadcastMessage ("OnEndVideo");
   }
 
@@ -106,7 +107,12 @@ public class AdManager : MonoBehaviour
 //    if (!AdToAppBinding.isInterstitialDisplayed() && !AdToAppBinding.hasInterstitial (AdToAppContentType.VIDEO))
     try
     {
+      #if UNITY_EDITOR
+      SdkDelegate_OnInterstitialStarted ("", "");
+      SdkDelegate_OnRewardedCompleted ("", "100 Diamonds", "");
+      #else
       AdToAppBinding.showInterstitial (AdToAppContentType.REWARDED);
+      #endif
     }
     catch (EntryPointNotFoundException)
     {
