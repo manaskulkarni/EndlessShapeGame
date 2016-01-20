@@ -446,6 +446,8 @@ public class AudioManager : MonoBehaviour
     {
       StopCoroutineSafe(f[_store_menu1].fadeOut);
       StopCoroutineSafe(f[_main_menu1].fadeIn);
+      StopCoroutineSafe(f[_track1].fadeIn);
+      StopCoroutineSafe(f[_track1_loop].fadeIn);
 
       f[_main_menu1].fadeOut = StartCoroutine(FadeOut(main_menu1, _main_menu1));
       f[_store_menu1].fadeIn = StartCoroutine(FadeIn(store_menu1, _store_menu1));
@@ -454,6 +456,8 @@ public class AudioManager : MonoBehaviour
     {
       StopCoroutineSafe(f[_store_menu2].fadeOut);
       StopCoroutineSafe(f[_main_menu2].fadeIn);
+      StopCoroutineSafe(f[_track2].fadeIn);
+      StopCoroutineSafe(f[_track2_loop].fadeIn);
 
       f[_main_menu2].fadeOut = StartCoroutine(FadeOut(main_menu2, _main_menu2));
       f[_store_menu2].fadeIn = StartCoroutine(FadeIn(store_menu2, _store_menu2));
