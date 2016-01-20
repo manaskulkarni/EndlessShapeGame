@@ -5,12 +5,21 @@ public class GooglePlayInterface : StoreInterface
 {
   // Use this as constructor
   void Awake ()
-  {	
+  {
+    GooglePlayConnection.ActionConnectionResultReceived += ActionConnectionResultReceived;
+    GooglePlayConnection.Instance.Connect ();;
   }
 
-  // Use this for initialization
-  void Start ()
-  {	
+  private void ActionConnectionResultReceived(GooglePlayConnectionResult result)
+  {
+    if(result.IsSuccess)
+    {
+      Debug.Log("Connected!");
+    }
+    else
+    {
+      Debug.Log("Cnnection failed with code: " + result.code.ToString());
+    }
   }
 
   #region implemented abstract members of StoreInterface
@@ -42,17 +51,20 @@ public class GooglePlayInterface : StoreInterface
 
   protected override void OnSubmitHighScore ()
   {
-    throw new System.NotImplementedException ();
+    Debug.Log ("Submitting Score");
+    GooglePlayManager.Instance.SubmitScore (StatsManager.inst.leaderBoardId, StatsManager.inst.score);
   }
 
   protected override void OnShowLeaderboard ()
   {
-    throw new System.NotImplementedException ();
+    Debug.Log ("Showing Leaderboard");
+    GooglePlayManager.Instance.ShowLeaderBoardsUI ();
   }
 
   protected override void OnShowAchievements ()
   {
-    throw new System.NotImplementedException ();
+    Debug.Log ("Showing Achievements");
+    GooglePlayManager.Instance.ShowAchievementsUI ();
   }
 
   protected override void OnReportAchievement (StatsManager.AchievementData achievement)

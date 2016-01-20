@@ -79,10 +79,10 @@ public class PluginsInstalationUtil : MonoBehaviour {
 	}
 	public static void Remove_FB_SDK() {
 
-
 		FileStaticAPI.DeleteFolder(PluginsInstalationUtil.ANDROID_DESTANATION_PATH + "facebook");
 		FileStaticAPI.DeleteFolder("Plugins/facebook", false);
 		FileStaticAPI.DeleteFolder("Facebook", false);
+		FileStaticAPI.DeleteFolder("FacebookSDK", false);
 
 		//MSP
 		FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSPFacebookUseExample.cs", false);
@@ -411,7 +411,7 @@ public class PluginsInstalationUtil : MonoBehaviour {
 
 	public static bool IsFacebookInstalled {
 		get {
-			return FileStaticAPI.IsFileExists("Facebook/Scripts/FB.cs");
+			return FileStaticAPI.IsFileExists("Facebook/Scripts/FB.cs") || FileStaticAPI.IsFileExists("FacebookSDK/SDK/Scripts/FB.cs");
 		}
 	}
 
