@@ -53,7 +53,6 @@ public class UIManager : MonoBehaviour
   private GameObject menuGameOver { get; set; }
 //  private GameObject menuCoins { get; set; }
   private GameObject menuRevive { get; set; }
-  private GameObject animRevive { get; set; }
   private GameObject menuStore { get; set; }
 
   /// <summary>
@@ -70,6 +69,8 @@ public class UIManager : MonoBehaviour
   private GameObject menuTutorialStart { get; set; }
   private GameObject menuTutorialRevive { get; set; }
   private GameObject menuReady { get; set; }
+
+  private GameObject imageReviveButtonSeparator;
 
   private Text textScore { get; set; }
   private Text textPauseTimer { get; set; }
@@ -102,6 +103,7 @@ public class UIManager : MonoBehaviour
   public Text textTutorial;
   public Text textReady;
 
+  public GameObject animRevive;
   public Text textRevivePrice;
 
   public GameObject menuReviveWatchVideo;
@@ -142,13 +144,15 @@ public class UIManager : MonoBehaviour
     menuRevive.GetComponent <CanvasGroup> ().alpha = 0.0f;
     menuStore = GameObject.Find ("MenuStore");
     menuStore.GetComponent <CanvasGroup> ().alpha = 0.0f;
+
+    imageReviveButtonSeparator = GameObject.Find ("ReviveSeparator");
+
 //    menuFacebookLeaderboard = GameObject.Find ("MenuFacebookLeaderboard");
 //    menuFacebookLeaderboard.GetComponent <CanvasGroup> ().alpha = 0.0f;
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
 //    textGameOverFeedback.GetComponent <Animator> ().Stop ();
     textConnectStatus = GameObject.Find ("TextConnectStatus").GetComponent <Text> ();
-    animRevive = GameObject.Find ("ImageFill");
     imageCircle = GameObject.Find ("ImageCircle").GetComponent <Image> ();
     startImageCircleColor = imageCircle.color;
     imageCircle.gameObject.SetActive (false);
@@ -286,6 +290,11 @@ public class UIManager : MonoBehaviour
 
   public void ShowRewardVideo ()
   {
+    previousState = GameManager.States.ShowRevive;
+    //      Debug.Log ("PREVIOUS STATE : " + previousState);
+    animRevive.SetActive (false);
+    StopAllCoroutines ();
+    StartCoroutine (FadeOutReviveCanvas ());
     GameManager.inst.BroadcastMessage ("OnShowVideo");
   }
   
@@ -1027,13 +1036,15 @@ public class UIManager : MonoBehaviour
     {
       menuReviveWatchVideo.SetActive (false);
       Vector2 v = menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition;
-      v.x = 0.0f;
+      v.y = 0.0f;
       menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition = v;
+      imageReviveButtonSeparator.SetActive (false);
     }
     else
     {
       menuReviveWatchVideo.SetActive (true);
       menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition = originalReviveButtonPosition;
+      imageReviveButtonSeparator.SetActive (true);
     }
 
     UpdateRevivePriceText ();
