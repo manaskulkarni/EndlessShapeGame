@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-#if UNITY_4_6 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
+#if UNITY_4_6 || UNITY_4_7 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2 
 #else
 using UnityEngine.SceneManagement;
 #endif
@@ -45,12 +45,11 @@ public class IOSNativePreviewBackButton : BaseIOSFeaturePreview {
 
 	public string loadedLevelName {
 		get {
-			#if UNITY_4_6 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
+			#if UNITY_4_6 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2 || UNITY_4_7 
 			return Application.loadedLevelName;
 			#else
 			return SceneManager.GetActiveScene().name;
 			#endif
-
 		}
 	}
 	 

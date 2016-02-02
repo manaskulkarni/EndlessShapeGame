@@ -22,14 +22,21 @@ public class iCloudUseExample : BaseIOSFeaturePreview {
 	void Awake() {
 
 		//initialize icloud and listed for events
-		iCloudManager.OnCloundInitAction += OnCloundInitAction;
+		iCloudManager.OnCloudInitAction += OnCloundInitAction;
 		iCloudManager.OnCloudDataReceivedAction += OnCloudDataReceivedAction;
+		iCloudManager.OnStoreDidChangeExternally += HandleOnStoreDidChangeExternally;
 
 
 		iCloudManager.Instance.init ();
 	
 
 	
+	}
+
+	void HandleOnStoreDidChangeExternally (System.Collections.Generic.List<iCloudData> changedData) {
+		foreach(iCloudData data in changedData) {
+			Debug.Log("Cloud data with key:  " + data.key + " was chnaged");
+		}
 	}
 
 	//--------------------------------------
@@ -111,7 +118,7 @@ public class iCloudUseExample : BaseIOSFeaturePreview {
 	//--------------------------------------
 
 	void OnDestroy() {
-		iCloudManager.OnCloundInitAction -= OnCloundInitAction;
+		iCloudManager.OnCloudInitAction -= OnCloundInitAction;
 		iCloudManager.OnCloudDataReceivedAction -= OnCloudDataReceivedAction;
 	}
 

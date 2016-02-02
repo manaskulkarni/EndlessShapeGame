@@ -20,7 +20,7 @@ public class MarketExample : BaseIOSFeaturePreview {
 	
 	void Awake() {
 
-		//Best practise is to init billing on app launch
+		//Best practice is to init billing on app launch
 		//But for this example we will use a button for initialization
 		//PaymentManagerExample.init();
 	}
@@ -110,7 +110,7 @@ public class MarketExample : BaseIOSFeaturePreview {
 	}
 
 	void StoreProductViewDisnissed () {
-		Debug.Log("Store Product View was Disnissed");
+		Debug.Log("Store Product View was dismissed");
 	}	
 
 

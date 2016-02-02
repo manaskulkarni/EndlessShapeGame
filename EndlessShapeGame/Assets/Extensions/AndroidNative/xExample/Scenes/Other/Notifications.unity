@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reciver: {fileID: 1896329699}
-  MethodName: 43616e73656c4c6f63616c
+  MethodName: CanselLocal
 --- !u!114 &187180956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,7 +867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reciver: {fileID: 1896329699}
-  MethodName: 526567
+  MethodName: Reg
 --- !u!114 &291226490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1652,7 +1652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reciver: {fileID: 1896329699}
-  MethodName: 4c6f63616c
+  MethodName: Local
 --- !u!114 &807895427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2982,7 +2982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reciver: {fileID: 1896329699}
-  MethodName: 43616e63656c416c6c
+  MethodName: CancelAll
 --- !u!114 &1442395268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3982,7 +3982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reciver: {fileID: 1896329699}
-  MethodName: 546f617374
+  MethodName: Toast
 --- !u!1 &1971952996
 GameObject:
   m_ObjectHideFlags: 0
@@ -4166,7 +4166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Reciver: {fileID: 1896329699}
-  MethodName: 4c6f61644c6173744d657373616765
+  MethodName: LoadLastMessage
 --- !u!114 &2005285977
 MonoBehaviour:
   m_ObjectHideFlags: 0

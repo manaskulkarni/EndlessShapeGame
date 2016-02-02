@@ -128,7 +128,7 @@ public class ISN_SoomlaGrow : SA_Singleton<ISN_SoomlaGrow> {
 			}
 			break;
 		case InAppPurchaseState.Failed:
-			if(res.Error.Code == (int) IOSTransactionErrorCode.SKErrorPaymentCancelled) {
+			if(res.Error.Code == (int) IOSTransactionErrorCode.SKErrorPaymentCanceled) {
 				ISN_SoomlaGrow.PurchaseCanceled(res.ProductIdentifier);
 			} else {
 				ISN_SoomlaGrow.PurchaseError();
@@ -165,7 +165,7 @@ public class ISN_SoomlaGrow : SA_Singleton<ISN_SoomlaGrow> {
 		#endif
 	}
 
-	public static void SetPurhsesSupportedState(bool isSupported) {
+	public static void SetPurchasesSupportedState(bool isSupported) {
 		#if (UNITY_IPHONE && !UNITY_EDITOR && SOOMLA) || SA_DEBUG_MODE
 		_ISN_SM_SetPurhsesSupportedState(isSupported);
 		#endif
@@ -220,7 +220,7 @@ public class ISN_SoomlaGrow : SA_Singleton<ISN_SoomlaGrow> {
 	// Events 
 	//--------------------------------------
 
-	private void OnHihgWayInitialized() {
+	private void OnHighWayInitialized() {
 		ActionInitialized();
 	}
 

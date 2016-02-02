@@ -78,10 +78,10 @@ public class IOSNativeSettingsEditor : Editor {
 
 
 		#if UNITY_WEBPLAYER
-		EditorGUILayout.HelpBox("Editing IOS Native Settings not available with web player platfrom. Please switch to any other platform under Build Settings menu", MessageType.Warning);
+		EditorGUILayout.HelpBox("Editing IOS Native Settings not available with web player platfo​rm. Please switch to any other platform under Build Settings menu", MessageType.Warning);
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.Space();
-		if(GUILayout.Button("Switch To IOS Platfrom",  GUILayout.Width(150))) {
+		if(GUILayout.Button("Switch To IOS Platfo​rm",  GUILayout.Width(150))) {
 
 		#if UNITY_5
 			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iOS);
@@ -592,7 +592,7 @@ public class IOSNativeSettingsEditor : Editor {
 				
 				if(IOSNativeSettings.Instance.OneSignalEnabled) {
 					if(!FileStaticAPI.IsFolderExists("Plugins/OneSignal")) {
-						bool res = EditorUtility.DisplayDialog("One Signal not found", "IOS Native wasn't able to find One Signal libraryes in your project. Would you like to donwload and install it?", "Download", "No Thanks");
+						bool res = EditorUtility.DisplayDialog("One Signal not found", "IOS Native wasn't able to find One Signal libraries in your project. Would you like to download and install it?", "Download", "No Thanks");
 						if(res) {
 							Application.OpenURL(IOSNativeSettings.Instance.OneSignalDocsLink);
 						}
@@ -774,7 +774,7 @@ public class IOSNativeSettingsEditor : Editor {
 	}
 
 	GUIContent ProductIdDLabel 		= new GUIContent("ProductId[?]:", "A unique identifier that will be used for reporting. It can be composed of letters and numbers.");
-	GUIContent IsConsLabel 			= new GUIContent("Is Consumable[?]:", "Is prodcut allowed to be purchased more than once?");
+	GUIContent IsConsLabel 			= new GUIContent("Is Consumable[?]:", "Is product allowed to be purchased more than once?");
 	GUIContent DisplayNameLabel  	= new GUIContent("Display Name[?]:", "This is the name of the In-App Purchase that will be seen by customers (if this is their primary language). For automatically renewable subscriptions, don’t include a duration in the display name. The display name can’t be longer than 75 characters.");
 	GUIContent DescriptionLabel 	= new GUIContent("Description[?]:", "This is the description of the In-App Purchase that will be used by App Review during the review process. If indicated in your code, this description may also be seen by customers. For automatically renewable subscriptions, do not include a duration in the description. The description cannot be longer than 255 bytes.");
 	GUIContent PriceTierLabel 		= new GUIContent("Price Tier[?]:", "The retail price for this In-App Purchase subscription.");
@@ -1196,7 +1196,7 @@ public class IOSNativeSettingsEditor : Editor {
 			} else {
 
 
-				bool res = EditorUtility.DisplayDialog("Soomla Grow not found", "IOS Native wasn't able to find Soomla Grow libraryes in your project. Would you like to donwload and install it?", "Download", "No Thanks");
+				bool res = EditorUtility.DisplayDialog("Soomla Grow not found", "IOS Native wasn't able to find Soomla Grow libraries in your project. Would you like to download and install it?", "Download", "No Thanks");
 				if(res) {
 					Application.OpenURL(IOSNativeSettings.Instance.SoomlaDownloadLink);
 				}

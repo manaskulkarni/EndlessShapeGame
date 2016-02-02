@@ -252,7 +252,7 @@ public class GK_Leaderboard  {
 	
 
 	
-	[System.Obsolete("id is deprectaed, plase use Id instead")]
+	[System.Obsolete("id is depreciated, plase use Id instead")]
 	public string id {
 		get {
 			return _info.Identifier;

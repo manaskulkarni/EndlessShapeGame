@@ -31,7 +31,7 @@ public class iCloudData  {
 
 		if(_val.Equals("null")) {
 			if(!IOSNativeSettings.Instance.DisablePluginLogs) 
-				Debug.Log ("empty set");
+				Debug.Log ("ISN iCloud Empty set");
 			_IsEmpty = true;
 		}
 	}
