@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: IOSNativeSettings
   m_EditorClassIdentifier: 
   AppleId: 1024925295
-  ToolbarIndex: 0
+  ToolbarIndex: 1
   SendFakeEventsInEditor: 1
   DefaultStoreProductsView: []
   InAppProducts:
@@ -64,6 +64,18 @@ MonoBehaviour:
     _Texture: {fileID: 0}
     _ProductType: 0
     _PriceTier: 9
+  - IsOpen: 1
+    _IsAvaliable: 0
+    _Id: com.spk.esg.iap.rads
+    _DisplayName: Remove Ads
+    _Description: 
+    _Price: 0.99
+    _LocalizedPrice: 
+    _CurrencySymbol: $
+    _CurrencyCode: USD
+    _Texture: {fileID: 0}
+    _ProductType: 1
+    _PriceTier: 0
   Leaderboards:
   - IsOpen: 1
     _info:

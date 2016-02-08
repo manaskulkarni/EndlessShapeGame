@@ -292,9 +292,7 @@ public class UIManager : MonoBehaviour
   {
     previousState = GameManager.States.ShowRevive;
     //      Debug.Log ("PREVIOUS STATE : " + previousState);
-    animRevive.SetActive (false);
-    StopAllCoroutines ();
-    StartCoroutine (FadeOutReviveCanvas ());
+//    animRevive.SetActive (false);
     GameManager.inst.BroadcastMessage ("OnShowVideo");
   }
   
@@ -1404,6 +1402,12 @@ public class UIManager : MonoBehaviour
     animRevive.SetActive (false);
     StopAllCoroutines ();
     StartCoroutine (FadeOutReviveCanvas ());
+  }
+
+  void OnInterstitialFailed ()
+  {
+//    animRevive.SetActive (true);
+    Debug.Log ("Interstitial Failed Received");
   }
 
   // TODO

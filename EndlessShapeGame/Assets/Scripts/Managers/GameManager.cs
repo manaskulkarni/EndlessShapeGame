@@ -149,6 +149,7 @@ public class GameManager : StateBehaviour
   public string TutorialReviveDoneEvent = "OnTutorialReviveDone";
   public string ShowVideoEvent = "OnShowVideo";
   public string EndVideoEvent = "OnEndVideo";
+  public string RemoveAdsEvent = "OnRemoveAds";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -667,6 +668,11 @@ public class GameManager : StateBehaviour
   void BoughtRevive_Enter ()
   {
     BroadcastMessage (BoughtReviveEvent);
+  }
+
+  void RemoveAds_Enter ()
+  {
+    BroadcastMessage (RemoveAdsEvent);
   }
 
   void BoughtCoins_Enter ()

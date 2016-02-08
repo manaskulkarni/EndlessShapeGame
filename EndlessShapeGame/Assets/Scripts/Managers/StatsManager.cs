@@ -107,6 +107,11 @@ public class StatsManager : MonoBehaviour
   /// </summary>
   public int coins { get; private set; }
   /// <summary>
+  /// Returns whether ads can be shown
+  /// </summary>
+  /// <value><c>true</c> if show ads; otherwise, <c>false</c>.</value>
+  public int showAds { get; private set; }
+  /// <summary>
   /// Returns whether this session is 1st session after launching game
   /// </summary>
   public bool firstSession { get; private set; }
@@ -150,6 +155,8 @@ public class StatsManager : MonoBehaviour
   public string ShowAchievementsEvent { get { return "OnShowAchievements"; } }
   public string ReportAchievementEvent { get { return "OnReportAchievement"; } }
   public string PurchaseCoinsEvent { get { return "OnPurchaseItem"; } }
+  public string RemoveAdsEvent { get { return "TryRemoveAds"; } }
+  public string StoreInfoEvent { get { return "OnStoreInfo"; } }
   #endregion 
 
   private int previousScore { get; set; }
@@ -184,6 +191,9 @@ public class StatsManager : MonoBehaviour
     previousScore = highScore;
     coins = PlayerPrefs.GetInt ("Coins"); 
     Debug.Log ("COINS : " + coins);
+    showAds = PlayerPrefs.GetInt ("ShowAds", 1);
+    Debug.Log ("SHOW ADS : " + (showAds != 0));
+
     prevFacebookStatus = PlayerPrefs.GetInt ("FacebookConenct");
 
     // TODO
@@ -205,6 +215,8 @@ public class StatsManager : MonoBehaviour
     #endif
 
     originalRevivePrice = reviveCoinsPrice;
+
+    productActions.Add ("100 Diamonds", new ProductData (100, BuyDiamonds));
   }
 
   // Use this for initialization
@@ -219,6 +231,7 @@ public class StatsManager : MonoBehaviour
   void OnDestroy ()
   {
     PlayerPrefs.SetInt ("Coins", coins);
+    PlayerPrefs.SetInt ("ShowAds", showAds);
     PlayerPrefs.SetInt("NumBlackCollision",playerStats.numBlackCollision);
     if (GameManager.inst.played)
     {
@@ -451,13 +464,19 @@ public class StatsManager : MonoBehaviour
     productActions ["1200 Diamonds"] = new ProductData (1200, BuyDiamonds);
     productActions ["3000 Diamonds"] = new ProductData (3000, BuyDiamonds);
     productActions ["7500 Diamonds"] = new ProductData (7500, BuyDiamonds);
-    productActions.Add ("100 Diamonds", new ProductData (100, BuyDiamonds));
+    productActions ["Remove Ads"] = new ProductData (0, RemoveAdsComplete);
   }
 
   void BuyDiamonds (int a)
   {
     coins += a;
     GameManager.inst.ChangeState (GameManager.States.BoughtCoins);
+    BroadcastMessage (StoreInfoEvent, "c_" + coins.ToString ());
+  }
+
+  void RemoveAdsComplete (int dummy)
+  {
+    showAds = 0;
   }
 
   void OnBoughtProduct (string name)
@@ -497,7 +516,20 @@ public class StatsManager : MonoBehaviour
         break;
       }
     }
+  }
 
+  void OnRestoreCoinsFromInfo (int coinCount)
+  {
+    Debug.Log ("RECEIVED RESTORED COINS " + coinCount);
+    BuyDiamonds(coinCount);
+  }
+
+  void OnRemoveAds ()
+  {
+    if (showAds != 0)
+    {
+      BroadcastMessage (RemoveAdsEvent);
+    }
   }
 
   [System.Obsolete ("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]

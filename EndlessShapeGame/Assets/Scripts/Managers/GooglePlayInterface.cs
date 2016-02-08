@@ -77,12 +77,22 @@ public class GooglePlayInterface : StoreInterface
     throw new System.NotImplementedException ();
   }
 
+  protected override void TryRemoveAds ()
+  {
+    throw new System.NotImplementedException ();
+  }
+
   protected override void OnTryRestorePurchase ()
   {
     throw new System.NotImplementedException ();
   }
 
   protected override void OnRestorePurchaseComplete ()
+  {
+    throw new System.NotImplementedException ();
+  }
+
+  protected override void OnStoreInfo (string info)
   {
     throw new System.NotImplementedException ();
   }

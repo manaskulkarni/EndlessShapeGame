@@ -72,6 +72,8 @@ public class AdManager : MonoBehaviour
   void SdkDelegate_OnInterstitialFailedToAppear (string adType, string provider)
   {
     Debug.Log(String.Format("OnInterstitialFailedToAppear: type {0}, provider: {1}", adType, provider));
+    GameManager.inst.BroadcastMessage ("OnInterstitialFailed");
+
   }
 
   void SdkDelegate_OnInterstitialClicked (string adType, string provider)
