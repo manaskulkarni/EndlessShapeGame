@@ -40,21 +40,21 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .0732631832
+        second: 0.07326318
       data:
         first:
           name: _Parallax
-        second: .354557991
+        second: 0.354558
       data:
         first:
           name: _EdgeLength
-        second: 12.3068314
+        second: 12.306831
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .514925361, g: .514925361, b: .514925361, a: 1}
+        second: {r: 0.51492536, g: 0.51492536, b: 0.51492536, a: 1}
       data:
         first:
           name: _SpecColor
-        second: {r: .5, g: .5, b: .5, a: 1}
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 1}

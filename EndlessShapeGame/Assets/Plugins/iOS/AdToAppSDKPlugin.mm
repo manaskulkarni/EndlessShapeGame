@@ -3,6 +3,7 @@
 #include "AdToAppSDK.h"
 #include "AdToAppView.h"
 
+#define ADTOAPP_onInterstitialFirstLoaded ("onInterstitialFirstLoaded")
 #define ADTOAPP_onInterstitialWillAppear ("onInterstitialWillAppear")
 #define ADTOAPP_onInterstitialDidDisappear ("onInterstitialDidDisappear")
 #define ADTOAPP_onInterstitialFailedToAppear ("onInterstitialFailedToAppear")
@@ -34,6 +35,11 @@ char* unityAdToAppSDK_targetName = NULL;
 +(id)name
 {
     return [NSString stringWithFormat:@"&plugin=%@", ADTOAPPSDK_PLUGIN_NAME];
+}
+
++(void)onFirstAdLoaded:(NSString*)adType
+{
+    ADTOAPP_PLUGIN_CALLBACK_ARG(onInterstitialFirstLoaded, adType.UTF8String);
 }
 
 +(void)onAdWillAppear:(NSString*)adType

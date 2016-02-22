@@ -4051,21 +4051,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df55f3a060dd3c049b1870f086d28156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConnectionDependedntButtons:
-  - {fileID: 331328862}
-  - {fileID: 298589694}
-  - {fileID: 1468484300}
-  - {fileID: 380332169}
-  - {fileID: 2048777769}
-  - {fileID: 699435738}
-  - {fileID: 1196779923}
-  - {fileID: 1733886166}
-  connectButton: {fileID: 1689820749}
-  avatar: {fileID: 1938795260}
-  Location: {fileID: 1163935422}
-  Language: {fileID: 1028585941}
-  Mail: {fileID: 10299689}
-  Name: {fileID: 104401638}
 --- !u!1 &1915539513
 GameObject:
   m_ObjectHideFlags: 0

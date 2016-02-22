@@ -12,7 +12,7 @@ namespace AdToApp
         public static void start(string adContentType = AdToAppContentType.INTERSTITIAL, string appId = "")
         {
             ConditionalRunAction(
-               androidAction: () => AdToAppAndroidWrapper.InitializeSDK(adContentType),
+               androidAction: () => AdToAppAndroidWrapper.InitializeSDK(adContentType, appId),
                iOSAction: () => AdToApp_start_platform (appId, adContentType));
         }
 
@@ -34,52 +34,74 @@ namespace AdToApp
                iOSFunction: () => AdToApp_showInterstitial_platform(adContentType));  
         }
 
-        public static void showBanner(string bannerSize = AdToAppBannerSize.Size_320x50, float x = 0.0f, float y = 0.0f, float width = 0.0f, float height = 0.0f)
-        {
-            ConditionalRunAction(
-              androidAction: () => AdToAppAndroidWrapper.ShowBanner((int)x, (int)y, bannerSize),
-              iOSAction: () =>  AdToApp_showBanner_platform (x, y, width, height, bannerSize));
-        }
-
-        public static void showBannerAtPosition(string position, string bannerSize, float marginTop = 0, float marginLeft = 0, float marginBottom = 0, float marginRight = 0)
-        {
-            ConditionalRunAction(
-              androidAction: () => AdToAppAndroidWrapper.ShowBannerAtPositon(position, bannerSize),
-              iOSAction: () => AdToApp_showBannerAtPosition_platform(position, bannerSize, marginTop, marginLeft, marginBottom, marginRight));
-        }
-
-        // Remove all previously added banners
-        public static void removeAllBanners()
-        {
-            ConditionalRunAction(
-              androidAction: () => AdToAppAndroidWrapper.RemoveAllBanners(),
-              iOSAction: AdToApp_removeAllBanners_platform);
-        }
-
-        public static bool hasInterstitial(string adContentType = AdToAppContentType.INTERSTITIAL)
+		public static bool hasInterstitial(string adContentType = AdToAppContentType.INTERSTITIAL)
         {
             return ConditionalRunFunction(
-              androidFunction: () =>
-              {
-                  if (adContentType == AdToAppContentType.INTERSTITIAL)
-                  {
-                      return AdToAppAndroidWrapper.IsInterstitialAvailable();
-                  }
-
-                  if (adContentType == AdToAppContentType.IMAGE)
-                  {
-                      return AdToAppAndroidWrapper.IsImageInterstitialAvailable();
-                  }
-
-                  if (adContentType == AdToAppContentType.VIDEO)
-                  {
-                      return AdToAppAndroidWrapper.IsVideoInterstitialAvailable();
-                  }
-                 
-                  return false;
-              },
+              androidFunction: () => AdToAppAndroidWrapper.HasInterstitial(adContentType),
               iOSFunction: () => AdToApp_hasInterstitial_platform(adContentType));
         }
+
+        [Obsolete("This method deprecated, please use hasInterstitial(AdToAppContentType.REWARDED) instead")]
+        public static bool hasRewarded()
+		{
+			return ConditionalRunFunction<bool>(
+				iOSFunction: () => AdToAppBinding.hasInterstitial(AdToAppContentType.REWARDED),
+				androidFunction: () => AdToAppBinding.hasInterstitial(AdToAppContentType.REWARDED));
+		}
+
+		public static bool isInterstitialDisplayed()
+		{
+			return ConditionalRunFunction<bool>(
+				iOSFunction: () => AdToApp_isInterstitialDisplayed_platform(),
+				androidFunction: () =>
+				{
+					return false;
+				});
+		}
+
+        [Obsolete("This method deprecated, please use showInterstitial(AdToAppContentType.REWARDED) instead")]
+        public static void showRewarded()
+		{
+			ConditionalRunAction(
+				iOSAction: () => AdToAppBinding.showInterstitial(AdToAppContentType.REWARDED),
+				androidAction: () => AdToAppBinding.showInterstitial(AdToAppContentType.REWARDED));
+		}
+
+		public static void showBanner(string bannerSize = AdToAppBannerSize.Size_320x50, float x = 0.0f, float y = 0.0f, float width = 0.0f, float height = 0.0f)
+		{
+			ConditionalRunAction(
+				androidAction: () => AdToAppAndroidWrapper.ShowBanner((int)x, (int)y, bannerSize),
+				iOSAction: () =>  AdToApp_showBanner_platform (x, y, width, height, bannerSize));
+		}
+
+		public static void showBannerAtPosition(string position, string bannerSize, float marginTop = 0, float marginLeft = 0, float marginBottom = 0, float marginRight = 0)
+		{
+			ConditionalRunAction(
+				androidAction: () => AdToAppAndroidWrapper.ShowBannerAtPositon(position, bannerSize),
+				iOSAction: () => AdToApp_showBannerAtPosition_platform(position, bannerSize, marginTop, marginLeft, marginBottom, marginRight));
+		}
+
+		public static void loadNextBanner()
+		{
+			ConditionalRunAction(
+				iOSAction: () => AdToApp_loadNextBanner_platform(),
+				androidAction: () => AdToAppAndroidWrapper.LoadNextBanner());
+		}
+
+		public static void setBannerRefreshInterval(double refreshInterval)
+		{
+			ConditionalRunAction (
+				iOSAction: () => AdToApp_setBannerRefreshInterval_platform(refreshInterval),
+				androidAction: () => AdToAppAndroidWrapper.SetBannerRefreshInterval(refreshInterval));
+		}
+
+		// Remove all previously added banners
+		public static void removeAllBanners()
+		{
+			ConditionalRunAction(
+				androidAction: () => AdToAppAndroidWrapper.RemoveAllBanners(),
+				iOSAction: () =>  AdToApp_removeAllBanners_platform());
+		}
 
         public static void setCallbacks(AdToAppSDKDelegate sdkDelegate)
         {
@@ -91,16 +113,21 @@ namespace AdToApp
               androidAction: () =>
               {
                   AdToAppAndroidWrapper.SetInterstitialAdListeners(sdkDelegate.GetInterstitialAndroidAdListener());
-                  AdToAppAndroidWrapper.SetRewardedAdListeners(sdkDelegate.GetRewardedAndroidAdListener());
                   AdToAppAndroidWrapper.SetBannerAdListeners(sdkDelegate.GetBannerAndroidAdListener());
               });
         }
 
-#endregion
+        public static void onPause(bool pauseStatus)
+        {
+            ConditionalRunAction(
+                androidAction: () => AdToAppAndroidWrapper.onPause(pauseStatus), iOSAction: () => { });
+        }
+
+        #endregion
 
         #region iOS only methods
 
-		private static MonoBehaviour _sdkDelegate = null;
+        private static MonoBehaviour _sdkDelegate = null;
 
 		public static void setIOSCallback(MonoBehaviour sdkDelegate)//sdkDelegate must have methods of IAdToAppiOSSDKDelegate protocol
 		{
@@ -113,45 +140,6 @@ namespace AdToApp
 			#endif
 		}
 
-        public static bool isInterstitialDisplayed()
-        {
-            return ConditionalRunFunction<bool>(
-              iOSFunction: AdToApp_isInterstitialDisplayed_platform,
-              androidFunction: null);
-        }
-
-        public static void loadNextBanner()
-        {
-            ConditionalRunAction(
-              iOSAction: AdToApp_loadNextBanner_platform,
-              androidAction: null);
-        }
-
-		public static void setBannerRefreshInterval(double refreshInterval)
-		{
-			ConditionalRunAction (
-				iOSAction: () => AdToApp_setBannerRefreshInterval_platform (refreshInterval),
-				androidAction: null);
-		}
-
-        #endregion
-
-        #region Android only methods
-#if UNITY_ANDROID
-        public static void showRewarded()
-        {
-            ConditionalRunAction(
-              iOSAction: null,
-              androidAction: () => AdToAppAndroidWrapper.ShowRewarded());
-        }
-
-        public static bool hasRewarded()
-        {
-            return ConditionalRunFunction<bool>(
-              iOSFunction: null,
-              androidFunction: AdToAppAndroidWrapper.IsRewardedAvailable);
-        }
-#endif
         #endregion
 
         private static void ConditionalRunAction(Action androidAction, Action iOSAction)
@@ -211,7 +199,7 @@ namespace AdToApp
         [DllImport("__Internal")]
         private static extern bool AdToApp_hasInterstitial_platform(string adContentType);
 
-        [DllImport("__Internal")]
+		[DllImport("__Internal")]
         private static extern void AdToApp_removeAllBanners_platform();
 
         [DllImport("__Internal")]
@@ -229,7 +217,7 @@ namespace AdToApp
         [DllImport("__Internal")]
         private static extern bool AdToApp_showInterstitial_platform(string adContentType);
 
-        [DllImport("__Internal")]
+		[DllImport("__Internal")]
         private static extern void AdToApp_loadNextBanner_platform();
 
         #endregion

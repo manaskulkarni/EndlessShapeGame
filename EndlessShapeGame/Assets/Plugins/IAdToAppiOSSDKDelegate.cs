@@ -3,11 +3,12 @@
     public interface IAdToAppiOSSDKDelegate
     {
         //Fullscreen ads
+		void onInterstitialFirstLoaded(string adContentType);
         void onInterstitialWillAppear(string adContentType);
         void onInterstitialDidDisappear(string adContentType);
 		void onInterstitialFailedToAppear(string adContentType);
 		void onInterstitialClicked(string adContentType);
-        void onRewardedCompleted(string reward);
+		void onRewardedCompleted(string reward);
 
         //Banners
         void onBannerDidDisplayAd();

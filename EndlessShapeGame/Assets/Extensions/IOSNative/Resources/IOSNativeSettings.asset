@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: IOSNativeSettings
   m_EditorClassIdentifier: 
   AppleId: 1024925295
-  ToolbarIndex: 1
+  ToolbarIndex: 0
   SendFakeEventsInEditor: 1
   DefaultStoreProductsView: []
   InAppProducts:
@@ -95,9 +95,9 @@ MonoBehaviour:
   ExpandAPISettings: 1
   EnableGameCenterAPI: 1
   EnableInAppsAPI: 1
-  EnableCameraAPI: 1
-  EnableSocialSharingAPI: 1
-  EnableMediaPlayerAPI: 1
+  EnableCameraAPI: 0
+  EnableSocialSharingAPI: 0
+  EnableMediaPlayerAPI: 0
   EnableiAdAPI: 1
   EnableReplayKit: 0
   EnableCloudKit: 0

@@ -11,12 +11,12 @@ namespace AdToApp.AndroidWrapper
         : AndroidJavaProxy
 #endif
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AdToApp.AndroidWrapper.ATAInterstitialAdListener"/> class.
-		/// </summary>
-		protected ATAInterstitialAdListener() 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdToApp.AndroidWrapper.InterstitialListener"/> class.
+        /// </summary>
+        protected ATAInterstitialAdListener() 
 #if UNITY_ANDROID
-            : base("com.appintop.adlisteners.ATAInterstitialAdListener")
+            : base("com.appintop.interstitialads.InterstitialListener")
 #endif
 		{
 		}
@@ -55,6 +55,25 @@ namespace AdToApp.AndroidWrapper
 		/// <param name="provider">Ad provider.</param>
 		public virtual void onFirstInterstitialLoad (String adType, String provider)
 		{
-		}
-	}
+        }
+
+        /// <summary>
+        /// Interstitial failed to show.
+        /// </summary>
+        /// <param name="adType">Ad type.</param>
+        public virtual bool onInterstitialFailedToShow (String adType)
+        {
+            return false;
+        }
+
+        /// <summary>
+		/// Rewarded completed callback.
+		/// </summary>
+		/// <param name="adProvider">Ad provider.</param>
+		/// <param name="currencyName">Name of the currency.</param>
+		/// <param name="currencyValue">Value of the currency.</param>
+		public virtual void onRewardedCompleted(String adProvider, String currencyName, String currencyValue)
+        {
+        }
+    }
 }

@@ -16,7 +16,7 @@ namespace AdToApp.AndroidWrapper
 		/// </summary>
         protected ATABannerAdListener()
 #if UNITY_ANDROID 
-            : base("com.appintop.adlisteners.ATABannerListener")
+            : base("com.appintop.adbanner.BannerListener")
 #endif
 		{
 		}

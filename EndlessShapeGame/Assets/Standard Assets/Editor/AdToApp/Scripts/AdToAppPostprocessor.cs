@@ -75,6 +75,9 @@ namespace UnityEngine.Advertisements
       List<string> patches = new List<string> ();
       List<string> libs = new List<string> ();
 	  libs.Add ("libsqlite3.dylib");
+	  //libs.Add ("libsqlite3.tbd");
+	  libs.Add ("libz.dylib");
+	  //libs.Add ("libz.tbd");
 
       List<string> librarysearchpaths = new List<string> ();
       List<string> frameworksearchpaths = new List<string> ();
@@ -84,21 +87,29 @@ namespace UnityEngine.Advertisements
       frameworksearchpaths.Add (copyDependencies ? "$(SRCROOT)/AdToApp" : MacPath (pluginsPath));
 
       List<string> frameworks = new List<string> ();
+	  frameworks.Add ("AdSupport.framework");
+      frameworks.Add ("AudioToolbox.framework");
+	  frameworks.Add ("AVFoundation.framework");
+	  frameworks.Add ("CoreGraphics.framework");
+	  frameworks.Add ("CoreMedia.framework");
+	  frameworks.Add ("CoreLocation.framework");
+	  frameworks.Add ("CoreTelephony.framework");
+	  frameworks.Add ("EventKit.framework");
+	  frameworks.Add ("EventKitUI.framework");
+	  frameworks.Add ("MediaPlayer.framework");
+	  frameworks.Add ("MessageUI.framework");
+	  frameworks.Add ("MapKit.framework");
+	  frameworks.Add ("Social.framework");
+	  frameworks.Add ("StoreKit.framework");
+	  frameworks.Add ("SystemConfiguration.framework");
+	  frameworks.Add ("Security.framework");
+	  frameworks.Add ("SafariServices.framework:");  // ":" optional framework
+	  frameworks.Add ("ImageIO.framework");
+	  frameworks.Add ("WatchKit.framework:"); // ":" optional framework
       frameworks.Add ("WebKit.framework:"); // ":" optional framework
-      frameworks.Add ("AdSupport.framework");
-      frameworks.Add ("CoreTelephony.framework");
       frameworks.Add ("GameKit.framework");
-      frameworks.Add ("Social.framework");
-      frameworks.Add ("StoreKit.framework");
-      frameworks.Add ("EventKit.framework");
-      frameworks.Add ("EventKitUI.framework");
-      frameworks.Add ("MessageUI.framework");
-      frameworks.Add ("CoreGraphics.framework");
-      frameworks.Add ("ImageIO.framework");
-      frameworks.Add ("MapKit.framework");
-      frameworks.Add ("WatchKit.framework:"); // ":" optional framework
-
-      List<string> dependencyList = new List<string> ();
+      
+	  List<string> dependencyList = new List<string> ();
 	 /*
 	  string sFolderPath = path.Substring(0 ,path.Length-6)+ "WebPlayerTemplates";         
 					string[] aFilePaths = Directory.GetFiles("./../../WebPlayerTemplates");

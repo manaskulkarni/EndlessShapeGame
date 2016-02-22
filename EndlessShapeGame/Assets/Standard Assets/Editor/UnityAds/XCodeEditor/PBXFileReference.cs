@@ -44,6 +44,7 @@ namespace UnityEngine.Advertisements.XCodeEditor
 			{ ".strings", "text.plist.strings" },
 			{ ".bundle", "wrapper.plug-in" },
 			{ ".dylib", "compiled.mach-o.dylib" },
+            { ".tbd", "compiled.mach-o.dylib" },
 			{ ".db", "file" },
 			{ ".js", "file" }
 		 };
@@ -70,6 +71,7 @@ namespace UnityEngine.Advertisements.XCodeEditor
 			{ ".strings", "PBXResourcesBuildPhase" },
 			{ ".bundle", "PBXResourcesBuildPhase" },
 			{ ".dylib", "PBXFrameworksBuildPhase" },
+            { ".tbd", "PBXFrameworksBuildPhase" },
 			{ ".db", "PBXResourcesBuildPhase" },
 			{ ".js", "PBXResourcesBuildPhase" }
 		};

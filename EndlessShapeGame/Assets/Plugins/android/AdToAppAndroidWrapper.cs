@@ -19,15 +19,16 @@ namespace AdToApp.AndroidWrapper
             }
         }
 
-	    /// <summary>
-	    /// Initialize AdToApp SKD.
-	    /// </summary>
-	    /// <param name="adContentType"> Content type to initialize (Rewarded, Interstitial, Image, Video).</param>
-	    [Conditional(UNITY_ANDROID)]
-	    public static void InitializeSDK(string adContentType)
+        /// <summary>
+        /// Initialize AdToApp SKD.
+        /// </summary>
+        /// <param name="adContentType"> Content type to initialize (Rewarded, Interstitial, Image, Video).</param>
+        /// <param name="sdkKey"> App personal Ad key.</param>
+        [Conditional(UNITY_ANDROID)]
+	    public static void InitializeSDK(string adContentType, string sdkKey)
 	    {
 	        CallWrapperMethodWithContext(
-                wrapperContext => CallWrapperMethod("initialize", wrapperContext, NormalizeAdContentType(adContentType)));
+                wrapperContext => CallWrapperMethod("start", wrapperContext, NormalizeAdContentType(adContentType), sdkKey));
 	    }
 
 	    /// <summary>
@@ -47,19 +48,12 @@ namespace AdToApp.AndroidWrapper
 		[Conditional(UNITY_ANDROID)]
 		public static void ShowInterstitial(string adContentType)
 		{
-			if (adContentType == "Interstitial") {
-				CallWrapperMethod ("showInterstitialAd");
-			} 
-            CallWrapperMethod("showInterstitialAd", NormalizeAdContentType(adContentType));
-		}
-		
-		/// <summary>
-		/// Show interstitial ad.
-		/// </summary>
-		[Conditional(UNITY_ANDROID)]
-		public static void ShowInterstitial()
-		{
-			CallWrapperMethod ("showInterstitialAd");
+            if (adContentType == "Interstitial")
+            {
+                CallWrapperMethod("showInterstitialAd");
+                return;
+            }
+            CallWrapperMethod("showInterstitial", NormalizeAdContentType(adContentType));
 		}
 
 	    /// <summary>
@@ -69,29 +63,8 @@ namespace AdToApp.AndroidWrapper
 	    [Conditional(UNITY_ANDROID)]
 	    public static void SetInterstitialAdListeners(ATAInterstitialAdListener listener)
 	    {
-	        CallWrapperMethodWithContext(
-                wrapperContext => CallWrapperMethod("setInterstitialAdListeners", listener, wrapperContext));
+	        CallWrapperMethod("setInterstitialListener", listener);
 	    }
-
-	    /// <summary>
-		/// Shows rewarded ad.
-		/// </summary>
-		[Conditional(UNITY_ANDROID)]
-		public static void ShowRewarded()
-		{
-			CallWrapperMethod ("showRewardedAd");
-		}
-
-		/// <summary>
-		/// Sets the rewarded ad listeners.
-		/// </summary>
-		/// <param name="listener">Instance with event listeners.</param>
-		[Conditional(UNITY_ANDROID)]
-		public static void SetRewardedAdListeners(ATARewardedAdListener listener)
-		{
-            CallWrapperMethodWithContext(
-               wrapperContext => CallWrapperMethod("setRewardedAdListeners", listener, wrapperContext));
-		}
 
         /// <summary>
         /// Shows banner at given coordinates.
@@ -162,39 +135,48 @@ namespace AdToApp.AndroidWrapper
         }
 
         /// <summary>
+        /// Activity lifecycle actions
+        /// </summary>
+        /// <param name="pauseStatus">True - onPause; False - onResume</param>
+        internal static void onPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+            {
+                CallWrapperMethodWithContext(
+                wrapperContext => CallWrapperMethod("onPause", wrapperContext));
+            }
+            else
+            {
+                CallWrapperMethodWithContext(
+                wrapperContext => CallWrapperMethod("onResume", wrapperContext));
+            }
+        }
+
+        /// <summary>
         /// Indicates whether interstitial ads are available.
         /// </summary>
+        /// <param name="adContentType">Content type (Rewarded, Interstitial, Image, Video).</param>
         /// <returns>True if ads are available.</returns>
-        public static bool IsInterstitialAvailable()
+        public static bool HasInterstitial(string adContentType)
         {
-            return GetResult<bool>("isInterstitialAvailable");
+            return CallWrapperMethod<bool>("hasInterstitial", NormalizeAdContentType(adContentType));
         }
 
         /// <summary>
-        /// Indicates whether interstitial image ads available.
+        /// Load next banner.
         /// </summary>
-        /// <returns>True if ads are available.</returns>
-        public static bool IsImageInterstitialAvailable()
+        public static void LoadNextBanner()
         {
-            return GetResult<bool>("isImageInterstitialAvailable");
+            CallWrapperMethod ("loadNextBanner");
         }
 
         /// <summary>
-        /// InIndicates whether interstitial video ads available.
+        /// Sets the banner refresh interval.
         /// </summary>
-        /// <returns>True if ads are available.</returns>
-        public static bool IsVideoInterstitialAvailable()
+        /// <param name="refreshInterval">refresh interval in seconds.</param>
+        public static void SetBannerRefreshInterval(double refreshInterval)
         {
-            return GetResult<bool>("isVideoInterstitialAvailable");
-        }
-
-        /// <summary>
-        /// Indicates whether rewarded ads are available.
-        /// </summary>
-        /// <returns>True if ads are available.</returns>
-        public static bool IsRewardedAvailable()
-        {
-            return GetResult<bool>("isRewardedAvailable");
+            CallWrapperMethod("setBannerRefreshInterval", refreshInterval);
         }
 
 	    private static T GetResult<T>(string methodName)

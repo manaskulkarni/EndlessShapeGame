@@ -103,9 +103,9 @@ PlayerSettings:
   aotOptions: 
   apiCompatibilityLevel: 2
   stripEngineCode: 1
-  iPhoneStrippingLevel: 0
+  iPhoneStrippingLevel: 2
   iPhoneScriptCallOptimization: 0
-  iPhoneBuildNumber: 10
+  iPhoneBuildNumber: 14
   ForceInternetPermission: 0
   ForceSDCardPermission: 0
   CreateWallpaper: 0

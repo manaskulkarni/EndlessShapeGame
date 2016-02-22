@@ -33,21 +33,21 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .319910288
+        second: 0.3199103
       data:
         first:
           name: _Smoothness
-        second: .522388041
+        second: 0.52238804
       data:
         first:
           name: _EdgeLength
-        second: 12.1044779
+        second: 12.104478
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .514925361, g: .514925361, b: .514925361, a: 1}
+        second: {r: 0.51492536, g: 0.51492536, b: 0.51492536, a: 1}
       data:
         first:
           name: _SpecColor
-        second: {r: .5, g: .5, b: .5, a: 1}
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 1}

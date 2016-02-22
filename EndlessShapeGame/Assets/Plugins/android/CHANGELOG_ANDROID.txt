@@ -1,0 +1,41 @@
+Version 4.1.1
+- Updated MyTarget
+- Fixes on interstitial ads and banner ads
+- Bug fixes
+- Performance improvements
+
+Version 4.1.0
+- Optimization of network, storage, battery, RAM, CPU usage
+- Added new ad providers: Amazon, Yandex, Tapsense
+- Updated ad providers: StartApp, InMobi, MyTarget, Smaato
+- Displaying banner fixes
+- Displaying interstitial and rewarded fixes
+- Removed old deprecated methods
+- Bug fixes
+- Performance improvements
+
+Version 4.0.4
+- Displaying banner fixes
+- Updated AppLovin, Smaato, MyTarget, Chartboost
+
+Version 4.0.3
+- update StartApp SDK
+- Personagraph disable ability
+- Chartboost callbacks fix
+- StartApp Rewarded fixed showing images
+
+Version 4.0.2
+- Rewarded fix, Startapp fix
+
+Version 4.0.1
+- Unity Ads fix
+
+Version 4.0
+- Provider libraries are removed from the SDK and located separately
+- Updated Android Manifest rules, see instruction for details. SDK KEY is removed from Manifest.
+- New initialization AdToApp.initializeSDK(Activity activity, String sdkKey, int adTypeMask). See instructions for details
+- New setup callbacks method AdToApp.setInterstitialListener(InterstitialListener listener), banner.setBannerListener(BannerListener listener)
+- New method for show rewarded AdToApp.showInterstitialAd(AdToApp.REWARDED);
+- Load native ad method AdToApp.loadNativeAd(Activity activity, AdToAppNative.AdLoadListener listener)
+- bug fixes
+- performance improvements

@@ -19,16 +19,19 @@ namespace AdToApp
         #region Common Interface
 
         // Interstitial events
-        public event Action<string, string> OnInterstitialStarted;
+		public event Action<string, string> OnInterstitialStarted;
         public event Action<string, string> OnInterstitialClosed;
 		public event Action<string, string> OnInterstitialFailedToAppear;
         public event Action<string, string> OnInterstitialClicked;
         public event Action<string, string> OnFirstInterstitialLoad;
 
         // Rewarded events
-        public event Action<string> OnRewardedStarted;
-        public event Action<string> OnRewardedDismissed;
         public event Action<string, string, string> OnRewardedCompleted;
+        [Obsolete("This action deprecated, please use OnInterstitialStarted(string adType, string adProvider) instead", false)]
+        public event Action<string> OnRewardedStarted;
+        [Obsolete("This action deprecated, please use OnInterstitialClosed(string adType, string adProvider) instead", false)]
+        public event Action<string> OnRewardedDismissed;
+        [Obsolete("This action deprecated, please use OnFirstInterstitialLoad(string adType, string adProvider) instead", false)]
         public event Action<string> OnFirstRewardedLoad;
 
         // Banner events
@@ -40,12 +43,18 @@ namespace AdToApp
 
         #region iOS callbacks
 
-        public void onInterstitialWillAppear(string adContentType)
+		public void onInterstitialWillAppear(string adContentType)
         {
             if (OnInterstitialStarted != null)
             {
                 OnInterstitialStarted(adContentType, null);
             }
+
+			if (OnRewardedStarted != null &&
+				adContentType.ToLower ().Equals(AdToAppContentType.REWARDED.ToLower()))
+			{
+				OnRewardedStarted(null);
+			}
         }
 
         public void onInterstitialDidDisappear(string adContentType)
@@ -54,6 +63,12 @@ namespace AdToApp
             {
                 OnInterstitialClosed(adContentType, null);
             }
+
+			if (OnRewardedDismissed != null &&
+				adContentType.ToLower ().Equals(AdToAppContentType.REWARDED.ToLower()))
+			{
+				OnRewardedDismissed(null);
+			}
         }
 
 		public void onInterstitialFailedToAppear(string adContentType)
@@ -69,6 +84,20 @@ namespace AdToApp
 			if (OnInterstitialClicked != null)
 			{
 				OnInterstitialClicked(adContentType, null);
+			}
+		}
+
+		public void onInterstitialFirstLoaded(string adContentType)
+		{
+			if (OnFirstInterstitialLoad != null)
+			{
+				OnFirstInterstitialLoad(adContentType, null);
+			}
+
+			if (OnFirstRewardedLoad != null &&
+				adContentType.ToLower ().Equals(AdToAppContentType.REWARDED.ToLower()))
+			{
+				OnFirstRewardedLoad(null);
 			}
 		}
 
@@ -114,11 +143,6 @@ namespace AdToApp
             return new AndroidInterstitialListener(this);
         }
 
-        public ATARewardedAdListener GetRewardedAndroidAdListener()
-        {
-            return new AndroidRewardedListener(this);
-        }
-
         public ATABannerAdListener GetBannerAndroidAdListener()
         {
             return new AndroidBannerListener(this);
@@ -133,11 +157,17 @@ namespace AdToApp
                 _sdkDelegate = sdkDelegate;
             }
 
-            public override void onInterstitialStarted(string adType, string provider)
+            public override void onInterstitialStarted(String adType, string provider)
             {
                 if (_sdkDelegate.OnInterstitialStarted != null)
                 {
                     _sdkDelegate.OnInterstitialStarted(adType, provider);
+                }
+
+                if (_sdkDelegate.OnRewardedStarted != null &&
+                adType.ToLower().Equals(AdToAppContentType.REWARDED.ToLower()))
+                {
+                    _sdkDelegate.OnRewardedStarted(null);
                 }
             }
 
@@ -146,6 +176,12 @@ namespace AdToApp
                 if (_sdkDelegate.OnInterstitialClosed != null)
                 {
                     _sdkDelegate.OnInterstitialClosed(adType, provider);
+                }
+
+                if (_sdkDelegate.OnRewardedDismissed != null &&
+                adType.ToLower().Equals(AdToAppContentType.REWARDED.ToLower()))
+                {
+                    _sdkDelegate.OnRewardedDismissed(null);
                 }
             }
 
@@ -163,47 +199,40 @@ namespace AdToApp
                 {
                     _sdkDelegate.OnFirstInterstitialLoad(adType, provider);
                 }
-            }
-        }
 
-        private class AndroidRewardedListener : ATARewardedAdListener
-        {
-            private readonly AdToAppSDKDelegate _sdkDelegate;
-
-            public AndroidRewardedListener(AdToAppSDKDelegate sdkDelegate)
-            {
-                _sdkDelegate = sdkDelegate;
-            }
-
-            public override void onRewardedStarted(String adProvider)
-            {
-                if (_sdkDelegate.OnRewardedStarted != null)
+                if (_sdkDelegate.OnFirstRewardedLoad != null &&
+                adType.ToLower().Equals(AdToAppContentType.REWARDED.ToLower()))
                 {
-                    _sdkDelegate.OnRewardedStarted(adProvider);
+                    _sdkDelegate.OnFirstRewardedLoad(null);
                 }
             }
 
-            public override void onRewardedDismissed(String adProvider)
+            public override bool onInterstitialFailedToShow(string adContentType)
             {
-                if (_sdkDelegate.OnRewardedDismissed != null)
+                if (_sdkDelegate.OnInterstitialFailedToAppear != null)
                 {
-                    _sdkDelegate.OnRewardedStarted(adProvider);
+                    _sdkDelegate.OnInterstitialFailedToAppear(adContentType, null);
+                }
+                return false;
+            }
+
+#if UNITY_ANDROID
+            public void onRewardedCompleted(String adProvider, AndroidJavaObject currencyName, AndroidJavaObject currencyValue)
+            {
+                if (_sdkDelegate.OnRewardedCompleted != null)
+                {
+                    var cn = currencyName != null ? currencyName.ToString() : "";
+                    var cv = currencyValue != null ? currencyValue.ToString() : "";
+                    _sdkDelegate.OnRewardedCompleted(adProvider, cn, cv);
                 }
             }
+#endif
 
             public override void onRewardedCompleted(String adProvider, String currencyName, String currencyValue)
             {
                 if (_sdkDelegate.OnRewardedCompleted != null)
                 {
                     _sdkDelegate.OnRewardedCompleted(adProvider, currencyName, currencyValue);
-                }
-            }
-
-            public override void onFirstRewardedLoad(String adProvider)
-            {
-                if (_sdkDelegate.OnFirstRewardedLoad != null)
-                {
-                    _sdkDelegate.OnFirstRewardedLoad(adProvider);
                 }
             }
         }
