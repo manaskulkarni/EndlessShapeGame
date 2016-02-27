@@ -152,7 +152,11 @@ public class UIManager : MonoBehaviour
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
 //    textGameOverFeedback.GetComponent <Animator> ().Stop ();
-    textConnectStatus = GameObject.Find ("TextConnectStatus").GetComponent <Text> ();
+    var textConnectStatusGo = GameObject.Find ("TextConnectStatus");
+    if (textConnectStatusGo)
+    {
+      textConnectStatus = textConnectStatusGo.GetComponent <Text> ();
+    }
     imageCircle = GameObject.Find ("ImageCircle").GetComponent <Image> ();
     startImageCircleColor = imageCircle.color;
     imageCircle.gameObject.SetActive (false);

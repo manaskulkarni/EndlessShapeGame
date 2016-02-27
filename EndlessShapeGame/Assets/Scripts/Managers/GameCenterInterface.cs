@@ -210,7 +210,10 @@ public class GameCenterInterface : StoreInterface
 
   protected override void TryRemoveAds ()
   {
-    IOSInAppPurchaseManager.Instance.BuyProduct(allProducts["Remove Ads"].Id);
+    if (allProducts != null && allProducts.ContainsKey ("Remove Ads"))
+    {
+      IOSInAppPurchaseManager.Instance.BuyProduct(allProducts["Remove Ads"].Id);
+    }
   }
 
   protected override void OnTryRestorePurchase ()
