@@ -6,7 +6,7 @@ using System.Collections;
 public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
   private bool mouseDown { get; set; }
-
+  private Transform wheelPosition { get; set; }
 
   // Use this as constructor
   void Awake ()
@@ -17,6 +17,7 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
   // Use this for initialization
   void Start ()
   {
+    wheelPosition = GameObject.Find ("ImageColorWheelPosition").transform;
   }
 
   // Called when the pointer enters our GUI component.
@@ -69,6 +70,7 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
           if (color.a > 0)
           {
             Camera.main.backgroundColor = color;
+            wheelPosition.position = Input.mousePosition;
           }
         }
         yield return null;

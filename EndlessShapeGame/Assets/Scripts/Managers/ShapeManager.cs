@@ -530,29 +530,7 @@ public class ShapeManager : MonoBehaviour
     feedback.Emit (count);
     feedback.startLifetime = feedback.startLifetime;
   }
-  
-  private IEnumerator PlayerFeedback (SpriteRenderer spriteRenderer)
-  {
-    Transform trans = spriteRenderer.transform;
-    
-    while (trans.localScale.x < 1.2f)
-    {
-      Vector2 scale = trans.localScale;
-      scale += Vector2.one * Time.deltaTime * 3.0f;
-      trans.localScale = scale;
-      yield return null;
-    }
-    while (trans.localScale.x > 1.0f)
-    {
-      Vector2 scale = trans.localScale;
-      scale -= Vector2.one * Time.deltaTime * 3.0f;
-      trans.localScale = scale;
-      yield return null;
-    }
-    
-    trans.localScale = Vector2.one;
-  }
-  
+
   private void WrongShape ()
   {
     GameManager.inst.ChangeState(GameManager.States.Stop);
@@ -798,6 +776,32 @@ public class ShapeManager : MonoBehaviour
     shape.StopSpecialShapeCoroutine ();
     shape.StopInvisibleCoroutine ();
   }
+
+  public float waitTime = 0.2f;
+
+  private IEnumerator PlayerFeedback (SpriteRenderer spriteRenderer)
+  {
+    yield return new WaitForSeconds (waitTime);
+    Transform trans = spriteRenderer.transform;
+
+    while (trans.localScale.x < 1.2f)
+    {
+      Vector2 scale = trans.localScale;
+      scale += Vector2.one * Time.deltaTime * 3.0f;
+      trans.localScale = scale;
+      yield return null;
+    }
+    while (trans.localScale.x > 1.0f)
+    {
+      Vector2 scale = trans.localScale;
+      scale -= Vector2.one * Time.deltaTime * 3.0f;
+      trans.localScale = scale;
+      yield return null;
+    }
+
+    trans.localScale = Vector2.one;
+  }
+
   
   /// <summary>
   /// Destroys the shape after playing the destroy animation (FadeOut)
@@ -806,6 +810,7 @@ public class ShapeManager : MonoBehaviour
   /// <returns></returns>
   private IEnumerator DestroyShape(ShapeBehavior shapeBehavior)
   {
+    yield return new WaitForSeconds (waitTime);
     while (shapeBehavior.spriteRenderer.color.a >= 0.0f)
     {
       Color c = shapeBehavior.spriteRenderer.color;
