@@ -564,7 +564,6 @@ public class StatsManager : MonoBehaviour
 
   void OnSetBackgroundColor (ColorWheel.ColorWheelData color)
   {
-    Debug.Log ("SET BG COLOR");
     backgroundColor = color.color;
     wheelPosition = color.wheelPosition;
   }

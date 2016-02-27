@@ -50,6 +50,7 @@ public class BackgroundSprite : MonoBehaviour
   public Color colorOne;
   public Color colorTwo;
   public bool autoScale = true;
+  public bool updateInGameMenu = true;
 
   private Coroutine updateCoroutine
   {
@@ -81,40 +82,53 @@ public class BackgroundSprite : MonoBehaviour
       scale.x = Camera.main.aspect * scale.y;
       transform.localScale = scale;
     }
+
+    if (!updateInGameMenu)
+    {
+      SelectInterpolationMethod ();
+    }
   }
 
   void OnGameStart ()
+  {
+    if (updateInGameMenu)
+    {
+      SelectInterpolationMethod ();
+    }
+  }
+
+  void SelectInterpolationMethod ()
   {
     StopAllCoroutines ();
     drawable.color = colorOne = originalColor;
     changeTimer = 0.0f;
     interpolationTimer = 0.0f;
-    
+
     switch (interpolationMode)
     {
     case InterpolationMode.Constant:
       colorTwo = Utils.ClampColor (Utils.RandomColor (), minColor, maxColor);
       break;
-      
+
     case InterpolationMode.Array:
       colorTwo = interpolationColors [colorIndex + 1];
       break;
     }
-    
-//    drawable.backgroundColor = colorOne;
-  
-//    if (updateCoroutine == null)
+
+    //    drawable.backgroundColor = colorOne;
+
+    //    if (updateCoroutine == null)
     if (Handle == null)
     {
       switch (interpolationMode)
       {
       case InterpolationMode.Constant:
-//        updateCoroutine = StartCoroutine (UpdateColorConstant ());
+        //        updateCoroutine = StartCoroutine (UpdateColorConstant ());
         Handle = UpdateColorConstant;
         break;
 
       case InterpolationMode.Interval:
-//        updateCoroutine = StartCoroutine (UpdateColorReguralInterval ());
+        //        updateCoroutine = StartCoroutine (UpdateColorReguralInterval ());
         Handle = UpdateColorReguralInterval;
         break;
 
@@ -127,12 +141,15 @@ public class BackgroundSprite : MonoBehaviour
 
   void OnGameOver ()
   {
-//    if (updateCoroutine != null)
-    if (Handle != null)
+    if (updateInGameMenu)
     {
-      Handle = null;
-//      StopCoroutine(updateCoroutine);
-      StartCoroutine (LerpToOriginalColor ());
+      //    if (updateCoroutine != null)
+      if (Handle != null)
+      {
+        Handle = null;
+  //      StopCoroutine(updateCoroutine);
+        StartCoroutine (LerpToOriginalColor ());
+      }
     }
   }
   

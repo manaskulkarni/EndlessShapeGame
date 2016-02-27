@@ -81,7 +81,6 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
           if (color.a > 0)
           {
             wheelPosition.position = Input.mousePosition;
-            Debug.Log (color);
             GameManager.inst.BroadcastMessage ("OnSetBackgroundColor", new ColorWheelData (wheelPosition.position, color));
           }
         }
