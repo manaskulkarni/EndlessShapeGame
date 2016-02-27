@@ -5,6 +5,17 @@ using System.Collections;
 
 public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
+  public class ColorWheelData
+  {
+    public ColorWheelData (Vector2 pos, Color c)
+    {
+      wheelPosition = pos;
+      color = c;
+    }
+    public Vector2 wheelPosition;
+    public Color color;
+  }
+
   private bool mouseDown { get; set; }
   private Transform wheelPosition { get; set; }
 
@@ -12,12 +23,12 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
   void Awake ()
   {
     mouseDown = false;
+    wheelPosition = GameObject.Find ("ImageColorWheelPosition").transform;
   }
 
   // Use this for initialization
   void Start ()
   {
-    wheelPosition = GameObject.Find ("ImageColorWheelPosition").transform;
   }
 
   // Called when the pointer enters our GUI component.
@@ -46,37 +57,43 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     mouseDown = false;
   }
 
-  IEnumerator TrackPointer()
+  private IEnumerator TrackPointer()
   {
     var ray = GetComponentInParent<GraphicRaycaster>();
     var input = FindObjectOfType<StandaloneInputModule>();
-    if( ray != null && input != null )
+    if(ray != null && input != null)
     {
       while(Application.isPlaying)
       {
         if (mouseDown)
         {
-          Vector2 localPoint; // Mouse position  
-          RectTransformUtility.ScreenPointToLocalPointInRectangle( transform as RectTransform, Input.mousePosition, ray.eventCamera, out localPoint );
+          Vector2 localPoint;
+          // Get mouse pos in local space
+          RectTransformUtility.ScreenPointToLocalPointInRectangle (transform as RectTransform, Input.mousePosition, ray.eventCamera, out localPoint);
 
+          // Get Texcoord
           Rect r = (transform as RectTransform).rect;
           var tex = GetComponent <Image> ().sprite.texture;
           int px = Mathf.Clamp (0,(int)(((localPoint.x-r.x)*tex.width)/r.width),tex.width);
           int py = Mathf.Clamp (0,(int)(((localPoint.y-r.y)*tex.height)/r.height),tex.height);
 
-          // local pos is the mouse position.
-          Debug.Log ("HFHF");
           var color = tex.GetPixel (px, py);
           if (color.a > 0)
           {
-            Camera.main.backgroundColor = color;
             wheelPosition.position = Input.mousePosition;
+            Debug.Log (color);
+            GameManager.inst.BroadcastMessage ("OnSetBackgroundColor", new ColorWheelData (wheelPosition.position, color));
           }
         }
         yield return null;
       }      
     }
     else
-      UnityEngine.Debug.LogWarning( "Could not find GraphicRaycaster and/or StandaloneInputModule" );
+      UnityEngine.Debug.LogWarning ("Could not find GraphicRaycaster and/or StandaloneInputModule");
+  }
+
+  void OnLoadBackgroundColor (ColorWheelData data)
+  {
+    wheelPosition.position = data.wheelPosition;
   }
 }

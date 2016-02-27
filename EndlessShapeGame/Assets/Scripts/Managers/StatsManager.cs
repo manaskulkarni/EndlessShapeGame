@@ -72,6 +72,7 @@ public class StatsManager : MonoBehaviour
   public int prevFacebookStatus = 0;
 
   public int reviveCoinsPrice = 150;
+  public Color defaultBackgroundColor;
 
   #region Properties
   /// <summary>
@@ -116,6 +117,8 @@ public class StatsManager : MonoBehaviour
   /// </summary>
   public bool firstSession { get; private set; }
   public int numSessions { get; private set; }
+  public Color backgroundColor { get; private set; }
+  public Vector2 wheelPosition { get; private set; }
 
   public int originalRevivePrice { get; private set; }
 
@@ -196,6 +199,7 @@ public class StatsManager : MonoBehaviour
 
     prevFacebookStatus = PlayerPrefs.GetInt ("FacebookConenct");
 
+
     // TODO
 //    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
 //    {
@@ -222,6 +226,7 @@ public class StatsManager : MonoBehaviour
   // Use this for initialization
   void Start ()
   {
+    LoadBackgroundColor ();
   }
 
   void OnEnable ()
@@ -243,6 +248,8 @@ public class StatsManager : MonoBehaviour
     }
     PlayerPrefs.SetInt ("FacebookConenct", prevFacebookStatus);
     PlayerPrefs.SetInt ("VMode", vMode);
+
+    SaveBackgroundColor ();
 
     // TODO
 //    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
@@ -553,5 +560,37 @@ public class StatsManager : MonoBehaviour
       playerStats.numBlackCollision++;
       //Debug.Log("NG " + playerStats.numBlackCollision);
     }
+  }
+
+  void OnSetBackgroundColor (ColorWheel.ColorWheelData color)
+  {
+    Debug.Log ("SET BG COLOR");
+    backgroundColor = color.color;
+    wheelPosition = color.wheelPosition;
+  }
+
+  void LoadBackgroundColor ()
+  {
+    float r, g, b, x, y;
+    r = PlayerPrefs.GetFloat ("bg.r", defaultBackgroundColor.r);
+    g = PlayerPrefs.GetFloat ("bg.g", defaultBackgroundColor.g);
+    b = PlayerPrefs.GetFloat ("bg.b", defaultBackgroundColor.b);
+
+    x = PlayerPrefs.GetFloat ("wheel.x");
+    y = PlayerPrefs.GetFloat ("wheel.y");
+    wheelPosition = new Vector2 (x, y);
+
+    backgroundColor = new Color (r, g, b);
+    GameManager.inst.BroadcastMessage ("OnLoadBackgroundColor", new ColorWheel.ColorWheelData (wheelPosition, backgroundColor));
+  }
+
+  void SaveBackgroundColor ()
+  {
+    PlayerPrefs.SetFloat ("bg.r", backgroundColor.r);
+    PlayerPrefs.SetFloat ("bg.g", backgroundColor.g);
+    PlayerPrefs.SetFloat ("bg.b", backgroundColor.b);
+
+    PlayerPrefs.SetFloat ("wheel.x", wheelPosition.x);
+    PlayerPrefs.SetFloat ("wheel.y", wheelPosition.y);
   }
 }

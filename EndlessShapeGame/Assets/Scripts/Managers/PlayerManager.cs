@@ -210,4 +210,28 @@ public class PlayerManager : MonoBehaviour
     GameObject.Destroy (player.gameObject);
   }
 
+  private void OnSetBackgroundColor (ColorWheel.ColorWheelData data)
+  {
+//    foreach (var t in player.triggers)
+//    {
+//      float intensity = t.spriteRenderer.color.grayscale;
+//      float a = t.spriteRenderer.color.a;
+//      // Darker Color Use Light Shapes
+//      if (data.color.grayscale < 0.5f)
+//      {
+//        t.spriteRenderer.color = new Color (1.0f, 1.0f, 1.0f, a);
+//      }
+//      // Lighter Color Use Dark Shapes
+//      else
+//      {
+//        t.spriteRenderer.color = new Color (0.2f, 0.2f, 0.2f, a);
+//      }
+//    }
+  }
+
+  private void OnLoadBackgroundColor (ColorWheel.ColorWheelData data)
+  {
+    OnSetBackgroundColor (data);
+  }
+
 }

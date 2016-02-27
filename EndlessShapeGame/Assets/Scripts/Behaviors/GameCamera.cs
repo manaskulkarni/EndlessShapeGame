@@ -52,4 +52,14 @@ public class GameCamera : MonoBehaviour
     GameManager.inst.ChangeState (GameManager.States.ShowRevive);
   }
 
+  void OnSetBackgroundColor (ColorWheel.ColorWheelData data)
+  {
+    Camera.main.backgroundColor = data.color;
+  }
+
+  void OnLoadBackgroundColor (ColorWheel.ColorWheelData data)
+  {
+    OnSetBackgroundColor (data);
+  }
+
 }
