@@ -1,3 +1,20 @@
+8.2:
+New Features:
+IOS Native Settings is no under the StansAssetsConfig folder
+Ability to Dectect IS App runing  at release mode. Read more: https://goo.gl/A224K4
+Saved Games API Added. Read more: https://goo.gl/dzUvDj
+
+
+Fixes:
+IOS 9.2 iAd API bug
+Local notification callbacks bug
+Unity 4.7 compilation issue
+Camera / Gallery photo rotation bug 
+iCloud Data read / write speed
+Game Center TBM match createtion date bug
+Game Center login popup bug
+
+
 8.1.1
 Fixes:
 Turn based multiplayer events fixed

@@ -31,8 +31,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 196116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.01, y: 0.69, z: -3.57}
-  m_LocalScale: {x: 1.5896826, y: 1.589683, z: 1.589683}
+  m_LocalPosition: {x: -.00999999978, y: .689999998, z: -3.56999993}
+  m_LocalScale: {x: 1.58968258, y: 1.58968306, z: 1.58968306}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -54,10 +54,8 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -78,7 +76,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: .0500000007
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -120,11 +118,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c8d97aff62a473e888feae3bec54cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugMode: 0
   advancedProps: 0
   minTouches: 0
   maxTouches: 0
   combineTouches: 0
-  combineTouchesInterval: 0.3
+  combineTouchesInterval: .300000012
   useSendMessage: 0
   sendStateChangeMessages: 0
   sendMessageTarget: {fileID: 0}
@@ -155,11 +154,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a878a6ff128243dfb1d89ca0273f059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugMode: 0
   advancedProps: 0
   minTouches: 0
   maxTouches: 0
   combineTouches: 0
-  combineTouchesInterval: 0.3
+  combineTouchesInterval: .300000012
   useSendMessage: 0
   sendStateChangeMessages: 0
   sendMessageTarget: {fileID: 0}
@@ -179,11 +179,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6be551879cd14d739b0188844ef2c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugMode: 0
   advancedProps: 0
   minTouches: 0
   maxTouches: 0
   combineTouches: 0
-  combineTouchesInterval: 0.3
+  combineTouchesInterval: .300000012
   useSendMessage: 0
   sendStateChangeMessages: 0
   sendMessageTarget: {fileID: 0}

@@ -67,13 +67,13 @@ public class AdManager : MonoBehaviour
   void SdkDelegate_OnInterstitialClosed (string adType, string provider)
   {
     Debug.Log(String.Format("OnInterstitialClosed: type {0}, provider: {1}", adType, provider));
+    GameManager.inst.BroadcastMessage ("OnEndVideo");
   }
   
   void SdkDelegate_OnInterstitialFailedToAppear (string adType, string provider)
   {
     Debug.Log(String.Format("OnInterstitialFailedToAppear: type {0}, provider: {1}", adType, provider));
     GameManager.inst.BroadcastMessage ("OnInterstitialFailed");
-
   }
 
   void SdkDelegate_OnInterstitialClicked (string adType, string provider)
@@ -114,6 +114,22 @@ public class AdManager : MonoBehaviour
       SdkDelegate_OnRewardedCompleted ("", "100 Diamonds", "");
       #else
       AdToAppBinding.showInterstitial (AdToAppContentType.REWARDED);
+      #endif
+    }
+    catch (EntryPointNotFoundException)
+    {
+      Debug.Log ("Ads not shown in editor");
+    }
+  }
+
+  public void ShowNormalVideo ()
+  {
+    try
+    {
+      #if UNITY_EDITOR
+      SdkDelegate_OnInterstitialClosed ("", "");
+      #else
+      AdToAppBinding.showInterstitial (AdToAppContentType.VIDEO);
       #endif
     }
     catch (EntryPointNotFoundException)

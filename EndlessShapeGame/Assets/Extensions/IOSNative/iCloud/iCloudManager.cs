@@ -1,3 +1,4 @@
+#define SA_DEBUG_MODE
 ////////////////////////////////////////////////////////////////////////////////
 //  
 // @module IOS Native Plugin for Unity3D 
@@ -72,19 +73,11 @@ public class iCloudManager : ISN_Singleton<iCloudManager> {
 	}
 
 	public void setData(string key, byte[] val) {
+
+
 		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
-
-			string b = "";
-			int len = val.Length;
-			for(int i = 0; i < len; i++) {
-				if(i != 0) {
-					b += ",";
-				}
-
-				b += val[i].ToString();
-			}
-
-			_setData(key, b);
+			string bytesString = System.Convert.ToBase64String (val);
+			_setData(key, bytesString);
 		#endif
 	}
 

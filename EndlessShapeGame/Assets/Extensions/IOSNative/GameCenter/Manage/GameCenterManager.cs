@@ -111,6 +111,8 @@ public class GameCenterManager : MonoBehaviour {
 	[DllImport ("__Internal")]
 	private static extern  void _ISN_ShowNotificationBanner (string title, string message);
 	
+	[DllImport ("__Internal")]
+	private static extern  void _ISN_LoadAchievements ();
 
 	[DllImport ("__Internal")]
 	private static extern bool _ISN_GK_IsUnderage();
@@ -389,6 +391,12 @@ public class GameCenterManager : MonoBehaviour {
 	}
 
 
+
+	public static void LoadAchievements() {
+		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		_ISN_LoadAchievements();
+		#endif
+	}
 
 
 	public static void IssueAchievementChallenge(string achievementId, string message, string[] playerIds) {

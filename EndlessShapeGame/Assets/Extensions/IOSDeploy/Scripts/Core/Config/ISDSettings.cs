@@ -11,7 +11,7 @@ using UnityEditor;
 public class ISDSettings : ScriptableObject
 {
 
-	public const string VERSION_NUMBER = "1.8.2";
+	public const string VERSION_NUMBER = "2.1";
 
 	public bool IsfwSettingOpen;
 	public bool IsLibSettingOpen;
@@ -35,8 +35,7 @@ public class ISDSettings : ScriptableObject
 
 	public List<string> langFolders = new List<string>();
 
-
-	private const string ISDAssetPath = "Extensions/IOSDeploy/Resources";
+	
 	private const string ISDAssetName = "ISDSettingsResource";
 	private const string ISDAssetExtension = ".asset";
 
@@ -57,9 +56,9 @@ public class ISDSettings : ScriptableObject
 					#if UNITY_EDITOR
 
 
-					FileStaticAPI.CreateFolder(ISDAssetPath);
+					FileStaticAPI.CreateFolder(SA_Config.SettingsPath);
 					
-					string fullPath = Path.Combine(Path.Combine("Assets", ISDAssetPath), ISDAssetName + ISDAssetExtension );
+					string fullPath = Path.Combine(Path.Combine("Assets", SA_Config.SettingsPath), ISDAssetName + ISDAssetExtension );
 					
 					AssetDatabase.CreateAsset(instance, fullPath);
 					#endif

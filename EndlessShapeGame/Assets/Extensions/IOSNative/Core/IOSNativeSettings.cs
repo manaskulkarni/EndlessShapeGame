@@ -10,7 +10,7 @@ using UnityEditor;
 
 public class IOSNativeSettings : ScriptableObject {
 
-	public const string VERSION_NUMBER = "8.1";
+	public const string VERSION_NUMBER = "8.2";
 
 	public string AppleId = "XXXXXXXXX";
 
@@ -84,7 +84,6 @@ public class IOSNativeSettings : ScriptableObject {
 
 
 	private const string ISNSettingsAssetName = "IOSNativeSettings";
-	private const string ISNSettingsPath = "Extensions/IOSNative/Resources";
 	private const string ISNSettingsAssetExtension = ".asset";
 
 	private static IOSNativeSettings instance = null;
@@ -102,7 +101,7 @@ public class IOSNativeSettings : ScriptableObject {
 					instance = CreateInstance<IOSNativeSettings>();
 					#if UNITY_EDITOR
 
-					FileStaticAPI.CreateFolder(ISNSettingsPath);
+					FileStaticAPI.CreateFolder(SA_Config.SettingsPath);
 				
 					/*string properPath = Path.Combine(Application.dataPath, ISNSettingsPath);
 					if (!Directory.Exists(properPath)) {
@@ -111,7 +110,7 @@ public class IOSNativeSettings : ScriptableObject {
 					}
 					*/
 					
-					string fullPath = Path.Combine(Path.Combine("Assets", ISNSettingsPath),
+					string fullPath = Path.Combine(Path.Combine("Assets", SA_Config.SettingsPath),
 					                               ISNSettingsAssetName + ISNSettingsAssetExtension
 					                               );
 					

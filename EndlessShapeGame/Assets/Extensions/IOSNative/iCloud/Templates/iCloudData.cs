@@ -78,15 +78,7 @@ public class iCloudData  {
 				return null;
 			}
 
-			string[] array;
-			array = _val.Split("," [0]);
-
-			List<byte> l = new List<byte> ();
-			foreach(string s in array) {
-				l.Add (System.Convert.ToByte(s));
-			}
-
-			return l.ToArray ();
+			return System.Convert.FromBase64String(_val);
 		}
 	}
 

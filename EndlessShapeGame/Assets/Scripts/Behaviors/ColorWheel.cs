@@ -16,6 +16,8 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Color color;
   }
 
+  public float brightnessAdjust = 0.7f;
+
   private bool mouseDown { get; set; }
   private Transform wheelPosition { get; set; }
 
@@ -78,6 +80,15 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
           int py = Mathf.Clamp (0,(int)(((localPoint.y-r.y)*tex.height)/r.height),tex.height);
 
           var color = tex.GetPixel (px, py);
+          if (color.r == color.g && color.g == color.b)
+          {
+//            Debug.Log ("Original Color");
+          }
+          else
+          {
+//            Debug.Log ("Too Bright Color. Decreasing intensity");
+            color = color * brightnessAdjust;
+          }
           if (color.a > 0)
           {
             wheelPosition.position = Input.mousePosition;

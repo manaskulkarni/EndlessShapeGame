@@ -537,9 +537,43 @@ public class GameManager : StateBehaviour
     //    ChangeState (States.Playing);
   }
 
-  private void GameOver_Enter ()
+  bool playingAd = false;
+  public int adInterval = 4;
+
+  private void OnInterstitialStarted ()
+  {
+    playingAd = true;
+  }
+
+  private void OnEndVideo ()
+  {
+    playingAd = false;
+  }
+
+  private void OnInterstitialFailed ()
+  {
+    playingAd = false;
+  }
+
+  private IEnumerator GameOver_Enter ()
   {
     BroadcastMessage (GameOverEvent);
+
+    if (StatsManager.inst.showAds == 1 && StatsManager.inst.numSessions % adInterval == 0)
+    {
+      yield return new WaitForSeconds (0.5f);
+      AdManager.inst.ShowNormalVideo ();
+      playingAd = true;
+    }
+    else
+    {
+      playingAd = false;
+    }
+
+    while (playingAd)
+    {
+      yield return null;
+    }
     
     if (StatsManager.inst.isHighScore)
     {
@@ -549,6 +583,8 @@ public class GameManager : StateBehaviour
     {
       BroadcastMessage (NoHighScoreEvent);
     }
+
+    yield return null;
   }
   
   private void GameOver_Exit ()

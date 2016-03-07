@@ -92,6 +92,12 @@ public class IOSNativeFeaturesPreview : BaseIOSFeaturePreview {
 
 		}
 
+		StartX += XButtonStep;
+		if(GUI.Button(new Rect(StartX, StartY, buttonWidth, buttonHeight), "Game Saves")) {
+			LoadLevel("GameSavesExample");
+
+		}
+
 		StartX = XStartPos;
 		StartY += YLableStep;
 		StartY += YLableStep;

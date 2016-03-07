@@ -471,6 +471,7 @@ public class StatsManager : MonoBehaviour
     productActions ["1200 Diamonds"] = new ProductData (1200, BuyDiamonds);
     productActions ["3000 Diamonds"] = new ProductData (3000, BuyDiamonds);
     productActions ["7500 Diamonds"] = new ProductData (7500, BuyDiamonds);
+    productActions ["21000 Diamonds"] = new ProductData (21000, BuyDiamonds);
     productActions ["Remove Ads"] = new ProductData (0, RemoveAdsComplete);
   }
 

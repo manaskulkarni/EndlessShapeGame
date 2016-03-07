@@ -6,21 +6,21 @@ public class GooglePlayInterface : StoreInterface
   // Use this as constructor
   void Awake ()
   {
-    GooglePlayConnection.ActionConnectionResultReceived += ActionConnectionResultReceived;
-    GooglePlayConnection.Instance.Connect ();;
+//    GooglePlayConnection.ActionConnectionResultReceived += ActionConnectionResultReceived;
+//    GooglePlayConnection.Instance.Connect ();
   }
 
-  private void ActionConnectionResultReceived(GooglePlayConnectionResult result)
-  {
-    if(result.IsSuccess)
-    {
-      Debug.Log("Connected!");
-    }
-    else
-    {
-      Debug.Log("Cnnection failed with code: " + result.code.ToString());
-    }
-  }
+//  private void ActionConnectionResultReceived(GooglePlayConnectionResult result)
+//  {
+//    if(result.IsSuccess)
+//    {
+//      Debug.Log("Connected!");
+//    }
+//    else
+//    {
+//      Debug.Log("Cnnection failed with code: " + result.code.ToString());
+//    }
+//  }
 
   #region implemented abstract members of StoreInterface
 
@@ -51,20 +51,20 @@ public class GooglePlayInterface : StoreInterface
 
   protected override void OnSubmitHighScore ()
   {
-    Debug.Log ("Submitting Score");
-    GooglePlayManager.Instance.SubmitScore (StatsManager.inst.leaderBoardId, StatsManager.inst.score);
+    throw new System.NotImplementedException ();
+//    GooglePlayManager.Instance.SubmitScore (StatsManager.inst.leaderBoardId, StatsManager.inst.score);
   }
 
   protected override void OnShowLeaderboard ()
   {
-    Debug.Log ("Showing Leaderboard");
-    GooglePlayManager.Instance.ShowLeaderBoardsUI ();
+    throw new System.NotImplementedException ();
+//    GooglePlayManager.Instance.ShowLeaderBoardsUI ();
   }
 
   protected override void OnShowAchievements ()
   {
-    Debug.Log ("Showing Achievements");
-    GooglePlayManager.Instance.ShowAchievementsUI ();
+    throw new System.NotImplementedException ();
+//    GooglePlayManager.Instance.ShowAchievementsUI ();
   }
 
   protected override void OnReportAchievement (StatsManager.AchievementData achievement)

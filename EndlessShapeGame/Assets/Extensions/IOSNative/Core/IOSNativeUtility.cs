@@ -34,6 +34,10 @@ public class IOSNativeUtility : ISN_Singleton<IOSNativeUtility> {
 
 
 	[DllImport ("__Internal")]
+	private static extern bool _ISN_IsRunningTestFlightBeta();
+
+
+	[DllImport ("__Internal")]
 	private static extern void _ISN_RequestGuidedAccessSession(bool enable);
 
 	#endif
@@ -100,6 +104,17 @@ public class IOSNativeUtility : ISN_Singleton<IOSNativeUtility> {
 			return false;
 			#endif
 		}
+	}
+
+
+	public static bool IsRunningTestFlightBeta {
+		get {
+			#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+			return _ISN_IsRunningTestFlightBeta();
+			#else
+			return true;
+			#endif
+		} 
 	}
 
 

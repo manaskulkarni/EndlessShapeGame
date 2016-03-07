@@ -24,7 +24,196 @@ NSString * const UNITY_SPLITTER2 = @"|%|";
 NSString * const UNITY_EOF = @"endofline";
 
 
+@interface ISN_SaveGame : NSObject
 
+
+@property (nonatomic, strong) NSMutableDictionary* LoadedGameSaves;
+
+- (void) saveGameData:(NSData *)data withName:(NSString *)name;
+- (void) fetchSavedGames;
+- (void) deleteSavedGames:(NSString *)name;
+- (void) resolveConflictingSavedGames:(NSArray<NSString *> *)conflictingSavedGames  withData:(NSData *)data;
+- (void) loadSaveData:(NSString*)name;
+@end
+
+@implementation ISN_SaveGame
+
+static ISN_SaveGame *sg_sharedHelper = nil;
++ (ISN_SaveGame *) sharedInstance {
+    if (!sg_sharedHelper) {
+        sg_sharedHelper = [[ISN_SaveGame alloc] init];
+        
+    }
+    return sg_sharedHelper;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self setLoadedGameSaves:[[NSMutableDictionary alloc] init]];
+    }
+    
+    return self;
+}
+
+-(void) saveGameData:(NSData *)data withName:(NSString *)name {
+    [[GKLocalPlayer localPlayer] saveGameData:data withName:name completionHandler:^(GKSavedGame * _Nullable savedGame, NSError * _Nullable error) {
+        if(error == NULL) {
+             UnitySendMessage("ISN_GameSaves", "OnSaveSuccess",  [ISN_DataConvertor NSStringToChar:[self SerlializeGameSave:savedGame]]);
+        } else {
+             UnitySendMessage("ISN_GameSaves", "OnSaveFailed",  [ISN_DataConvertor serializeError:error] );
+        }
+    }];
+}
+
+
+-(void) fetchSavedGames {
+    [[GKLocalPlayer localPlayer] fetchSavedGamesWithCompletionHandler:^(NSArray<GKSavedGame *> * _Nullable savedGames, NSError * _Nullable error) {
+        if(error == NULL) {
+            NSMutableString *savesData = [[NSMutableString alloc] init];
+            for (GKSavedGame *save in savedGames) {
+                NSString *serializedData = [self SerlializeGameSave:save];
+                [savesData appendString:serializedData];
+                [savesData appendString:UNITY_SPLITTER2];
+            }
+            
+            [savesData appendString:UNITY_EOF];
+            
+             UnitySendMessage("ISN_GameSaves", "OnFetchSuccess",  [ISN_DataConvertor NSStringToChar:savesData] );
+            
+        } else {
+            UnitySendMessage("ISN_GameSaves", "OnFetchFailed",  [ISN_DataConvertor serializeError:error] );
+        }
+    }];
+}
+
+-(void) deleteSavedGames:(NSString *)name {
+    [[GKLocalPlayer localPlayer] deleteSavedGamesWithName:name completionHandler:^(NSError * _Nullable error) {
+        if(error == NULL) {
+            UnitySendMessage("ISN_GameSaves", "OnDeleteSuccess",  [ISN_DataConvertor NSStringToChar:name]);
+        } else {
+            
+            NSMutableString * data = [[NSMutableString alloc] init];
+            [data appendString:name];
+            [data appendString:UNITY_SPLITTER2];
+            [data appendString:[ISN_DataConvertor serializeErrorToNSString:error]];
+            
+            UnitySendMessage("ISN_GameSaves", "OnDeleteFailed",  [ISN_DataConvertor NSStringToChar:data]);
+        }
+
+    }];
+}
+
+-(void) resolveConflictingSavedGames:(NSArray<NSString *> *)conflictingSavedGames withData:(NSData *)data {
+    NSMutableArray <GKSavedGame *> * conflicts = [[NSMutableArray alloc] init];
+    for (NSString *saveKey in conflictingSavedGames) {
+        GKSavedGame *save = [[self LoadedGameSaves] objectForKey:saveKey];
+        if(save != nil) {
+            [conflicts addObject:save];
+        }
+    }
+    
+    [[GKLocalPlayer localPlayer] resolveConflictingSavedGames:conflicts withData:data completionHandler:^(NSArray<GKSavedGame *> * _Nullable savedGames, NSError * _Nullable error) {
+        if(error == NULL) {
+            NSMutableString *resolvingData = [[NSMutableString alloc] init];
+            for (GKSavedGame *data in savedGames) {
+                NSString *serializedData = [self SerlializeGameSave:data];
+                [resolvingData appendString:serializedData];
+                [resolvingData appendString:UNITY_SPLITTER2];
+            }
+            
+            [resolvingData appendString:UNITY_EOF];
+            
+            UnitySendMessage("ISN_GameSaves", "OnResolveSuccess",  [ISN_DataConvertor NSStringToChar:resolvingData] );
+        } else {
+            UnitySendMessage("ISN_GameSaves", "OnResolveFailed",  [ISN_DataConvertor serializeError:error] );
+        }
+    }];
+}
+
+
+
+-(void) loadSaveData:(NSString *)name {
+    GKSavedGame *save = [[self LoadedGameSaves] objectForKey:name];
+    if(save != NULL) {
+        [save loadDataWithCompletionHandler:^(NSData * _Nullable data, NSError * _Nullable error) {
+            if(error == NULL) {
+                
+                NSMutableString * saveData = [[NSMutableString alloc] init];
+                NSString *SaveKey = [self CacheGameSave:save];
+                
+                
+                [saveData appendString:SaveKey];
+                [saveData appendString:UNITY_SPLITTER2];
+                [saveData appendString: [data base64Encoding]];
+                
+                UnitySendMessage("ISN_GameSaves", "OnSaveDataLoaded",  [ISN_DataConvertor NSStringToChar:saveData] );
+                
+            } else {
+                
+                NSMutableString * data = [[NSMutableString alloc] init];
+                [data appendString:name];
+                [data appendString:UNITY_SPLITTER2];
+                [data appendString:[ISN_DataConvertor serializeErrorToNSString:error]];
+                
+                UnitySendMessage("ISN_GameSaves", "OnSaveDataLoadFailed",  [ISN_DataConvertor NSStringToChar:data]);
+                
+    
+            }
+        }];
+    } else {
+        
+        NSMutableString * data = [[NSMutableString alloc] init];
+        [data appendString:name];
+        [data appendString:UNITY_SPLITTER2];
+        [data appendString:[ISN_DataConvertor serializeErrorWithDataToNSString:@"save not found" code:999]];
+        
+        UnitySendMessage("ISN_GameSaves", "OnSaveDataLoadFailed", [ISN_DataConvertor NSStringToChar:data]);
+    }
+
+}
+
+
+- (NSString*) SerlializeGameSave:(GKSavedGame *)save {
+    NSMutableString * serializedData = [[NSMutableString alloc] init];
+    
+    NSString* key = [self CacheGameSave:save];
+    
+    [serializedData appendString:key];
+    [serializedData appendString:UNITY_SPLITTER];
+    [serializedData appendString:[save name]];
+    [serializedData appendString:UNITY_SPLITTER];
+    [serializedData appendString:[save deviceName]];
+    [serializedData appendString:UNITY_SPLITTER];
+
+    
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+
+    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateString = [dateFormatter stringFromDate:[save modificationDate]];
+    
+    [serializedData appendString:dateString];
+    
+    return serializedData;
+}
+
+ - (NSString*) CacheGameSave:(GKSavedGame *)save {
+     
+    NSMutableString * key = [[NSMutableString alloc] init];
+    [key appendString:[save name]];
+    [key appendString:[save deviceName]];
+     
+    NSString *dateString = [NSDateFormatter localizedStringFromDate:[save modificationDate] dateStyle:NSDateFormatterShortStyle  timeStyle:NSDateFormatterFullStyle];
+    [key appendString:dateString];
+     
+    [[self LoadedGameSaves] setObject:save forKey:key];
+     
+    return  key;
+}
+
+
+@end
 
 
 @interface ISN_GameCenterListner : NSObject <GKLocalPlayerListener> {
@@ -51,7 +240,6 @@ NSString * const UNITY_EOF = @"endofline";
 @end
 
 @interface ISN_GameCenterManager : NSObject <GKGameCenterControllerDelegate, GKAchievementViewControllerDelegate> {
-    BOOL isAchievementsWasLoaded;
     NSMutableDictionary* earnedAchievementCache;
     
 #if UNITY_VERSION < 500
@@ -374,7 +562,6 @@ static ISN_GameCenterManager * gc_sharedInstance;
     self = [super init];
     if (self) {
         earnedAchievementCache= NULL;
-        isAchievementsWasLoaded = FALSE;
         loadedPlayers = [[NSMutableDictionary alloc] init];
         
 #if UNITY_VERSION < 500
@@ -443,9 +630,6 @@ static ISN_GameCenterManager * gc_sharedInstance;
     
     [[ISN_GameCenterListner sharedInstance] subscribe];
     
-    if(!isAchievementsWasLoaded) {
-        [self loadAchievements];
-    }
     
     [self savePlayerInfo:localPlayer];
     
@@ -1188,8 +1372,6 @@ static ISN_GameCenterManager * gc_sharedInstance;
             NSLog(@"ISN loadAchievementsWithCompletionHandler");
             NSLog(@"ISN count %lu", (unsigned long)achievements.count);
             
-            
-            isAchievementsWasLoaded = TRUE;
             NSMutableString * data = [[NSMutableString alloc] init];
             BOOL first = YES;
             for (GKAchievement* achievement in achievements) {
@@ -2305,6 +2487,11 @@ static int tbm_playerAttributes = 0;
         if(matchData.length == 0) {
             matchData = [match matchData];
         }
+
+  
+        if(matchData == nil) {
+            matchData = [[NSData alloc] init];
+        }
         
         GKTurnBasedMatchOutcome participantOutcome = [ISN_GameCenterTBM getOutcomeByIntValue:outcome];
         GKTurnBasedParticipant *nextParticipantObject = [self getMathcParticipantById:match playerId:nextPlayerId];
@@ -2581,6 +2768,10 @@ static int tbm_playerAttributes = 0;
     
     [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
     NSString *creationDateString = [dateFormatter stringFromDate:match.creationDate];
+    if(creationDateString ==  NULL) {
+        creationDateString = [dateFormatter stringFromDate:[NSDate date]];
+    }
+    
     [data appendString: creationDateString];
     [data appendString: UNITY_SPLITTER];
     
@@ -2780,6 +2971,10 @@ extern "C" {
     
     void _ISN_loadLeaderboardInfo (char* leaderboardId, int requestId) {
         [[ISN_GameCenterManager sharedInstance] loadLeaderboardInfo:[ISN_DataConvertor charToNSString:leaderboardId] requestId:requestId];
+    }
+    
+    void _ISN_LoadAchievements() {
+        [[ISN_GameCenterManager sharedInstance] loadAchievements];
     }
     
     void _ISN_loadLeaderboardScore(char* leaderboardId, int scope, int collection, int from, int to) {
@@ -3097,6 +3292,47 @@ extern "C" {
     }
     
     
+    //--------------------------------------
+    //  Game Saves
+    //--------------------------------------
+    
+    void _ISN_SaveGame(char* data, char* name) {
+        NSString* mName = [ISN_DataConvertor charToNSString:name];
+        
+        
+        NSString* mDataString = [ISN_DataConvertor charToNSString:data];
+        NSData *mData = [[NSData alloc] initWithBase64Encoding:mDataString];
+        
+        [[ISN_SaveGame sharedInstance] saveGameData:mData withName:mName];
+    }
+    
+    
+    void _ISN_FetchSavedGames() {
+        [[ISN_SaveGame sharedInstance] fetchSavedGames];
+    }
+    
+    void _ISN_DeleteSavedGame(char* name) {
+        NSString* mName = [ISN_DataConvertor charToNSString:name];
+        
+        [[ISN_SaveGame sharedInstance] deleteSavedGames:mName];
+    }
+    
+    void _ISN_ResolveConflictingSavedGames(char* saves, char* data) {
+        NSArray* savesList = [ISN_DataConvertor charToNSArray:saves];
+        
+        NSString* mDataString = [ISN_DataConvertor charToNSString:data];
+        NSData *mData = [[NSData alloc] initWithBase64Encoding:mDataString];
+        
+        [[ISN_SaveGame sharedInstance] resolveConflictingSavedGames:savesList withData:mData];
+    }
+    
+    void _ISN_LoadSaveData(char* name) {
+        NSString* mName = [ISN_DataConvertor charToNSString:name];
+        
+        [[ISN_SaveGame sharedInstance] loadSaveData:mName];
+    }
+
+
     
 }
 #endif
