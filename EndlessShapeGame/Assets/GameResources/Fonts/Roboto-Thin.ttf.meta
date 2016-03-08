@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: 443d30199503d4055814bb8d4c21a45b
-timeCreated: 1438426049
-licenseType: Free
+guid: 4df34eac1f0234150b537ca4cf45ae52
+timeCreated: 1457423001
+licenseType: Pro
 TrueTypeFontImporter:
   serializedVersion: 2
   fontSize: 50
@@ -10,11 +10,8 @@ TrueTypeFontImporter:
   characterPadding: 0
   includeFontData: 1
   use2xBehaviour: 0
-  fontNames:
-  - MankSans
-  - Roboto
-  fallbackFontReferences:
-  - {fileID: 12800000, guid: 4df34eac1f0234150b537ca4cf45ae52, type: 3}
+  fontNames: []
+  fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   userData: 

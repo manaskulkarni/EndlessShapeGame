@@ -48,41 +48,41 @@ public class CheckCompatibility : MonoBehaviour
 //    }
 	}
 
-  void OnSwitchMode (int mode)
-  {
-//    if (lowPerformance)
-    {
-      invertAnimationList.UnionWith (GameObject.FindObjectsOfType <SpriteRenderer> ());
-
-      foreach (var v in invertAnimationList)
-      {
-        v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
-      }
-
-      ShapeManager.inst.specialColor = new Color (1.0f - ShapeManager.inst.specialColor.r,
-                                                  1.0f - ShapeManager.inst.specialColor.g,
-                                                  1.0f - ShapeManager.inst.specialColor.b,
-                                                  ShapeManager.inst.specialColor.a);
-
-      foreach (var shape in ShapeManager.inst.shapes)
-      {
-        shape.originalColor = new Color (1.0f - shape.originalColor.r,
-                                         1.0f - shape.originalColor.g,
-                                         1.0f - shape.originalColor.b,
-                                         shape.originalColor.a);
-      }
-    }
-//    else
+//  void OnSwitchMode (int mode)
+//  {
+////    if (lowPerformance)
 //    {
-//      switch (mode)
+//      invertAnimationList.UnionWith (GameObject.FindObjectsOfType <SpriteRenderer> ());
+//
+//      foreach (var v in invertAnimationList)
 //      {
-//      case 0:
-//        Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = false;
-//        break;
-//      case 1:
-//        Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = true;
-//        break;
+//        v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
+//      }
+//
+//      ShapeManager.inst.specialColor = new Color (1.0f - ShapeManager.inst.specialColor.r,
+//                                                  1.0f - ShapeManager.inst.specialColor.g,
+//                                                  1.0f - ShapeManager.inst.specialColor.b,
+//                                                  ShapeManager.inst.specialColor.a);
+//
+//      foreach (var shape in ShapeManager.inst.shapes)
+//      {
+//        shape.originalColor = new Color (1.0f - shape.originalColor.r,
+//                                         1.0f - shape.originalColor.g,
+//                                         1.0f - shape.originalColor.b,
+//                                         shape.originalColor.a);
 //      }
 //    }
-  }
+////    else
+////    {
+////      switch (mode)
+////      {
+////      case 0:
+////        Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = false;
+////        break;
+////      case 1:
+////        Camera.main.GetComponent <UnityStandardAssets.ImageEffects.InvertColor> ().enabled = true;
+////        break;
+////      }
+////    }
+//  }
 }

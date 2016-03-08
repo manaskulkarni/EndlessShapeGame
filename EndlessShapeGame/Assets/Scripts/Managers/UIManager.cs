@@ -433,6 +433,19 @@ public class UIManager : MonoBehaviour
     GameManager.inst.SendMessage ("TutorialReviveDone");
   }
 
+  public void StartSwitchMode (ScrollSnapRect scroll)
+  {
+    int mode = scroll.currentPage;
+    if (scroll.container.GetChild (mode).CompareTag ("song"))
+    {
+      if (StatsManager.inst.vMode != mode)
+      {
+        Debug.Log ("Swtcdfsdjkfl" + mode);
+        GameManager.inst.BroadcastMessage ("OnSwitchMode", mode);
+      }
+    }
+  }
+
   #region Coroutines
   
   private IEnumerator HighScoreFeedback ()
@@ -1348,18 +1361,25 @@ public class UIManager : MonoBehaviour
   }
 
   // TODO
-  void OnStoreButtonSwipe (int index)
+  void OnStoreButtonSwipe (ScrollSnapRect.ScrollData data)
   {
 //    if (menuDiamondStore != null && menuPotionStore != null)
     {
 //      if (menuDiamondStore.activeSelf)
       {
+//        Debug.Log (data.container.gameObject.name);
         Transform container = diamondStoreList.container;
-        StoreButton b = container.GetChild (index).GetComponent <StoreButton> ();
-        b.priceText = StatsManager.inst.GetPrice (b);
-        buttonBuyDiamonds.GetComponentInChildren <Text> ().text = b.priceText;
-        buttonBuyDiamonds.onClick.RemoveAllListeners ();
-        buttonBuyDiamonds.onClick.AddListener (() => {PurchaseItem (b);});
+        if (diamondStoreList != null && diamondStoreList.container != null)
+        {
+          StoreButton b = container.GetChild (data.scrollIndex).GetComponent <StoreButton> ();
+          if (b != null)
+          {
+            b.priceText = StatsManager.inst.GetPrice (b);
+            buttonBuyDiamonds.GetComponentInChildren <Text> ().text = b.priceText;
+            buttonBuyDiamonds.onClick.RemoveAllListeners ();
+            buttonBuyDiamonds.onClick.AddListener (() => {PurchaseItem (b);});
+          }
+        }
       }
 //      else if (menuPotionStore.activeSelf)
 //      {
@@ -1375,14 +1395,14 @@ public class UIManager : MonoBehaviour
   void OnSwitchMode (int mode)
   {
     StartCoroutine (IgnoreSwitchMode (AudioManager.inst._options_menu1.volumeFadeSpeed * 2.0f));
-    var ui = UIManager.inst.allUI;
-    foreach (var v in ui)
-    {
-      if (!v.gameObject.CompareTag ("noinvert"))
-      {
-        v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
-      }
-    }
+//    var ui = UIManager.inst.allUI;
+//    foreach (var v in ui)
+//    {
+//      if (!v.gameObject.CompareTag ("noinvert"))
+//      {
+//        v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
+//      }
+//    }
   }
 
   void OnProductsLoaded (Dictionary <string, StoreInterface.ProductTemplate> products)

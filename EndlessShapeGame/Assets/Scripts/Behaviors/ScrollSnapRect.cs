@@ -9,7 +9,17 @@ using System.Collections.Generic;
 [RequireComponent(typeof(ScrollRect))]
 public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-  
+  public class ScrollData
+  {
+    public ScrollData (int index, Transform cont)
+    {
+      scrollIndex = index;
+      container = cont;
+    }
+    public int scrollIndex;
+    public Transform container;
+  }
+
   [Tooltip("Set starting page index - starting from 0")]
   public int startingPage = 0;
   [Tooltip("Threshold time for fast swipe in seconds")]
@@ -346,7 +356,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 
     if (aPageIndex < _pagePositions.Count && aPageIndex >= 0)
     {
-      UIManager.inst.SendMessage ("OnStoreButtonSwipe", aPageIndex);
+      UIManager.inst.SendMessage ("OnStoreButtonSwipe", new ScrollData (aPageIndex, _container));
     }
   }
   

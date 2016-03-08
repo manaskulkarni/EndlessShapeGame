@@ -7,6 +7,7 @@ TagManager:
   - p
   - s
   - noinvert
+  - song
   layers:
   - Default
   - TransparentFX
