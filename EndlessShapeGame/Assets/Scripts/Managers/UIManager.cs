@@ -54,6 +54,8 @@ public class UIManager : MonoBehaviour
 //  private GameObject menuCoins { get; set; }
   private GameObject menuRevive { get; set; }
   private GameObject menuStore { get; set; }
+  private GameObject menuColor { get; set; }
+  private GameObject menuMusic { get; set; }
 
   /// <summary>
   /// Safety check if revive at last minute and ReviveDeclined called at same time
@@ -144,6 +146,10 @@ public class UIManager : MonoBehaviour
     menuRevive.GetComponent <CanvasGroup> ().alpha = 0.0f;
     menuStore = GameObject.Find ("MenuStore");
     menuStore.GetComponent <CanvasGroup> ().alpha = 0.0f;
+
+    menuColor = GameObject.Find("MenuColorWheel");
+    menuMusic = GameObject.Find("MenuMusic");
+    menuMusic.gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
 
     imageReviveButtonSeparator = GameObject.Find ("ReviveSeparator");
 
@@ -240,7 +246,20 @@ public class UIManager : MonoBehaviour
     //    OnSpeedChange ();
     #endregion
   }	
-  
+  public void ShowMusicMenu()
+  {
+    StartCoroutine(FadeOutColorCanvas());
+
+    StartCoroutine(FadeInMusicCanvas());
+  }
+
+  public void ShowColorMenu()
+  {
+    StartCoroutine(FadeOutMusicCanvas());
+    StartCoroutine(FadeInColorCanvas());
+
+  }
+
   public void EndGame ()
   {
     StartCoroutine (FadeOutGameOverCanvas ());
@@ -518,7 +537,78 @@ public class UIManager : MonoBehaviour
     
     group.alpha = 1.0f;
   }
-  
+
+  private IEnumerator FadeOutColorCanvas()
+  {
+    CanvasGroup group = menuColor.GetComponent<CanvasGroup>();
+    buttonOptionsBack.interactable = false;
+
+    while (group.alpha > 0.0f)
+    {
+      float alpha = group.alpha;
+      alpha -= Time.deltaTime * 5.0f;
+      group.alpha = alpha;
+      yield return null;
+    }
+
+    group.alpha = 0.0f;
+    buttonOptionsBack.interactable = true;
+    SetMenuActive(group.gameObject, false);
+  }
+
+  private IEnumerator FadeInColorCanvas()
+  {
+    CanvasGroup group = menuColor.GetComponent<CanvasGroup>();
+    buttonOptionsBack.interactable = false;
+
+    while(group.alpha < 1.0f)
+    {
+      float alpha = group.alpha;
+      alpha += Time.deltaTime * 2.0f;
+      group.alpha += alpha;
+      yield return null;
+    }
+    group.alpha = 1.0f;
+    buttonOptionsBack.interactable = true;
+
+    SetMenuActive(group.gameObject, true);
+  }
+
+  private IEnumerator FadeOutMusicCanvas()
+  {
+    CanvasGroup group = menuMusic.GetComponent<CanvasGroup>();
+    buttonOptionsBack.interactable = false;
+
+    while (group.alpha > 0.0f)
+    {
+      float alpha = group.alpha;
+      alpha -= Time.deltaTime * 5.0f;
+      group.alpha = alpha;
+      yield return null;
+    }
+
+    group.alpha = 0.0f;
+    buttonOptionsBack.interactable = true;
+    SetMenuActive(group.gameObject, false);
+  }
+
+  private IEnumerator FadeInMusicCanvas()
+  {
+    CanvasGroup group = menuMusic.GetComponent<CanvasGroup>();
+    buttonOptionsBack.interactable = false;
+
+    while (group.alpha < 1.0f)
+    {
+      float alpha = group.alpha;
+      alpha += Time.deltaTime * 2.0f;
+      group.alpha += alpha;
+      yield return null;
+    }
+    group.alpha = 1.0f;
+    buttonOptionsBack.interactable = true;
+    SetMenuActive(group.gameObject, true);
+  }
+
   private IEnumerator FadeOutOptionsCanvas ()
   {
     CanvasGroup group = menuOptions.GetComponent<CanvasGroup>();
@@ -533,8 +623,10 @@ public class UIManager : MonoBehaviour
     }
     
     group.alpha = 0.0f;
-    SetMenuActive (group.gameObject, false);
+    SetMenuActive(group.gameObject, false);
   }
+
+
   
   private IEnumerator FadeInStartCanvas ()
   {
