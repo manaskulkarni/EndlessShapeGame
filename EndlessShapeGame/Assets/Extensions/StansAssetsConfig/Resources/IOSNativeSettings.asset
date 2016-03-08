@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: IOSNativeSettings
   m_EditorClassIdentifier: 
   AppleId: 1024925295
-  ToolbarIndex: 1
+  ToolbarIndex: 2
   SendFakeEventsInEditor: 1
   DefaultStoreProductsView: []
   InAppProducts:
@@ -116,7 +116,7 @@ MonoBehaviour:
   EnableSoomla: 0
   EnablePushNotificationsAPI: 1
   DisablePluginLogs: 0
-  UseGCRequestCaching: 0
+  UseGCRequestCaching: 1
   UsePPForAchievements: 0
   AutoLoadUsersSmallImages: 1
   AutoLoadUsersBigImages: 0
