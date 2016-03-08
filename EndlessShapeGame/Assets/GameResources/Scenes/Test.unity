@@ -2701,7 +2701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.197}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.197}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6242,6 +6242,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 611371078}
+  - {fileID: 1832068149}
+  - {fileID: 1440629163}
   m_Father: {fileID: 1032536970}
   m_RootOrder: 3
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -7379,7 +7381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7388,7 +7390,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4df34eac1f0234150b537ca4cf45ae52, type: 3}
-    m_FontSize: 80
+    m_FontSize: 70
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -7399,7 +7401,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: AUDIO
+  m_Text: AURAL
 --- !u!222 &1143452670
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10080,11 +10082,11 @@ RectTransform:
   - {fileID: 485629311}
   - {fileID: 1635172685}
   - {fileID: 351507295}
-  m_Father: {fileID: 2032972512}
-  m_RootOrder: 1
+  m_Father: {fileID: 1028198868}
+  m_RootOrder: 2
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 219.99998}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1440629164
@@ -10997,7 +10999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -11006,7 +11008,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4df34eac1f0234150b537ca4cf45ae52, type: 3}
-    m_FontSize: 80
+    m_FontSize: 70
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -11017,7 +11019,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: VIDEO
+  m_Text: VISUAL
 --- !u!222 &1515730451
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13748,11 +13750,11 @@ RectTransform:
   m_Children:
   - {fileID: 852326961}
   - {fileID: 167374844}
-  m_Father: {fileID: 2032972512}
-  m_RootOrder: 0
+  m_Father: {fileID: 1028198868}
+  m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 219.99998}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1832068150
@@ -15068,9 +15070,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1832068149}
-  - {fileID: 1440629163}
+  m_Children: []
   m_Father: {fileID: 1032536970}
   m_RootOrder: 4
   m_AnchorMin: {x: 0.5, y: 0.5}

@@ -184,6 +184,7 @@ public class UIManager : MonoBehaviour
     SetMenuActive (menuStart, true);
     SetMenuActive (menuRevive, false);
     SetMenuActive (menuStore, false);
+    SetMenuActive (menuMusic, false);
 //    buttonFacebookBack.interactable = false;
 //    buttonStoreBack.interactable = false;
 
@@ -554,7 +555,6 @@ public class UIManager : MonoBehaviour
   private IEnumerator FadeOutColorCanvas()
   {
     CanvasGroup group = menuColor.GetComponent<CanvasGroup>();
-    buttonOptionsBack.interactable = false;
 
     while (group.alpha > 0.0f)
     {
@@ -565,14 +565,13 @@ public class UIManager : MonoBehaviour
     }
 
     group.alpha = 0.0f;
-    buttonOptionsBack.interactable = true;
     SetMenuActive(group.gameObject, false);
   }
 
   private IEnumerator FadeInColorCanvas()
   {
     CanvasGroup group = menuColor.GetComponent<CanvasGroup>();
-    buttonOptionsBack.interactable = false;
+    SetMenuActive(group.gameObject, true);
 
     while(group.alpha < 1.0f)
     {
@@ -582,15 +581,11 @@ public class UIManager : MonoBehaviour
       yield return null;
     }
     group.alpha = 1.0f;
-    buttonOptionsBack.interactable = true;
-
-    SetMenuActive(group.gameObject, true);
   }
 
   private IEnumerator FadeOutMusicCanvas()
   {
     CanvasGroup group = menuMusic.GetComponent<CanvasGroup>();
-    buttonOptionsBack.interactable = false;
 
     while (group.alpha > 0.0f)
     {
@@ -601,14 +596,13 @@ public class UIManager : MonoBehaviour
     }
 
     group.alpha = 0.0f;
-    buttonOptionsBack.interactable = true;
     SetMenuActive(group.gameObject, false);
   }
 
   private IEnumerator FadeInMusicCanvas()
   {
     CanvasGroup group = menuMusic.GetComponent<CanvasGroup>();
-    buttonOptionsBack.interactable = false;
+    SetMenuActive(group.gameObject, true);
 
     while (group.alpha < 1.0f)
     {
@@ -618,8 +612,6 @@ public class UIManager : MonoBehaviour
       yield return null;
     }
     group.alpha = 1.0f;
-    buttonOptionsBack.interactable = true;
-    SetMenuActive(group.gameObject, true);
   }
 
   private IEnumerator FadeOutOptionsCanvas ()
