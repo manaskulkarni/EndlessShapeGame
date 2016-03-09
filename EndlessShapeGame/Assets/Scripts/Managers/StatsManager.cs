@@ -169,6 +169,8 @@ public class StatsManager : MonoBehaviour
 
   #if UNITY_IOS
   private GameCenterInterface store { get; set; }
+  #elif UNITY_ANDROID
+  private GooglePlayInterface store { get; set; }
   #endif
 
   void Awake ()
