@@ -93,6 +93,7 @@ public class UIManager : MonoBehaviour
 //  public Button buttonFacebookBack;
   public Button buttonRevive;
   public Button buttonTutorialReviveDone;
+  public ParticleSystem coinBoughtEffect;
 
 
   // TODO
@@ -1196,7 +1197,7 @@ public class UIManager : MonoBehaviour
       GameManager.inst.ChangeState (GameManager.States.ReviveCompleteStart);
     }
 
-    UpdateCoinsText ();
+    StartCoroutine (IncreaseCoins ());
   }
   
   void OnShowOptions ()
@@ -1564,15 +1565,24 @@ public class UIManager : MonoBehaviour
     int target = StatsManager.inst.coins, curr = 0;
     int.TryParse (textCoins [0].text, out curr);
 
-    while (curr <= target)
+    int distance = target - curr;
+    float time = 1.0f;
+    float speed = distance / (60 * time);
+
+    while (curr + speed < target)
     {
-      curr += 1;
+      curr += (int)speed;
       foreach (var v in textCoins)
       {
         v.text = ""+curr+"";
       }
 
       yield return null;
+    }
+
+    foreach (var v in textCoins)
+    {
+      v.text = ""+target+"";
     }
   }
 
