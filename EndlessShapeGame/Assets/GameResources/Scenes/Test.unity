@@ -3880,7 +3880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90b24a9e08dc4372ae8fd0bc836de3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startScore: 100
+  startScore: 200
   FlippedScore: 0
   isFlipped: 0
   numRevivePotions: 0
@@ -10062,7 +10062,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -10084,7 +10084,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!1 &1254821775
 GameObject:
   m_ObjectHideFlags: 0
@@ -14023,7 +14023,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  goldenShapeSprite: {fileID: 21300000, guid: 2d4aced22340642b1959037efbb14ac0, type: 3}
+  goldenShapeSprite: {fileID: 21300000, guid: 9eeaef4f8627b4f259f15c2753019de3, type: 3}
   specialFeedback: {fileID: 1078359141}
   gameOverFeedback: {fileID: 996316314}
   invisibleFadeStartOffset: 1.5

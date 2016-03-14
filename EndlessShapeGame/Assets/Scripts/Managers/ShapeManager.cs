@@ -898,7 +898,7 @@ public class ShapeManager : MonoBehaviour
     {
       goldenShapeSpawned = true;
       shape.StartGoldenShape (nextSprite);
-      nextSprite = goldenShapeSprite;
+//      nextSprite = goldenShapeSprite;
     }
     else
     {

@@ -97,6 +97,7 @@ public class PlayerManager : MonoBehaviour
     while (Time.timeScale > 0.5f)
     {
       Time.timeScale -= Time.unscaledDeltaTime;
+      AudioManager.inst.SetGameSongPitch (Time.timeScale);
       Debug.Log (Time.timeScale);
       yield return null;
     }
@@ -125,16 +126,19 @@ public class PlayerManager : MonoBehaviour
     while (Time.timeScale < 1.0f)
     {
       Time.timeScale += Time.unscaledDeltaTime;
+      AudioManager.inst.SetGameSongPitch (Time.timeScale);
       yield return null;
     }
+    Time.timeScale = 1.0f;
+    AudioManager.inst.SetGameSongPitch (Time.timeScale);
   }
 
   private IEnumerator AudioPitchShift (float totalTime)
   {
-    AudioLowPassFilter lowPass = AudioManager.inst.AddLowPassFilterGame ();
-    lowPass.cutoffFrequency = 1000.0f;
-    yield return new WaitForSeconds (totalTime);
-    AudioManager.inst.RemoveLowPassFilterGame ();
+//    AudioLowPassFilter lowPass = AudioManager.inst.AddLowPassFilterGame ();
+//    lowPass.cutoffFrequency = 1000.0f;
+//    yield return new WaitForSeconds (totalTime);
+//    AudioManager.inst.RemoveLowPassFilterGame ();
     yield return null;
   }
 

@@ -187,7 +187,7 @@ public class AudioManager : MonoBehaviour
     if (Input.GetKeyUp(KeyCode.Q))
     {
       Time.timeScale = 0.5f;
-      foreach (var source in GetComponents<AudioSource>())
+      foreach (var source in GetComponentsInChildren<AudioSource>())
       {
         source.pitch = Time.timeScale;
       }
@@ -195,10 +195,22 @@ public class AudioManager : MonoBehaviour
     else if (Input.GetKeyUp(KeyCode.R))
     {
       Time.timeScale = 1.0f;
-      foreach (var source in GetComponents<AudioSource>())
+      foreach (var source in GetComponentsInChildren<AudioSource>())
       {
         source.pitch = Time.timeScale;
       }
+    }
+  }
+
+  public void SetGameSongPitch (float pitch)
+  {
+    if (_mode == 0)
+    {
+      track1.pitch = pitch;
+    }
+    else if (_mode == 1)
+    {
+      track2.pitch = pitch;
     }
   }
 
