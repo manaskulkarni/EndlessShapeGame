@@ -50,11 +50,11 @@ public class StatsManager : MonoBehaviour
   }
 
   // TODO
-//  public Dictionary <InGameBuyButton.ButtonType, int> gameItems = new Dictionary<InGameBuyButton.ButtonType, int> ()
-//  {
-//    { InGameBuyButton.ButtonType.Revive, 0 },
-//    { InGameBuyButton.ButtonType.SlowMotion, 1 },
-//  };
+  //  public Dictionary <InGameBuyButton.ButtonType, int> gameItems = new Dictionary<InGameBuyButton.ButtonType, int> ()
+  //  {
+  //    { InGameBuyButton.ButtonType.Revive, 0 },
+  //    { InGameBuyButton.ButtonType.SlowMotion, 1 },
+  //  };
 
 
   public Dictionary <string, ProductData> productActions = new Dictionary<string, ProductData> ();
@@ -112,6 +112,7 @@ public class StatsManager : MonoBehaviour
   /// </summary>
   /// <value><c>true</c> if show ads; otherwise, <c>false</c>.</value>
   public int showAds { get; private set; }
+  public int showRateUs { get; private set; }
   /// <summary>
   /// Returns whether this session is 1st session after launching game
   /// </summary>
@@ -134,10 +135,10 @@ public class StatsManager : MonoBehaviour
   {
     get
     {
-//      if (gameItems [InGameBuyButton.ButtonType.Revive] > 0)
-//      {
-//        return true;
-//      }
+      //      if (gameItems [InGameBuyButton.ButtonType.Revive] > 0)
+      //      {
+      //        return true;
+      //      }
 
       return coins >= reviveCoinsPrice ? true : false;
     }
@@ -198,16 +199,17 @@ public class StatsManager : MonoBehaviour
     Debug.Log ("COINS : " + coins);
     showAds = PlayerPrefs.GetInt ("ShowAds", 1);
     Debug.Log ("SHOW ADS : " + (showAds != 0));
+    showRateUs = PlayerPrefs.GetInt ("ShowRateUs", 1);
 
     prevFacebookStatus = PlayerPrefs.GetInt ("FacebookConenct");
 
 
     // TODO
-//    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
-//    {
-//      gameItems [(InGameBuyButton.ButtonType)i] = PlayerPrefs.GetInt ("Item" + i);
-//      Debug.Log ("NUMBER OF ITEMS FOR " + i + "" + gameItems [(InGameBuyButton.ButtonType)i]);
-//    }
+    //    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
+    //    {
+    //      gameItems [(InGameBuyButton.ButtonType)i] = PlayerPrefs.GetInt ("Item" + i);
+    //      Debug.Log ("NUMBER OF ITEMS FOR " + i + "" + gameItems [(InGameBuyButton.ButtonType)i]);
+    //    }
 
     #if UNITY_EDITOR
     score = startScore;
@@ -239,6 +241,7 @@ public class StatsManager : MonoBehaviour
   {
     PlayerPrefs.SetInt ("Coins", coins);
     PlayerPrefs.SetInt ("ShowAds", showAds);
+    PlayerPrefs.SetInt ("ShowRateUs", showRateUs);
     PlayerPrefs.SetInt("NumBlackCollision",playerStats.numBlackCollision);
     if (GameManager.inst.played)
     {
@@ -254,10 +257,10 @@ public class StatsManager : MonoBehaviour
     SaveBackgroundColor ();
 
     // TODO
-//    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
-//    {
-//      PlayerPrefs.SetInt ("Item" + i, gameItems [(InGameBuyButton.ButtonType)i]);
-//    }
+    //    for (int i = 0; i < (int)InGameBuyButton.ButtonType.NumTypes; ++i)
+    //    {
+    //      PlayerPrefs.SetInt ("Item" + i, gameItems [(InGameBuyButton.ButtonType)i]);
+    //    }
   }
 
   public void AddPoint ()
@@ -345,6 +348,11 @@ public class StatsManager : MonoBehaviour
 
   }
 
+  public void SetHighScoreSilent (int hs)
+  {
+    PlayerPrefs.SetInt (leaderBoardId, hs);
+  }
+
   private bool CheckHighScore ()
   {
     int prevScore = PlayerPrefs.GetInt (leaderBoardId);
@@ -409,7 +417,7 @@ public class StatsManager : MonoBehaviour
 
   void OnReviveCompleteStart ()
   {
-//    --gameItems [InGameBuyButton.ButtonType.Revive];
+    //    --gameItems [InGameBuyButton.ButtonType.Revive];
     coins -= reviveCoinsPrice;
     reviveCoinsPrice *= 2;
   }
@@ -427,40 +435,40 @@ public class StatsManager : MonoBehaviour
   }
 
   // TODO
-//  int numItems = 0;
-//  int price = 0;
+  //  int numItems = 0;
+  //  int price = 0;
 
   // TODO
-//  void OnPurchaseInGameItem (UIManager.InGameBuyButtonData button)
-//  {
-//    if (CanPurchasePotion ((int)button.button.price * button.count))
-//    {
-//      numItems = button.count;
-//      price = button.button.price;
-//      switch (button.button.type)
-//      {
-//      case InGameBuyButton.ButtonType.Revive:
-//        GameManager.inst.ChangeState (GameManager.States.BuyRevive);
-//        break;
-//      case InGameBuyButton.ButtonType.SlowMotion:
-//        break;
-//      }
-//    }
-//    else
-//    {
-//      GameManager.inst.BroadcastMessage ("CannotPurchaseInGameItem");
-//    }
-//  }
+  //  void OnPurchaseInGameItem (UIManager.InGameBuyButtonData button)
+  //  {
+  //    if (CanPurchasePotion ((int)button.button.price * button.count))
+  //    {
+  //      numItems = button.count;
+  //      price = button.button.price;
+  //      switch (button.button.type)
+  //      {
+  //      case InGameBuyButton.ButtonType.Revive:
+  //        GameManager.inst.ChangeState (GameManager.States.BuyRevive);
+  //        break;
+  //      case InGameBuyButton.ButtonType.SlowMotion:
+  //        break;
+  //      }
+  //    }
+  //    else
+  //    {
+  //      GameManager.inst.BroadcastMessage ("CannotPurchaseInGameItem");
+  //    }
+  //  }
 
   // TODO
-//  void OnBuyRevive ()
-//  {
-//    Debug.Log ("BOUGHT REVIVES : " + numItems);
-//    coins -= price * numItems;
-//    gameItems [InGameBuyButton.ButtonType.Revive] += numItems;
-//
-//    GameManager.inst.ChangeState (GameManager.States.BoughtRevive);
-//  }
+  //  void OnBuyRevive ()
+  //  {
+  //    Debug.Log ("BOUGHT REVIVES : " + numItems);
+  //    coins -= price * numItems;
+  //    gameItems [InGameBuyButton.ButtonType.Revive] += numItems;
+  //
+  //    GameManager.inst.ChangeState (GameManager.States.BoughtRevive);
+  //  }
 
   void OnProductsLoaded (Dictionary <string, StoreInterface.ProductTemplate> products)
   {
@@ -569,6 +577,27 @@ public class StatsManager : MonoBehaviour
   {
     backgroundColor = color.color;
     wheelPosition = color.wheelPosition;
+  }
+
+  void OnShowRateUsPopup ()
+  {
+    if (showRateUs == 1)
+    {
+      MobileNativeRateUs ratePopUp = new MobileNativeRateUs("Like this game?", "Please rate to " +
+        "support future updates!");
+      ratePopUp.OnComplete = OnRateUsFeedback;
+
+      #if UNITY_IOS
+      ratePopUp.SetAppleId (IOSNativeSettings.Instance.AppleId);
+      #elif UNITY_ANDROID
+      #endif
+    }
+  }
+
+  void OnRateUsFeedback (MNDialogResult res)
+  {
+    if (res == MNDialogResult.RATED)
+      showRateUs = 0;
   }
 
   void LoadBackgroundColor ()

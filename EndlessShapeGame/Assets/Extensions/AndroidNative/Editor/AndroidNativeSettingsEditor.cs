@@ -2265,7 +2265,7 @@ public class AndroidNativeSettingsEditor : Editor {
 		SA_EditorTool.FBSdkVersionLabel();
 		SA_EditorTool.SupportMail();
 		
-		SA_EditorTool.DrawSALogo();
+//		SA_EditorTool.DrawSALogo();
 	}
 	
 	

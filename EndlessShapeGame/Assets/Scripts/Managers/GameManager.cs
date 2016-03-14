@@ -94,18 +94,18 @@ public class GameManager : StateBehaviour
   }
 
   public GameSettings previousGameSettings;
-  
+
   public string GameResetEvent = "OnGameReset";
   public string GameStartEvent = "OnGameStart";
   public string GameRestartEvent = "OnGameRestart";
   public string GameStopEvent = "OnGameStop";
   public string ReviveCompleteStartEvent = "OnReviveCompleteStart";
   public string ReviveCompleteEndEvent = "OnReviveCompleteEnd";
-  
+
   public string ShowReiviveEvent = "OnShowRevive";
   public string DeclineReviveEvent = "OnDeclineRevive";
   public string AcceptReviveEvent = "OnAcceptRevive";
-  
+
   public string GameOverEvent = "OnGameOver";
   public string HighScoreEvent = "OnHighScore";
   public string HighScoreCrossEvent = "OnHighScoreCross";
@@ -150,7 +150,8 @@ public class GameManager : StateBehaviour
   public string ShowVideoEvent = "OnShowVideo";
   public string EndVideoEvent = "OnEndVideo";
   public string RemoveAdsEvent = "OnRemoveAds";
-  
+  public string RateUsEvent = "OnShowRateUsPopup";
+
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
   [System.Obsolete]
@@ -177,31 +178,31 @@ public class GameManager : StateBehaviour
       GameObject.Destroy (gameObject);
     }
   }
-  
+
   void Awake ()
   {
-#if !UNITY_EDITOR
+    #if !UNITY_EDITOR
     Application.targetFrameRate = 60;
-#endif
+    #endif
     Debug.Log ("QUALITY LEVEL : " + QualitySettings.GetQualityLevel ());
 
     Initialize <States> ();
-    
+
     Debug.Log ("Device Name : " + SystemInfo.deviceName);
     Debug.Log ("Device Model : " + SystemInfo.deviceModel);
 
     ChangeState (States.None);
   }
-  
+
   // Use this for initialization
   void Start ()
   {
   }
-  
+
   void OnApplicationPause (bool pause)
   {
     Debug.Log ("Game State : " + GetState ());
-    
+
     if ((States)GetState () == (States.Playing) || (States)GetState () == (States.Pause) || (States)GetState () == (States.Resume))
     {
       if (pause)
@@ -232,22 +233,22 @@ public class GameManager : StateBehaviour
 
     BroadcastMessage (SpeedChangeEvent);
   }
-  
+
   // Only Called From UI Button
   public void PlayGame ()
   {
     ChangeState (States.Play);
   }
-  
+
   private void Play_Enter ()
   {
     if (playing)
     {
       return;
     }
-    
+
     playing = true;
-  
+
     if (!played)
     {
       if (StatsManager.inst.playerStats.numGames == 0)
@@ -266,7 +267,7 @@ public class GameManager : StateBehaviour
       ChangeState (States.Replay);
     }
   }
-  
+
   private void Play_Exit ()
   {
   }
@@ -292,7 +293,7 @@ public class GameManager : StateBehaviour
     // Create Trigger
     BroadcastMessage (PreTutorialStartEvent);
     BroadcastMessage (GameStartEvent);
-//    yield return new WaitForSeconds (1.6f);
+    //    yield return new WaitForSeconds (1.6f);
 
     while (showingHowToPlayTutorial)
     {
@@ -335,41 +336,41 @@ public class GameManager : StateBehaviour
       showingHowToPlayTutorial = false;
     }
   }
-  
+
   private void Replay_Enter ()
   {
     BroadcastMessage (GameRestartEvent);
     BroadcastMessage (GameStartEvent);
     StartPlay ();
   }
-  
+
   private void Replay_Exit ()
   {
   }
-  
+
   private void Playing_Enter ()
   {
     playing = true;
-    
+
     Debug.Log ("Started Playing");
   }
-  
+
   private void Playing_Exit ()
   {
     playing = false;
-    
+
     Debug.Log ("Stopped Playing");
   }
-  
+
   private void Stop_Enter ()
   {
     playing = false;
     BroadcastMessage (GameStopEvent);
   }
-  
+
   private void Stop_Exit ()
   {
-  
+
   }
 
   private bool shownReviveTutorial = false;
@@ -414,47 +415,47 @@ public class GameManager : StateBehaviour
     showingReviveTutorial = true;
     BroadcastMessage (TutorialReviveEndEvent);
 
-//    while (showingReviveTutorial)
-//    {
-//      yield return null;
-//    }
+    //    while (showingReviveTutorial)
+    //    {
+    //      yield return null;
+    //    }
 
-//    foreach (var button in GameObject.FindObjectsOfType <Button> ())
-//    {
-//      button.interactable = false;
-//    }
-//
-//    showingReviveTutorial = true;
-//    BroadcastMessage (ShowSwitchToDiamondStorePromptEvent);
-//
-//    while (showingReviveTutorial)
-//    {
-//      yield return null;
-//    }
-//
-//    Debug.Log ("SWITCH TO DIAMOND");
-//
-//    showingReviveTutorial = true;
-//
-//    BroadcastMessage (ShowBuyDiamondPromptEvent);
-//
-//    while (showingReviveTutorial)
-//    {
-//      yield return null;
-//    }
-//
-//    Debug.Log ("SHOWING BUY DIAMOND");
-//
-//    BroadcastMessage (ShowBuyPotionPromptEvent);
-//    showingReviveTutorial = true;
-//
-//    while (showingReviveTutorial)
-//    {
-////      Debug.Log ("SSM");
-//      yield return null;
-//    }
-//
-//    BroadcastMessage (TutorialReviveDoneEvent);
+    //    foreach (var button in GameObject.FindObjectsOfType <Button> ())
+    //    {
+    //      button.interactable = false;
+    //    }
+    //
+    //    showingReviveTutorial = true;
+    //    BroadcastMessage (ShowSwitchToDiamondStorePromptEvent);
+    //
+    //    while (showingReviveTutorial)
+    //    {
+    //      yield return null;
+    //    }
+    //
+    //    Debug.Log ("SWITCH TO DIAMOND");
+    //
+    //    showingReviveTutorial = true;
+    //
+    //    BroadcastMessage (ShowBuyDiamondPromptEvent);
+    //
+    //    while (showingReviveTutorial)
+    //    {
+    //      yield return null;
+    //    }
+    //
+    //    Debug.Log ("SHOWING BUY DIAMOND");
+    //
+    //    BroadcastMessage (ShowBuyPotionPromptEvent);
+    //    showingReviveTutorial = true;
+    //
+    //    while (showingReviveTutorial)
+    //    {
+    ////      Debug.Log ("SSM");
+    //      yield return null;
+    //    }
+    //
+    //    BroadcastMessage (TutorialReviveDoneEvent);
   }
 
   private void OnStoreFadeIn ()
@@ -470,14 +471,14 @@ public class GameManager : StateBehaviour
     if (showingReviveTutorial)
     {
       showingReviveTutorial = false;
-//      if (store == (int)UIManager.StoreType.Diamonds)
-//      {
-//        showingReviveTutorial = false;
-//      }
-//      else if (store == (int)UIManager.StoreType.Potions)
-//      {
-//        showingReviveTutorial = false;
-//      }
+      //      if (store == (int)UIManager.StoreType.Diamonds)
+      //      {
+      //        showingReviveTutorial = false;
+      //      }
+      //      else if (store == (int)UIManager.StoreType.Potions)
+      //      {
+      //        showingReviveTutorial = false;
+      //      }
     }
   }
 
@@ -501,34 +502,34 @@ public class GameManager : StateBehaviour
 
   private void ShowRevive_Exit ()
   {
-  
+
   }
-  
+
   private void DeclineRevive_Enter ()
   {
     BroadcastMessage (DeclineReviveEvent);
     ChangeState (States.GameOver);
   }
-  
+
   private void DeclineRevive_Exit ()
   {
-  
+
   }
-  
+
   private void AcceptRevive_Enter ()
   {
     BroadcastMessage (AcceptReviveEvent);
   }
-  
+
   private void AcceptRevive_Exit ()
   {
-  
+
   }
-  
+
   private void ReviveCompleteStart_Enter ()
   {
     BroadcastMessage (ReviveCompleteStartEvent);
-//    ChangeState (States.Playing);
+    //    ChangeState (States.Playing);
   }
 
   private void ReviveCompleteEnd_Enter ()
@@ -574,7 +575,7 @@ public class GameManager : StateBehaviour
     {
       yield return null;
     }
-    
+
     if (StatsManager.inst.isHighScore)
     {
       BroadcastMessage (HighScoreEvent);
@@ -584,82 +585,87 @@ public class GameManager : StateBehaviour
       BroadcastMessage (NoHighScoreEvent);
     }
 
+    if (StatsManager.inst.numSessions == 7 && Random.Range (0, 100) > 50)
+    {
+      BroadcastMessage (RateUsEvent);
+    }
+
     yield return null;
   }
-  
+
   private void GameOver_Exit ()
   {
-  
+
   }
-  
+
   private void HighScore_Enter ()
   {
     BroadcastMessage (HighScoreEvent);
   }
-  
+
   private void HighScore_Exit ()
   {
-  
+
   }
-  
+
   private void HighScoreCrossed_Enter ()
   {
     BroadcastMessage (HighScoreCrossEvent);
     ChangeState (States.Playing);
   }
-  
+
   private void HighScoreCrossed_Exit ()
   {
-  
+
   }
-  
+
   private void Pause_Enter ()
   {
     BroadcastMessage (PauseEvent);
   }
-  
+
   private void Pause_Exit ()
   {
     playing = true;
   }
-  
+
   private void Resume_Enter ()
   {
     BroadcastMessage (ResumeEvent);
   }
-  
+
   private void UnPause_Enter ()
   {
     BroadcastMessage (UnPauseEvent);
     ChangeState (States.Playing);
   }
-  
+
   private void UnPause_Exit ()
   {
-  
+
   }
-  
+
   void FirstBeat_Enter ()
   {
     BroadcastMessage (FirstBeatEvent);
     ChangeState (States.Playing);
   }
-  
+
   void ShowOptions_Enter ()
   {
     BroadcastMessage (ShowOptionsEvent);
   }
-  
+
   void HideOptions_Enter ()
   {
     BroadcastMessage (HideOptionsEvent);
   }
-  
+
   void ShowStore_Enter ()
   {
     BroadcastMessage (ShowStoreEvent);
   }
-  
+
   void HideStore_Enter ()
   {
     BroadcastMessage (HideStoreEvent);
@@ -714,7 +720,7 @@ public class GameManager : StateBehaviour
   void BoughtCoins_Enter ()
   {
     BroadcastMessage (BoughtCoinsEvent);
-//    ChangeState (States.None);
+    //    ChangeState (States.None);
   }
 
   void PurchaseItem (StoreButton button)
@@ -726,10 +732,10 @@ public class GameManager : StateBehaviour
   }
 
   // TODO
-//  void PurchaseInGameItem (UIManager.InGameBuyButtonData button)
-//  {
-//    BroadcastMessage (PurchaseInGameItemEvent, button, SendMessageOptions.DontRequireReceiver);
-//  }
+  //  void PurchaseInGameItem (UIManager.InGameBuyButtonData button)
+  //  {
+  //    BroadcastMessage (PurchaseInGameItemEvent, button, SendMessageOptions.DontRequireReceiver);
+  //  }
 
   void CannotPurchaseInGameItem ()
   {

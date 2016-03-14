@@ -78,6 +78,10 @@
      <Compile Include="Assets\Extensions\IOSNative\Editor\IOSNativeMenu.cs" />
      <Compile Include="Assets\Extensions\IOSNative\Editor\IOSNativePostProcess.cs" />
      <Compile Include="Assets\Extensions\IOSNative\Editor\IOSNativeSettingsEditor.cs" />
+     <Compile Include="Assets\Extensions\MobileNativePopUps\Editor\MNPInit.cs" />
+     <Compile Include="Assets\Extensions\MobileNativePopUps\Editor\MNP_PlatformMenu.cs" />
+     <Compile Include="Assets\Extensions\MobileNativePopUps\Editor\MNP_PlatformSettings.cs" />
+     <Compile Include="Assets\Extensions\MobileNativePopUps\Editor\MNP_PlatformSettingsEditor.cs" />
      <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\PluginsInstalationUtil.cs" />
      <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\SA_Bool.cs" />
      <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\SA_EditorTool.cs" />
@@ -125,7 +129,9 @@
      <None Include="Assets\TouchScript\Shaders\DebugDepthTest.shader" />
      <None Include="Assets\Plugins\StansAssets\Android\OneSignalSDK.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
+     <None Include="Assets\Plugins\StansAssets\Versions\MNP_VersionInfo.txt" />
      <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\analytics.xml" />
+     <None Include="Assets\Plugins\android\AN_Res\res\values\version.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />
@@ -152,6 +158,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
      <None Include="Assets\TouchScript\license.txt" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.mm.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
      <None Include="Assets\Plugins\android\AN_Res\AndroidManifest.xml" />
@@ -163,7 +170,6 @@
      <None Include="Assets\TouchScript\Shaders\DebugMultiplyDepthTest.shader" />
      <None Include="Assets\Plugins\android\AN_Res\res\values\analytics.xml" />
      <None Include="Assets\Plugins\StansAssets\Android\libs\image-chooser-library-1.3.0.txt" />
-     <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.mm.txt" />
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_Camera.mm.txt" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
@@ -190,7 +196,6 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
      <None Include="Assets\Plugins\StansAssets\Android\google_play\an_googleplay.txt" />
-     <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.h.txt" />
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_Soomla.mm.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlurDX11.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
@@ -216,6 +221,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
      <None Include="Assets\Plugins\android\AN_Res\res\values\ids.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\InvertColor.shader" />
+     <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.h.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VignettingShader.shader" />
@@ -235,6 +241,7 @@
      <None Include="Assets\AudioTesting\BPMData.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
+     <None Include="Assets\Plugins\StansAssets\Android\mobilenativepopups.txt" />
      <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\xml\file_paths.xml" />
      <None Include="Assets\TouchScript\Examples\_misc\Shaders\BorderDiffuse.shader" />
      <None Include="Assets\Plugins\StansAssets\Android\AN_Res\res\values\ids.xml" />
@@ -307,6 +314,9 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="WP8PopUps">
+ <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/Plugins/WP8PopUps.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/PlaybackEngines/AppleTVSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

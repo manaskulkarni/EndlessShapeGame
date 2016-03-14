@@ -51,7 +51,7 @@ public class GooglePlayInterface : StoreInterface
       foreach (var tpl in AndroidInAppPurchaseManager.Instance.Inventory.Products)
       {
         allProducts.Add (tpl.Title, new ProductTemplate (tpl.Title, tpl.PriceCurrencyCode + " "+tpl.Price+"", tpl.SKU));
-//        currencySymbol = tpl.CurrencySymbol;
+        //        currencySymbol = tpl.CurrencySymbol;
       }
 
       GameManager.inst.BroadcastMessage ("OnProductsLoaded", allProducts);
@@ -91,10 +91,21 @@ public class GooglePlayInterface : StoreInterface
     if(result.IsSuccess)
     {
       Debug.Log("Connected!");
+
+      CheckHighScore ();
     }
     else
     {
       Debug.Log("Cnnection failed with code: " + result.code.ToString());
+    }
+  }
+
+  void CheckHighScore ()
+  {
+    GPScore score = GooglePlayManager.Instance.LeaderBoards[0].GetCurrentPlayerScore (GPBoardTimeSpan.ALL_TIME, GPCollectionType.GLOBAL);
+    if (StatsManager.inst.highScore < score.LongScore)
+    {
+      StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
     }
   }
 

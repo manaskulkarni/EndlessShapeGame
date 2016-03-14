@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class GameCenterInterface : StoreInterface
 {
   private Dictionary <string, GK_AchievementTemplate> achievements { get; set; }
-//  private Dictionary <string, IOSProductTemplate> allProducts { get; set; }
+  //  private Dictionary <string, IOSProductTemplate> allProducts { get; set; }
 
   private string currencySymbol { get; set; }
 
@@ -35,26 +35,27 @@ public class GameCenterInterface : StoreInterface
     {
       GameCenterManager.Init ();
     }
-//    if (!storeLoaded)
-//    {
-//      IOSInAppPurchaseManager.Instance.LoadStore ();
-//    }
+    //    if (!storeLoaded)
+    //    {
+    //      IOSInAppPurchaseManager.Instance.LoadStore ();
+    //    }
   }
 
   void HandleOnAuthFinished (ISN_Result res)
   {
     if (res.IsSucceeded)
     {
-//      GameCenterManager.ResetAchievements ();
+      //      GameCenterManager.ResetAchievements ();
       //IOSNativePopUpManager.showMessage("Player Authored ", "ID: " + GameCenterManager.Player.Id + "\n" + "Alias: " + GameCenterManager.Player.Alias);
       achievements = new Dictionary<string, GK_AchievementTemplate> ();
       achievementsLoaded = true;
-      
+
       foreach (var v in GameCenterManager.Achievements)
       {
         Debug.Log ("Loading Achievement : " + v.Title);
         achievements.Add (v.Title, v);
       }
+      CheckHighScore ();
 
       IOSInAppPurchaseManager.Instance.LoadStore ();
     }
@@ -64,10 +65,19 @@ public class GameCenterInterface : StoreInterface
     }
   }
 
+  void CheckHighScore ()
+  {
+    GK_Score score = GameCenterManager.Leaderboards[0].GetCurrentPlayerScore (GK_TimeSpan.ALL_TIME, GK_CollectionType.GLOBAL);
+    if (StatsManager.inst.highScore < score.LongScore)
+    {
+      StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
+    }
+  }
+
   void HandleOnStoreKitInitComplete (ISN_Result res)
   {
     IOSInAppPurchaseManager.OnStoreKitInitComplete -= HandleOnStoreKitInitComplete;
-    
+
     if(res.IsSucceeded)
     {
       Debug.Log("Inited successfully, Available allProducts count: " + IOSInAppPurchaseManager.Instance.Products.Count.ToString());
@@ -77,14 +87,14 @@ public class GameCenterInterface : StoreInterface
 
       foreach(IOSProductTemplate tpl in IOSInAppPurchaseManager.Instance.Products)
       {
-//        Debug.Log("id" + tpl.Id);
-//        Debug.Log("title" + tpl.DisplayName);
-//        Debug.Log("description" + tpl.Description);
-//        Debug.Log("price" + tpl.Price);
-//        Debug.Log("localizedPrice" + tpl.LocalizedPrice);
-//        Debug.Log("currencySymbol" + tpl.CurrencySymbol);
-//        Debug.Log("currencyCode" + tpl.CurrencyCode);
-//        Debug.Log("-------------");
+        //        Debug.Log("id" + tpl.Id);
+        //        Debug.Log("title" + tpl.DisplayName);
+        //        Debug.Log("description" + tpl.Description);
+        //        Debug.Log("price" + tpl.Price);
+        //        Debug.Log("localizedPrice" + tpl.LocalizedPrice);
+        //        Debug.Log("currencySymbol" + tpl.CurrencySymbol);
+        //        Debug.Log("currencyCode" + tpl.CurrencyCode);
+        //        Debug.Log("-------------");
 
         allProducts.Add (tpl.DisplayName, new ProductTemplate (tpl.DisplayName, tpl.CurrencySymbol + " "+tpl.Price+"", tpl.Id));
         currencySymbol = tpl.CurrencySymbol;
@@ -107,18 +117,18 @@ public class GameCenterInterface : StoreInterface
   {
     switch (res.State)
     {
-    case InAppPurchaseState.Purchased:
-    case InAppPurchaseState.Restored:
-    {
-      var product = IOSInAppPurchaseManager.Instance.GetProductById (res.ProductIdentifier);
-      if (allProducts.ContainsKey (product.DisplayName))
-      {
-        GameManager.inst.BroadcastMessage ("BuyProduct", product.DisplayName);
-      }
-    }
-      break;
-    default:
-      break;
+      case InAppPurchaseState.Purchased:
+      case InAppPurchaseState.Restored:
+        {
+          var product = IOSInAppPurchaseManager.Instance.GetProductById (res.ProductIdentifier);
+          if (allProducts.ContainsKey (product.DisplayName))
+          {
+            GameManager.inst.BroadcastMessage ("BuyProduct", product.DisplayName);
+          }
+        }
+        break;
+      default:
+        break;
     }
   }
 
@@ -135,7 +145,7 @@ public class GameCenterInterface : StoreInterface
   {
     return GameCenterManager.IsInitialized;
   }
-  
+
   public override bool IsAuthenticated ()
   {
     return GameCenterManager.IsPlayerAuthenticated;
@@ -164,24 +174,24 @@ public class GameCenterInterface : StoreInterface
   protected override void OnSubmitHighScore ()
   {
     Debug.Log ("Submitting Score");
-    
+
     GameCenterManager.ReportScore (StatsManager.inst.score, StatsManager.inst.leaderBoardId);
   }
 
   protected override void OnShowLeaderboard()
   {
     Debug.Log ("Showing Leaderboard");
-  
+
     GameCenterManager.ShowLeaderboards ();
   }
 
   protected override void OnShowAchievements()
   {
     Debug.Log ("Showing Achievements");
-  
+
     GameCenterManager.ShowLeaderboards ();
   }
-  
+
   protected override void OnReportAchievement(StatsManager.AchievementData achievement)
   {
     if (IsAuthenticated () && IsInitialized () && storeLoaded && achievementsLoaded && achievements.ContainsKey (achievement.name))
@@ -198,7 +208,7 @@ public class GameCenterInterface : StoreInterface
   protected override void OnPurchaseItem (StoreButton button)
   {
     Debug.Log ("REQUEST NAME : " + button.title.text);
-//    if (storeLoaded && achievementsLoaded)
+    //    if (storeLoaded && achievementsLoaded)
     {
       if (allProducts != null && allProducts.ContainsKey (button.title.text))
       {
