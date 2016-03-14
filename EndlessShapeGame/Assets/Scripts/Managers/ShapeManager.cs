@@ -391,19 +391,17 @@ public class ShapeManager : MonoBehaviour
 //    if (GameManager.inst.GetState ().Equals (GameManager.States.Playing))
     {
       bool sameSprite = shapeBehavior.spriteRenderer.sprite.GetHashCode() == spriteRenderer.sprite.GetHashCode();
+//#if UNITY_EDITOR
+      if (shapeBehavior.shapeType == ShapeBehavior.ShapeType.Collectible)
+      {
+        PlayerManager.inst.MakePlayerInvincible ();
+      }
 
-      #if UNITY_EDITOR
       if (PlayerManager.inst.invincible)
       {
         sameSprite = shapeBehavior.shapeResponse == ShapeBehavior.ShapeResponse.Normal ? true : false;
       }
-      #endif
-
-      if (shapeBehavior.shapeType == ShapeBehavior.ShapeType.SlowMotion)
-      {
-        PlayerManager.inst.StartSlowMotion ();
-        sameSprite = shapeBehavior.shapeResponse == ShapeBehavior.ShapeResponse.Normal ? true : false;
-      }
+//#endif
 
 #if UNITY_EDITOR
       times[currentIntervalIndex].Add(Time.fixedTime);
@@ -893,11 +891,11 @@ public class ShapeManager : MonoBehaviour
       shape.StopSpecialShapeCoroutine();
     }
 
-     if (!goldenShapeSpawned)
 //    if (!goldenShapeSpawned && currentScore > 100 && Random.Range (0, 1000) > 990)
+    if (!goldenShapeSpawned)
     {
       goldenShapeSpawned = true;
-      shape.StartGoldenShape (nextSprite);
+      shape.StartGoldenShape ();
       nextSprite = goldenShapeSprite;
     }
     else

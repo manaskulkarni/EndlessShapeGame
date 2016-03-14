@@ -251,7 +251,7 @@ public class PlayerBehavior : MonoBehaviour
         while (v.position.x < xOut)
         {
           Vector2 pos = v.position;
-          pos.x += Time.unscaledDeltaTime * swipeSpeed;
+          pos.x += Time.deltaTime * swipeSpeed;
           
           if (pos.x > xOut)
           {
@@ -270,7 +270,7 @@ public class PlayerBehavior : MonoBehaviour
         while (v.position.x < minXPosition)
         {
           Vector2 pos = v.position;
-          pos.x += Time.unscaledDeltaTime * swipeSpeed;
+          pos.x += Time.deltaTime * swipeSpeed;
           
           if (pos.x > minXPosition)
           {
@@ -288,7 +288,7 @@ public class PlayerBehavior : MonoBehaviour
         while (v.position.x > minXPosition)
         {
           Vector2 pos = v.position;
-          pos.x -= Time.unscaledDeltaTime * swipeSpeed;
+          pos.x -= Time.deltaTime * swipeSpeed;
   
           if (pos.x < minXPosition)
           {
@@ -307,7 +307,7 @@ public class PlayerBehavior : MonoBehaviour
       while (v.position.x < nextPos)
       {
         Vector3 pos = v.position;
-        pos.x += Time.unscaledDeltaTime * swipeSpeed;
+        pos.x += Time.deltaTime * swipeSpeed;
 
         if (pos.x > nextPos)
         {
@@ -351,7 +351,7 @@ public class PlayerBehavior : MonoBehaviour
         while (v.position.x > xOut)
         {
           Vector2 pos = v.position;
-          pos.x -= Time.unscaledDeltaTime * swipeSpeed;
+          pos.x -= Time.deltaTime * swipeSpeed;
           
           if (pos.x < xOut)
           {
@@ -368,7 +368,7 @@ public class PlayerBehavior : MonoBehaviour
         while (v.position.x > maxXPosition)
         {
           Vector2 pos = v.position;
-          pos.x -= Time.unscaledDeltaTime * swipeSpeed;
+          pos.x -= Time.deltaTime * swipeSpeed;
           
           if (pos.x < maxXPosition)
           {
@@ -386,7 +386,7 @@ public class PlayerBehavior : MonoBehaviour
         while (v.position.x < maxXPosition)
         {
           Vector2 pos = v.position;
-          pos.x += Time.unscaledDeltaTime * swipeSpeed;
+          pos.x += Time.deltaTime * swipeSpeed;
   
           if (pos.x > maxXPosition)
           {
@@ -405,7 +405,7 @@ public class PlayerBehavior : MonoBehaviour
       while (v.position.x > nextPos)
       {
         Vector3 pos = v.position;
-        pos.x -= Time.unscaledDeltaTime * swipeSpeed;
+        pos.x -= Time.deltaTime * swipeSpeed;
 
         if (pos.x < nextPos)
         {
