@@ -123,6 +123,11 @@ public class ShapeBehavior : MonoBehaviour
     }
   }
 
+  public void StartGoldenShape ()
+  {
+    shapeType = ShapeType.Collectible;
+  }
+
   void Update ()
   {
     if (update)

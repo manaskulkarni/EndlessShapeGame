@@ -620,7 +620,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -642,7 +642,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!1 &162120252
 GameObject:
   m_ObjectHideFlags: 0
@@ -3864,6 +3864,7 @@ MonoBehaviour:
   ShowVideoEvent: OnShowVideo
   EndVideoEvent: OnEndVideo
   RemoveAdsEvent: OnRemoveAds
+  RateUsEvent: OnShowRateUsPopup
   DifficultyChangeEvent: OnDifficultyChange
   SpeedChangeEvent: OnSpeedChange
   tutorialPrefab: {fileID: 148718, guid: 4f055f56c5d7e41249877563bdc3b1ec, type: 2}
@@ -14022,6 +14023,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  goldenShapeSprite: {fileID: 21300000, guid: 2d4aced22340642b1959037efbb14ac0, type: 3}
   specialFeedback: {fileID: 1078359141}
   gameOverFeedback: {fileID: 996316314}
   invisibleFadeStartOffset: 1.5
@@ -14033,6 +14035,7 @@ MonoBehaviour:
     accelerationMultiplier: {x: 0, y: 0}
     speedIncreaseBlockInterval: 0
     maxSpeed: {x: 0, y: 0}
+  topShapePosition: 2.46
   waitTime: 0.1
 --- !u!1 &1713715219
 GameObject:
@@ -15009,6 +15012,7 @@ GameObject:
   - 222: {fileID: 1798629248}
   - 114: {fileID: 1798629247}
   - 114: {fileID: 1798629246}
+  - 95: {fileID: 1798629245}
   m_Layer: 5
   m_Name: ButtonPick
   m_TagString: Untagged
@@ -15034,6 +15038,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -454}
   m_SizeDelta: {x: 450, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1798629245
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1798629243}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8268f5bdd1fc94a358bc1c0ed26a8e77, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &1798629246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16809,7 +16830,9 @@ MonoBehaviour:
   - difficultyLevel: 2
     prefab: {fileID: 194950, guid: 2ed851d40443248b4964fcc4789b628c, type: 2}
   startPlayerAlpha: 1
+  invincibleTimer: 8
   invincible: 0
+  invincibleEffectSprite: {fileID: 1485783515}
 --- !u!1 &2046696341
 GameObject:
   m_ObjectHideFlags: 0

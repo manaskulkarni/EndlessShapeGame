@@ -142,6 +142,7 @@ public class ShapeManager : MonoBehaviour
 //	public IntRange invisibleRandomRangeCompare;
   public AnimationCurve specialRandomCurve;
   public AnimationCurve invisibleRandomCurve;
+  public Sprite goldenShapeSprite;
 
   /// <summary>
   /// ParticleSystem to use to play when Special Shape collides with Player
@@ -182,11 +183,12 @@ public class ShapeManager : MonoBehaviour
   private int repeatCount { get; set; }
   private Sprite previousSprite { get; set; }
   private int shuffleCounter { get; set; }
+  private bool goldenShapeSpawned { get; set; }
   
   /// <summary>
   /// Shape for hard-coding position of base shape on game over. Not used
   /// </summary>
-  private Transform baseShape { get; set; }
+//  private Transform baseShape { get; set; }
   
   /// <summary>
   /// Shape for hard-coding position of top shape on game over. Not used
@@ -376,6 +378,8 @@ public class ShapeManager : MonoBehaviour
     return curve.Evaluate(Random.value);
   }
 
+  public float topShapePosition = 2.46f;
+
   #region ShapeManager Logic
   /// <summary>
   /// Called by PlayerBehavior when it collides with a ShapeBehavior
@@ -387,12 +391,17 @@ public class ShapeManager : MonoBehaviour
 //    if (GameManager.inst.GetState ().Equals (GameManager.States.Playing))
     {
       bool sameSprite = shapeBehavior.spriteRenderer.sprite.GetHashCode() == spriteRenderer.sprite.GetHashCode();
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
+      if (shapeBehavior.shapeType == ShapeBehavior.ShapeType.Collectible)
+      {
+        PlayerManager.inst.MakePlayerInvincible ();
+      }
+
       if (PlayerManager.inst.invincible)
       {
         sameSprite = shapeBehavior.shapeResponse == ShapeBehavior.ShapeResponse.Normal ? true : false;
       }
-#endif
+//#endif
 
 #if UNITY_EDITOR
       times[currentIntervalIndex].Add(Time.fixedTime);
@@ -440,9 +449,8 @@ public class ShapeManager : MonoBehaviour
           else
           {
             // Store the currrent top shape position to avoid artifacts (Currently not used)
-            baseShape = spriteRenderer.transform;
-            topShape = shapeBehavior.transform;
-            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
+//            baseShape = spriteRenderer.transform;
+            topShape = shapes [1].transform;
 
             // Play Particle Effect
             PlayParticleEffect (gameOverFeedback, shapeBehavior.transform.position, shapeBehavior.originalColor, gameOverFeedback.maxParticles);
@@ -466,9 +474,10 @@ public class ShapeManager : MonoBehaviour
           if (sameSprite)
           {
             // Shuffle the shape properties to increase randomness
-            baseShape = spriteRenderer.transform;
-            topShape = shapeBehavior.transform;
-            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
+//            baseShape = spriteRenderer.transform;
+//            topShape = shapeBehavior.transform;
+//            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
+            topShape = shapes [1].transform;
 
             ChooseShapeProperties(shapeBehavior);
             shapes.RemoveAt(0);
@@ -566,8 +575,6 @@ public class ShapeManager : MonoBehaviour
   void OnGameStart()
   {
     StartCoroutine(DelayStart());
-    // Dont use Update as it is slow. Instead use coroutines
-//    updateSpeed = StartCoroutine(UpdateSpeed());
   }
   
   void OnGameStop ()
@@ -582,6 +589,8 @@ public class ShapeManager : MonoBehaviour
       StopCoroutine(updateSpeed);
       updateSpeed = null;
     }
+
+    topShape.position = new Vector3(topShape.position.x, topShapePosition, topShape.position.z);
   }
 
   void ResetShapes ()
@@ -597,6 +606,7 @@ public class ShapeManager : MonoBehaviour
     OnGameStop ();
     ResetShapes ();
     numCollisions = 0;
+    goldenShapeSpawned = false;
   }
 
   void OnGameRestart()
@@ -880,15 +890,25 @@ public class ShapeManager : MonoBehaviour
     {
       shape.StopSpecialShapeCoroutine();
     }
-    
-    if (CurveWeightedRandom (invisibleRandomCurve) > 0.5f && currentScore > minInvisibleScore)
+
+//    if (!goldenShapeSpawned && currentScore > 100 && Random.Range (0, 1000) > 990)
+    if (!goldenShapeSpawned)
     {
-      //Debug.Log ("Invisible");
-      shape.StartInvisibleCoroutine ();
+      goldenShapeSpawned = true;
+      shape.StartGoldenShape ();
+      nextSprite = goldenShapeSprite;
     }
     else
     {
-      shape.StopInvisibleCoroutine ();
+      if (CurveWeightedRandom (invisibleRandomCurve) > 0.5f && currentScore > minInvisibleScore)
+      {
+        //Debug.Log ("Invisible");
+        shape.StartInvisibleCoroutine ();
+      }
+      else
+      {
+        shape.StopInvisibleCoroutine ();
+      }
     }
     /*************************************************************************/
     // Assign the selected properties to the shape

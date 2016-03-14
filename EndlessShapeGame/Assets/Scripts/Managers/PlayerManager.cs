@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
   /// Start player alpha (Not used)
   /// </summary>
   public float startPlayerAlpha;
+  public float invincibleTimer = 2.0f;
 
 #if UNITY_EDITOR
   /// <summary>
@@ -40,6 +41,7 @@ public class PlayerManager : MonoBehaviour
   /// </summary>
   public PlayerBehavior player { get; private set; }
   public PlayerInput playerInput { get; private set; }
+  public SpriteRenderer invincibleEffectSprite;
   #endregion
   #region Static Properties
   static public PlayerManager inst { get; private set; }
@@ -77,7 +79,48 @@ public class PlayerManager : MonoBehaviour
   {
   }
 
+  public void MakePlayerInvincible ()
+  {
+    StartCoroutine (InvincibleEffect ());
+  }
+
   #region Coroutines
+  private IEnumerator InvincibleEffect ()
+  {
+    StartCoroutine (AudioPitchShift (invincibleTimer));
+    PlayerManager.inst.invincible = true;
+    float time = 0.0f;
+    Color c = invincibleEffectSprite.color;
+    float interpolateTime = 0.5f;
+    Color targetColor = new Color (0.8f, 0.8f, 0.8f, invincibleEffectSprite.color.a);
+    float speed = (1.0f) / interpolateTime;
+
+    while (time < interpolateTime)
+    {
+      invincibleEffectSprite.color = Color.Lerp (c, targetColor, time * speed);
+      time += Time.deltaTime;
+      yield return null;
+    }
+    yield return new WaitForSeconds (Mathf.Max (0.0f, invincibleTimer - time * 2));
+    time = 0.0f;
+    while (time < interpolateTime)
+    {
+      invincibleEffectSprite.color = Color.Lerp (targetColor, c, time * speed);
+      time += Time.deltaTime;
+      yield return null;
+    }
+    PlayerManager.inst.invincible = false;
+  }
+
+  private IEnumerator AudioPitchShift (float totalTime)
+  {
+    AudioLowPassFilter lowPass = AudioManager.inst.AddLowPassFilterGame ();
+    lowPass.cutoffFrequency = 1000.0f;
+    yield return new WaitForSeconds (totalTime);
+    AudioManager.inst.RemoveLowPassFilterGame ();
+    yield return null;
+  }
+
   private IEnumerator FadeInPlayer ()
   {
     float alpha = player.triggers [0].spriteRenderer.color.a;

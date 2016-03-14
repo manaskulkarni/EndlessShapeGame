@@ -55,12 +55,22 @@ public class GameCenterInterface : StoreInterface
         Debug.Log ("Loading Achievement : " + v.Title);
         achievements.Add (v.Title, v);
       }
+      CheckHighScore ();
 
       IOSInAppPurchaseManager.Instance.LoadStore ();
     }
     else
     {
       IOSNativePopUpManager.showMessage("Game Center ", "Player auth failed");
+    }
+  }
+
+  void CheckHighScore ()
+  {
+    GK_Score score = GameCenterManager.Leaderboards[0].GetCurrentPlayerScore (GK_TimeSpan.ALL_TIME, GK_CollectionType.GLOBAL);
+    if (StatsManager.inst.highScore < score.LongScore)
+    {
+      StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
     }
   }
 
