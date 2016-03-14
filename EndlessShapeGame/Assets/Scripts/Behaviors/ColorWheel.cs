@@ -108,7 +108,7 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
   void OnResetBackground ()
   {
-    GameManager.inst.BroadcastMessage ("OnSetBackgroundColor", new ColorWheelData (wheelPosition.position, StatsManager.inst.defaultBackgroundColor));
     wheelPosition.localPosition = Vector3.zero;
+    GameManager.inst.BroadcastMessage ("OnSetBackgroundColor", new ColorWheelData (wheelPosition.position, StatsManager.inst.defaultBackgroundColor));
   }
 }

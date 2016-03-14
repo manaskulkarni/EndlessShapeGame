@@ -259,7 +259,7 @@ public class UIManager : MonoBehaviour
     GameObject.Find ("ButtonColorOption").GetComponent <Image> ().color = Color.clear;
     GameObject.Find ("ButtonMusicOption").GetComponent <Image> ().color = new Color (1.0f, 1.0f, 1.0f, 50.0f / 255.0f);
 
-    GameObject.Find ("ButtonPick").GetComponentInChildren<Text> ().text = "Pick Song";
+    GameObject.Find ("ButtonPick").GetComponentInChildren<Text> ().text = "PICK SONG";
   }
 
   public void ShowColorMenu()
@@ -270,7 +270,7 @@ public class UIManager : MonoBehaviour
     GameObject.Find ("ButtonMusicOption").GetComponent <Image> ().color = Color.clear;
     GameObject.Find ("ButtonColorOption").GetComponent <Image> ().color = new Color (1.0f, 1.0f, 1.0f, 50.0f / 255.0f);
 
-    GameObject.Find ("ButtonPick").GetComponentInChildren<Text> ().text = "Reset";
+    GameObject.Find ("ButtonPick").GetComponentInChildren<Text> ().text = "RESET";
   }
 
   public void OptionsPick ()
