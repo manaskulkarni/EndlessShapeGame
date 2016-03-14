@@ -376,6 +376,8 @@ public class ShapeManager : MonoBehaviour
     return curve.Evaluate(Random.value);
   }
 
+  public float topShapePosition = 2.46f;
+
   #region ShapeManager Logic
   /// <summary>
   /// Called by PlayerBehavior when it collides with a ShapeBehavior
@@ -440,9 +442,11 @@ public class ShapeManager : MonoBehaviour
           else
           {
             // Store the currrent top shape position to avoid artifacts (Currently not used)
-            baseShape = spriteRenderer.transform;
-            topShape = shapeBehavior.transform;
-            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
+//            baseShape = spriteRenderer.transform;
+//            topShape = shapeBehavior.transform;
+//            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
+
+            topShape = shapes [1].transform;
 
             // Play Particle Effect
             PlayParticleEffect (gameOverFeedback, shapeBehavior.transform.position, shapeBehavior.originalColor, gameOverFeedback.maxParticles);
@@ -466,9 +470,11 @@ public class ShapeManager : MonoBehaviour
           if (sameSprite)
           {
             // Shuffle the shape properties to increase randomness
-            baseShape = spriteRenderer.transform;
-            topShape = shapeBehavior.transform;
-            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
+//            baseShape = spriteRenderer.transform;
+//            topShape = shapeBehavior.transform;
+//            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
+
+            topShape = shapes [1].transform;
 
             ChooseShapeProperties(shapeBehavior);
             shapes.RemoveAt(0);
@@ -582,6 +588,8 @@ public class ShapeManager : MonoBehaviour
       StopCoroutine(updateSpeed);
       updateSpeed = null;
     }
+
+    topShape.position = new Vector3(topShape.position.x, topShapePosition, topShape.position.z);
   }
 
   void ResetShapes ()

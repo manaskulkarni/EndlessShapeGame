@@ -1,14 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/UIManager.cs">
     <Files>
+      <File FileName="Assets/Scripts/Behaviors/StoreButton.cs" Line="1" Column="1" />
       <File FileName="Assets/Editor/PBXModifier.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="749" Column="3" />
       <File FileName="Assets/Scripts/Managers/AudioManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/StatsManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/StatsManager.cs" Line="601" Column="4" />
       <File FileName="Assets/Scripts/Managers/Manager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/PlayerBehavior.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/GameCenterInterface.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/GameCenterInterface.cs" Line="269" Column="2" />
       <File FileName="Assets/Scripts/Behaviors/Background.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/ShapeBehavior.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/PlayerInput.cs" Line="1" Column="1" />
@@ -23,7 +24,7 @@
       <File FileName="Assets/Scripts/Behaviors/GameOverFeedback.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/AdToAppBinding.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/TutorialStartTrigger.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="1413" Column="14" />
       <File FileName="Assets/Scripts/Classes/StateMachine/StateEngine.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/AdManager.cs" Line="1" Column="1" />
       <File FileName="Assets/DemoGUI.cs" Line="1" Column="1" />
@@ -31,11 +32,11 @@
       <File FileName="Assets/TouchScript/Scripts/TouchManagerInstance.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/AdToAppContentType.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Behaviors/ReviveMenu.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Managers/GooglePlayInterface.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/GooglePlayInterface.cs" Line="193" Column="2" />
       <File FileName="Assets/Editor/ClearPlayerPrefs.cs" Line="1" Column="1" />
       <File FileName="Assets/Standard Assets/Editor/UnityAds/XCodeEditor/XCProject.cs" Line="1" Column="1" />
       <File FileName="Assets/Standard Assets/Editor/UnityAds/XCodeEditor/PBXProject.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Behaviors/ScrollSnapRect.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Behaviors/ScrollSnapRect.cs" Line="123" Column="62" />
       <File FileName="Assets/Plugins/android/AndroidManifest.xml" Line="1" Column="1" />
       <File FileName="Assets/Extensions/GooglePlayCommon/Core/AndroidNativeSettings.cs" Line="1" Column="1" />
       <File FileName="Assets/Extensions/AndroidNative/Billing/Templates/GoogleProductTemplate.cs" Line="1" Column="1" />
@@ -43,8 +44,8 @@
       <File FileName="Assets/Extensions/AndroidNative/Billing/Models/AndroidInventory.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/StansAssets/Android/billing/an_billing.txt" Line="1" Column="1" />
       <File FileName="Assets/Extensions/AndroidNative/Editor/AndroidNativeMenu.cs" Line="1" Column="1" />
-      <File FileName="Assets/Extensions/AndroidNative/Editor/AndroidNativeSettingsEditor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Extensions/IOSNative/Editor/IOSNativeSettingsEditor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Extensions/AndroidNative/Editor/AndroidNativeSettingsEditor.cs" Line="2268" Column="32" />
+      <File FileName="Assets/Extensions/IOSNative/Editor/IOSNativeSettingsEditor.cs" Line="1034" Column="25" />
       <File FileName="Assets/Extensions/IOSNative/Core/IOSNativeSettings.cs" Line="1" Column="1" />
       <File FileName="Assets/Extensions/IOSNative/Market/Templates/IOSProductTemplate.cs" Line="1" Column="1" />
       <File FileName="Assets/Extensions/IOSNative/Market/Enum/ISN_InAppPriceTier.cs" Line="1" Column="1" />
@@ -52,6 +53,9 @@
       <File FileName="Assets/Extensions/AndroidNative/Billing/Templates/GooglePurchaseTemplate.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Managers/StoreInterface.cs" Line="1" Column="1" />
       <File FileName="Assets/Extensions/AndroidNative/Enum/GooglePurchaseState.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Behaviors/StoreButtonList.cs" Line="15" Column="3" />
+      <File FileName="Assets/Scripts/Behaviors/ColorWheel.cs" Line="112" Column="151" />
+      <File FileName="Assets/Scripts/Classes/Utils.cs" Line="18" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

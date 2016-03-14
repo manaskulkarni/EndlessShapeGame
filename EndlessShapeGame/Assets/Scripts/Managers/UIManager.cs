@@ -1389,26 +1389,26 @@ public class UIManager : MonoBehaviour
   {
 //    if (menuDiamondStore != null && menuPotionStore != null)
 //    {
-    if (menuStore != null && menuStore.activeSelf)
+    if (data.container.gameObject.transform.parent.parent.name == "MenuDiamondStore")
+    {
+      if (diamondStoreList != null)
       {
-        if (diamondStoreList != null)
+//        Debug.Log (data.container.gameObject.name);
+        Transform container = diamondStoreList.container;
+        if (diamondStoreList.container != null)
         {
-  //        Debug.Log (data.container.gameObject.name);
-          Transform container = diamondStoreList.container;
-          if (diamondStoreList.container != null)
+          StoreButton b = container.GetChild (data.scrollIndex).GetComponent <StoreButton> ();
+          if (b != null)
           {
-            StoreButton b = container.GetChild (data.scrollIndex).GetComponent <StoreButton> ();
-            if (b != null)
-            {
-              b.priceText = StatsManager.inst.GetPrice (b);
-              buttonBuyDiamonds.GetComponentInChildren <Text> ().text = b.priceText;
-              buttonBuyDiamonds.onClick.RemoveAllListeners ();
-              buttonBuyDiamonds.onClick.AddListener (() => {PurchaseItem (b);});
-            }
+            b.priceText = StatsManager.inst.GetPrice (b);
+            buttonBuyDiamonds.GetComponentInChildren <Text> ().text = b.priceText;
+            buttonBuyDiamonds.onClick.RemoveAllListeners ();
+            buttonBuyDiamonds.onClick.AddListener (() => {PurchaseItem (b);});
           }
         }
       }
-    else if (menuOptions != null && menuOptions.activeSelf)
+    }
+    else if (data.container.gameObject.transform.parent.parent.name == "MenuMusic")
     {
       if (musicList != null)
       {

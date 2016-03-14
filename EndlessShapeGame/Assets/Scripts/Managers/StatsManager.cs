@@ -600,6 +600,12 @@ public class StatsManager : MonoBehaviour
       showRateUs = 0;
   }
 
+  void OnPreTutorialReviveStart ()
+  {
+    coins = 100;
+    UIManager.inst.SendMessage ("UpdateCoinsText", SendMessageOptions.DontRequireReceiver);
+  }
+
   void LoadBackgroundColor ()
   {
     float r, g, b, x, y;

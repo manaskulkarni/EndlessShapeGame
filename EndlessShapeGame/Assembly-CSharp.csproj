@@ -823,14 +823,14 @@
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
+ <Reference Include="WP8PopUps">
+ <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/Plugins/WP8PopUps.dll</HintPath>
+ </Reference>
  <Reference Include="OSCsharp">
  <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Modules/TUIO/Libraries/OSCsharp.dll</HintPath>
  </Reference>
  <Reference Include="TUIOsharp">
  <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Modules/TUIO/Libraries/TUIOsharp.dll</HintPath>
- </Reference>
- <Reference Include="WP8PopUps">
- <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/Plugins/WP8PopUps.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
