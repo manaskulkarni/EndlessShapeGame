@@ -3880,7 +3880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90b24a9e08dc4372ae8fd0bc836de3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startScore: 0
+  startScore: 100
   FlippedScore: 0
   isFlipped: 0
   numRevivePotions: 0

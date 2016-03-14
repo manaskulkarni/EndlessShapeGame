@@ -79,37 +79,54 @@ public class PlayerManager : MonoBehaviour
   {
   }
 
-  public void MakePlayerInvincible ()
+  public void StartSlowMotion ()
   {
-    StartCoroutine (InvincibleEffect ());
+    StartCoroutine (SlowMotionEffect ());
   }
 
   #region Coroutines
-  private IEnumerator InvincibleEffect ()
+  private IEnumerator SlowMotionEffect ()
   {
     StartCoroutine (AudioPitchShift (invincibleTimer));
-    PlayerManager.inst.invincible = true;
     float time = 0.0f;
     Color c = invincibleEffectSprite.color;
     float interpolateTime = 0.5f;
     Color targetColor = new Color (0.8f, 0.8f, 0.8f, invincibleEffectSprite.color.a);
     float speed = (1.0f) / interpolateTime;
 
+    while (Time.timeScale > 0.5f)
+    {
+      Time.timeScale -= Time.unscaledDeltaTime;
+      Debug.Log (Time.timeScale);
+      yield return null;
+    }
+    time = 0.0f;
     while (time < interpolateTime)
     {
       invincibleEffectSprite.color = Color.Lerp (c, targetColor, time * speed);
-      time += Time.deltaTime;
+      time += Time.unscaledDeltaTime;
       yield return null;
     }
-    yield return new WaitForSeconds (Mathf.Max (0.0f, invincibleTimer - time * 2));
+    time = 0.0f;
+      
+    while (time < invincibleTimer - interpolateTime * 4)
+    {
+      time += Time.unscaledDeltaTime;
+      yield return null;
+    }
     time = 0.0f;
     while (time < interpolateTime)
     {
       invincibleEffectSprite.color = Color.Lerp (targetColor, c, time * speed);
-      time += Time.deltaTime;
+      time += Time.unscaledDeltaTime;
       yield return null;
     }
-    PlayerManager.inst.invincible = false;
+    time = 0.0f;
+    while (Time.timeScale < 1.0f)
+    {
+      Time.timeScale += Time.unscaledDeltaTime;
+      yield return null;
+    }
   }
 
   private IEnumerator AudioPitchShift (float totalTime)
@@ -180,6 +197,11 @@ public class PlayerManager : MonoBehaviour
   void OnGameRestart ()
   {
     OnGameStart ();
+  }
+
+  void OnGameStop ()
+  {
+    Time.timeScale = 1.0f;
   }
 
   void OnGameOver ()

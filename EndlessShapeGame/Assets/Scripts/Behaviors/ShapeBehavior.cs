@@ -14,7 +14,7 @@ public class ShapeBehavior : MonoBehaviour
   {
   	Normal,
   	Invisible,
-    Collectible,
+    SlowMotion,
   }
 
   // Public Members
@@ -27,6 +27,7 @@ public class ShapeBehavior : MonoBehaviour
   private Coroutine updateSpecial { get; set; }
   private Coroutine updateInvisible { get; set; }
   private bool update { get; set; }
+  private Sprite originalSprite { get; set; }
 
   // Use this for initialization
   public void StartGame ()
@@ -72,6 +73,11 @@ public class ShapeBehavior : MonoBehaviour
     {
       StopCoroutine (updateSpecial);
       updateSpecial = null;
+    }
+
+    if (shapeType == ShapeType.SlowMotion)
+    {
+      spriteRenderer.sprite = originalSprite;
     }
 
     StopInvisibleCoroutine ();
@@ -123,9 +129,10 @@ public class ShapeBehavior : MonoBehaviour
     }
   }
 
-  public void StartGoldenShape ()
+  public void StartGoldenShape (Sprite sprite)
   {
-    shapeType = ShapeType.Collectible;
+    shapeType = ShapeType.SlowMotion;
+    originalSprite = sprite;
   }
 
   void Update ()
