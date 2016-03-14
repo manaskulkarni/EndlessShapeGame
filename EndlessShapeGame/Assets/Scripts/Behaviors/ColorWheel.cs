@@ -72,7 +72,6 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
           Vector2 localPoint;
           // Get mouse pos in local space
           RectTransformUtility.ScreenPointToLocalPointInRectangle (transform as RectTransform, Input.mousePosition, ray.eventCamera, out localPoint);
-
           // Get Texcoord
           Rect r = (transform as RectTransform).rect;
           var tex = GetComponent <Image> ().sprite.texture;
@@ -99,11 +98,17 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       }      
     }
     else
-      UnityEngine.Debug.LogWarning ("Could not find GraphicRaycaster and/or StandaloneInputModule");
+      Debug.LogWarning ("Could not find GraphicRaycaster and/or StandaloneInputModule");
   }
 
   void OnLoadBackgroundColor (ColorWheelData data)
   {
     wheelPosition.position = data.wheelPosition;
+  }
+
+  void OnResetBackground ()
+  {
+    GameManager.inst.BroadcastMessage ("OnSetBackgroundColor", new ColorWheelData (wheelPosition.position, StatsManager.inst.defaultBackgroundColor));
+    wheelPosition.localPosition = Vector3.zero;
   }
 }

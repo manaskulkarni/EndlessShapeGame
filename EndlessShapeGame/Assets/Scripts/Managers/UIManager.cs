@@ -84,6 +84,7 @@ public class UIManager : MonoBehaviour
   private Color startImageCircleColor { get; set; }
   
   public ScrollSnapRect diamondStoreList;
+  public ScrollSnapRect musicList;
 //  public ScrollSnapRect potionStoreList;
 
   public Button buttonStart;
@@ -250,12 +251,15 @@ public class UIManager : MonoBehaviour
   }	
   public void ShowMusicMenu()
   {
+    musicList.SetPage (StatsManager.inst.vMode);
     StartCoroutine(FadeOutColorCanvas());
 
     StartCoroutine(FadeInMusicCanvas());
 
     GameObject.Find ("ButtonColorOption").GetComponent <Image> ().color = Color.clear;
     GameObject.Find ("ButtonMusicOption").GetComponent <Image> ().color = new Color (1.0f, 1.0f, 1.0f, 50.0f / 255.0f);
+
+    GameObject.Find ("ButtonPick").GetComponentInChildren<Text> ().text = "Pick Song";
   }
 
   public void ShowColorMenu()
@@ -265,6 +269,28 @@ public class UIManager : MonoBehaviour
 
     GameObject.Find ("ButtonMusicOption").GetComponent <Image> ().color = Color.clear;
     GameObject.Find ("ButtonColorOption").GetComponent <Image> ().color = new Color (1.0f, 1.0f, 1.0f, 50.0f / 255.0f);
+
+    GameObject.Find ("ButtonPick").GetComponentInChildren<Text> ().text = "Reset";
+  }
+
+  public void OptionsPick ()
+  {
+    if (menuColor.activeSelf)
+    {
+      GameManager.inst.BroadcastMessage ("OnResetBackground");
+    }
+    else if (menuMusic.activeSelf)
+    {
+      int mode = musicList.currentPage;
+      if (musicList.container.GetChild (mode).CompareTag ("song"))
+      {
+        if (StatsManager.inst.vMode != mode)
+        {
+          Debug.Log ("Swtcdfsdjkfl" + mode);
+          GameManager.inst.BroadcastMessage ("OnSwitchMode", mode);
+        }
+      }
+    }
   }
 
   public void EndGame ()
@@ -1566,7 +1592,7 @@ public class UIManager : MonoBehaviour
     int.TryParse (textCoins [0].text, out curr);
 
     int distance = target - curr;
-    float time = 1.0f;
+    float time = 0.5f;
     float speed = distance / (60 * time);
 
     while (curr + speed < target)

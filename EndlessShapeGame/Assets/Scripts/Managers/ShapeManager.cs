@@ -243,7 +243,7 @@ public class ShapeManager : MonoBehaviour
     
       Debug.Log ("FPS: " + Application.targetFrameRate);
       
-      for (int i = 0; i < speedPresets.Length; ++i)
+      for (int i = 0; i < bpms.Length; ++i)
       {
         var v = speedPresets[i];
         v.preset.speedMultiplier.y = -((shapeSpawnOffset.y / 60) * bpms[i]);
@@ -810,7 +810,7 @@ public class ShapeManager : MonoBehaviour
   /// <returns></returns>
   private IEnumerator DestroyShape(ShapeBehavior shapeBehavior)
   {
-    yield return new WaitForSeconds (waitTime);
+//    yield return new WaitForSeconds (waitTime);
     while (shapeBehavior.spriteRenderer.color.a >= 0.0f)
     {
       Color c = shapeBehavior.spriteRenderer.color;
