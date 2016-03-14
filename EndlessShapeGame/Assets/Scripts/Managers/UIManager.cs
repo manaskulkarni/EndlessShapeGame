@@ -1388,23 +1388,47 @@ public class UIManager : MonoBehaviour
   void OnStoreButtonSwipe (ScrollSnapRect.ScrollData data)
   {
 //    if (menuDiamondStore != null && menuPotionStore != null)
-    {
-//      if (menuDiamondStore.activeSelf)
+//    {
+    if (menuStore != null && menuStore.activeSelf)
       {
-//        Debug.Log (data.container.gameObject.name);
-        Transform container = diamondStoreList.container;
-        if (diamondStoreList != null && diamondStoreList.container != null)
+        if (diamondStoreList != null)
         {
-          StoreButton b = container.GetChild (data.scrollIndex).GetComponent <StoreButton> ();
-          if (b != null)
+  //        Debug.Log (data.container.gameObject.name);
+          Transform container = diamondStoreList.container;
+          if (diamondStoreList.container != null)
           {
-            b.priceText = StatsManager.inst.GetPrice (b);
-            buttonBuyDiamonds.GetComponentInChildren <Text> ().text = b.priceText;
-            buttonBuyDiamonds.onClick.RemoveAllListeners ();
-            buttonBuyDiamonds.onClick.AddListener (() => {PurchaseItem (b);});
+            StoreButton b = container.GetChild (data.scrollIndex).GetComponent <StoreButton> ();
+            if (b != null)
+            {
+              b.priceText = StatsManager.inst.GetPrice (b);
+              buttonBuyDiamonds.GetComponentInChildren <Text> ().text = b.priceText;
+              buttonBuyDiamonds.onClick.RemoveAllListeners ();
+              buttonBuyDiamonds.onClick.AddListener (() => {PurchaseItem (b);});
+            }
           }
         }
       }
+    else if (menuOptions != null && menuOptions.activeSelf)
+    {
+      if (musicList != null)
+      {
+        Transform container = musicList.container;
+        if (musicList.container != null)
+        {
+          if (container.GetChild (data.scrollIndex) != null)
+          {
+            if (!container.GetChild (data.scrollIndex).gameObject.CompareTag ("song"))
+            {
+              GameObject.Find ("ButtonPick").GetComponent<Button> ().interactable = false;
+            }
+            else
+            {
+              GameObject.Find ("ButtonPick").GetComponent<Button> ().interactable = true;
+            }
+          }
+        }
+      }
+    }
 //      else if (menuPotionStore.activeSelf)
 //      {
 //        Transform container = potionStoreList.container;
@@ -1413,7 +1437,7 @@ public class UIManager : MonoBehaviour
 //        buttonBuyPotions.onClick.RemoveAllListeners ();
 //        buttonBuyPotions.onClick.AddListener (() => {PurchaseInGameItem (b);});
 //      }
-    }
+//    }
   }
 
   void OnSwitchMode (int mode)
