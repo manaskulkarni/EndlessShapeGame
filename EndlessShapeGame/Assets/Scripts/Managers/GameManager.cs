@@ -150,7 +150,6 @@ public class GameManager : StateBehaviour
   public string ShowVideoEvent = "OnShowVideo";
   public string EndVideoEvent = "OnEndVideo";
   public string RemoveAdsEvent = "OnRemoveAds";
-  public string RateUsEvent = "OnShowRateUsPopup";
   
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -583,11 +582,6 @@ public class GameManager : StateBehaviour
     else
     {
       BroadcastMessage (NoHighScoreEvent);
-    }
-
-    if (StatsManager.inst.numSessions == 7 && Random.Range (0, 100) > 50)
-    {
-      BroadcastMessage (RateUsEvent);
     }
 
     yield return null;

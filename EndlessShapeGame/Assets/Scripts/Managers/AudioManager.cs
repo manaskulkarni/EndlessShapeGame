@@ -202,27 +202,6 @@ public class AudioManager : MonoBehaviour
     }
   }
 
-  public void LerpGameSongPitch (float start, float end, float t)
-  {
-    if (_mode == 0)
-    {
-      track1.pitch = Mathf.Lerp (start, end, t);
-    }
-  }
-
-  public AudioLowPassFilter AddLowPassFilterGame ()
-  {
-    return _mode == 0 ? track1.gameObject.AddComponent<AudioLowPassFilter> () : track2.gameObject.AddComponent<AudioLowPassFilter> ();
-  }
-
-  public void RemoveLowPassFilterGame ()
-  {
-    if (_mode == 0)
-      Destroy (track1.gameObject.GetComponent<AudioLowPassFilter> ());
-    else if (_mode == 1)
-      Destroy (track2.gameObject.GetComponent<AudioLowPassFilter> ());
-  }
-
   #region implemented abstract members of AudioManager
   void OnGameReset()
   {

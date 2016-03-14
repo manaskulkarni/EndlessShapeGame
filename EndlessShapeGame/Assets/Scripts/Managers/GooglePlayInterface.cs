@@ -91,21 +91,10 @@ public class GooglePlayInterface : StoreInterface
     if(result.IsSuccess)
     {
       Debug.Log("Connected!");
-
-      CheckHighScore ();
     }
     else
     {
       Debug.Log("Cnnection failed with code: " + result.code.ToString());
-    }
-  }
-
-  void CheckHighScore ()
-  {
-    GPScore score = GooglePlayManager.Instance.LeaderBoards[0].GetCurrentPlayerScore (GPBoardTimeSpan.ALL_TIME, GPCollectionType.GLOBAL);
-    if (StatsManager.inst.highScore < score.LongScore)
-    {
-      StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
     }
   }
 

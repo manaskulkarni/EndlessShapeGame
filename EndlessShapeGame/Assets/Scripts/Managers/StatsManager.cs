@@ -112,7 +112,6 @@ public class StatsManager : MonoBehaviour
   /// </summary>
   /// <value><c>true</c> if show ads; otherwise, <c>false</c>.</value>
   public int showAds { get; private set; }
-  public int showRateUs { get; private set; }
   /// <summary>
   /// Returns whether this session is 1st session after launching game
   /// </summary>
@@ -199,7 +198,6 @@ public class StatsManager : MonoBehaviour
     Debug.Log ("COINS : " + coins);
     showAds = PlayerPrefs.GetInt ("ShowAds", 1);
     Debug.Log ("SHOW ADS : " + (showAds != 0));
-    showRateUs = PlayerPrefs.GetInt ("ShowRateUs", 1);
 
     prevFacebookStatus = PlayerPrefs.GetInt ("FacebookConenct");
 
@@ -241,7 +239,6 @@ public class StatsManager : MonoBehaviour
   {
     PlayerPrefs.SetInt ("Coins", coins);
     PlayerPrefs.SetInt ("ShowAds", showAds);
-    PlayerPrefs.SetInt ("ShowRateUs", showRateUs);
     PlayerPrefs.SetInt("NumBlackCollision",playerStats.numBlackCollision);
     if (GameManager.inst.played)
     {
@@ -346,11 +343,6 @@ public class StatsManager : MonoBehaviour
     return product.defaultPriceText;
     #endif
 
-  }
-
-  public void SetHighScoreSilent (int hs)
-  {
-    PlayerPrefs.SetInt (leaderBoardId, hs);
   }
 
   private bool CheckHighScore ()
@@ -577,27 +569,6 @@ public class StatsManager : MonoBehaviour
   {
     backgroundColor = color.color;
     wheelPosition = color.wheelPosition;
-  }
-
-  void OnShowRateUsPopup ()
-  {
-    if (showRateUs == 1)
-    {
-      MobileNativeRateUs ratePopUp = new MobileNativeRateUs("Like this game?", "Please rate to " +
-      "support future updates!");
-      ratePopUp.OnComplete = OnRateUsFeedback;
-
-      #if UNITY_IOS
-      ratePopUp.SetAppleId (IOSNativeSettings.Instance.AppleId);
-      #elif UNITY_ANDROID
-      #endif
-    }
-  }
-
-  void OnRateUsFeedback (MNDialogResult res)
-  {
-    if (res == MNDialogResult.RATED)
-      showRateUs = 0;
   }
 
   void LoadBackgroundColor ()

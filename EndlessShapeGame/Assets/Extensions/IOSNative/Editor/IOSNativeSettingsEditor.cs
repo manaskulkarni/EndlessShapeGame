@@ -1016,7 +1016,8 @@ public class IOSNativeSettingsEditor : Editor {
 		SA_EditorTool.SelectableLabelField(SdkVersion,   IOSNativeSettings.VERSION_NUMBER);
 		SA_EditorTool.SupportMail();
 		
-//    SA_EditorTool.DrawSALogo ();
+		SA_EditorTool.DrawSALogo();
+		
 	}
 	
 	
