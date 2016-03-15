@@ -102,10 +102,21 @@ public class GooglePlayInterface : StoreInterface
 
   void CheckHighScore ()
   {
-    GPScore score = GooglePlayManager.Instance.LeaderBoards[0].GetCurrentPlayerScore (GPBoardTimeSpan.ALL_TIME, GPCollectionType.GLOBAL);
-    if (StatsManager.inst.highScore < score.LongScore)
+    GooglePlayManager.Instance.LoadLeaderBoards ();
+    GooglePlayManager.ActionLeaderboardsLoaded += GooglePlayManager_ActionLeaderboardsLoaded;
+  }
+
+  void GooglePlayManager_ActionLeaderboardsLoaded (GooglePlayResult res)
+  {
+    if (res.IsSucceeded)
     {
-      StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
+      Debug.Log ("Loaded leaderboard : " + GooglePlayManager.Instance.LeaderBoards[0].Id);
+      GPScore score = GooglePlayManager.Instance.LeaderBoards[0].GetCurrentPlayerScore (GPBoardTimeSpan.ALL_TIME, GPCollectionType.GLOBAL);
+      Debug.Log ("Current High Score : " + score.LongScore);
+      if (StatsManager.inst.highScore < score.LongScore)
+      {
+        StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
+      }
     }
   }
 

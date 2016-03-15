@@ -569,25 +569,7 @@ static CloudManager * cm_sharedInstance;
         UnitySendMessage("iCloudManager", "OnCloudInitFail", [ISN_DataConvertor NSStringToChar:@""]);
     }
     
-    /*
-     
-     NSURL *documentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-     NSURL *storeURL = [documentsDirectory URLByAppendingPathComponent:@"CoreData.sqlite"];
-     NSError *error = nil;
-     NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:<# your managed object model #>];
-     NSDictionary *storeOptions =
-     @{NSPersistentStoreUbiquitousContentNameKey: @"MyAppCloudStore"};
-     NSPersistentStore *store = [coordinator addPersistentStoreWithType:NSSQLiteStoreType
-     configuration:nil
-     URL:storeURL
-     options:storeOptions
-     error:&error];
-     
-     NSURL *finaliCloudURL = [store URL];
-     */
-    
-    
-    NSLog(@"initialize");
+    NSLog(@"iCloud Initialize");
     
 }
 
@@ -623,7 +605,7 @@ static CloudManager * cm_sharedInstance;
     
     NSMutableString * array = [[NSMutableString alloc] init];
     [array appendString:key];
-    [array appendString:@"|"];
+    [array appendString:UNITY_SPLITTER];
     
     
     NSString* stringData;
@@ -634,21 +616,8 @@ static CloudManager * cm_sharedInstance;
         }
         
         if([data isKindOfClass:[NSData class]]) {
-            
             NSData *b = (NSData*) data;
-            
-            NSMutableString *str = [[NSMutableString alloc] init];
-            const char *db = (const char *) [b bytes];
-            for (int i = 0; i < [b length]; i++) {
-                if(i != 0) {
-                    [str appendFormat:@","];
-                }
-                
-                [str appendFormat:@"%i", (unsigned char)db[i]];
-            }
-            
-            stringData = str;
-            
+            stringData = [b base64Encoding]; 
         }
         
         if([data isKindOfClass:[NSNumber class]]) {
@@ -685,7 +654,76 @@ static CloudManager * cm_sharedInstance;
 
 
 - (void)storeDidChange:(NSNotification *)notification {
-    UnitySendMessage("iCloudManager", "OnCloudDataChanged", [ISN_DataConvertor NSStringToChar:@""]);
+    NSDictionary* userInfo = [notification userInfo];
+    NSNumber* reasonForChange = [userInfo objectForKey:NSUbiquitousKeyValueStoreChangeReasonKey];
+    NSInteger reason = -1;
+    
+    // If a reason could not be determined, do not update anything.
+    if (!reasonForChange)
+        return;
+    
+    
+    NSMutableString * array = [[NSMutableString alloc] init];
+    
+
+    
+    // Update only for changes from the server.
+    reason = [reasonForChange integerValue];
+    if ((reason == NSUbiquitousKeyValueStoreServerChange) || (reason == NSUbiquitousKeyValueStoreInitialSyncChange)) {
+    
+        NSArray* changedKeys = [userInfo objectForKey:NSUbiquitousKeyValueStoreChangedKeysKey];
+        NSUbiquitousKeyValueStore* store = [NSUbiquitousKeyValueStore defaultStore];
+        
+        for (NSString* key in changedKeys) {
+            id value = [store objectForKey:key];
+            
+            [array appendString:key];
+            [array appendString:UNITY_SPLITTER];
+            
+            NSString* stringData;
+            
+            if(value != nil) {
+                if([value isKindOfClass:[NSString class]]) {
+                    stringData = (NSString*) value;
+                }
+                
+                if([value isKindOfClass:[NSData class]]) {
+                    
+                    NSData *b = (NSData*) value;
+                    
+                    NSMutableString *str = [[NSMutableString alloc] init];
+                    const char *db = (const char *) [b bytes];
+                    for (int i = 0; i < [b length]; i++) {
+                        if(i != 0) {
+                            [str appendFormat:@","];
+                        }
+                        
+                        [str appendFormat:@"%i", (unsigned char)db[i]];
+                    }
+                    
+                    stringData = str;
+                    
+                }
+                
+                if([value isKindOfClass:[NSNumber class]]) {
+                    NSNumber* n = (NSNumber*) value;
+                    stringData = [n stringValue];
+                }
+                
+            } else {
+                stringData = @"null";
+            }
+            
+            
+            [array appendString:stringData];
+            [array appendString:UNITY_SPLITTER];
+        }
+        
+        [array appendString:UNITY_EOF];
+        
+    }
+    
+    UnitySendMessage("iCloudManager", "OnCloudDataChanged", [ISN_DataConvertor NSStringToChar:array]);
 }
 
 -(void) iCloudAccountAvailabilityChanged {
@@ -1324,10 +1362,20 @@ extern "C" {
       
         return UIAccessibilityIsGuidedAccessEnabled;
     }
+    
+    bool _ISN_IsRunningTestFlightBeta() {
+        if ([[NSBundle mainBundle] pathForResource:@"embedded" ofType:@"mobileprovision"]) {
+            // TestFlight
+            return true;
+        } else {
+            // App Store (and Apple reviewers too)
+            return false;
+        }
+    }
 
     
     // Helper method to create C string copy
-    char* MakeStringCopy (const char* string)
+    char* ISN_MakeStringCopy (const char* string)
     {
         if (string == NULL)
             return NULL;
@@ -1420,7 +1468,7 @@ extern "C" {
 	    [data autorelease];
 		#endif
 
-         return MakeStringCopy([ISN_DataConvertor NSStringToChar:data]);
+         return ISN_MakeStringCopy([ISN_DataConvertor NSStringToChar:data]);
     }
     
  
@@ -1472,22 +1520,13 @@ extern "C" {
         [[CloudManager sharedInstance] setDouble:v key:k];
     }
     
-    void _setData(char* key, char* val) {
+    void _setData(char* key, char* data) {
         NSString* k = [ISN_DataConvertor charToNSString:key];
-        NSString* v = [ISN_DataConvertor charToNSString:val];
         
-        NSArray *bytes = [v componentsSeparatedByString:@","];
+        NSString* mDataString = [ISN_DataConvertor charToNSString:data];
+        NSData *mData = [[NSData alloc] initWithBase64Encoding:mDataString];
         
-        
-        NSMutableData* d = [[NSMutableData alloc] init];
-        for(NSString* s in bytes) {
-            int v = [s intValue];
-            char * c = (char*)(&v);
-            [d appendBytes:c length:1];
-            
-        }
-        
-        [[CloudManager sharedInstance] setData:d key:k];
+        [[CloudManager sharedInstance] setData:mData key:k];
         
     }
     

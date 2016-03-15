@@ -581,24 +581,24 @@ public class StatsManager : MonoBehaviour
 
   void OnShowRateUsPopup ()
   {
-    if (showRateUs == 1)
-    {
-      MobileNativeRateUs ratePopUp = new MobileNativeRateUs("Like this game?", "Please rate to " +
-        "support future updates!");
-      ratePopUp.OnComplete = OnRateUsFeedback;
-
-      #if UNITY_IOS
-      ratePopUp.SetAppleId (IOSNativeSettings.Instance.AppleId);
-      #elif UNITY_ANDROID
-      #endif
-    }
+//    if (showRateUs == 1)
+//    {
+//      MobileNativeRateUs ratePopUp = new MobileNativeRateUs("Like this game?", "Please rate to " +
+//        "support future updates!");
+//      ratePopUp.OnComplete = OnRateUsFeedback;
+//
+//      #if UNITY_IOS
+//      ratePopUp.SetAppleId (IOSNativeSettings.Instance.AppleId);
+//      #elif UNITY_ANDROID
+//      #endif
+//    }
   }
 
-  void OnRateUsFeedback (MNDialogResult res)
-  {
-    if (res == MNDialogResult.RATED)
-      showRateUs = 0;
-  }
+//  void OnRateUsFeedback (MNDialogResult res)
+//  {
+//    if (res == MNDialogResult.RATED)
+//      showRateUs = 0;
+//  }
 
   void OnPreTutorialReviveStart ()
   {

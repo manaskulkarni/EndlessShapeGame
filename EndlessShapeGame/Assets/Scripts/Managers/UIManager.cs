@@ -1220,10 +1220,14 @@ public class UIManager : MonoBehaviour
     if (TransitionFromRevive () && StatsManager.inst.canUseRevive)
     {
       Debug.Log ("CODE HERE");
+      UpdateCoinsText ();
       GameManager.inst.ChangeState (GameManager.States.ReviveCompleteStart);
-    }
 
-    StartCoroutine (IncreaseCoins ());
+    }
+    else
+    {
+      StartCoroutine (IncreaseCoins ());
+    }
   }
   
   void OnShowOptions ()
@@ -1472,7 +1476,6 @@ public class UIManager : MonoBehaviour
 
   void OnBoughtCoins ()
   {
-//    UpdateCoinsText ();
     OnBoughtRevive ();
   }
 

@@ -43,9 +43,6 @@ public class GoogleProductTemplate  {
 	[SerializeField]
 	private AN_InAppType _ProductType = AN_InAppType.Consumable;
 
-  [SerializeField]
-  private AN_InAppPriceTier _PriceTier = AN_InAppPriceTier.Tier1;
-
 	[System.Obsolete("originalJson is deprectaed, please use OriginalJson instead")]
 	public string originalJson {
 		get {
@@ -79,24 +76,9 @@ public class GoogleProductTemplate  {
 		get {
 			return _PriceAmountMicros / 1000000f;
 		} 
+		
+
 	}
-
-  public AN_InAppPriceTier PriceTier {
-    get {
-      return _PriceTier;
-    }
-
-    set {
-      _PriceTier = value;
-    }
-  }
-
-  public void UpdatePriceByTier() {
-    int tierint = (int) _PriceTier;
-
-    float FloatPrice = tierint + 1f - 0.01f;
-    _PriceAmountMicros = (long)(FloatPrice * 1000000f);
-  }
 
 	[System.Obsolete("priceAmountMicros is deprectaed, please use PriceAmountMicros instead")]
 	public long priceAmountMicros  {

@@ -67,10 +67,21 @@ public class GameCenterInterface : StoreInterface
 
   void CheckHighScore ()
   {
-    GK_Score score = GameCenterManager.Leaderboards[0].GetCurrentPlayerScore (GK_TimeSpan.ALL_TIME, GK_CollectionType.GLOBAL);
-    if (StatsManager.inst.highScore < score.LongScore)
+    GameCenterManager.LoadLeaderboardInfo (StatsManager.inst.leaderBoardId);
+    GameCenterManager.OnLeadrboardInfoLoaded += GameCenterManager_OnLeadrboardInfoLoaded;
+  }
+
+  void GameCenterManager_OnLeadrboardInfoLoaded (GK_LeaderboardResult res)
+  {
+    if (res.IsSucceeded)
     {
-      StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
+      Debug.Log ("Loaded Leaderboard : " + res.Leaderboard.Id);
+      GK_Score score = res.Leaderboard.GetCurrentPlayerScore (GK_TimeSpan.ALL_TIME, GK_CollectionType.GLOBAL);
+      Debug.Log ("Current High Score : " + score.LongScore);
+      if (StatsManager.inst.highScore < score.LongScore)
+      {
+        StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
+      }
     }
   }
 

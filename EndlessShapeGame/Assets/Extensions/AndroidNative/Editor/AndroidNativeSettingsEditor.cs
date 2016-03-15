@@ -1543,7 +1543,6 @@ public class AndroidNativeSettingsEditor : Editor {
 	GUIContent ProductIdDLabel 		= new GUIContent("ProductId[?]:", "A unique identifier that will be used for reporting. It can be composed of letters and numbers.");
 	GUIContent IsConsLabel 			= new GUIContent("Is Consumable[?]:", "Is prodcut allowed to be purchased more than once?");
 	GUIContent DisplayNameLabel  	= new GUIContent("Display Name[?]:", "This is the name of the In-App Purchase that will be seen by customers (if this is their primary language). For automatically renewable subscriptions, don’t include a duration in the display name. The display name can’t be longer than 75 characters.");
-  GUIContent PriceTierLabel   = new GUIContent("Price Tier [?]:", "This is the price tier of the product");
 	GUIContent DescriptionLabel 	= new GUIContent("Description[?]:", "This is the description of the In-App Purchase that will be used by App Review during the review process. If indicated in your code, this description may also be seen by customers. For automatically renewable subscriptions, do not include a duration in the description. The description cannot be longer than 255 bytes.");
 	
 	private void BillingSettings() {
@@ -1618,15 +1617,6 @@ public class AndroidNativeSettingsEditor : Editor {
 						EditorGUILayout.LabelField(IsConsLabel);
 						product.ProductType	 	= (AN_InAppType) EditorGUILayout.EnumPopup(product.ProductType);
 						EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(PriceTierLabel);
-            EditorGUI.BeginChangeCheck();
-            product.PriceTier   = (AN_InAppPriceTier) EditorGUILayout.EnumPopup(product.PriceTier);
-            if(EditorGUI.EndChangeCheck()) {
-              product.UpdatePriceByTier();
-            }
-            EditorGUILayout.EndHorizontal();
 						
 						EditorGUILayout.Space();
 						EditorGUILayout.Space();
@@ -2265,7 +2255,7 @@ public class AndroidNativeSettingsEditor : Editor {
 		SA_EditorTool.FBSdkVersionLabel();
 		SA_EditorTool.SupportMail();
 		
-//		SA_EditorTool.DrawSALogo();
+		SA_EditorTool.DrawSALogo();
 	}
 	
 	

@@ -90,7 +90,6 @@ MonoBehaviour:
     _Title: 500 Diamonds
     _Texture: {fileID: 0}
     _ProductType: 0
-    _PriceTier: 0
   - IsOpen: 1
     SKU: com.spk.esg.iap.d1200
     _LocalizedPrice: 0.99 $
@@ -100,7 +99,6 @@ MonoBehaviour:
     _Title: 1200 Diamonds
     _Texture: {fileID: 0}
     _ProductType: 0
-    _PriceTier: 1
   - IsOpen: 1
     SKU: com.spk.esg.iap.d3000
     _LocalizedPrice: 0.99 $
@@ -110,7 +108,6 @@ MonoBehaviour:
     _Title: 3000 Diamonds
     _Texture: {fileID: 0}
     _ProductType: 0
-    _PriceTier: 4
   - IsOpen: 1
     SKU: com.spk.esg.iap.d7500
     _LocalizedPrice: 0.99 $
@@ -120,7 +117,6 @@ MonoBehaviour:
     _Title: 7500 Diamonds
     _Texture: {fileID: 0}
     _ProductType: 0
-    _PriceTier: 9
   - IsOpen: 1
     SKU: com.spk.esg.iap.d21000
     _LocalizedPrice: 0.99 $
@@ -130,7 +126,6 @@ MonoBehaviour:
     _Title: 21000 Diamonds
     _Texture: {fileID: 0}
     _ProductType: 0
-    _PriceTier: 19
   - IsOpen: 1
     SKU: com.spk.esg.iap.rads
     _LocalizedPrice: 0.99 $
@@ -140,7 +135,6 @@ MonoBehaviour:
     _Title: Remove Ads
     _Texture: {fileID: 0}
     _ProductType: 0
-    _PriceTier: 0
   ShowLeaderboards: 1
   Leaderboards:
   - IsOpen: 1
