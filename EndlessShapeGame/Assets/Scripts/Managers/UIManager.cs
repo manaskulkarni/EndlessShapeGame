@@ -344,6 +344,8 @@ public class UIManager : MonoBehaviour
     }
   }
 
+  private float circleFillerSpeed = 0.0f;
+
   public void ShowRewardVideo ()
   {
     previousState = GameManager.States.ShowRevive;
@@ -358,6 +360,12 @@ public class UIManager : MonoBehaviour
     {
       GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
     }
+  }
+
+  public void DisableReviveButtons ()
+  {
+    menuReviveUseCoins.GetComponentInChildren <Button> ().interactable = false;
+    menuReviveWatchVideo.GetComponentInChildren <Button> ().interactable = false;
   }
   
   public void PurchaseItem (StoreButton button)
@@ -1219,10 +1227,8 @@ public class UIManager : MonoBehaviour
   {
     if (TransitionFromRevive () && StatsManager.inst.canUseRevive)
     {
-      Debug.Log ("CODE HERE");
       UpdateCoinsText ();
       GameManager.inst.ChangeState (GameManager.States.ReviveCompleteStart);
-
     }
     else
     {

@@ -682,8 +682,13 @@ public class AudioManager : MonoBehaviour
     options_menu1.Pause();
     store_menu1.Pause();
     main_menu1.Pause();
+
     track2.Pause();
     track2_loop.Pause();
+    options_menu2.Pause ();
+    store_menu2.Pause();
+    main_menu2.Pause();
+
     lose_effect.Pause();
   }
 
@@ -694,8 +699,13 @@ public class AudioManager : MonoBehaviour
     options_menu1.UnPause();
     store_menu1.UnPause();
     main_menu1.UnPause();
+
     track2.UnPause();
     track2_loop.UnPause();
+    options_menu2.UnPause ();
+    store_menu2.UnPause();
+    main_menu2.UnPause();
+
     lose_effect.UnPause();
   }
   #endregion

@@ -21,4 +21,9 @@ public class ReviveMenu : MonoBehaviour
     UIManager.inst.ReviveDeclined ();
   }
 
+  public void DisableButtons ()
+  {
+    UIManager.inst.DisableReviveButtons ();
+  }
+
 }
