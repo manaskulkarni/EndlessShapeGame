@@ -83,6 +83,7 @@
      <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\SA_EditorTool.cs" />
      <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\SA_RemoveTool.cs" />
      <Compile Include="Assets\Extensions\StansAssetsCommon\Editor\SA_VersionsManager.cs" />
+     <Compile Include="Assets\MobileNativePopups\Editor\MobileNativePopupsPostProcessor.cs" />
      <Compile Include="Assets\TouchScript\Editor\Behaviors\Visualizer\TouchVisualizerEditor.cs" />
      <Compile Include="Assets\TouchScript\Editor\Gestures\Base\PinnedTransformGestureBaseEditor.cs" />
      <Compile Include="Assets\TouchScript\Editor\Gestures\Base\TransformGestureBaseEditor.cs" />
@@ -311,6 +312,9 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="MobileNativePopups">
+ <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/MobileNativePopups/MobileNativePopups.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/PlaybackEngines/AppleTVSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

@@ -468,6 +468,11 @@ public class UIManager : MonoBehaviour
 //    GameManager.inst.SendMessage ("OnSwitchStore", store);
     throw new System.NotImplementedException ();
   }
+
+  public void RateUs ()
+  {
+    StatsManager.inst.ShowRateUsDialog ();
+  }
     
   public void TutorialReviveDone ()
   {

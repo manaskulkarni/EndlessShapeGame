@@ -527,6 +527,9 @@
      <Compile Include="Assets\Extensions\StansAssetsPreviewUI\Scripts\ScreenPlacementExtension\ScreenPlacementExtension.cs" />
      <Compile Include="Assets\Extensions\StansAssetsPreviewUI\Scripts\ScreenPlacementExtension\ScreenScaler.cs" />
      <Compile Include="Assets\Extensions\StansAssetsPreviewUI\Scripts\ScreenPlacementExtension\XScaleModifayer.cs" />
+     <Compile Include="Assets\MobileNativePopups\Examples\Scripts\TestScene.cs" />
+     <Compile Include="Assets\Scripts\AppstoreHandler.cs" />
+     <Compile Include="Assets\Scripts\AppstoreTestScene.cs" />
      <Compile Include="Assets\Scripts\Behaviors\AudioFeedback.cs" />
      <Compile Include="Assets\Scripts\Behaviors\Background.cs" />
      <Compile Include="Assets\Scripts\Behaviors\BackgroundAnimationPlayer.cs" />
@@ -569,6 +572,7 @@
      <Compile Include="Assets\Scripts\Managers\StatsManager.cs" />
      <Compile Include="Assets\Scripts\Managers\StoreInterface.cs" />
      <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
+     <Compile Include="Assets\Scripts\Singleton.cs" />
      <Compile Include="Assets\TouchScript\Examples\Camera\Scripts\CameraController.cs" />
      <Compile Include="Assets\TouchScript\Examples\Checkers\Scripts\Board.cs" />
      <Compile Include="Assets\TouchScript\Examples\Checkers\Scripts\Exclusive.cs" />
@@ -808,6 +812,9 @@
  </Reference>
  <Reference Include="TUIOsharp">
  <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Modules/TUIO/Libraries/TUIOsharp.dll</HintPath>
+ </Reference>
+ <Reference Include="MobileNativePopups">
+ <HintPath>/Users/manaskulkarni/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/MobileNativePopups/MobileNativePopups.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

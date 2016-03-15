@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using UnityEngine.UI;
+using TheNextFlow.UnityPlugins;
 
 
 public class StatsManager : MonoBehaviour
@@ -581,8 +582,19 @@ public class StatsManager : MonoBehaviour
 
   void OnShowRateUsPopup ()
   {
-//    if (showRateUs == 1)
-//    {
+    if (showRateUs == 1)
+    {
+      MobileNativePopups.OpenAlertDialog(
+        "Rate Just Flick", "If you enjoy playing this game, would you mind taking a moment to rate it? Thanks for your support!",
+        "No, Thanks", "Remind me later", "Rate!",
+        () => { Debug.Log("User is a dick"); },
+        () => { Debug.Log("User will rate later"); },
+        () =>
+          {
+            Debug.Log("User rated");
+            ShowRateUsDialog ();
+            showRateUs = 0;
+          });
 //      MobileNativeRateUs ratePopUp = new MobileNativeRateUs("Like this game?", "Please rate to " +
 //        "support future updates!");
 //      ratePopUp.OnComplete = OnRateUsFeedback;
@@ -591,7 +603,16 @@ public class StatsManager : MonoBehaviour
 //      ratePopUp.SetAppleId (IOSNativeSettings.Instance.AppleId);
 //      #elif UNITY_ANDROID
 //      #endif
-//    }
+    }
+  }
+
+  public void ShowRateUsDialog ()
+  {
+    #if UNITY_IOS
+    AppstoreHandler.Instance.openAppInStore (IOSNativeSettings.Instance.AppleId);
+    #elif UNITY_ANDROID
+    AppstoreHandler.Instance.openAppInStore (AndroidNativeSettings.Instance.GooglePlayServiceAppID);
+    #endif
   }
 
 //  void OnRateUsFeedback (MNDialogResult res)

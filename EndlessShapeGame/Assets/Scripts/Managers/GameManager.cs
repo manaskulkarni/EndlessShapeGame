@@ -585,7 +585,7 @@ public class GameManager : StateBehaviour
       BroadcastMessage (NoHighScoreEvent);
     }
 
-    if (StatsManager.inst.numSessions == 7 && Random.Range (0, 100) > 50)
+    if (StatsManager.inst.numSessions % 21 == 0 && Random.Range (0, 100) > 50)
     {
       BroadcastMessage (RateUsEvent);
     }
