@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
   private GameObject menuStart { get; set; }
   private GameObject menuGame { get; set; }
   private GameObject menuOptions { get; set; }
-  private GameObject menuGameOver { get; set; }
+//  private GameObject menuGameOver { get; set; }
 //  private GameObject menuCoins { get; set; }
   private GameObject menuRevive { get; set; }
   private GameObject menuStore { get; set; }
@@ -194,8 +194,8 @@ public class UIManager : MonoBehaviour
 //    buttonOptionsBack.interactable = false;
     SetMenuActive (menuOptions, false);
     
-    menuGameOver = GameObject.Find ("MenuGameOver");
-    SetMenuActive (menuGameOver, false);
+//    menuGameOver = GameObject.Find ("MenuGameOver");
+//    SetMenuActive (menuGameOver, false);
     
 //    menuCoins = GameObject.Find ("MenuCoins");
 //    SetMenuActive (menuCoins, false);
@@ -295,7 +295,7 @@ public class UIManager : MonoBehaviour
 
   public void EndGame ()
   {
-    StartCoroutine (FadeOutGameOverCanvas ());
+//    StartCoroutine (FadeOutGameOverCanvas ());
     //    Camera.main.backgroundColor = Utils.Color255 (100, 122, 141, 5);
     StartCoroutine (FadeInStartCanvas ());
   }
@@ -549,20 +549,20 @@ public class UIManager : MonoBehaviour
     SetMenuActive (group.gameObject, false);
   }
   
-  private IEnumerator FadeOutGameOverCanvas ()
-  {
-    CanvasGroup group = menuGameOver.GetComponent<CanvasGroup>();
-    while (group.alpha > 0.0f)
-    {
-      float alpha = group.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      group.alpha = alpha;
-      yield return null;
-    }
-    
-    group.alpha = 0.0f;
-    SetMenuActive (group.gameObject, false);
-  }
+//  private IEnumerator FadeOutGameOverCanvas ()
+//  {
+//    CanvasGroup group = menuGameOver.GetComponent<CanvasGroup>();
+//    while (group.alpha > 0.0f)
+//    {
+//      float alpha = group.alpha;
+//      alpha -= Time.deltaTime * 5.0f;
+//      group.alpha = alpha;
+//      yield return null;
+//    }
+//    
+//    group.alpha = 0.0f;
+//    SetMenuActive (group.gameObject, false);
+//  }
   
   private IEnumerator FadeInOptionsCanvas ()
   {
@@ -581,21 +581,21 @@ public class UIManager : MonoBehaviour
     buttonOptionsBack.interactable = true;
   }
   
-  private IEnumerator FadeInGameOverCanvas ()
-  {
-    CanvasGroup group = menuGameOver.GetComponent<CanvasGroup>();
-    SetMenuActive (group.gameObject, true);
-    
-    while (group.alpha < 1.0f)
-    {
-      float alpha = group.alpha;
-      alpha += Time.deltaTime * 5.0f;
-      group.alpha = alpha;
-      yield return null;
-    }
-    
-    group.alpha = 1.0f;
-  }
+//  private IEnumerator FadeInGameOverCanvas ()
+//  {
+//    CanvasGroup group = menuGameOver.GetComponent<CanvasGroup>();
+//    SetMenuActive (group.gameObject, true);
+//    
+//    while (group.alpha < 1.0f)
+//    {
+//      float alpha = group.alpha;
+//      alpha += Time.deltaTime * 5.0f;
+//      group.alpha = alpha;
+//      yield return null;
+//    }
+//    
+//    group.alpha = 1.0f;
+//  }
 
   private IEnumerator FadeOutColorCanvas()
   {

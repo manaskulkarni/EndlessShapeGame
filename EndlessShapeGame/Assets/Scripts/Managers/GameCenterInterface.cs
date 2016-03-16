@@ -29,11 +29,14 @@ public class GameCenterInterface : StoreInterface
 
   void OnApplicationPause (bool pause)
   {
-    Debug.Log ("ACHIEVEMENTS LOADED : " + achievementsLoaded);
-    Debug.Log ("STORE LOADED : " + storeLoaded);
-    if (!achievementsLoaded)
+    if (!pause)
     {
-      GameCenterManager.Init ();
+      Debug.Log ("ACHIEVEMENTS LOADED : " + achievementsLoaded);
+      Debug.Log ("STORE LOADED : " + storeLoaded);
+      if (!achievementsLoaded)
+      {
+        GameCenterManager.Init ();
+      }
     }
     //    if (!storeLoaded)
     //    {

@@ -232,6 +232,12 @@ public class StatsManager : MonoBehaviour
   void Start ()
   {
     LoadBackgroundColor ();
+
+    if (playerStats.numGames == 0)
+    {
+      coins = 100;
+      UIManager.inst.SendMessage ("UpdateCoinsText", SendMessageOptions.DontRequireReceiver);
+    }
   }
 
   void OnEnable ()
@@ -564,15 +570,15 @@ public class StatsManager : MonoBehaviour
   }
   #endregion
 
-  void OnShapeTriggered (ShapeBehavior shape)
-  {
-    if (shape.shapeResponse == ShapeBehavior.ShapeResponse.Opposite)
-    {
-      // Increment Black Counter
-      playerStats.numBlackCollision++;
-      //Debug.Log("NG " + playerStats.numBlackCollision);
-    }
-  }
+//  void OnShapeTriggered (ShapeBehavior shape)
+//  {
+//    if (shape.shapeResponse == ShapeBehavior.ShapeResponse.Opposite)
+//    {
+//      // Increment Black Counter
+//      playerStats.numBlackCollision++;
+//      //Debug.Log("NG " + playerStats.numBlackCollision);
+//    }
+//  }
 
   void OnSetBackgroundColor (ColorWheel.ColorWheelData color)
   {
@@ -620,12 +626,6 @@ public class StatsManager : MonoBehaviour
 //    if (res == MNDialogResult.RATED)
 //      showRateUs = 0;
 //  }
-
-  void OnPreTutorialReviveStart ()
-  {
-    coins = 100;
-    UIManager.inst.SendMessage ("UpdateCoinsText", SendMessageOptions.DontRequireReceiver);
-  }
 
   void LoadBackgroundColor ()
   {

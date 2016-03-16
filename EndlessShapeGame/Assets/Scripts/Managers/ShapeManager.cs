@@ -400,7 +400,7 @@ public class ShapeManager : MonoBehaviour
       times[currentIntervalIndex].Add(Time.fixedTime);
 #endif
 
-      GameManager.inst.BroadcastMessage ("OnShapeTriggered", shapeBehavior);
+//      GameManager.inst.BroadcastMessage ("OnShapeTriggered", shapeBehavior);
 
       if (numCollisions == 0)
       {
@@ -927,22 +927,48 @@ public class ShapeManager : MonoBehaviour
   }
 
   Coroutine fadeIn = null;
-
-  private IEnumerator FadeInShapes ()
+  struct CoroutineData
   {
-    float alpha = shapes [0].spriteRenderer.color.a;
+    public CoroutineData (int i, Coroutine c)
+    {
+      index = i;
+      coroutine = c;
+    }
+    public int index;
+    public Coroutine coroutine;
+  }
+
+  private IEnumerator FadeInShape (CoroutineData data)
+  {
+    int index = data.index;
+    Coroutine fade = data.coroutine;
+    float alpha = shapes [index].spriteRenderer.color.a;
+    Color c = shapes [index].spriteRenderer.color;
     while (alpha < 1.0f)
     {
       alpha += Time.deltaTime * 5.0f;
-      Color c = new Color ();
-      foreach (var v in shapes)
-      {
-        c = v.spriteRenderer.color;
-        c.a = alpha;
-        v.spriteRenderer.color = c;
-      }
-      
+      c.a = alpha;
+      shapes [index].spriteRenderer.color = c;
       yield return null;
+    }
+
+    fade = null;
+  }
+
+  private IEnumerator FadeInShapes ()
+  {
+    Coroutine [] fade = new Coroutine[shapes.Count];
+    for (int i = 0; i < fade.Length; ++i)
+    {
+      fade [i] = StartCoroutine (FadeInShape (new CoroutineData (i, fade [i])));
+    }
+
+    foreach (var c in fade)
+    {
+      if (c != null)
+      {
+        yield return null;
+      }
     }
 
 //    foreach (var v in shapes)
