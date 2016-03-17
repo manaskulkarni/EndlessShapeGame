@@ -3538,7 +3538,7 @@ MonoBehaviour:
     speedLevel: 1
     gameMode: 0
     showAds: 1
-  sessionsPerAdRequest: 1
+  sessionsPerAdRequest: 7
   previousGameSettings:
     dificultyLevel: 0
     speedLevel: 0
