@@ -1576,10 +1576,14 @@ public class UIManager : MonoBehaviour
 
   void OnInterstitialStarted ()
   {
-//    previousState =  (GameManager.States)GameManager.inst.GetState ();
-    animRevive.SetActive (false);
-    StopAllCoroutines ();
-    StartCoroutine (FadeOutReviveCanvas ());
+    // Only do this if watch video for revive
+    if (previousState == GameManager.States.ShowRevive)
+    {
+  //    previousState =  (GameManager.States)GameManager.inst.GetState ();
+      animRevive.SetActive (false);
+      StopAllCoroutines ();
+      StartCoroutine (FadeOutReviveCanvas ());
+    }
   }
 
   void OnInterstitialFailed ()
