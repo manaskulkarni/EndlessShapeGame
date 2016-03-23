@@ -64,7 +64,7 @@ public class GameCenterInterface : StoreInterface
     }
     else
     {
-      IOSNativePopUpManager.showMessage("Game Center ", "Player auth failed");
+//      IOSNativePopUpManager.showMessage("Game Center ", "Player auth failed");
     }
   }
 
