@@ -189,6 +189,8 @@ public class StatsManager : MonoBehaviour
     firstSession = true;
     vMode = PlayerPrefs.GetInt ("VMode");
 
+    GameManager.inst.BroadcastMessage ("OnLoadVMode", vMode);
+
     Debug.Log ("Leaderboard ID: " + leaderBoardId);
     Debug.Log ("Data Path: " + Application.dataPath);
     Debug.Log ("Persistent Data Path: " + Application.persistentDataPath);

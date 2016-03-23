@@ -445,4 +445,12 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
       }
     }
   }
+
+  void OnLoadVMode (int mode)
+  {
+//    if (transform.parent.name == "MenuMusic")
+//    {
+//      SetPage (mode);
+//    }
+  }
 }

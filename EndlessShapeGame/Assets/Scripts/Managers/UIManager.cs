@@ -180,6 +180,8 @@ public class UIManager : MonoBehaviour
     textGameOverScore.text = BestScore ();
     textGameOverFeedback.text = "";
 
+    UpdateMusicButtons (StatsManager.inst.vMode);
+
     SetMenuActive (menuTutorialStart, false);
     SetMenuActive (menuTutorialRevive, false);
     SetMenuActive (menuReady, false);
@@ -288,6 +290,7 @@ public class UIManager : MonoBehaviour
         {
           Debug.Log ("Swtcdfsdjkfl" + mode);
           GameManager.inst.BroadcastMessage ("OnSwitchMode", mode);
+          UpdateMusicButtons (mode);
         }
       }
     }
@@ -568,7 +571,10 @@ public class UIManager : MonoBehaviour
   {
     CanvasGroup group = menuOptions.GetComponent<CanvasGroup>();
     SetMenuActive (group.gameObject, true);
-    
+   
+    UpdateMusicButtons (StatsManager.inst.vMode);
+
+
     while (group.alpha < 1.0f)
     {
       float alpha = group.alpha;
@@ -1126,7 +1132,28 @@ public class UIManager : MonoBehaviour
 //  }
   
   #endregion
-  
+
+  private void UpdateMusicButtons (int mode)
+  {
+    for (int i = 0; i < musicList.container.childCount; ++i)
+    {
+      if (musicList.container.GetChild (i).CompareTag("song"))
+      {
+        Image b = musicList.container.GetChild (i).FindChild ("ImageButton").GetComponent<Image> ();
+        Color c = b.color;
+        c.a = 50.0f / 255.0f;
+        b.color = c;
+      }
+    }
+
+    Image bb = musicList.container.GetChild (mode).FindChild ("ImageButton").GetComponent <Image> ();
+    Color cc = bb.color;
+    cc.a = 1.0f;
+    bb.color = cc;
+
+    musicList.SetPage (mode);
+  }
+
   private string BestScore ()
   {
     return "BEST: " + ""+StatsManager.inst.highScore+"";
@@ -1465,7 +1492,7 @@ public class UIManager : MonoBehaviour
 //      {
 //        v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
 //      }
-//    }
+    //    }
   }
 
   void OnProductsLoaded (Dictionary <string, StoreInterface.ProductTemplate> products)
