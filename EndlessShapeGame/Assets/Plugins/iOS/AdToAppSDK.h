@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define ADTOAPPSDK_VERSION (@"45.40")
+#define ADTOAPPSDK_VERSION (@"46.0")
 
 #define ADTOAPP_IMAGE_INTERSTITIAL (@"Image")
 #define ADTOAPP_VIDEO_INTERSTITIAL (@"Video")
@@ -91,26 +91,26 @@
 +(void)enableTestMode;
 
 /**
- @brief Shows interstitial ads.
+ @brief Shows interstitial ads. Can only be called from the main thread.
  @param typeOfInterstitial Can be one of ADTOAPP_IMAGE_INTERSTITIAL, ADTOAPP_VIDEO_INTERSTITIAL, ADTOAPP_INTERSTITIAL, ADTOAPP_REWARDED_INTERSTITIAL.
  @warning It is strongly recommended to use ADTOAPP_INTERSTITIAL to show ads because this will maximize revenue.
  */
 +(BOOL)showInterstitial:(NSString*)typeOfInterstitial;
 
 /**
- @brief Shows interstitial ads.
+ @brief Shows interstitial ads. Can only be called from the main thread.
  @param typeOfInterstitial can be ADTOAPP_IMAGE_INTERSTITIAL, ADTOAPP_VIDEO_INTERSTITIAL, ADTOAPP_INTERSTITIAL or ADTOAPP_REWARDED_INTERSTITIAL. It is strongly recommended to use ADTOAPP_INTERSTITIAL to show ads because this will maximize revenue.
  @param vc is the active topmost view controller. Make sure it will not be removed from the screen when the user watch the ad.
  */
 +(BOOL)showInterstitial:(NSString*)typeOfInterstitial fromViewController:(UIViewController*)vc;
 
 /**
- It is strongly recommended to avoid using this method. Because it makes our analytic logs too complex to be analyzed quickly. If you want to handle failure to display ads by showInterstitial: and showInterstitial:fromViewController: methods, please use onAdFailedToAppear: delegate method.
+ Can only be called from the main thread. It is strongly recommended to avoid using this method. Because it makes our analytic logs too complex to be analyzed quickly. If you want to handle failure to display ads by showInterstitial: and showInterstitial:fromViewController: methods, please use onAdFailedToAppear: delegate method.
   @typeOfInterstitial can be ADTOAPP_IMAGE_INTERSTITIAL, ADTOAPP_VIDEO_INTERSTITIAL, ADTOAPP_INTERSTITIAL or ADTOAPP_REWARDED_INTERSTITIAL.
 */
 +(BOOL)hasInterstitial:(NSString*)typeOfInterstitial;
 
-/** Hides the displayed interstitial ad if it is supported by the current provider
+/** Hides the displayed interstitial ad if it is supported by the current provider. Can only be called from the main thread.
  */
 +(BOOL)hideInterstitial;
 
