@@ -966,9 +966,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 881612247}
   - 20: {fileID: 881612246}
-  - 92: {fileID: 881612245}
-  - 124: {fileID: 881612244}
-  - 81: {fileID: 881612243}
   - 114: {fileID: 881612248}
   m_Layer: 0
   m_Name: Main Camera
@@ -977,27 +974,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &881612243
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 881612242}
-  m_Enabled: 1
---- !u!124 &881612244
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 881612242}
-  m_Enabled: 1
---- !u!92 &881612245
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 881612242}
-  m_Enabled: 1
 --- !u!20 &881612246
 Camera:
   m_ObjectHideFlags: 0
@@ -1006,7 +982,7 @@ Camera:
   m_GameObject: {fileID: 881612242}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.21960784, g: 0.21960784, b: 0.21960784, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -1015,7 +991,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 10
   field of view: 60
   orthographic: 1
   orthographic size: 5
@@ -1028,7 +1004,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
