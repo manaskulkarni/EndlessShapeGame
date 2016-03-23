@@ -103,7 +103,7 @@ PlayerSettings:
   aotOptions: 
   apiCompatibilityLevel: 2
   stripEngineCode: 1
-  iPhoneStrippingLevel: 2
+  iPhoneStrippingLevel: 1
   iPhoneScriptCallOptimization: 0
   iPhoneBuildNumber: 16
   ForceInternetPermission: 0
@@ -174,9 +174,9 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 23e48c90c1f264b2fb95a9fd55f23945, type: 3}
-      m_Width: 0
-      m_Height: 0
+      m_Icon: {fileID: 2800000, guid: 57e8b04a2965447bd8e9d6b9e419c54e, type: 3}
+      m_Width: 128
+      m_Height: 128
   m_BuildTargetBatching: []
   m_BuildTargetGraphicsAPIs: []
   webPlayerTemplate: APPLICATION:Default
