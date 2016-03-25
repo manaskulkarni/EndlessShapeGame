@@ -159,7 +159,7 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: /Users/manaskulkarni/Documents/BadassProjects/Keystores/JustFlick/keystore.keystore
+  AndroidKeystoreName: 
   AndroidKeyaliasName: esgks
   AndroidTVCompatibility: 1
   AndroidIsGame: 1

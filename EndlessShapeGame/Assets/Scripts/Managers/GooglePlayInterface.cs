@@ -19,7 +19,6 @@ public class GooglePlayInterface : StoreInterface
     AndroidInAppPurchaseManager.ActionBillingSetupFinished += OnBillingSetupFinished;
 
     GooglePlayConnection.Instance.Connect ();
-    AndroidInAppPurchaseManager.Instance.LoadStore ();
   }
 
   void OnBillingSetupFinished (BillingResult result)
@@ -58,7 +57,7 @@ public class GooglePlayInterface : StoreInterface
     }
     else
     {
-      AndroidMessage.Create("Connection Responce", result.response.ToString() + " " + result.message);
+//      AndroidMessage.Create("Connection Responce", result.response.ToString() + " " + result.message);
     }
     Debug.Log ("Connection Responce: " + result.response.ToString() + " " + result.message);
 
@@ -72,9 +71,9 @@ public class GooglePlayInterface : StoreInterface
       if (allProducts.ContainsKey (product.Title))
       {
         GameManager.inst.BroadcastMessage ("BuyProduct", product.Title);
+        AndroidInAppPurchaseManager.Instance.Consume (res.purchase.SKU);
       }
 
-      AndroidInAppPurchaseManager.Instance.Consume (res.purchase.SKU);
     }
   }
 
@@ -93,6 +92,8 @@ public class GooglePlayInterface : StoreInterface
       Debug.Log("Connected!");
 
       CheckHighScore ();
+
+      AndroidInAppPurchaseManager.Instance.LoadStore ();
     }
     else
     {
@@ -190,10 +191,12 @@ public class GooglePlayInterface : StoreInterface
 
   protected override void OnTryRestorePurchase ()
   {
+    Debug.Log ("Restoring Purchase Automatic On Android");
   }
 
   protected override void OnRestorePurchaseComplete ()
   {
+    Debug.Log ("Restoring Purchase Automatic On Android");
   }
 
   protected override void OnStoreInfo (string info)
