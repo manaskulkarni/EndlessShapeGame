@@ -603,8 +603,19 @@ public class ShapeManager : MonoBehaviour
   void OnGameOver()
   {
     OnGameStop ();
-    ResetShapes ();
+    StartCoroutine (WaitForFadeIn ());
     numCollisions = 0;
+  }
+
+  private IEnumerator WaitForFadeIn ()
+  {
+    while (fadeIn != null)
+    {
+      Debug.Log ("Waiting");
+      yield return null;
+    }
+
+    ResetShapes ();
   }
 
   void OnGameRestart()
@@ -951,6 +962,9 @@ public class ShapeManager : MonoBehaviour
       shapes [index].spriteRenderer.color = c;
       yield return null;
     }
+
+    c.a = 1.0f;
+    shapes [index].spriteRenderer.color = c;
 
     fade = null;
   }

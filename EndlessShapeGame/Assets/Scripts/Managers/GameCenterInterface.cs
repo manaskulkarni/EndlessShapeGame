@@ -7,6 +7,9 @@ public class GameCenterInterface : StoreInterface
   private Dictionary <string, GK_AchievementTemplate> achievements { get; set; }
   //  private Dictionary <string, IOSProductTemplate> allProducts { get; set; }
 
+  private bool loadingGameCenter = false;
+  private bool loadingStore = false;
+
   private string currencySymbol { get; set; }
 
   // Use this for initialization
@@ -20,6 +23,7 @@ public class GameCenterInterface : StoreInterface
     IOSInAppPurchaseManager.OnRestoreComplete += HandleOnRestoreComplete;
 
     GameCenterManager.Init ();
+    loadingGameCenter = true;
 
     string appKey, data;
     KeyChainBinding.GetKeyChainData(out appKey, out data);
@@ -29,15 +33,15 @@ public class GameCenterInterface : StoreInterface
 
   void OnApplicationPause (bool pause)
   {
-    if (!pause)
-    {
-      Debug.Log ("ACHIEVEMENTS LOADED : " + achievementsLoaded);
-      Debug.Log ("STORE LOADED : " + storeLoaded);
-      if (!achievementsLoaded)
-      {
-        GameCenterManager.Init ();
-      }
-    }
+//    if (!pause)
+//    {
+//      Debug.Log ("ACHIEVEMENTS LOADED : " + achievementsLoaded);
+//      Debug.Log ("STORE LOADED : " + storeLoaded);
+//      if (!achievementsLoaded && !loadingStore && !loadingGameCenter)
+//      {
+//        GameCenterManager.Init ();
+//      }
+//    }
     //    if (!storeLoaded)
     //    {
     //      IOSInAppPurchaseManager.Instance.LoadStore ();
@@ -60,12 +64,15 @@ public class GameCenterInterface : StoreInterface
       }
       CheckHighScore ();
 
+      loadingStore = true;
       IOSInAppPurchaseManager.Instance.LoadStore ();
     }
     else
     {
 //      IOSNativePopUpManager.showMessage("Game Center ", "Player auth failed");
     }
+
+    loadingGameCenter = false;
   }
 
   void CheckHighScore ()
@@ -91,6 +98,8 @@ public class GameCenterInterface : StoreInterface
   void HandleOnStoreKitInitComplete (ISN_Result res)
   {
     IOSInAppPurchaseManager.OnStoreKitInitComplete -= HandleOnStoreKitInitComplete;
+
+    loadingStore = false;
 
     if(res.IsSucceeded)
     {

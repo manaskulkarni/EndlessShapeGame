@@ -237,7 +237,10 @@ public class StatsManager : MonoBehaviour
 
     if (playerStats.numGames == 0)
     {
-      coins = 100;
+      if (coins == 0)
+      {
+        coins = 100;
+      }
       UIManager.inst.SendMessage ("UpdateCoinsText", SendMessageOptions.DontRequireReceiver);
     }
   }
