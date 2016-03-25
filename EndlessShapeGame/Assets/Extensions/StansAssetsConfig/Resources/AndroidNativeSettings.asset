@@ -77,7 +77,7 @@ MonoBehaviour:
   CameraAPI: 0
   KeepManifestClean: 1
   GooglePlayServiceAppID: 216817929098
-  ToolbarSelectedIndex: 1
+  ToolbarSelectedIndex: 2
   base64EncodedPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjiaFx7FHx5PS8W6vSl9ES2R/f2JJjzmI5LTM4znu3EB2pnABedMTNuvOZ0qDflA/iXkwmMJTzRK32sZm6Om/4aVm0r+W7x/KpP4TaXALVRtN3uI9s8H/87BmtD8Z3O02tELStkoZZYGNi+q0wceP59fSB9SxSVCR7YH6cAHOQbWB2Ch2OLcRTJumZezdkZJAp1w+q+FS2oF9krgkLLDbP5mWJaUPV4TErAwbZpGVIuUlgtU/JEwcE1UoOmIrGO2QCXGzY9UJMi9poEE+Z0LjtByHPo8dyupUxq7sTxv4S8lyECB/6ghefjZdItG6lJWfI6WMHj8hXJlsB4VuHEhuwwIDAQAB
   ShowStoreProducts: 1
   InAppProducts:
@@ -134,7 +134,7 @@ MonoBehaviour:
     _Description: 
     _Title: Remove Ads
     _Texture: {fileID: 0}
-    _ProductType: 0
+    _ProductType: 1
   ShowLeaderboards: 1
   Leaderboards:
   - IsOpen: 1

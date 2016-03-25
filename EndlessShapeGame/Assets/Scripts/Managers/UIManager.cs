@@ -275,6 +275,20 @@ public class UIManager : MonoBehaviour
     GameObject.Find ("ButtonPick").GetComponentInChildren<Text> ().text = "RESET";
   }
 
+  public void StartSwitchMode (ScrollSnapRect scroll)
+  {
+    int mode = scroll.currentPage;
+    if (scroll.container.GetChild (mode).CompareTag ("song"))
+    {
+      if (StatsManager.inst.vMode != mode)
+      {
+        Debug.Log ("Swtcdfsdjkfl" + mode);
+        GameManager.inst.BroadcastMessage ("OnSwitchMode", mode);
+        UpdateMusicButtons (mode);
+      }
+    }
+  }
+
   public void OptionsPick ()
   {
     if (menuColor.activeSelf)
@@ -480,19 +494,6 @@ public class UIManager : MonoBehaviour
   public void TutorialReviveDone ()
   {
     GameManager.inst.SendMessage ("TutorialReviveDone");
-  }
-
-  public void StartSwitchMode (ScrollSnapRect scroll)
-  {
-    int mode = scroll.currentPage;
-    if (scroll.container.GetChild (mode).CompareTag ("song"))
-    {
-      if (StatsManager.inst.vMode != mode)
-      {
-        Debug.Log ("Swtcdfsdjkfl" + mode);
-        GameManager.inst.BroadcastMessage ("OnSwitchMode", mode);
-      }
-    }
   }
 
   #region Coroutines
