@@ -20,6 +20,7 @@ public abstract class StoreInterface : MonoBehaviour
   protected Dictionary <string, ProductTemplate> allProducts;
   protected bool storeLoaded { get; set; }
   protected bool achievementsLoaded { get; set; }
+  protected string currencySymbol { get; set; }
 
   #region Abstract Methods
   public abstract bool IsInitialized ();
@@ -27,7 +28,6 @@ public abstract class StoreInterface : MonoBehaviour
 
   public abstract bool IsIAPInitialized ();
 
-  public abstract string GetCurrencySymbol ();
   public abstract string GetPrice (string productName);
   
   protected abstract void OnSubmitHighScore();
@@ -40,5 +40,12 @@ public abstract class StoreInterface : MonoBehaviour
   protected abstract void OnRestorePurchaseComplete ();
 
   protected abstract void OnStoreInfo (string info);
+  #endregion
+
+  #region Common Methods
+  public string GetCurrencySymbol ()
+  {
+    return currencySymbol;
+  }
   #endregion
 }

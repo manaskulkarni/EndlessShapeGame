@@ -87,7 +87,11 @@ public class StatsManager : MonoBehaviour
   {
     get
     {
+      #if UNITY_IOS
       return ""+GameManager.inst.gameSettings.dificultyLevel+"" + ""+GameManager.inst.gameSettings.speedLevel+"";
+      #else
+      return "CgkI-rb9u94BEAIQAA";
+      #endif
     }
   }
   /// <summary>
@@ -343,16 +347,16 @@ public class StatsManager : MonoBehaviour
 
   public string GetPrice (StoreButton product)
   {
-    #if !UNITY_EDITOR
-    Debug.Log (store.GetPrice (product.title.text));
+    #if UNITY_ANDROID || UNITY_IOS
+    Debug.Log ("PRODUCT PRICE : " + store.GetPrice (product.title.text));
     if (store != null && product.currencyType != StoreButtonList.CurrencyType.Ads)
     {
-    var p = store.GetPrice (product.title.text);
-    return p == "" ? product.defaultPriceText : p;
+      var p = store.GetPrice (product.title.text);
+      return p == "" ? product.defaultPriceText : p;
     }
     else
     {
-    return "Watch Video";
+      return "Watch Video";
     }
     #else
     return product.defaultPriceText;
@@ -551,6 +555,7 @@ public class StatsManager : MonoBehaviour
   void OnRestoreCoinsFromInfo (int coinCount)
   {
     Debug.Log ("RECEIVED RESTORED COINS " + coinCount);
+    coins = 0;
     BuyDiamonds(coinCount);
   }
 

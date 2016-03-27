@@ -378,6 +378,10 @@ public class ShapeManager : MonoBehaviour
 
   public float topShapePosition = 2.46f;
 
+  private Coroutine playerFeedback = null;
+  private bool playerFeedbackPaused = false;
+  SpriteRenderer cacheSpriteRenderer = null;
+
   #region ShapeManager Logic
   /// <summary>
   /// Called by PlayerBehavior when it collides with a ShapeBehavior
@@ -437,7 +441,9 @@ public class ShapeManager : MonoBehaviour
             UIManager.inst.UpdateScore();
                         
             StartCoroutine(DestroyShape(shapeBehavior));
-            StartCoroutine (PlayerFeedback (spriteRenderer));
+            if (playerFeedback != null)
+              StopCoroutine (playerFeedback);
+            playerFeedback = StartCoroutine (PlayerFeedback (spriteRenderer));
           }
           else
           {
@@ -491,7 +497,10 @@ public class ShapeManager : MonoBehaviour
             
             Shuffle<ShapeProperties>(shapeProperties);
             StartCoroutine(DestroyShape(shapeBehavior));
-            StartCoroutine (PlayerFeedback (spriteRenderer));
+
+            if (playerFeedback != null)
+              StopCoroutine (playerFeedback);
+            playerFeedback = StartCoroutine (PlayerFeedback (spriteRenderer));
           }
           break;
         default:
@@ -643,6 +652,12 @@ public class ShapeManager : MonoBehaviour
     {
       v.StopGame ();
     }
+
+    if (playerFeedback != null)
+    {
+      StopCoroutine (playerFeedback);
+      playerFeedbackPaused = true;
+    }
   }
   
   void OnUnPause ()
@@ -650,6 +665,11 @@ public class ShapeManager : MonoBehaviour
     foreach (var v in shapes)
     {
       v.StartGame ();
+    }
+
+    if (playerFeedbackPaused)
+    {
+      playerFeedback = StartCoroutine (PlayerFeedback (cacheSpriteRenderer));
     }
   }
 
@@ -802,6 +822,7 @@ public class ShapeManager : MonoBehaviour
   {
     yield return new WaitForSeconds (waitTime);
     Transform trans = spriteRenderer.transform;
+    cacheSpriteRenderer = spriteRenderer;
 
     while (trans.localScale.x < 1.2f)
     {
@@ -819,6 +840,7 @@ public class ShapeManager : MonoBehaviour
     }
 
     trans.localScale = Vector2.one;
+    playerFeedback = null;
   }
 
   

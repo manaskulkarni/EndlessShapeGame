@@ -203,6 +203,8 @@ public class GameManager : StateBehaviour
   {
     Debug.Log ("Game State : " + GetState ());
 
+    Debug.Log ("GAME PAUSED " + pause);
+
     if ((States)GetState () == (States.Playing) || (States)GetState () == (States.Pause) || (States)GetState () == (States.Resume))
     {
       if (pause)
@@ -621,16 +623,20 @@ public class GameManager : StateBehaviour
 
   private void Pause_Enter ()
   {
+    Debug.Log ("PAUSING GAME");
     BroadcastMessage (PauseEvent);
   }
 
   private void Pause_Exit ()
   {
-    playing = true;
+//    playing = true;
   }
 
-  private void Resume_Enter ()
+  private IEnumerator Resume_Enter ()
   {
+    // Wait for things to get settled
+    yield return new WaitForSeconds (0.5f);
+    playing = true;
     BroadcastMessage (ResumeEvent);
   }
 

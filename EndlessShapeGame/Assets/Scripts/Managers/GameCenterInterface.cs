@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+#if !UNITY_IOS
 public class GameCenterInterface : StoreInterface
 {
   private Dictionary <string, GK_AchievementTemplate> achievements { get; set; }
@@ -9,8 +10,6 @@ public class GameCenterInterface : StoreInterface
 
   private bool loadingGameCenter = false;
   private bool loadingStore = false;
-
-  private string currencySymbol { get; set; }
 
   // Use this for initialization
   void Awake ()
@@ -179,11 +178,6 @@ public class GameCenterInterface : StoreInterface
     return IOSInAppPurchaseManager.Instance.IsStoreLoaded;
   }
 
-  public override string GetCurrencySymbol ()
-  {
-    return currencySymbol;
-  }
-
   public override string GetPrice (string productName)
   {
     if (allProducts != null && allProducts.ContainsKey (productName))
@@ -269,7 +263,7 @@ public class GameCenterInterface : StoreInterface
       int coinCount = 0;
       if (int.TryParse(coinString, out coinCount))
       {
-        if (coinCount > 0)
+        if (coinCount > 0 && coinCount > StatsManager.inst.coins)
         {
           GameManager.inst.BroadcastMessage ("OnRestoreCoinsFromInfo", coinCount);
         }
@@ -290,3 +284,4 @@ public class GameCenterInterface : StoreInterface
   #endregion
 
 }
+#endif
