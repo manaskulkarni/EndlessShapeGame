@@ -599,6 +599,12 @@ public class ShapeManager : MonoBehaviour
     }
 
     topShape.position = new Vector3(topShape.position.x, topShapePosition, topShape.position.z);
+
+    for (int i = 1; i < shapes.Count; ++i)
+    {
+      var shape = shapes [i].transform;
+      shape.position = new Vector3 (shape.position.x, topShapePosition + (i * shapeSpawnOffset.y), shape.position.z);
+    }
   }
 
   void ResetShapes ()

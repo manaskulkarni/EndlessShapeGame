@@ -151,6 +151,7 @@ public class GameManager : StateBehaviour
   public string EndVideoEvent = "OnEndVideo";
   public string RemoveAdsEvent = "OnRemoveAds";
   public string RateUsEvent = "OnShowRateUsPopup";
+  public string GameExitEvent = "OnGameExit";
 
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -216,6 +217,12 @@ public class GameManager : StateBehaviour
         ChangeState (States.Resume);
       }
     }
+  }
+
+  void OnApplicationQuit ()
+  {
+    Debug.Log ("APPLICATION QUIT CALLED. GOOD BYE");
+    BroadcastMessage (GameExitEvent);
   }
 
   [System.Obsolete ("Difficulty Modes Not Supported Anymore. Single Difficulty Mode")]

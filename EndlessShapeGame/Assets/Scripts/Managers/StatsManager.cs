@@ -253,9 +253,11 @@ public class StatsManager : MonoBehaviour
   {
   }
 
-  void OnDestroy ()
+  void OnGameExit ()
   {
+    Debug.Log ("DESTROYING NOW WITH COINS : " + coins);
     PlayerPrefs.SetInt ("Coins", coins);
+    BroadcastMessage (StoreInfoEvent, "c_" + coins.ToString ());
     PlayerPrefs.SetInt ("ShowAds", showAds);
     PlayerPrefs.SetInt ("ShowRateUs", showRateUs);
     PlayerPrefs.SetInt("NumBlackCollision",playerStats.numBlackCollision);
