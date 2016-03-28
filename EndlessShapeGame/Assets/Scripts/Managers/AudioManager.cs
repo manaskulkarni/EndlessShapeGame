@@ -303,10 +303,19 @@ public class AudioManager : MonoBehaviour
   {
     _mode = mode;
 
-    if (_mode == 0)
-      FadeOutMode1();
-    else if (_mode == 1)
-      FadeOutMode0();
+    if (_mode == 2)
+    {
+      StartCoroutine (FadeOutVolume ());
+    }
+    else
+    {
+      if (_mode == 0)
+        FadeOutMode1();
+      else if (_mode == 1)
+        FadeOutMode0();
+
+      StartCoroutine (FadeInVolume ());
+    }
   }
 
   #endregion
@@ -319,6 +328,30 @@ public class AudioManager : MonoBehaviour
     {
       StopCoroutine(c);
     }
+  }
+
+  private IEnumerator FadeInVolume ()
+  {
+    while (AudioListener.volume < 1.0f)
+    {
+      // \TODO : CHANGE THIS SHIT
+      AudioListener.volume += Time.deltaTime * _options_menu1.volumeFadeSpeed;
+      yield return null;
+    }
+
+    AudioListener.volume = 1.0f;
+  }
+
+  private IEnumerator FadeOutVolume ()
+  {
+    while (AudioListener.volume > 0.0f)
+    {
+      // \TODO : CHANGE THIS SHIT
+      AudioListener.volume -= Time.deltaTime * _options_menu1.volumeFadeSpeed;
+      yield return null;
+    }
+
+    AudioListener.volume = 0.0f;
   }
 
   private IEnumerator FadeOut(AudioSource source, AudioObject clip, float end = 0.0f)

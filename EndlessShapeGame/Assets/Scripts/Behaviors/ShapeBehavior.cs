@@ -64,7 +64,7 @@ public class ShapeBehavior : MonoBehaviour
   public void ResetProperties ()
   {
     shapeResponse = ShapeResponse.Normal;
-    Color c = originalColor;
+    Color c = Color.white;
     c.a = spriteRenderer.color.a;
     spriteRenderer.color = c;
 

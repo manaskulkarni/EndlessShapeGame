@@ -1,9 +1,28 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/AdManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/UIManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/AdManager.cs" Line="43" Column="29" />
-      <File FileName="Assets/DemoGUI.cs" Line="58" Column="7" />
+      <File FileName="Assets/Scripts/Managers/AdManager.cs" Line="293" Column="1" />
+      <File FileName="Assets/Scripts/Managers/GooglePlayInterface.cs" Line="83" Column="25" />
+      <File FileName="Assets/DemoGUI.cs" Line="299" Column="3" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="223" Column="4" />
+      <File FileName="Assets/Scripts/Managers/GameCenterInterface.cs" Line="283" Column="4" />
+      <File FileName="Assets/Scripts/Managers/StoreInterface.cs" Line="7" Column="3" />
+      <File FileName="Assets/Scripts/Managers/StatsManager.cs" Line="256" Column="14" />
+      <File FileName="Assets/Plugins/android/AndroidManifest.xml" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="793" Column="38" />
+      <File FileName="Assets/Scripts/Classes/StateMachine/StateBehaviour.cs" Line="48" Column="3" />
+      <File FileName="Assets/Scripts/Managers/ShapeManager.cs" Line="1000" Column="3" />
+      <File FileName="Assets/Extensions/AndroidNative/xExample/Scripts/Billing/GameBillingManagerExample.cs" Line="161" Column="2" />
+      <File FileName="Assets/Extensions/AndroidNative/xExample/Scripts/Billing/BillingExample.cs" Line="1" Column="1" />
+      <File FileName="Assets/Extensions/AndroidNative/xExample/Scripts/Billing/GameDataExample.cs" Line="1" Column="1" />
+      <File FileName="Assets/Extensions/AndroidNative/xExample/Scripts/Billing/GPaymnetManagerExample.cs" Line="148" Column="56" />
+      <File FileName="Assets/Extensions/AndroidNative/xExample/Scripts/DataTemplates/CustomLeaderboardFiledsHolder.cs" Line="1" Column="1" />
+      <File FileName="Assets/Extensions/AndroidNative/xExample/Scripts/PlayService/GoogleCloudUseExample.cs" Line="1" Column="1" />
+      <File FileName="Assets/Extensions/AndroidNative/xExample/Scripts/PlayService/PlayServiceCustomLBExample.cs" Line="149" Column="2" />
+      <File FileName="Assets/Extensions/AndroidNative/xExample/Scripts/PlayService/PlayServiceExample.cs" Line="353" Column="2" />
+      <File FileName="Assets/Extensions/GooglePlayCommon/Models/GPLeaderBoard.cs" Line="148" Column="47" />
+      <File FileName="Assets/Scripts/Behaviors/ShapeBehavior.cs" Line="68" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -290,7 +290,7 @@ public class StatsManager : MonoBehaviour
     }
     //Debug.Log("Flipped Score " + FillpedScore);
 
-    #if !UNITY_EDITOR
+//    #if UNITY_EDITOR
     BroadcastMessage (ReportAchievementEvent, new AchievementData ("StillLearning", 100.0f, true));
 
     if (!highScoreCrossed && score > highScore)
@@ -328,7 +328,7 @@ public class StatsManager : MonoBehaviour
     {
     BroadcastMessage(ReportAchievementEvent, new AchievementData("NoMatch", 100.0f,true));
     }
-    #endif
+//    #endif
 
   }
 

@@ -82,7 +82,7 @@ public class GooglePlayInterface : StoreInterface
 
     if(result.isSuccess)
     {
-      AndroidMessage.Create("Success", "Billing init complete inventory contains: " + AndroidInAppPurchaseManager.instance.inventory.purchases.Count + " products");
+//      AndroidMessage.Create("Success", "Billing init complete inventory contains: " + AndroidInAppPurchaseManager.instance.inventory.purchases.Count + " products");
       foreach (var v in AndroidInAppPurchaseManager.Instance.Inventory.Purchases)
       {
         var prod = AndroidInAppPurchaseManager.Instance.Inventory.GetProductDetails (v.SKU);

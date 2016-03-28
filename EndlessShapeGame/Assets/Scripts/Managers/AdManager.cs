@@ -198,14 +198,14 @@ public class AdManager : MonoBehaviour
       SdkDelegate_OnRewardedCompleted ("", "100 Diamonds", "");
       #else
       #if UNITY_ANDROID
-      if (AdToAppBinding.hasInterstitial (AdToAppContentType.REWARDED))
-      {
-        AdToAppBinding.showInterstitial (AdToAppContentType.REWARDED);
-      }
-      else
-      {
+//      if (AdToAppBinding.hasInterstitial (AdToAppContentType.REWARDED))
+//      {
+//        AdToAppBinding.showInterstitial (AdToAppContentType.REWARDED);
+//      }
+//      else
+//      {
         ShowUnityRewardAd ();
-      }
+//      }
       #else
       AdToAppBinding.showInterstitial (AdToAppContentType.REWARDED);
       #endif
@@ -225,14 +225,14 @@ public class AdManager : MonoBehaviour
       SdkDelegate_OnInterstitialClosed ("", "");
       #else
       #if UNITY_ANDROID
-      if (AdToAppBinding.hasInterstitial (AdToAppContentType.VIDEO))
-      {
-      AdToAppBinding.showInterstitial (AdToAppContentType.VIDEO);
-      }
-      else
-      {
+//      if (AdToAppBinding.hasInterstitial (AdToAppContentType.VIDEO))
+//      {
+//      AdToAppBinding.showInterstitial (AdToAppContentType.VIDEO);
+//      }
+//      else
+//      {
       ShowUnityAd ();
-      }
+//      }
       #else
       AdToAppBinding.showInterstitial (AdToAppContentType.VIDEO);
       #endif

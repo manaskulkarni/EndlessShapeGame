@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-#if UNITY_IOS
 public class GameCenterInterface : StoreInterface
 {
   private Dictionary <string, GK_AchievementTemplate> achievements { get; set; }
@@ -284,4 +283,3 @@ public class GameCenterInterface : StoreInterface
   #endregion
 
 }
-#endif

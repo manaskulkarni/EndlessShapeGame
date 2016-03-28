@@ -261,7 +261,7 @@ public class UIManager : MonoBehaviour
     GameObject.Find ("ButtonColorOption").GetComponent <Image> ().color = Color.clear;
     GameObject.Find ("ButtonMusicOption").GetComponent <Image> ().color = new Color (1.0f, 1.0f, 1.0f, 50.0f / 255.0f);
 
-    GameObject.Find ("ButtonPick").GetComponentInChildren<Text> ().text = "PICK SONG";
+    GameObject.Find ("ButtonPick").GetComponentInChildren<Text> ().text = "PICK";
   }
 
   public void ShowColorMenu()
@@ -282,7 +282,6 @@ public class UIManager : MonoBehaviour
     {
       if (StatsManager.inst.vMode != mode)
       {
-        Debug.Log ("Swtcdfsdjkfl" + mode);
         GameManager.inst.BroadcastMessage ("OnSwitchMode", mode);
         UpdateMusicButtons (mode);
       }
@@ -784,12 +783,14 @@ public class UIManager : MonoBehaviour
     while (scale < 1.5f)
     {
       scale += Time.deltaTime * 5.0f;
+      if (scale > 1.5f) scale = 1.4f;
       text.transform.localScale = Vector2.one * scale;
       yield return null;
     }
     while (scale > 1.0f)
     {
       scale -= Time.deltaTime * 5.0f;
+      if (scale < 1.0f) scale = 1.0f;
       text.transform.localScale = Vector2.one * scale;
       yield return null;
     }

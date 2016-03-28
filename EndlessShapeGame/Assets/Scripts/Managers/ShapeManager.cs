@@ -167,7 +167,7 @@ public class ShapeManager : MonoBehaviour
   #region Properties
   public List<ShapeProperties> shapeProperties { get; private set; }
   public ShapePool shapePool { get; private set; }
-  public List<ShapeBehavior> shapes { get; private set; }
+  public LinkedList<ShapeBehavior> shapes { get; private set; }
   public int spawnCount { get; private set; }
   public PlayerBehavior player { get; private set; }
   public SortedDictionary<int, ShapeBehavior> shapePair { get; private set; }
@@ -222,7 +222,7 @@ public class ShapeManager : MonoBehaviour
     {
       inst = this;
       shapeProperties = new List<ShapeProperties>();
-      shapes = new List<ShapeBehavior>();
+      shapes = new LinkedList<ShapeBehavior>();
       shapePair = new SortedDictionary<int, ShapeBehavior>();
       shapePool = new ShapePool();
       specialFeedback.gameObject.SetActive(false);
@@ -392,7 +392,7 @@ public class ShapeManager : MonoBehaviour
   {
 //    if (GameManager.inst.GetState ().Equals (GameManager.States.Playing))
     {
-      bool sameSprite = shapeBehavior.spriteRenderer.sprite.GetHashCode() == spriteRenderer.sprite.GetHashCode();
+      bool sameSprite = shapeBehavior.spriteRenderer.sprite == spriteRenderer.sprite;
 #if UNITY_EDITOR
       if (PlayerManager.inst.invincible)
       {
@@ -452,15 +452,15 @@ public class ShapeManager : MonoBehaviour
 //            topShape = shapeBehavior.transform;
 //            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
 
-            topShape = shapes [1].transform;
+            topShape = shapes.First.Next.Value.transform;
 
             // Play Particle Effect
             PlayParticleEffect (gameOverFeedback, shapeBehavior.transform.position, shapeBehavior.originalColor, gameOverFeedback.maxParticles);
 
             // Choose the properties of the shape for next game
             ChooseShapeProperties(shapeBehavior);
-            shapes.RemoveAt(0);
-            shapes.Add(shapeBehavior);
+            shapes.RemoveFirst();
+            shapes.AddLast(shapeBehavior);
             shapeBehavior.transform.localScale = Vector3.one;
             //          shapeBehavior.triggered = false;
             WrongShape ();
@@ -480,11 +480,11 @@ public class ShapeManager : MonoBehaviour
 //            topShape = shapeBehavior.transform;
 //            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
 
-            topShape = shapes [1].transform;
+            topShape = shapes.First.Next.Value.transform;
 
             ChooseShapeProperties(shapeBehavior);
-            shapes.RemoveAt(0);
-            shapes.Add(shapeBehavior);
+            shapes.RemoveFirst();
+            shapes.AddLast(shapeBehavior);
             shapeBehavior.transform.localScale = Vector3.one;
             //          shapeBehavior.triggered = false;
             WrongShape ();
@@ -511,7 +511,7 @@ public class ShapeManager : MonoBehaviour
 
   public bool PredictCollision ()
   {
-    var shape = shapes [0];
+    var shape = shapes.First.Value;
     {
       Vector3 pos = shape.transform.position;
       Vector3 target = new Vector3 (pos.x, PlayerManager.inst.player.transform.position.y, pos.z);
@@ -600,10 +600,12 @@ public class ShapeManager : MonoBehaviour
 
     topShape.position = new Vector3(topShape.position.x, topShapePosition, topShape.position.z);
 
-    for (int i = 1; i < shapes.Count; ++i)
+    int i = 0;
+    foreach (ShapeBehavior shape in shapes)
     {
-      var shape = shapes [i].transform;
-      shape.position = new Vector3 (shape.position.x, topShapePosition + (i * shapeSpawnOffset.y), shape.position.z);
+//      var shape = shapes [i].transform;
+      shape.transform.position = new Vector3 (shape.transform.position.x, topShapePosition + (i * shapeSpawnOffset.y), shape.transform.position.z);
+      ++i;
     }
   }
 
@@ -804,23 +806,23 @@ public class ShapeManager : MonoBehaviour
     }
   }
   
-  private IEnumerator GoToStart (int i)
-  {
-    var shape = shapes [i];
-    var targetPos = beginPosition.y + i * shapeSpawnOffset.y;
-    
-    while (shape.transform.position.y <= targetPos)
-    {
-      var pos = shape.transform.position;
-      pos.y += Time.deltaTime * 5.0f;
-      shape.transform.position = pos;
-      yield return null;
-    }
-    
-    shape.transform.position = new Vector3 (shape.transform.position.x, targetPos, shape.transform.position.z);
-    shape.StopSpecialShapeCoroutine ();
-    shape.StopInvisibleCoroutine ();
-  }
+//  private IEnumerator GoToStart (int i)
+//  {
+//    var shape = shapes [i];
+//    var targetPos = beginPosition.y + i * shapeSpawnOffset.y;
+//    
+//    while (shape.transform.position.y <= targetPos)
+//    {
+//      var pos = shape.transform.position;
+//      pos.y += Time.deltaTime * 5.0f;
+//      shape.transform.position = pos;
+//      yield return null;
+//    }
+//    
+//    shape.transform.position = new Vector3 (shape.transform.position.x, targetPos, shape.transform.position.z);
+//    shape.StopSpecialShapeCoroutine ();
+//    shape.StopInvisibleCoroutine ();
+//  }
 
   public float waitTime = 0.2f;
 
@@ -867,8 +869,8 @@ public class ShapeManager : MonoBehaviour
     }
 
     ChooseShapeProperties(shapeBehavior);
-    shapes.RemoveAt(0);
-    shapes.Add(shapeBehavior);
+    shapes.RemoveFirst ();
+    shapes.AddLast(shapeBehavior);
     shapeBehavior.transform.localScale = Vector3.one;
     shapeBehavior.triggered = false;
   }
@@ -941,7 +943,7 @@ public class ShapeManager : MonoBehaviour
     // Assign the selected properties to the shape
     /*************************************************************************/
     shape.transform.position = new Vector3
-      (nextPosition, shapes[shapes.Count - 1].transform.position.y + shapeSpawnOffset.y, shape.transform.position.z);
+      (nextPosition, shapes.Last.Value.transform.position.y + shapeSpawnOffset.y, shape.transform.position.z);
     shape.spriteRenderer.sprite = nextSprite;
     /*************************************************************************/
     /*************************************************************************/
@@ -949,7 +951,7 @@ public class ShapeManager : MonoBehaviour
 
   private IEnumerator FadeOutShapes ()
   {
-    float alpha = shapes [0].spriteRenderer.color.a;
+    float alpha = shapes.First.Value.spriteRenderer.color.a;
     while (alpha > 0.0f)
     {
       alpha -= Time.deltaTime * 5.0f;
@@ -968,31 +970,32 @@ public class ShapeManager : MonoBehaviour
   Coroutine fadeIn = null;
   struct CoroutineData
   {
-    public CoroutineData (int i, Coroutine c)
+    public CoroutineData (ShapeBehavior i, Coroutine c)
     {
-      index = i;
+      shape = i;
       coroutine = c;
     }
-    public int index;
+    public ShapeBehavior shape;
     public Coroutine coroutine;
   }
 
   private IEnumerator FadeInShape (CoroutineData data)
   {
-    int index = data.index;
+    ShapeBehavior shape = data.shape;
     Coroutine fade = data.coroutine;
-    float alpha = shapes [index].spriteRenderer.color.a;
-    Color c = shapes [index].spriteRenderer.color;
+    float alpha = shape.spriteRenderer.color.a;
     while (alpha < 1.0f)
     {
+      Color c = shape.spriteRenderer.color;
       alpha += Time.deltaTime * 5.0f;
       c.a = alpha;
-      shapes [index].spriteRenderer.color = c;
+      shape.spriteRenderer.color = c;
       yield return null;
     }
 
-    c.a = 1.0f;
-    shapes [index].spriteRenderer.color = c;
+    Color col = shape.spriteRenderer.color;
+    col.a = 1.0f;
+    shape.spriteRenderer.color = col;
 
     fade = null;
   }
@@ -1000,9 +1003,11 @@ public class ShapeManager : MonoBehaviour
   private IEnumerator FadeInShapes ()
   {
     Coroutine [] fade = new Coroutine[shapes.Count];
-    for (int i = 0; i < fade.Length; ++i)
+    int i = 0;
+    foreach (ShapeBehavior shape in shapes)
     {
-      fade [i] = StartCoroutine (FadeInShape (new CoroutineData (i, fade [i])));
+      fade [i] = StartCoroutine (FadeInShape (new CoroutineData (shape, fade [i])));
+      ++i;
     }
 
     foreach (var c in fade)
@@ -1045,7 +1050,7 @@ public class ShapeManager : MonoBehaviour
 
       shape.transform.parent = gameObject.transform;
 
-      shapes.Add(shape);
+      shapes.AddLast(shape);
       shape.StopGame();
       if (shape.GetComponent<Collider2D>() != null)
       {
@@ -1089,7 +1094,7 @@ public class ShapeManager : MonoBehaviour
 
       shape.transform.parent = gameObject.transform;
 
-      shapes.Add(shape);
+      shapes.AddLast(shape);
       shape.StopGame();
       shape.shapeResponse = ShapeBehavior.ShapeResponse.Normal;
       shapePair.Add(shape.GetComponent<Collider2D>().GetHashCode(), shape);
