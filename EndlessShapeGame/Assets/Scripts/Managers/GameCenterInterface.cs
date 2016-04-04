@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class GameCenterInterface : StoreInterface
 {
-  private Dictionary <string, GK_AchievementTemplate> achievements { get; set; }
   //  private Dictionary <string, IOSProductTemplate> allProducts { get; set; }
 
   private bool loadingGameCenter = false;
@@ -31,7 +30,6 @@ public class GameCenterInterface : StoreInterface
 
   void OnApplicationPause (bool pause)
   {
-//    if (!pause)
 //    {
 //      Debug.Log ("ACHIEVEMENTS LOADED : " + achievementsLoaded);
 //      Debug.Log ("STORE LOADED : " + storeLoaded);
@@ -50,16 +48,21 @@ public class GameCenterInterface : StoreInterface
   {
     if (res.IsSucceeded)
     {
-      //      GameCenterManager.ResetAchievements ();
+//      GameCenterManager.ResetAchievements ();
       //IOSNativePopUpManager.showMessage("Player Authored ", "ID: " + GameCenterManager.Player.Id + "\n" + "Alias: " + GameCenterManager.Player.Alias);
-      achievements = new Dictionary<string, GK_AchievementTemplate> ();
+      achievements = new Dictionary<string, AchievementTemplate> ();
       achievementsLoaded = true;
+
+      Debug.Log ("LOADED ACHIEVEMENTS : " + GameCenterManager.Achievements.Count);
 
       foreach (var v in GameCenterManager.Achievements)
       {
         Debug.Log ("Loading Achievement : " + v.Title);
-        achievements.Add (v.Title, v);
+        achievements.Add (v.Title, new AchievementTemplate (v.Title, v.Id, v.Progress));
       }
+
+//      GameManager.inst.BroadcastMessage ("OnAchievementsLoaded", achievements);
+
       CheckHighScore ();
 
       loadingStore = true;
@@ -89,6 +92,10 @@ public class GameCenterInterface : StoreInterface
       if (StatsManager.inst.highScore < score.LongScore)
       {
         StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
+      }
+      else if (score.LongScore < StatsManager.inst.highScore)
+      {
+        GameCenterManager.ReportScore (StatsManager.inst.highScore, StatsManager.inst.leaderBoardId);
       }
     }
   }
@@ -208,15 +215,17 @@ public class GameCenterInterface : StoreInterface
     GameCenterManager.ShowLeaderboards ();
   }
 
-  protected override void OnReportAchievement(StatsManager.AchievementData achievement)
+  public override void OnReportAchievement(StatsManager.AchievementData achievement)
   {
-    if (IsAuthenticated () && IsInitialized () && storeLoaded && achievementsLoaded && achievements.ContainsKey (achievement.name))
+    if (achievementsLoaded && achievements.ContainsKey (achievement.name))
     {
       Debug.Log ("Reporting Achievement : " + achievement.name);
       var v = achievements [achievement.name];
-      if (v != null && v.Progress < 100.0)
+      if (v != null)
       {
-        GameCenterManager.SubmitAchievement (achievement.progress, v.Id, achievement.showNotification);
+        v.Progress = 0.0f;
+        GameCenterManager.SubmitAchievement (100.0f, v.Id);
+//        GameCenterManager.SubmitAchievement (achievement.progress, v.Id, achievement.showNotification);
       }
     }
   }

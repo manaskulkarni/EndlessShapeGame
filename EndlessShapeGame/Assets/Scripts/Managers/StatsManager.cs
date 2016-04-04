@@ -284,50 +284,30 @@ public class StatsManager : MonoBehaviour
   public void AddPoint ()
   {
     ++score;
-    if(isFlipped)
-    {
-      ++FlippedScore;
-    }
+//    if(isFlipped)
+//    {
+//      ++FlippedScore;
+//    }
     //Debug.Log("Flipped Score " + FillpedScore);
 
 //    #if UNITY_EDITOR
-    BroadcastMessage (ReportAchievementEvent, new AchievementData ("StillLearning", 100.0f, true));
+//    BroadcastMessage (ReportAchievementEvent, new AchievementData ("StillLearning", 100.0f, true));
 
-    if (!highScoreCrossed && score > highScore)
-    {
-    GameManager.inst.ChangeState (GameManager.States.HighScoreCrossed);
-    highScoreCrossed = true;
-    }
+//    if (!highScoreCrossed && score > highScore)
+//    {
+//      GameManager.inst.ChangeState (GameManager.States.HighScoreCrossed);
+//      highScoreCrossed = true;
+//    }
 
-    if(FlippedScore > 5)
-    {
-    BroadcastMessage(ReportAchievementEvent, new AchievementData("AdjustYourView",100.0f,true));
-    }
-    if(score >= 5)
-    {
-    BroadcastMessage(ReportAchievementEvent, new AchievementData("ApprenticeSwyper",100.0f, true));
-    }
-    if(score >= 10)
-    {
-    BroadcastMessage(ReportAchievementEvent,new AchievementData("MasterSwyperI",100.0f, true));
-    }
-    if(score >= 15)
-    {
-    BroadcastMessage(ReportAchievementEvent, new AchievementData("MasterSwyperII",100.0f, true));
-    }
-    if(score >= 20)
-    {
-    BroadcastMessage(ReportAchievementEvent, new AchievementData("MasterSwyperIII",100.0f, true));
-    }
-    if(score >= 30)
-    {
-    BroadcastMessage(ReportAchievementEvent, new AchievementData("GrandMasterSwyper", 100.0f, true));
-    }
-
-    if(playerStats.numBlackCollision >= 100)
-    {
-    BroadcastMessage(ReportAchievementEvent, new AchievementData("NoMatch", 100.0f,true));
-    }
+//    if(FlippedScore > 5)
+//    {
+//    BroadcastMessage(ReportAchievementEvent, new AchievementData("AdjustYourView",100.0f,true));
+//    }
+//
+//    if(playerStats.numBlackCollision >= 100)
+//    {
+//    BroadcastMessage(ReportAchievementEvent, new AchievementData("NoMatch", 100.0f,true));
+//    }
 //    #endif
 
   }
@@ -416,6 +396,27 @@ public class StatsManager : MonoBehaviour
     highScoreCrossed = false;
     reviveCoinsPrice = originalRevivePrice;
     ++numSessions;
+
+    if(score >= 25)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("Apprentice Swyper", 100.0f, true));
+    }
+    if(score >= 50)
+    {
+      BroadcastMessage(ReportAchievementEvent,new AchievementData("Master Swyper I", 100.0f, true));
+    }
+    if(score >= 100)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("Master Swyper II", 100.0f, true));
+    }
+    if(score >= 200)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("Master Swyper III", 100.0f, true));
+    }
+    if(score >= 300)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("Grand Master Swyper", 100.0f, true));
+    }
   }
 
   bool CanPurchasePotion (int count)
@@ -529,7 +530,9 @@ public class StatsManager : MonoBehaviour
     if (productActions.ContainsKey (name))
     {
       productActions [name].callback (productActions [name].count);
+      BroadcastMessage (StoreInfoEvent, "c_" + coins.ToString ());
     }
+
   }
 
   void OnAcceptRevive ()
@@ -605,7 +608,7 @@ public class StatsManager : MonoBehaviour
       MobileNativePopups.OpenAlertDialog(
         "Rate Just Flick", "If you enjoy playing this game, would you mind taking a moment to rate it? Thanks for your support!",
         "No, Thanks", "Remind me later", "Rate!",
-        () => { Debug.Log("User is a dick"); },
+        () => { Debug.Log("User will not rate right now"); },
         () => { Debug.Log("User will rate later"); },
         () =>
           {

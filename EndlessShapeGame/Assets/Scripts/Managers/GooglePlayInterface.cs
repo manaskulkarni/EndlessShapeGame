@@ -241,7 +241,7 @@ public class GooglePlayInterface : StoreInterface
     GooglePlayManager.Instance.ShowAchievementsUI ();
   }
 
-  protected override void OnReportAchievement (StatsManager.AchievementData achievement)
+  public override void OnReportAchievement (StatsManager.AchievementData achievement)
   {
     GooglePlayManager.Instance.UnlockAchievement (achievement.name);
   }

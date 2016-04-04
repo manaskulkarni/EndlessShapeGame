@@ -277,13 +277,17 @@ public class UIManager : MonoBehaviour
 
   public void StartSwitchMode (ScrollSnapRect scroll)
   {
-    int mode = scroll.currentPage;
-    if (scroll.container.GetChild (mode).CompareTag ("song"))
+    if (!switchingMode)
     {
-      if (StatsManager.inst.vMode != mode)
+      int mode = scroll.currentPage;
+      if (scroll.container.GetChild (mode).CompareTag ("song"))
       {
-        GameManager.inst.BroadcastMessage ("OnSwitchMode", mode);
-        UpdateMusicButtons (mode);
+        if (StatsManager.inst.vMode != mode)
+        {
+          switchingMode = true;
+          GameManager.inst.BroadcastMessage ("OnSwitchMode", mode);
+          UpdateMusicButtons (mode);
+        }
       }
     }
   }
@@ -294,13 +298,14 @@ public class UIManager : MonoBehaviour
     {
       GameManager.inst.BroadcastMessage ("OnResetBackground");
     }
-    else if (menuMusic.activeSelf)
+    else if (!switchingMode && menuMusic.activeSelf)
     {
       int mode = musicList.currentPage;
       if (musicList.container.GetChild (mode).CompareTag ("song"))
       {
         if (StatsManager.inst.vMode != mode)
         {
+          switchingMode = true;
           Debug.Log ("Swtcdfsdjkfl" + mode);
           GameManager.inst.BroadcastMessage ("OnSwitchMode", mode);
           UpdateMusicButtons (mode);
@@ -783,14 +788,14 @@ public class UIManager : MonoBehaviour
     while (scale < 1.5f)
     {
       scale += Time.deltaTime * 5.0f;
-      if (scale > 1.5f) scale = 1.4f;
+//      if (scale > 1.5f) scale = 1.4f;
       text.transform.localScale = Vector2.one * scale;
       yield return null;
     }
     while (scale > 1.0f)
     {
       scale -= Time.deltaTime * 5.0f;
-      if (scale < 1.0f) scale = 1.0f;
+//      if (scale < 1.0f) scale = 1.0f;
       text.transform.localScale = Vector2.one * scale;
       yield return null;
     }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: IOSNativeSettings
   m_EditorClassIdentifier: 
   AppleId: 1024925295
-  ToolbarIndex: 1
+  ToolbarIndex: 2
   SendFakeEventsInEditor: 1
   DefaultStoreProductsView: []
   InAppProducts:
@@ -96,7 +96,37 @@ MonoBehaviour:
       Identifier: NormalNormal
       Texture: {fileID: 0}
       MaxRange: 0
-  Achievements: []
+  Achievements:
+  - IsOpen: 1
+    Id: com.spk.esg.ach.score.apprentice
+    Title: Apprentice Swyper
+    Description: 
+    _progress: 0
+    Texture: {fileID: 0}
+  - IsOpen: 1
+    Id: com.spk.esg.ach.score.master1
+    Title: Master Swyper I
+    Description: 
+    _progress: 0
+    Texture: {fileID: 0}
+  - IsOpen: 1
+    Id: com.spk.esg.ach.score.master2
+    Title: Master Swyper II
+    Description: 
+    _progress: 0
+    Texture: {fileID: 0}
+  - IsOpen: 1
+    Id: com.spk.esg.ach.score.master3
+    Title: Master Swyper III
+    Description: 
+    _progress: 0
+    Texture: {fileID: 0}
+  - IsOpen: 1
+    Id: com.spk.esg.ach.score.gmaster
+    Title: Grand Master Swyper
+    Description: 
+    _progress: 0
+    Texture: {fileID: 0}
   checkInternetBeforeLoadRequest: 0
   ShowStoreKitProducts: 1
   ShowLeaderboards: 1
@@ -107,17 +137,17 @@ MonoBehaviour:
   ExpandAPISettings: 1
   EnableGameCenterAPI: 1
   EnableInAppsAPI: 1
-  EnableCameraAPI: 1
+  EnableCameraAPI: 0
   EnableSocialSharingAPI: 0
-  EnableMediaPlayerAPI: 1
+  EnableMediaPlayerAPI: 0
   EnableiAdAPI: 1
   EnableReplayKit: 0
   EnableCloudKit: 0
   EnableSoomla: 0
-  EnablePushNotificationsAPI: 1
+  EnablePushNotificationsAPI: 0
   DisablePluginLogs: 0
   UseGCRequestCaching: 1
-  UsePPForAchievements: 0
+  UsePPForAchievements: 1
   AutoLoadUsersSmallImages: 1
   AutoLoadUsersBigImages: 0
   MaxImageLoadSize: 512

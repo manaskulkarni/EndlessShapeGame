@@ -467,7 +467,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: REVIVE USING DIAMONDS OR WATCH A VIDEO TO  GET A SECOND CHANCE !
+  m_Text: REVIVE USING DIAMONDS OR WATCH A VIDEO TO GET A SECOND CHANCE !
 --- !u!222 &148480064
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9419,7 +9419,7 @@ Transform:
   m_GameObject: {fileID: 1363093864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 6}
-  m_LocalScale: {x: 4.8426676, y: 8.59375, z: 0}
+  m_LocalScale: {x: 6.4502745, y: 8.59375, z: 0}
   m_Children: []
   m_Father: {fileID: 725390020}
   m_RootOrder: 6
@@ -11955,53 +11955,69 @@ MonoBehaviour:
       min: 96
       max: 159
   - preset:
+      speedMultiplier: {x: 0, y: -9.125}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -9.125}
+    scoreInterval:
+      min: 160
+      max: 179
+  - preset:
+      speedMultiplier: {x: 0, y: -9.25}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -9.25}
+    scoreInterval:
+      min: 180
+      max: 199
+  - preset:
+      speedMultiplier: {x: 0, y: -9.375}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -9.375}
+    scoreInterval:
+      min: 200
+      max: 224
+  - preset:
       speedMultiplier: {x: 0, y: -9.5}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -9.5}
     scoreInterval:
-      min: 160
-      max: 179
+      min: 225
+      max: 249
+  - preset:
+      speedMultiplier: {x: 0, y: -9.625}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -9.625}
+    scoreInterval:
+      min: 250
+      max: 274
+  - preset:
+      speedMultiplier: {x: 0, y: -9.75}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -9.75}
+    scoreInterval:
+      min: 275
+      max: 299
+  - preset:
+      speedMultiplier: {x: 0, y: -9.875}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -9.875}
+    scoreInterval:
+      min: 300
+      max: 349
   - preset:
       speedMultiplier: {x: 0, y: -10}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -10}
     scoreInterval:
-      min: 180
-      max: 199
-  - preset:
-      speedMultiplier: {x: 0, y: -10.25}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -10.25}
-    scoreInterval:
-      min: 200
-      max: 224
-  - preset:
-      speedMultiplier: {x: 0, y: -10.5}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -10.5}
-    scoreInterval:
-      min: 225
-      max: 249
-  - preset:
-      speedMultiplier: {x: 0, y: -10.75}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -10.75}
-    scoreInterval:
-      min: 250
-      max: 274
-  - preset:
-      speedMultiplier: {x: 0, y: -11}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -11}
-    scoreInterval:
-      min: 275
-      max: 299
+      min: 350
+      max: 399
   shapeSpawnOffset: {x: 0, y: 5}
   beginPosition: {x: 0, y: 10}
   spawnInSameRow: 0
