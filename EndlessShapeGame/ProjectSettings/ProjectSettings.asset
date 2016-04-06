@@ -90,7 +90,7 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleIdentifier: com.spk.esg
-  bundleVersion: 1.0
+  bundleVersion: 1.1
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
@@ -105,7 +105,7 @@ PlayerSettings:
   stripEngineCode: 1
   iPhoneStrippingLevel: 1
   iPhoneScriptCallOptimization: 0
-  iPhoneBuildNumber: 21
+  iPhoneBuildNumber: 5
   ForceInternetPermission: 0
   ForceSDCardPermission: 0
   CreateWallpaper: 0
@@ -438,9 +438,9 @@ PlayerSettings:
   WebGL::audioCompressionFormat: 4
   WebGL::exceptionSupport: 0
   WebGL::memorySize: 256
-  iOS::Architecture: 0
+  iOS::Architecture: 2
   iOS::EnableIncrementalBuildSupportForIl2cpp: 0
-  iOS::ScriptingBackend: 0
+  iOS::ScriptingBackend: 1
   tvOS::Architecture: 1
   tvOS::EnableIncrementalBuildSupportForIl2cpp: 0
   tvOS::ScriptingBackend: 1

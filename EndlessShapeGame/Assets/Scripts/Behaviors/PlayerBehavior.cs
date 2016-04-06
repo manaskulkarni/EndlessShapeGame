@@ -128,6 +128,7 @@ public class PlayerBehavior : MonoBehaviour
       StartCoroutine(SlideRight(i));
     }
 
+    StatsManager.inst.AddFlick ();
 //    state = 1;
   }
 
@@ -149,6 +150,8 @@ public class PlayerBehavior : MonoBehaviour
       //}
       slideCoroutine [i] = StartCoroutine(SlideLeft(i));
     }
+
+    StatsManager.inst.AddFlick ();
 
 //    state = -1;
   }

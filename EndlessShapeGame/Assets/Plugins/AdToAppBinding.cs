@@ -103,6 +103,20 @@ namespace AdToApp
 				iOSAction: () =>  AdToApp_removeAllBanners_platform());
 		}
 
+		/**
+		 * Provide with per-user non personally-identifiable information for ad targeting purposes.
+		 * Providing non personally-identifiable information using this API will improve targeting and unlock
+		 * improved earnings for your app.
+		 * @param targetingParam One of the predefined targeting keys.
+		 * @param value Either a predefined targeting value, or arbitrary value.
+		 */
+		public static void setTargetingParam(string parameterName, string value)
+		{
+			ConditionalRunAction(
+				androidAction: () => {},
+				iOSAction: () =>  AdToApp_setTargetingParam_platform(parameterName,value));
+		}
+
         public static void setCallbacks(AdToAppSDKDelegate sdkDelegate)
         {
             ConditionalRunAction(
@@ -219,6 +233,9 @@ namespace AdToApp
 
 		[DllImport("__Internal")]
         private static extern void AdToApp_loadNextBanner_platform();
+
+		[DllImport("__Internal")]
+		private static extern void AdToApp_setTargetingParam_platform(string parameterName, string value);
 
         #endregion
     }

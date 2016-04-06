@@ -284,6 +284,11 @@ public class AudioManager : MonoBehaviour
     OnPause ();
   }
 
+  void OnInterstitialFailed ()
+  {
+    OnEndVideo ();
+  }
+
   void OnEndVideo ()
   {
     OnUnPause ();

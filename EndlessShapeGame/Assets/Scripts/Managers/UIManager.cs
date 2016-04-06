@@ -110,6 +110,8 @@ public class UIManager : MonoBehaviour
   public GameObject animRevive;
   public Text textRevivePrice;
 
+  public Animator buyCoinEffect;
+
   public GameObject menuReviveWatchVideo;
   public GameObject menuReviveUseCoins;
 
@@ -1272,6 +1274,7 @@ public class UIManager : MonoBehaviour
     else
     {
       StartCoroutine (IncreaseCoins ());
+      buyCoinEffect.Play ("BuyCoinEffect");
     }
   }
   

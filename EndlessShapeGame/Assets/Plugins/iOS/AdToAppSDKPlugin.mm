@@ -2,6 +2,7 @@
 
 #include "AdToAppSDK.h"
 #include "AdToAppView.h"
+#include "AdToAppTargeting.h"
 
 #define ADTOAPP_onInterstitialFirstLoaded ("onInterstitialFirstLoaded")
 #define ADTOAPP_onInterstitialWillAppear ("onInterstitialWillAppear")
@@ -287,10 +288,22 @@ void AdToApp_removeAllBanners_platform()
 
 bool AdToApp_hasInterstitial_platform(const char* type)
 {
+    if (![NSThread isMainThread])
+    {
+        NSLog(@"Warning: hasInterstitial always returns true if it is run not from the main thread");
+        
+        return true;
+    }
+    
     return [AdToAppSDK hasInterstitial:ToNSString(type)];
 }
 
 bool AdToApp_isInterstitialDisplayed_platform()
 {
     return [AdToAppSDK isInterstitialDisplayed];
+}
+
+void AdToApp_setTargetingParam_platform(const char* parameterName, const char* value)
+{
+    AdToAppSDK_setTargetingParam(ToNSString(parameterName), ToNSString(value));
 }

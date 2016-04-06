@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 public class GameCenterInterface : StoreInterface
 {
@@ -79,6 +80,7 @@ public class GameCenterInterface : StoreInterface
   void CheckHighScore ()
   {
     GameCenterManager.LoadLeaderboardInfo (StatsManager.inst.leaderBoardId);
+    GameCenterManager.LoadLeaderboardInfo (StatsManager.inst.flickLeaderBoardId);
     GameCenterManager.OnLeadrboardInfoLoaded += GameCenterManager_OnLeadrboardInfoLoaded;
   }
 
@@ -86,16 +88,33 @@ public class GameCenterInterface : StoreInterface
   {
     if (res.IsSucceeded)
     {
-      Debug.Log ("Loaded Leaderboard : " + res.Leaderboard.Id);
-      GK_Score score = res.Leaderboard.GetCurrentPlayerScore (GK_TimeSpan.ALL_TIME, GK_CollectionType.GLOBAL);
-      Debug.Log ("Current High Score : " + score.LongScore);
-      if (StatsManager.inst.highScore < score.LongScore)
+      if (res.Leaderboard.id == StatsManager.inst.leaderBoardId)
       {
-        StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
+        Debug.Log ("Loaded Leaderboard : " + res.Leaderboard.Id);
+        GK_Score score = res.Leaderboard.GetCurrentPlayerScore (GK_TimeSpan.ALL_TIME, GK_CollectionType.GLOBAL);
+        Debug.Log ("Current High Score : " + score.LongScore);
+        if (StatsManager.inst.highScore < score.LongScore)
+        {
+          StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
+        }
+        else if (score.LongScore < StatsManager.inst.highScore)
+        {
+          GameCenterManager.ReportScore (StatsManager.inst.highScore, res.Leaderboard.Id);
+        }
       }
-      else if (score.LongScore < StatsManager.inst.highScore)
+      else if (res.Leaderboard.id == StatsManager.inst.flickLeaderBoardId)
       {
-        GameCenterManager.ReportScore (StatsManager.inst.highScore, StatsManager.inst.leaderBoardId);
+        Debug.Log ("Loaded Leaderboard : " + res.Leaderboard.Id);
+        GK_Score score = res.Leaderboard.GetCurrentPlayerScore (GK_TimeSpan.ALL_TIME, GK_CollectionType.GLOBAL);
+        Debug.Log ("Current High Score : " + score.LongScore);
+        if (StatsManager.inst.numFlicks < score.LongScore)
+        {
+          StatsManager.inst.SetFlicks ((int)score.LongScore);
+        }
+        else if (score.LongScore < StatsManager.inst.numFlicks)
+        {
+          GameCenterManager.ReportScore (StatsManager.inst.numFlicks, res.Leaderboard.Id);
+        }
       }
     }
   }
@@ -201,6 +220,13 @@ public class GameCenterInterface : StoreInterface
     GameCenterManager.ReportScore (StatsManager.inst.score, StatsManager.inst.leaderBoardId);
   }
 
+  protected override void OnSubmitFlicks ()
+  {
+    Debug.Log ("Submitting Flicks");
+
+    GameCenterManager.ReportScore (StatsManager.inst.numFlicks, StatsManager.inst.flickLeaderBoardId);    
+  }
+
   protected override void OnShowLeaderboard()
   {
     Debug.Log ("Showing Leaderboard");
@@ -255,30 +281,30 @@ public class GameCenterInterface : StoreInterface
   {
     IOSInAppPurchaseManager.Instance.RestorePurchases ();
 
-    string appKey, data;
-    KeyChainBinding.GetKeyChainData (out appKey, out data);
-    Debug.Log ("FOUND KEYCHAIN DATA " + data);
-
-    var split = data.Split('_');
-    foreach (string s in split) Debug.Log ("MATCH " + s);
-
-    if (split.Length > 1)
-    {
-      string coinString = split [1];
-
-      Debug.Log ("EXTRACTED COIN INFORMATION " + coinString);
-
-      int coinCount = 0;
-      if (int.TryParse(coinString, out coinCount))
-      {
-        if (coinCount > 0 && coinCount > StatsManager.inst.coins)
-        {
-          GameManager.inst.BroadcastMessage ("OnRestoreCoinsFromInfo", coinCount);
-        }
-      }
-
-      Debug.Log ("COIN COUNT " + coinCount);
-    }
+//    string appKey, data;
+//    KeyChainBinding.GetKeyChainData (out appKey, out data);
+//    Debug.Log ("FOUND KEYCHAIN DATA " + data);
+//
+//    var split = data.Split('_');
+//    foreach (string s in split) Debug.Log ("MATCH " + s);
+//
+//    if (split.Length > 1)
+//    {
+//      string coinString = split [1];
+//
+//      Debug.Log ("EXTRACTED COIN INFORMATION " + coinString);
+//
+//      int coinCount = 0;
+//      if (int.TryParse(coinString, out coinCount))
+//      {
+//        if (coinCount > 0 && coinCount > StatsManager.inst.coins)
+//        {
+//          GameManager.inst.BroadcastMessage ("OnRestoreCoinsFromInfo", coinCount);
+//        }
+//      }
+//
+//      Debug.Log ("COIN COUNT " + coinCount);
+//    }
   }
 
   protected override void OnRestorePurchaseComplete ()

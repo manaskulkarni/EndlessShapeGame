@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-#if UNITY_ANDROID
+//#if UNITY_ANDROID
 public class GooglePlayInterface : StoreInterface
 {
 
@@ -179,6 +179,7 @@ public class GooglePlayInterface : StoreInterface
     if (res.IsSucceeded)
     {
       var leaderboard = GooglePlayManager.Instance.GetLeaderBoard (StatsManager.inst.leaderBoardId);
+      var flickLeaderboard = GooglePlayManager.Instance.GetLeaderBoard (StatsManager.inst.flickLeaderBoardId);
       if (leaderboard != null)
       {
         Debug.Log ("Loaded leaderboard : " + leaderboard.Name);
@@ -194,6 +195,31 @@ public class GooglePlayInterface : StoreInterface
         if (StatsManager.inst.highScore < score.LongScore)
         {
           StatsManager.inst.SetHighScoreSilent ((int)score.LongScore);
+        }
+        else if (StatsManager.inst.highScore > score.LongScore)
+        {
+          GooglePlayManager.Instance.SubmitScore (leaderboard.Id, StatsManager.inst.highScore);
+        }
+      }
+      if (flickLeaderboard != null)
+      {
+        Debug.Log ("Loaded leaderboard : " + flickLeaderboard.Name);
+
+        var scoreList = flickLeaderboard.GetScoresList (GPBoardTimeSpan.ALL_TIME, GPCollectionType.GLOBAL);
+        foreach (var v in scoreList)
+        {
+          Debug.Log ("SCORE " + v.LongScore);
+        }
+
+        GPScore score = flickLeaderboard.GetCurrentPlayerScore (GPBoardTimeSpan.ALL_TIME, GPCollectionType.GLOBAL);
+        Debug.Log ("Current Flicks Score : " + score.LongScore);
+        if (StatsManager.inst.numFlicks < score.LongScore)
+        {
+          StatsManager.inst.SetFlicks ((int)score.LongScore);
+        }
+        else if (StatsManager.inst.numFlicks > score.LongScore)
+        {
+          GooglePlayManager.Instance.SubmitScore (flickLeaderboard.Id, StatsManager.inst.numFlicks);
         }
       }
     }
@@ -229,6 +255,11 @@ public class GooglePlayInterface : StoreInterface
   protected override void OnSubmitHighScore ()
   {
     GooglePlayManager.Instance.SubmitScoreById (StatsManager.inst.leaderBoardId, StatsManager.inst.score);
+  }
+
+  protected override void OnSubmitFlicks ()
+  {
+    GooglePlayManager.Instance.SubmitScoreById (StatsManager.inst.flickLeaderBoardId, StatsManager.inst.numFlicks);
   }
 
   protected override void OnShowLeaderboard ()
@@ -283,4 +314,4 @@ public class GooglePlayInterface : StoreInterface
 
   #endregion
 }
-#endif
+//#endif

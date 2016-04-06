@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: IOSNativeSettings
   m_EditorClassIdentifier: 
   AppleId: 1024925295
-  ToolbarIndex: 2
+  ToolbarIndex: 3
   SendFakeEventsInEditor: 1
   DefaultStoreProductsView: []
   InAppProducts:
@@ -96,6 +96,13 @@ MonoBehaviour:
       Identifier: NormalNormal
       Texture: {fileID: 0}
       MaxRange: 0
+  - IsOpen: 1
+    _info:
+      Title: Flickers
+      Description: 
+      Identifier: com.spk.esg.lb.flick
+      Texture: {fileID: 0}
+      MaxRange: 0
   Achievements:
   - IsOpen: 1
     Id: com.spk.esg.ach.score.apprentice
@@ -158,5 +165,5 @@ MonoBehaviour:
   SoomlaDocsLink: https://goo.gl/JFkpNa
   SoomlaGameKey: 
   SoomlaEnvKey: 
-  OneSignalEnabled: 0
+  OneSignalEnabled: 1
   OneSignalDocsLink: https://goo.gl/Royty6

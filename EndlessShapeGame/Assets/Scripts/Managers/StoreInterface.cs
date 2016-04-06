@@ -47,6 +47,7 @@ public abstract class StoreInterface : MonoBehaviour
   public abstract void OnReportAchievement(StatsManager.AchievementData achievement);
   
   protected abstract void OnSubmitHighScore();
+  protected abstract void OnSubmitFlicks();
   protected abstract void OnShowLeaderboard();
   protected abstract void OnShowAchievements();
   protected abstract void OnPurchaseItem (StoreButton button);

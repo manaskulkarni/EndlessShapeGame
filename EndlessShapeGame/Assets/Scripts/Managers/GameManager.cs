@@ -46,6 +46,7 @@ public class GameManager : StateBehaviour
     TutorialStart,
     TutorialRevive,
     ShowTutorialRevive,
+    PushNotificationReward,
   }
 
   public enum DifficultyLevel
@@ -79,7 +80,6 @@ public class GameManager : StateBehaviour
 
   // Public Members
   public GameSettings gameSettings;
-  public int sessionsPerAdRequest = 4;
 
   public bool played
   {
@@ -152,6 +152,9 @@ public class GameManager : StateBehaviour
   public string RemoveAdsEvent = "OnRemoveAds";
   public string RateUsEvent = "OnShowRateUsPopup";
   public string GameExitEvent = "OnGameExit";
+  public string GamePauseEvent = "OnGamePause";
+  public string PushNotificationRewardEvent = "OnPushNotificationReward";
+
 
   [System.Obsolete]
   public string DifficultyChangeEvent = "OnDifficultyChange";
@@ -164,7 +167,10 @@ public class GameManager : StateBehaviour
     private set;
   }
 
-  // Private Members
+  bool playingAd = false;
+  public int adInterval = 10;
+
+ // Private Members
   GameManager ()
   {
     if (inst == null)
@@ -202,6 +208,8 @@ public class GameManager : StateBehaviour
 
   void OnApplicationPause (bool pause)
   {
+    BroadcastMessage (GamePauseEvent, pause);
+
     Debug.Log ("Game State : " + GetState ());
 
     Debug.Log ("GAME PAUSED " + pause);
@@ -547,8 +555,16 @@ public class GameManager : StateBehaviour
     //    ChangeState (States.Playing);
   }
 
-  bool playingAd = false;
-  public int adInterval = 4;
+  public int pushNotificationReward = 100;
+
+  private IEnumerator PushNotificationReward_Enter ()
+  {
+    BroadcastMessage (ShowStoreEvent);
+    yield return new WaitForSeconds (0.5f);
+    StatsManager.inst.SendMessage ("BuyDiamonds", pushNotificationReward);
+    BroadcastMessage (PushNotificationRewardEvent, SendMessageOptions.DontRequireReceiver);
+  }
+   
 
   private void OnInterstitialStarted ()
   {

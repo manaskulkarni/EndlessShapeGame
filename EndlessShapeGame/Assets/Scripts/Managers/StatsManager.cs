@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Analytics;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -94,6 +95,9 @@ public class StatsManager : MonoBehaviour
       #endif
     }
   }
+
+  public string flickLeaderBoardId { get { return "com.spk.esg.lb.flick"; } }
+
   /// <summary>
   /// Returns whether score at end of last session is high score
   /// </summary>
@@ -112,6 +116,7 @@ public class StatsManager : MonoBehaviour
   /// Returns number of coins collected
   /// </summary>
   public int coins { get; private set; }
+  public int numFlicks { get; private set; }
   /// <summary>
   /// Returns whether ads can be shown
   /// </summary>
@@ -160,6 +165,7 @@ public class StatsManager : MonoBehaviour
   #region Events
   public string SubmitScoreEvent { get { return "OnSubmitScore"; } }
   public string SubmitHighScoreEvent { get { return "OnSubmitHighScore"; } }
+  public string SubmitFlickEvent { get { return "OnSubmitFlicks"; } }
   public string ShowLeaderboardEvent { get { return "OnShowLeaderboard"; } }
   public string ShowAchievementsEvent { get { return "OnShowAchievements"; } }
   public string ReportAchievementEvent { get { return "OnReportAchievement"; } }
@@ -202,7 +208,8 @@ public class StatsManager : MonoBehaviour
     playerStats.numGames = PlayerPrefs.GetInt ("NumGames");
 
     previousScore = highScore;
-    coins = PlayerPrefs.GetInt ("Coins"); 
+    coins = PlayerPrefs.GetInt ("Coins");
+    numFlicks = PlayerPrefs.GetInt ("Flicks");
     Debug.Log ("COINS : " + coins);
     showAds = PlayerPrefs.GetInt ("ShowAds", 1);
     Debug.Log ("SHOW ADS : " + (showAds != 0));
@@ -257,6 +264,7 @@ public class StatsManager : MonoBehaviour
   {
     Debug.Log ("DESTROYING NOW WITH COINS : " + coins);
     PlayerPrefs.SetInt ("Coins", coins);
+    PlayerPrefs.SetInt ("Flicks", numFlicks);
     BroadcastMessage (StoreInfoEvent, "c_" + coins.ToString ());
     PlayerPrefs.SetInt ("ShowAds", showAds);
     PlayerPrefs.SetInt ("ShowRateUs", showRateUs);
@@ -279,6 +287,17 @@ public class StatsManager : MonoBehaviour
     //    {
     //      PlayerPrefs.SetInt ("Item" + i, gameItems [(InGameBuyButton.ButtonType)i]);
     //    }
+
+    Debug.Log ("NUM FLICKS : " + numFlicks);
+    Analytics.CustomEvent("gameOver", new Dictionary<string, object>
+        {
+          { "flicks", numFlicks },
+        });
+  }
+
+  void OnGamePause (bool pause)
+  {
+    OnGameExit ();
   }
 
   public void AddPoint ()
@@ -315,6 +334,16 @@ public class StatsManager : MonoBehaviour
   public void AddCoin (int count = 1)
   {
     coins += count;
+  }
+
+  public void AddFlick ()
+  {
+    ++numFlicks;
+  }
+
+  public void SetFlicks (int flickCount)
+  {
+    numFlicks = flickCount;
   }
 
   public void ShowLeaderBoard ()
@@ -391,11 +420,13 @@ public class StatsManager : MonoBehaviour
         BroadcastMessage (SubmitHighScoreEvent);
         PlayerPrefs.SetInt (leaderBoardId, score);
       }
+
     }
 
     highScoreCrossed = false;
     reviveCoinsPrice = originalRevivePrice;
     ++numSessions;
+    BroadcastMessage (SubmitFlickEvent);
 
     if(score >= 25)
     {
@@ -530,13 +561,13 @@ public class StatsManager : MonoBehaviour
     if (productActions.ContainsKey (name))
     {
       productActions [name].callback (productActions [name].count);
-      BroadcastMessage (StoreInfoEvent, "c_" + coins.ToString ());
     }
 
   }
 
   void OnAcceptRevive ()
   {
+    BroadcastMessage (StoreInfoEvent, "c_" + coins.ToString ());
   }
 
   void OnSwitchMode (int mode)
@@ -645,25 +676,30 @@ public class StatsManager : MonoBehaviour
   void LoadBackgroundColor ()
   {
     float r, g, b, x, y;
-    r = PlayerPrefs.GetFloat ("bg.r", defaultBackgroundColor.r);
-    g = PlayerPrefs.GetFloat ("bg.g", defaultBackgroundColor.g);
-    b = PlayerPrefs.GetFloat ("bg.b", defaultBackgroundColor.b);
+    r = PlayerPrefs.GetFloat ("backgroundRed", defaultBackgroundColor.r);
+    g = PlayerPrefs.GetFloat ("backgroundGreen", defaultBackgroundColor.g);
+    b = PlayerPrefs.GetFloat ("backgroundBlue", defaultBackgroundColor.b);
 
-    x = PlayerPrefs.GetFloat ("wheel.x");
-    y = PlayerPrefs.GetFloat ("wheel.y");
+    x = PlayerPrefs.GetFloat ("wheelx");
+    y = PlayerPrefs.GetFloat ("wheely");
     wheelPosition = new Vector2 (x, y);
 
     backgroundColor = new Color (r, g, b);
     GameManager.inst.BroadcastMessage ("OnLoadBackgroundColor", new ColorWheel.ColorWheelData (wheelPosition, backgroundColor));
+
+    Debug.Log ("BGHGHGHGHG " + backgroundColor);
   }
 
   void SaveBackgroundColor ()
   {
-    PlayerPrefs.SetFloat ("bg.r", backgroundColor.r);
-    PlayerPrefs.SetFloat ("bg.g", backgroundColor.g);
-    PlayerPrefs.SetFloat ("bg.b", backgroundColor.b);
+//    Debug.Log ("BGHGHGHGH " + backgroundColor);
 
-    PlayerPrefs.SetFloat ("wheel.x", wheelPosition.x);
-    PlayerPrefs.SetFloat ("wheel.y", wheelPosition.y);
+
+    PlayerPrefs.SetFloat ("backgroundRed", backgroundColor.r);
+    PlayerPrefs.SetFloat ("backgroundGreen", backgroundColor.g);
+    PlayerPrefs.SetFloat ("backgroundBlue", backgroundColor.b);
+
+    PlayerPrefs.SetFloat ("wheelx", wheelPosition.x);
+    PlayerPrefs.SetFloat ("wheely", wheelPosition.y);
   }
 }

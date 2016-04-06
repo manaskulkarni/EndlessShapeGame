@@ -143,6 +143,12 @@ MonoBehaviour:
     _description: 
     _Texture: {fileID: 0}
     CurrentPlayerScore: []
+  - IsOpen: 1
+    _id: 
+    _name: New Leaderboard
+    _description: 
+    _Texture: {fileID: 0}
+    CurrentPlayerScore: []
   ShowAchievements: 1
   Achievements: []
   ShowWhenAppIsForeground: 1

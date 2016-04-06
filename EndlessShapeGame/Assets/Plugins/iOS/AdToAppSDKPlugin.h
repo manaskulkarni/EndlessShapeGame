@@ -29,6 +29,7 @@ extern "C"
     void AdToApp_removeAllBanners_platform();
     bool AdToApp_hasInterstitial_platform(const char* type);
     bool AdToApp_isInterstitialDisplayed_platform();
+    void AdToApp_setTargetingParam_platform(const char* parameterName, const char* value);
 
     //Used in Unity platform only
     void AdToApp_setUnityCallbackTargetName_platform(const char* targetName);
