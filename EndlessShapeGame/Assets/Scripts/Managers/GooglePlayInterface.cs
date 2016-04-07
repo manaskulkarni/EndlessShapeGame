@@ -25,7 +25,6 @@ public class GooglePlayInterface : StoreInterface
 
     GooglePlayManager.ActionOAuthTokenLoaded += ActionOAuthTokenLoaded;
     GooglePlayManager.ActionAvailableDeviceAccountsLoaded += ActionAvailableDeviceAccountsLoaded;
-//    GooglePlayManager.ActionAchievementsLoaded += OnAchievmnetsLoadedInfoListner;
 
     GooglePlayConnection.Instance.Connect ();
 
@@ -170,8 +169,24 @@ public class GooglePlayInterface : StoreInterface
 
   void CheckHighScore ()
   {
-    GooglePlayManager.Instance.LoadLeaderBoards ();
     GooglePlayManager.ActionLeaderboardsLoaded += GooglePlayManager_ActionLeaderboardsLoaded;
+    GooglePlayManager.ActionAchievementsLoaded += GooglePlayManager_ActionAchievementsLoaded;
+    GooglePlayManager.Instance.LoadLeaderBoards ();
+    GooglePlayManager.Instance.LoadAchievements ();
+  }
+
+  void GooglePlayManager_ActionAchievementsLoaded (GooglePlayResult res)
+  {
+    if (res.IsSucceeded)
+    {
+      achievementsLoaded = true;
+      achievements = new Dictionary<string, AchievementTemplate> ();
+      foreach (var v in GooglePlayManager.Instance.Achievements)
+      {
+        Debug.Log ("ACHIEVEMENT : " + v.Name);
+        achievements.Add (v.Name, new AchievementTemplate (v.Name, v.Id, (float)v.TotalSteps));
+      }
+    }
   }
 
   void GooglePlayManager_ActionLeaderboardsLoaded (GooglePlayResult res)
@@ -264,7 +279,7 @@ public class GooglePlayInterface : StoreInterface
 
   protected override void OnShowLeaderboard ()
   {
-    GooglePlayManager.Instance.ShowLeaderBoardById (StatsManager.inst.leaderBoardId);
+    GooglePlayManager.Instance.ShowLeaderBoardsUI ();
   }
 
   protected override void OnShowAchievements ()
@@ -274,7 +289,18 @@ public class GooglePlayInterface : StoreInterface
 
   public override void OnReportAchievement (StatsManager.AchievementData achievement)
   {
-    GooglePlayManager.Instance.UnlockAchievement (achievement.name);
+    if (achievementsLoaded && achievements.ContainsKey (achievement.name))
+    {
+      Debug.Log ("Reporting Achievement : " + achievement.name);
+      var v = achievements [achievement.name];
+      if (v != null)
+      {
+        v.Progress = 100.0f;
+        GooglePlayManager.Instance.UnlockAchievementById (v.Id);
+//        GameCenterManager.SubmitAchievement (100.0f, v.Id);
+        //        GameCenterManager.SubmitAchievement (achievement.progress, v.Id, achievement.showNotification);
+      }
+    }
   }
 
   protected override void OnPurchaseItem (StoreButton button)

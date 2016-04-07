@@ -90,13 +90,23 @@ public class StatsManager : MonoBehaviour
     {
       #if UNITY_IOS
       return ""+GameManager.inst.gameSettings.dificultyLevel+"" + ""+GameManager.inst.gameSettings.speedLevel+"";
-      #else
+      #elif UNITY_ANDROID
       return "CgkI-rb9u94BEAIQAA";
       #endif
     }
   }
 
-  public string flickLeaderBoardId { get { return "com.spk.esg.lb.flick"; } }
+  public string flickLeaderBoardId
+  {
+    get
+    {
+      #if UNITY_IOS
+      return "com.spk.esg.lb.flick";
+      #elif UNITY_ANDROID
+      return "CgkI-rb9u94BEAIQBw";
+      #endif
+    }
+  }
 
   /// <summary>
   /// Returns whether score at end of last session is high score
@@ -428,6 +438,10 @@ public class StatsManager : MonoBehaviour
     ++numSessions;
     BroadcastMessage (SubmitFlickEvent);
 
+    if(score == 0)
+    {
+      BroadcastMessage(ReportAchievementEvent, new AchievementData("Zero Hero", 100.0f, true));
+    }
     if(score >= 25)
     {
       BroadcastMessage(ReportAchievementEvent, new AchievementData("Apprentice Swyper", 100.0f, true));

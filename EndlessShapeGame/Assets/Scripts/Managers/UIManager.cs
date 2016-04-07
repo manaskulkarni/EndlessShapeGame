@@ -783,20 +783,30 @@ public class UIManager : MonoBehaviour
     StartCoroutine (FadeOut (imageCircle, 5.0f));
   }
 
+  private float idealDeltaTime = 0.016f;
+
   private IEnumerator StartPopFeedback (Text text)
   {
     text.transform.localScale = Vector3.one;
     float scale = text.transform.localScale.x;
     while (scale < 1.5f)
     {
+      #if UNITY_ANDROID
+      scale += Mathf.Min (idealDeltaTime, Time.deltaTime) * 5.0f;
+      #else
       scale += Time.deltaTime * 5.0f;
+      #endif
 //      if (scale > 1.5f) scale = 1.4f;
       text.transform.localScale = Vector2.one * scale;
       yield return null;
     }
     while (scale > 1.0f)
     {
+      #if UNITY_ANDROID
+      scale -= Mathf.Min (idealDeltaTime, Time.deltaTime) * 5.0f;
+      #else
       scale -= Time.deltaTime * 5.0f;
+      #endif
 //      if (scale < 1.0f) scale = 1.0f;
       text.transform.localScale = Vector2.one * scale;
       yield return null;

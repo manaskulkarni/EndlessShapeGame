@@ -26,41 +26,41 @@ public class AdManager : MonoBehaviour
 	void Start ()
   {
   #if UNITY_ANDROID
-    Debug.Log("AdToAppAndroidVersion: " + AdToAppAndroidWrapper.Version);
-
-    var sdkDelegate = AdToAppSDKDelegate.CreateInstance(this);
-
-    sdkDelegate.OnInterstitialStarted += SdkDelegate_OnInterstitialStarted;
-    sdkDelegate.OnInterstitialClosed += SdkDelegate_OnInterstitialClosed;
-    sdkDelegate.OnInterstitialFailedToAppear += SdkDelegate_OnInterstitialFailedToAppear;
-    sdkDelegate.OnInterstitialClicked += SdkDelegate_OnInterstitialClicked;
-    sdkDelegate.OnRewardedCompleted += SdkDelegate_OnRewardedCompleted;
-    sdkDelegate.OnBannerLoad += SdkDelegate_OnBannerLoad;
-    sdkDelegate.OnBannerFailedToLoad += SdkDelegate_OnBannerFailedToLoad;
-    sdkDelegate.OnBannerClicked += SdkDelegate_OnBannerClicked;
-
-    try
-    {
-      if (Debug.isDebugBuild)
-        AdToAppBinding.setLogLevel(
-          AdToAppLogLevel.Warn |
-          AdToAppLogLevel.Verbose |
-          AdToAppLogLevel.Fatal |
-          AdToAppLogLevel.Error |
-          AdToAppLogLevel.Debug
-        );
-
-      AdToAppBinding.setCallbacks(sdkDelegate);
-
-      AdToAppBinding.start(
-        adContentType:AdToAppContentType.REWARDED,
-        appId:"7015bc8b-4f2b-4d6c-a078-85f92de7221c:8fc1134c-d203-4aad-9df6-c011fd0b4e90"
-      );
-    }
-    catch (EntryPointNotFoundException)
-    {
-      Debug.Log ("Ads not shown in editor");
-    }
+//    Debug.Log("AdToAppAndroidVersion: " + AdToAppAndroidWrapper.Version);
+//
+//    var sdkDelegate = AdToAppSDKDelegate.CreateInstance(this);
+//
+//    sdkDelegate.OnInterstitialStarted += SdkDelegate_OnInterstitialStarted;
+//    sdkDelegate.OnInterstitialClosed += SdkDelegate_OnInterstitialClosed;
+//    sdkDelegate.OnInterstitialFailedToAppear += SdkDelegate_OnInterstitialFailedToAppear;
+//    sdkDelegate.OnInterstitialClicked += SdkDelegate_OnInterstitialClicked;
+//    sdkDelegate.OnRewardedCompleted += SdkDelegate_OnRewardedCompleted;
+//    sdkDelegate.OnBannerLoad += SdkDelegate_OnBannerLoad;
+//    sdkDelegate.OnBannerFailedToLoad += SdkDelegate_OnBannerFailedToLoad;
+//    sdkDelegate.OnBannerClicked += SdkDelegate_OnBannerClicked;
+//
+//    try
+//    {
+//      if (Debug.isDebugBuild)
+//        AdToAppBinding.setLogLevel(
+//          AdToAppLogLevel.Warn |
+//          AdToAppLogLevel.Verbose |
+//          AdToAppLogLevel.Fatal |
+//          AdToAppLogLevel.Error |
+//          AdToAppLogLevel.Debug
+//        );
+//
+//      AdToAppBinding.setCallbacks(sdkDelegate);
+//
+//      AdToAppBinding.start(
+//        adContentType:AdToAppContentType.REWARDED,
+//        appId:"7015bc8b-4f2b-4d6c-a078-85f92de7221c:8fc1134c-d203-4aad-9df6-c011fd0b4e90"
+//      );
+//    }
+//    catch (EntryPointNotFoundException)
+//    {
+//      Debug.Log ("Ads not shown in editor");
+//    }
   #else
     var sdkDelegate = AdToAppSDKDelegate.CreateInstance(this);
     
@@ -276,8 +276,9 @@ public class AdManager : MonoBehaviour
         GameManager.inst.BroadcastMessage ("OnEndVideo");
         break;
       case ShowResult.Skipped:
-        Debug.Log("The ad was skipped before reaching the end.");
+        GameManager.inst.BroadcastMessage ("OnEndVideo");
         break;
+//        Debug.Log("The ad was skipped before reaching the end.");
       case ShowResult.Failed:
         Debug.LogError("The ad failed to be shown.");
         GameManager.inst.BroadcastMessage ("OnInterstitialFailed");

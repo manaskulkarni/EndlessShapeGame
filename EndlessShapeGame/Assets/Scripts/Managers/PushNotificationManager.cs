@@ -22,6 +22,7 @@ public class PushNotificationManager : MonoBehaviour
 
   public string defaultPushNotification = "Hey where have you been ? Collect your reward and keep flicking!";
 
+  #if UNITY_IOS
   // Use this as constructor
   void Awake ()
   {
@@ -32,7 +33,7 @@ public class PushNotificationManager : MonoBehaviour
     // Call before using any other methods on OneSignal.
     // Should only be called once when your app is loaded.
     // OneSignal.Init(OneSignal_AppId, GoogleProjectNumber, NotificationReceivedHandler(optional));
-    OneSignal.Init("fb4ae499-6bfd-4257-89ef-b3661a2d5963", "703322744261", HandleNotification);
+    OneSignal.Init("fb4ae499-6bfd-4257-89ef-b3661a2d5963", "59718458234", HandleNotification);
 
     // Shows a Native iOS/Android alert dialog when the user is in your app when a notification comes in.
     OneSignal.EnableInAppAlertNotification(false);
@@ -59,6 +60,7 @@ public class PushNotificationManager : MonoBehaviour
           }
         });
   }
+  #endif
 
   private void SchedulePushNotification (string userId)
   {

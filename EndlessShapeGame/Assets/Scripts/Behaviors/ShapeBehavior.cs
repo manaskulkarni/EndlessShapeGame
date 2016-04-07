@@ -148,6 +148,8 @@ public class ShapeBehavior : MonoBehaviour
 //    }
 //  }
 
+  private float idealDeltaTime = 0.016f;
+
   private IEnumerator UpdateSpecial ()
   {
     while (true)
@@ -155,7 +157,11 @@ public class ShapeBehavior : MonoBehaviour
       while (transform.localScale.x >= 0.8f)
       {
         Vector2 scale = transform.localScale;
+        #if UNITY_ANDROID
+        scale -= Vector2.one * Mathf.Min (idealDeltaTime, Time.deltaTime);
+        #else
         scale -= Vector2.one * Time.deltaTime;
+        #endif
         transform.localScale = scale;
         yield return null;
       }
@@ -163,7 +169,11 @@ public class ShapeBehavior : MonoBehaviour
       while (transform.localScale.x <= 1.0f)
       {
         Vector2 scale = transform.localScale;
+        #if UNITY_ANDROID
+        scale += Vector2.one * Mathf.Min (idealDeltaTime, Time.deltaTime);
+        #else
         scale += Vector2.one * Time.deltaTime;
+        #endif
         transform.localScale = scale;
         yield return null;
       }

@@ -758,7 +758,7 @@ public class AndroidNativeSettingsEditor : Editor {
 		////////////////////////
 		AN_PropertyTemplate games_version = application.GetOrCreatePropertyWithName("meta-data",  "com.google.android.gms.version");
 		if(AndroidNativeSettings.Instance.EnablePSAPI) {
-			games_version.SetValue("android:value", "@integer/google_play_services_version");
+      games_version.SetValue("android:value", "8487000");
 			
 			AN_PropertyTemplate property = application.GetOrCreatePropertyWithName("meta-data", "com.google.android.gms.version");
 			property.SetValue("android:value", AndroidNativeSettings.GOOGLE_PLAY_SDK_VERSION_NUMBER);

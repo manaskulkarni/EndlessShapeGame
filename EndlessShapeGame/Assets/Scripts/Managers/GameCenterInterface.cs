@@ -106,7 +106,7 @@ public class GameCenterInterface : StoreInterface
       {
         Debug.Log ("Loaded Leaderboard : " + res.Leaderboard.Id);
         GK_Score score = res.Leaderboard.GetCurrentPlayerScore (GK_TimeSpan.ALL_TIME, GK_CollectionType.GLOBAL);
-        Debug.Log ("Current High Score : " + score.LongScore);
+        Debug.Log ("Current Flicks Score : " + score.LongScore);
         if (StatsManager.inst.numFlicks < score.LongScore)
         {
           StatsManager.inst.SetFlicks ((int)score.LongScore);
