@@ -529,9 +529,13 @@ public class AudioManager : MonoBehaviour
 
   private void PlayLoopingTrack(int mode)
   {
+    // Track 1: 5734425
+    // Track 2: 6350000
+    // Track 3: 6144000
+
     if (mode == 0)
     {
-      if (track1.timeSamples > 5734425 && _playOnce == true)
+      if (track1.timeSamples > 6144000 && _playOnce == true)
       {
         track1_loop.Play();
         _playOnce = false;
