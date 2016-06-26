@@ -33,6 +33,16 @@ public class ShapeBehavior : MonoBehaviour
   public delegate void BehaviorHandle ();
   private HashSet <BehaviorHandle> behaviors { get; set; }
 
+  void Start ()
+  {
+    behaviors = new HashSet<BehaviorHandle> (new BehaviorHandle [1] {
+      () =>
+      {
+        transform.position += transform.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime; 
+      }
+    });
+  }
+
   // Use this for initialization
   public void StartGame ()
   {
@@ -131,7 +141,8 @@ public class ShapeBehavior : MonoBehaviour
   {
     if (update)
     {
-      transform.position += transform.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime;
+      foreach (var b in behaviors)
+        b ();
 //      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime);
     }
   }
