@@ -26,10 +26,4 @@ public class BackgroundObject : MonoBehaviour
         new Color (90.0f / 255.0f, 90.0f / 255.0f, 90.0f / 255.0f, 200.0f / 255.0f)
         );
   }
-
-  // Update is called once per frame
-  void Update ()
-  {
-  }
-
 }

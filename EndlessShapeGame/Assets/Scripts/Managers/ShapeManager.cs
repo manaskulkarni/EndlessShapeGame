@@ -683,7 +683,6 @@ public class ShapeManager : MonoBehaviour
 
   void OnReviveCompleteStart ()
   {
-    OnHideStore ();
   }
 
   void OnReviveCompleteEnd ()
@@ -982,8 +981,7 @@ public class ShapeManager : MonoBehaviour
   private IEnumerator FadeInShape (CoroutineData data)
   {
     ShapeBehavior shape = data.shape;
-    Coroutine fade = data.coroutine;
-    float alpha = shape.spriteRenderer.color.a;
+    float alpha = 0.0f;
     while (alpha < 1.0f)
     {
       Color c = shape.spriteRenderer.color;
@@ -997,7 +995,7 @@ public class ShapeManager : MonoBehaviour
     col.a = 1.0f;
     shape.spriteRenderer.color = col;
 
-    fade = null;
+    data.coroutine = null;
   }
 
   private IEnumerator FadeInShapes ()

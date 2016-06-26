@@ -87,12 +87,8 @@ public class UIManager : MonoBehaviour
   public ScrollSnapRect musicList;
 //  public ScrollSnapRect potionStoreList;
 
-  public Button buttonStart;
-  public Button buttonOptionsBack;
-  public Button buttonStoreBack;
   // TODO
 //  public Button buttonFacebookBack;
-  public Button buttonRevive;
   public Button buttonTutorialReviveDone;
   public ParticleSystem coinBoughtEffect;
 
@@ -528,8 +524,9 @@ public class UIManager : MonoBehaviour
   private IEnumerator FadeOutStartCanvas ()
   {
     CanvasGroup group = menuStart.GetComponent<CanvasGroup>();
-    buttonStart.interactable = false;
-    
+    foreach (var v in group.GetComponentsInChildren <Selectable> ())
+      v.interactable = false;
+
     while (group.alpha > 0.0f)
     {
       float alpha = group.alpha;
@@ -579,7 +576,6 @@ public class UIManager : MonoBehaviour
    
     UpdateMusicButtons (StatsManager.inst.vMode);
 
-
     while (group.alpha < 1.0f)
     {
       float alpha = group.alpha;
@@ -589,7 +585,8 @@ public class UIManager : MonoBehaviour
     }
     
     group.alpha = 1.0f;
-    buttonOptionsBack.interactable = true;
+    foreach (var v in group.GetComponentsInChildren <Selectable> ())
+      v.interactable = true;
   }
   
 //  private IEnumerator FadeInGameOverCanvas ()
@@ -673,7 +670,8 @@ public class UIManager : MonoBehaviour
   private IEnumerator FadeOutOptionsCanvas ()
   {
     CanvasGroup group = menuOptions.GetComponent<CanvasGroup>();
-    buttonOptionsBack.interactable = false;
+    foreach (var v in group.GetComponentsInChildren <Selectable> ())
+      v.interactable = false;
 
     while (group.alpha > 0.0f)
     {
@@ -694,9 +692,6 @@ public class UIManager : MonoBehaviour
     CanvasGroup group = menuStart.GetComponent<CanvasGroup>();
     SetMenuActive (group.gameObject, true);
     
-    //    textScore.text = "0";
-//    textGameOverFeedback.GetComponent <Animator> ().enabled = false;
-    
     while (group.alpha < 1.0f)
     {
       float alpha = group.alpha;
@@ -706,7 +701,9 @@ public class UIManager : MonoBehaviour
     }
     
     group.alpha = 1.0f;
-    buttonStart.interactable = (true);
+
+    foreach (var v in group.GetComponentsInChildren <Selectable> ())
+      v.interactable = true;
   }
   
   private IEnumerator FadeInGameCanvas ()
@@ -862,17 +859,15 @@ public class UIManager : MonoBehaviour
       yield return null;
     }
 
-    buttonRevive.interactable = true;
-    menuReviveUseCoins.GetComponentInChildren <Button> ().interactable = true;
-    menuReviveWatchVideo.GetComponentInChildren <Button> ().interactable = true;
+    foreach (var v in revive.GetComponentsInChildren <Selectable> ())
+      v.interactable = true;
   }
 
   private IEnumerator FadeOutReviveCanvas ()
   {
     CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
-    buttonRevive.interactable = false;
-    menuReviveUseCoins.GetComponentInChildren <Button> ().interactable = false;
-    menuReviveWatchVideo.GetComponentInChildren <Button> ().interactable = false;
+    foreach (var v in revive.GetComponentsInChildren <Selectable> ())
+      v.interactable = false;
     
     while (revive.alpha > 0.0f)
     {
@@ -889,9 +884,8 @@ public class UIManager : MonoBehaviour
   private IEnumerator FadeOutReviveCanvasSpecial ()
   {
     CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
-    buttonRevive.interactable = false;
-    menuReviveUseCoins.GetComponentInChildren <Button> ().interactable = false;
-    menuReviveWatchVideo.GetComponentInChildren <Button> ().interactable = false;
+    foreach (var v in revive.GetComponentsInChildren <Selectable> ())
+      v.interactable = false;
     
     while (revive.alpha > 0.0f)
     {
@@ -933,14 +927,16 @@ public class UIManager : MonoBehaviour
       yield return null;
     }
 
-    buttonStoreBack.interactable = true;
+    foreach (var v in store.GetComponentsInChildren <Selectable> ())
+      v.interactable = true;
     GameManager.inst.SendMessage ("OnStoreFadeIn");
   }
   
   private IEnumerator FadeOutStoreCanvas ()
   {
     CanvasGroup store = menuStore.GetComponent <CanvasGroup> ();
-    buttonStoreBack.interactable = false;
+    foreach (var v in store.GetComponentsInChildren <Selectable> ())
+      v.interactable = false;
     
     while (store.alpha > 0.0f)
     {
@@ -1029,14 +1025,16 @@ public class UIManager : MonoBehaviour
       store.alpha = alpha;
       yield return null;
     }
-
-    buttonTutorialReviveDone.interactable = true;
+      
+    foreach (var v in store.GetComponentsInChildren <Selectable> ())
+      v.interactable = true;
   }
   
   private IEnumerator FadeOutTutorialReviveCanvas ()
   {
     CanvasGroup store = menuTutorialRevive.GetComponent <CanvasGroup> ();
-    buttonTutorialReviveDone.interactable = false;
+    foreach (var v in store.GetComponentsInChildren <Selectable> ())
+      v.interactable = false;
 
     while (store.alpha > 0.0f)
     {

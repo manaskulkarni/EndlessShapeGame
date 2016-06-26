@@ -10,10 +10,4 @@ public class AsyncLevelLoad : MonoBehaviour
   {
     SceneManager.LoadSceneAsync ("Test");
   }
-	
-  // Update is called once per frame
-  void Update ()
-  {	
-  }
-
 }

@@ -3,14 +3,29 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameCamera : MonoBehaviour
+public class GameCamera : CubiBase
 {
   public float duration = 0.3f;
   public float magnitude = 0.05f;
 
   // Use this as constructor
-  void Awake ()
+  public override void cubiAwake ()
   {
+    RegisterEvent ("GameStop", ((object sender, System.EventArgs e) =>
+    {
+      StartCoroutine (CameraShake ());
+    }));
+
+    RegisterEvent ("SetBackgroundColor", ((object sender, System.EventArgs msg) =>
+    {
+      var data = (msg as Message <ColorWheel.ColorWheelData>).data;
+      Camera.main.backgroundColor = data.color;
+    }));
+
+    RegisterEvent ("LoadBackgroundColor", ((object sender, System.EventArgs msg) =>
+    {
+      OnSetBackgroundColor ((msg as Message <ColorWheel.ColorWheelData>).data);
+    }));
   }
 
   // Use this for initialization

@@ -3,8 +3,16 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameOverFeedback : MonoBehaviour
+public class GameOverFeedback : CubiBase
 {
+  public override void cubiAwake ()
+  {
+    RegisterEvent ("GameOver", ((object sender, System.EventArgs e) =>
+    {
+      PlayFeedback ();
+    }));
+  }
+
   void OnEnable ()
   {
     if (StatsManager.inst != null)

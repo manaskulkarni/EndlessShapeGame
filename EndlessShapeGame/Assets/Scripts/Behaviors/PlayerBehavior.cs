@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Controls how the player moves based on swipe
 /// </summary>
-public class PlayerBehavior : MonoBehaviour
+public class PlayerBehavior : CubiBase
 {
 
   #region Properties
@@ -77,7 +77,7 @@ public class PlayerBehavior : MonoBehaviour
   #endregion
 
   // Use this for initialization
-  void Awake()
+  public override void cubiAwake ()
   {
     shapes = new List<Test>();
     triggers = new List<PlayerShapeTrigger>();
@@ -91,10 +91,6 @@ public class PlayerBehavior : MonoBehaviour
       done[i] = true;
       waitDone [i] = true;
     }
-  }
-  
-  void Start ()
-  {
   }
 
   public void InputDetected()

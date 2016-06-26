@@ -3,7 +3,7 @@ using System.Collections;
 using TouchScript.Gestures;
 //using TouchScript.Gestures.Simple;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : CubiBase
 {
 
   public float minDelta = 3.0f;

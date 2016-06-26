@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ShapeBehavior : MonoBehaviour
 {
@@ -28,15 +30,13 @@ public class ShapeBehavior : MonoBehaviour
   private Coroutine updateInvisible { get; set; }
   private bool update { get; set; }
 
+  public delegate void BehaviorHandle ();
+  private HashSet <BehaviorHandle> behaviors { get; set; }
+
   // Use this for initialization
   public void StartGame ()
   {
     triggered = false;
-    //    InvokeRepeating  ("UpdatePositionInvoke", Time.time, Time.deltaTime);
-//    if (updatePosition == null)
-//    {
-//      updatePosition = StartCoroutine (UpdatePosition ());
-//    }
     update = true;
 
     if (shapeType == ShapeType.Invisible)
@@ -45,9 +45,13 @@ public class ShapeBehavior : MonoBehaviour
     }
   }
 
+  public void AddBehavior (BehaviorHandle beh)
+  {
+    behaviors.Add (beh);
+  }
+
   public void StopGame ()
   {
-    //    CancelInvoke ("UpdatePositionRepeat");
     if (updatePosition != null)
     {
       StopCoroutine (updatePosition);
@@ -65,7 +69,7 @@ public class ShapeBehavior : MonoBehaviour
   {
     shapeResponse = ShapeResponse.Normal;
     Color c = Color.white;
-    c.a = spriteRenderer.color.a;
+//    c.a = spriteRenderer.color.a;
     spriteRenderer.color = c;
 
     if (updateSpecial != null)
@@ -127,26 +131,10 @@ public class ShapeBehavior : MonoBehaviour
   {
     if (update)
     {
-      gameObject.transform.position = new Vector3
-        (transform.position.x,
-         transform.position.y + ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.smoothDeltaTime,
-         transform.position.z);
+      transform.position += transform.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime;
 //      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime);
     }
   }
-
-//  // Update is called once per frame
-//  private IEnumerator UpdatePosition ()
-//  {
-//    while (true)
-//    {
-//      gameObject.transform.position = new Vector2
-//        (transform.position.x,
-//         transform.position.y + ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime);
-////      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.smoothDeltaTime);
-//      yield return null;
-//    }
-//  }
 
   private IEnumerator UpdateSpecial ()
   {

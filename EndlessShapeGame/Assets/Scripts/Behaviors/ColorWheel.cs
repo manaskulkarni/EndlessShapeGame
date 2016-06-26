@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 
-public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class ColorWheel : CubiBase, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
   public class ColorWheelData
   {
@@ -22,15 +22,22 @@ public class ColorWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
   private Transform wheelPosition { get; set; }
 
   // Use this as constructor
-  void Awake ()
+  public override void cubiAwake ()
   {
     mouseDown = false;
     wheelPosition = GameObject.Find ("ImageColorWheelPosition").transform;
-  }
 
-  // Use this for initialization
-  void Start ()
-  {
+    RegisterEvent ("LoadBackgroundColor", ((object sender, System.EventArgs msg) =>
+    {
+      var data = (msg as Message <ColorWheelData>).data;
+      wheelPosition.position = data.wheelPosition;
+    }));
+
+    RegisterEvent ("ResetBackground", ((object sender, System.EventArgs e) =>
+    {
+      wheelPosition.localPosition = Vector3.zero;
+      GameManager.inst.BroadcastMessage ("OnSetBackgroundColor", new ColorWheelData (wheelPosition.position, StatsManager.inst.defaultBackgroundColor));
+    }));
   }
 
   // Called when the pointer enters our GUI component.

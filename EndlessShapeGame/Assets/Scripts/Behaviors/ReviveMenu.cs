@@ -1,14 +1,20 @@
 using UnityEngine;
 using System.Collections;
 
-public class ReviveMenu : MonoBehaviour
+public class ReviveMenu : CubiBase
 {
-
-	// Use this for initialization
-	void Start ()
+  public override void cubiAwake ()
   {
-	
-	}
+    RegisterEvent ("LoadMainMenu", ((object sender, System.EventArgs e) =>
+    {
+      UIManager.inst.ReviveDeclined ();
+    }));
+
+    RegisterEvent ("DisableButtons", ((object sender, System.EventArgs e) =>
+    {
+      UIManager.inst.DisableReviveButtons ();
+    }));
+  }
 	
 //	// Update is called once per frame
 //	void Update ()
