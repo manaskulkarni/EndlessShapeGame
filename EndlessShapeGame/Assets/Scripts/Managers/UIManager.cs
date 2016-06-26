@@ -805,56 +805,6 @@ public class UIManager : CubiBase
     }
   }
 
-  void OnFacebookConnected (bool connected)
-  {
-    textConnectStatus.text = connected ? "Logout" : "Connect";
-  }
-
-  // TODO
-  void OnShowFacebookLeaderboard ()
-  {
-    //    StartCoroutine (FadeInFacebookLeaderboardCanvas ());
-    //    StartCoroutine (FadeOutOptionsCanvas ());
-    throw new System.NotImplementedException ();
-  }
-
-  // TODO
-  void OnHideFacebookLeaderboard ()
-  {
-    //    StartCoroutine (FadeOutFacebookLeaderboardCanvas ());
-    //    StartCoroutine (FadeInOptionsCanvas ());
-    throw new System.NotImplementedException ();
-  }
-
-  // TODO
-  void OnAddInGameItem (InGameBuyButton button)
-  {
-    //    counter++;
-    //    buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
-    throw new System.NotImplementedException ();
-  }
-
-  // TODO
-  void OnSubtractInGameItem (InGameBuyButton button)
-  {
-    //    if (counter - 1 > 0)
-    //    {
-    //      --counter;
-    //      buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
-    //    }
-    throw new System.NotImplementedException ();
-  }
-
-  // TODO
-  void OnCannotPurchaseInGameItem ()
-  {
-    //    if (!promptingDiamond)
-    //    {
-    //      StartCoroutine (BuyDiamondPrompt ());
-    //    }
-    throw new System.NotImplementedException ();
-  }
-
   // TODO
   void OnStoreButtonSwipe (ScrollSnapRect.ScrollData data)
   {
@@ -900,28 +850,11 @@ public class UIManager : CubiBase
         }
       }
     }
-    //      else if (menuPotionStore.activeSelf)
-    //      {
-    //        Transform container = potionStoreList.container;
-    //        InGameBuyButton b = container.GetChild (index).GetComponent <InGameBuyButton> ();
-    //        buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+b.price+"";
-    //        buttonBuyPotions.onClick.RemoveAllListeners ();
-    //        buttonBuyPotions.onClick.AddListener (() => {PurchaseInGameItem (b);});
-    //      }
-    //    }
   }
 
   void OnSwitchMode (int mode)
   {
     StartCoroutine (IgnoreSwitchMode (AudioManager.inst._options_menu1.volumeFadeSpeed * 2.0f));
-    //    var ui = UIManager.inst.allUI;
-    //    foreach (var v in ui)
-    //    {
-    //      if (!v.gameObject.CompareTag ("noinvert"))
-    //      {
-    //        v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
-    //      }
-    //    }
   }
 
   void OnProductsLoaded (Dictionary <string, StoreInterface.ProductTemplate> products)
@@ -980,50 +913,6 @@ public class UIManager : CubiBase
     StartCoroutine (FadeInReviveCanvas (false));
   }
 
-  // TODO
-  void OnShowSwitchToDiamondStorePrompt ()
-  {
-    //    buttonSwitchToDiamond.interactable = true;
-    //    SetMenuActive (menuSwitchDiamondStorePrompt, true);
-    throw new System.NotImplementedException ();
-  }
-
-  // TODO
-  void OnShowBuyDiamondPrompt ()
-  {
-    //    buttonBuyDiamonds.GetComponent <Animator> ().Play ("ScaleInOut");
-    //    SetMenuActive (menuSwitchDiamondStorePrompt, false);
-    //    SetMenuActive (menuBuyDiamondMessage, true);
-    //
-    //    SetMenuActive (menuSwitchPotionStorePrompt, true);
-    //
-    //    buttonSwitchToPotion.interactable = true;
-    throw new System.NotImplementedException ();
-  }
-
-  // TODO
-  void OnShowBuyPotionPrompt ()
-  {
-    //    SetMenuActive (menuSwitchPotionStorePrompt, false);
-    //    SetMenuActive (menuBuyDiamondMessage, false);
-    //    buttonBuyDiamonds.GetComponent <Animator> ().Play ("None");
-    //
-    //    buttonBuyPotions.interactable = true;
-    //
-    //    SetMenuActive (menuBuyPotionMessage, true);
-    //
-    //    buttonBuyPotions.GetComponent <Animator> ().Play ("ScaleInOut");
-    throw new System.NotImplementedException ();
-  }
-
-  // TODO
-  void OnTutorialReviveDone ()
-  {
-    //    SetMenuActive (menuBuyPotionMessage, false);
-    //    buttonBuyPotions.GetComponent <Animator> ().Play ("None");
-    throw new System.NotImplementedException ();
-  }
-
   void OnShowReadyMessage ()
   {
     StartCoroutine (FadeOutMenu (menuTutorialStart));
@@ -1035,7 +924,6 @@ public class UIManager : CubiBase
     // Only do this if watch video for revive
     if (previousState == GameManager.States.ShowRevive)
     {
-      //    previousState =  (GameManager.States)GameManager.inst.GetState ();
       animRevive.SetActive (false);
       StopAllCoroutines ();
       StartCoroutine (FadeOutMenu (menuRevive));
@@ -1047,42 +935,6 @@ public class UIManager : CubiBase
     //    animRevive.SetActive (true);
     Debug.Log ("Interstitial Failed Received");
   }
-
-  // TODO
-  //  void ShowDiamondStore ()
-  //  {
-  //    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
-  //    Color c = diamond.color;
-  //    c.a = 100.0f / 255.0f;
-  //    diamond.color = c;
-  //
-  //    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
-  //    c = potion.color;
-  //    c.a = 30.0f / 255.0f;
-  //    potion.color = c;
-  //
-  //    menuDiamondStore.SetActive (true);
-  //    menuPotionStore.SetActive (false);
-  //    OnStoreButtonSwipe (diamondStoreList.currentPage);
-  //  }
-  //
-  //  void ShowPotionStore ()
-  //  {
-  //    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
-  //    Color c = diamond.color;
-  //    c.a = 30.0f / 255.0f;
-  //    diamond.color = c;
-  //    
-  //    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
-  //    c = potion.color;
-  //    c.a = 100.0f / 255.0f;
-  //    potion.color = c;
-  //
-  //    menuDiamondStore.SetActive (false);
-  //    menuPotionStore.SetActive (true);
-  //
-  //    OnStoreButtonSwipe (potionStoreList.currentPage);
-  //  }
 
   private IEnumerator IncreaseCoins ()
   {
@@ -1124,50 +976,6 @@ public class UIManager : CubiBase
     int price = StatsManager.inst.reviveCoinsPrice;
     textRevivePrice.text = ""+price+"";
   }
-
-  //  void OnDifficultyChange ()
-  //  {
-  //    GameObject go = GameObject.Find ("GroupDifficulty");
-  //
-  //    for (int i = 0; i < go.transform.childCount; ++i)
-  //    {
-  //      Image image = go.transform.GetChild (i).GetComponent <Image> ();
-  //      if (i == (int) GameManager.inst.gameSettings.dificultyLevel)
-  //      {
-  //        image.color = Color.gray;
-  //      }
-  //      else
-  //      {
-  ////        image.color = new Color (45.0f / 255.0f, 45.0f / 255.0f, 45.0f / 255.0f, 1.0f);
-  //        image.color = Color.white * 0.3f;
-  //      }
-  //    }
-  //
-  //    textGameOverScore.text = BestScore ();
-  //    textGameOverFeedback.text = null;
-  //  }
-
-  //  void OnSpeedChange ()
-  //  {
-  //    GameObject go = GameObject.Find ("GroupSpeed");
-  //    
-  //    for (int i = 0; i < go.transform.childCount; ++i)
-  //    {
-  //      Image image = go.transform.GetChild (i).GetComponent <Image> ();
-  //      if (i == (int) GameManager.inst.gameSettings.speedLevel)
-  //      {
-  //        image.color = Color.gray;
-  //      }
-  //      else
-  //      {
-  ////        image.color = new Color (45.0f / 255.0f, 45.0f / 255.0f, 45.0f / 255.0f, 1.0f);
-  //        image.color = Color.white * 0.3f;
-  //      }
-  //    }
-  //
-  //    textGameOverScore.text = BestScore ();
-  //    textGameOverFeedback.text = null;
-  //  }
 
   #endregion
 

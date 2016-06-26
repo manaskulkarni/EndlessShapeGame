@@ -7,12 +7,12 @@ using AdToApp;
 
 public class AdManager : MonoBehaviour
 {
-  #if UNITY_ANDROID
+//  #if UNITY_ANDROID
   private bool sendInterstitialFailed = false;
   private bool sendInterstitialStarted = false;
   private bool sendEndVideo = false;
   private bool sendRewardComplete = false;
-  #endif
+//  #endif
 
   static public AdManager inst { get; private set; }
 
