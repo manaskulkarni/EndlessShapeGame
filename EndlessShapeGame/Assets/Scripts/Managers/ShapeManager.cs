@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Linq;
 
-public class ShapeManager : MonoBehaviour
+public class ShapeManager : CubiBase
 {
   #region Structs
   public class ShapePool
@@ -216,7 +216,7 @@ public class ShapeManager : MonoBehaviour
   static public ShapeManager inst { get; private set; }
   #endregion
 
-  void Awake()
+  public override void cubiAwake()
   {
     if (inst == null)
     {
@@ -437,8 +437,7 @@ public class ShapeManager : MonoBehaviour
             Shuffle<ShapeProperties>(shapeProperties);
 
             // Add Point to Player Stats
-            StatsManager.inst.AddPoint();
-            UIManager.inst.UpdateScore();
+            InvokeMessage ("UpdateScore");
                         
             StartCoroutine(DestroyShape(shapeBehavior));
             if (playerFeedback != null)
@@ -492,8 +491,8 @@ public class ShapeManager : MonoBehaviour
           else
           {
             // Add Point to Player Stats
-            StatsManager.inst.AddPoint();
-            UIManager.inst.UpdateScore();
+            InvokeMessage ("UpdateScore");
+//            UIManager.inst.UpdateScore();
             
             Shuffle<ShapeProperties>(shapeProperties);
             StartCoroutine(DestroyShape(shapeBehavior));
@@ -683,6 +682,7 @@ public class ShapeManager : MonoBehaviour
 
   void OnReviveCompleteStart ()
   {
+    OnHideStore ();
   }
 
   void OnReviveCompleteEnd ()
@@ -981,7 +981,7 @@ public class ShapeManager : MonoBehaviour
   private IEnumerator FadeInShape (CoroutineData data)
   {
     ShapeBehavior shape = data.shape;
-    float alpha = 0.0f;
+    var alpha = shape.spriteRenderer.color.a;
     while (alpha < 1.0f)
     {
       Color c = shape.spriteRenderer.color;

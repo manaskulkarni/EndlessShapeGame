@@ -70,10 +70,8 @@ public class PropertyAnimator : CubiBase, ISerializationCallbackReceiver
   public System.ValueType to;
 
   private delegate void LerpHandle ();
-  private LerpHandle lerp;
-
-  private delegate object InvokeDel (object obj, object [] parameters);
-  InvokeDel inv;
+  private LerpHandle lerp { get; set; }
+  private bool serialized { get; set; }
 
   public delegate T1 Action<T1, T2>(T1 obj, T2 index);
   public delegate void Action<T1, T2, T3>(T1 obj, T2 val, T3 index);
@@ -87,7 +85,20 @@ public class PropertyAnimator : CubiBase, ISerializationCallbackReceiver
   private FieldGetter fieldGetter { get; set; }
   private FieldSetter fieldSetter { get; set; }
 
+  public PropertyAnimator ()
+  {
+    serialized = false;
+  }
+
   public override void cubiAwake ()
+  {
+    if (serialized)
+    {
+      ConfigureAnimation ();
+    }
+  }
+
+  private void ConfigureAnimation ()
   {
     target = GetComponent (componentName);
     if (memberType == MemberTypes.Field)
@@ -104,12 +115,11 @@ public class PropertyAnimator : CubiBase, ISerializationCallbackReceiver
         typeof(object)
       });
       //
-      fieldSetter = (FieldSetter)Delegate.CreateDelegate (typeof (FieldSetter), field, set);
+      fieldSetter = (FieldSetter)Delegate.CreateDelegate (typeof(FieldSetter), field, set);
 
       if (defaultStartValue)
         fieldSetter (target, from);
-    }
-    else
+    } else
     {
       var prop = target.GetType ().GetProperty (memberName);
 
@@ -117,16 +127,16 @@ public class PropertyAnimator : CubiBase, ISerializationCallbackReceiver
         typeof(object),
         typeof(object[])
       });
-      propGetter = (Action <object, object []>)Delegate.CreateDelegate (typeof(Action<object, object[]>), prop.GetGetMethod (), get);
-//
+      propGetter = (Action <object, object[]>)Delegate.CreateDelegate (typeof(Action<object, object[]>), prop.GetGetMethod (), get);
+      //
       MethodInfo set = prop.GetSetMethod ().GetType ().GetMethod ("Invoke", new Type[] {
         typeof(object),
         typeof(object[])
       });
-      propSetter = (Action <object, object []>)Delegate.CreateDelegate (typeof(Action<object, object[]>), prop.GetSetMethod (), set);
+      propSetter = (Action <object, object[]>)Delegate.CreateDelegate (typeof(Action<object, object[]>), prop.GetSetMethod (), set);
 
       if (defaultStartValue)
-        propSetter (target, new object [] {from});
+        propSetter (target, new object [] { from });
     }
 
     ChooseLerpHandle ();
@@ -135,6 +145,43 @@ public class PropertyAnimator : CubiBase, ISerializationCallbackReceiver
     {
       lerp ();
     });
+  }
+
+  public void SetAnimation
+  (
+    System.ValueType f,
+    System.ValueType t,
+    string compName,
+    string varName,
+    string eventName,
+    MemberTypes memType = MemberTypes.Property,
+    bool sendStart = false,
+    string start = "",
+    bool sendFinish = false,
+    string finish = "",
+    float time = 1.0f,
+    AnimationCurve animCurve = null)
+  {
+    from = f;
+    to = t;
+    componentName = compName;
+    memberName = varName;
+
+    if (animCurve == null)
+      curve = AnimationCurve.Linear (0.0f, 1.0f, 1.0f, 1.0f);
+    else
+      curve = animCurve;
+
+    eventListener = eventName;
+    sendEventOnStart = sendStart;
+    sendEventOnFinish = sendFinish;
+    startEventName = start;
+    finishEventName = finish;
+    memberType = memType;
+    serialized = true;
+
+    UnregisterAll ();
+    ConfigureAnimation ();
   }
 
   private void ChooseLerpHandle ()
@@ -443,6 +490,8 @@ public class PropertyAnimator : CubiBase, ISerializationCallbackReceiver
   {
     DeserializeValue (ref from, memberValueFrom);
     DeserializeValue (ref to, memberValueTo);
+
+    serialized = true;
   }
 
   #endregion

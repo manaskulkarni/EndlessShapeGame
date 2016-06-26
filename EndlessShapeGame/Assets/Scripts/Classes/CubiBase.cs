@@ -55,6 +55,13 @@ public class CubiBase : Dummy
     }
   }
 
+  public void UnregisterAll ()
+  {
+    events.Clear ();
+    currentRegistered.Clear ();
+    Observer.Clear ();
+  }
+
   public void InvokeMessage(object sender, string fun, System.EventArgs msg = null)
   {
     if (!events.ContainsKey(fun))
@@ -69,10 +76,12 @@ public class CubiBase : Dummy
     if (enabled != true)
       return;
 
-    if (msg != null)
-      events[fun](sender, msg);
-    else
-      events[fun](sender, new System.EventArgs());
+    events[fun](sender, msg);
+  }
+
+  public void InvokeMessage (string fun, System.EventArgs msg = null)
+  {
+    InvokeMessage (this, fun, msg);
   }
 
   public void InvokeMessage<T>(object sender,string fun, T msg)
@@ -102,10 +111,7 @@ public class CubiBase : Dummy
     if (enabled != true)
       return;
 
-    if (msg != null)
-      events[fun](sender, msg);
-    else
-      events[fun](sender, new System.EventArgs());
+    events[fun](sender, msg);
   }
 
   public void InvokeMessageDontRequireReceiver<T>(object sender,string fun, T msg)
@@ -136,21 +142,19 @@ public class CubiBase : Dummy
 
   public sealed override void OnDestroy()
   {
-    List<Component> c =new List<Component>( gameObject.GetComponents<CubiBase>());
-
     //if this component is the last existing component, then un-list current gameobject as listener
-    if(c.Count == 1)
+    if(gameObject.GetComponents<CubiBase>().Length == 1)
     {
       //print( gameObject.name + " has been unlist from listener");
       Observer.Remove(gameObject);
     }
 
     //Destroy all registered event
-    foreach (KeyValuePair<string, EventHandler> h in currentRegistered)
+    foreach (var h in currentRegistered)
     {
       events[h.Key] -= h.Value;
     }
-      cubiOnDestroy();
+    cubiOnDestroy();
   }
 
   public virtual void cubiAwake()

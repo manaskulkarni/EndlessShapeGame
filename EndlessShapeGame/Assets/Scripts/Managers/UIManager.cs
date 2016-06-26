@@ -4,70 +4,21 @@ using System.Collections;
 using System.Collections.Generic;
 using BadassProjects.StateMachine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : CubiBase
 {
-//  public enum States
-//  {
-//    FadeInStart,
-//    FadeOutStart,
-//    FadeInRevive,
-//    FadeOutRevive,
-//    FadeInStore,
-//    FadeOutStore,
-//    None,
-//  }
-
-  // TODO
-//  public enum StoreType
-//  {
-//    Diamonds,
-//    Potions,
-//  }
-
-  // TODO
-//  public class InGameBuyButtonData
-//  {
-//    public InGameBuyButtonData (InGameBuyButton b, int c)
-//    {
-//      button = b;
-//      count = c;
-//    }
-//    public InGameBuyButton button;
-//    public int count;
-//  }
-  
-  
-  // Public Members
-  //  public GameObject menuGameOver
-  //  {
-  //    get;
-  //    private set;
-  //  }
-  
   static public UIManager inst { get; private set; }
-  
+
   // Private Members
   private GameObject menuStart { get; set; }
   private GameObject menuGame { get; set; }
   private GameObject menuOptions { get; set; }
-//  private GameObject menuGameOver { get; set; }
-//  private GameObject menuCoins { get; set; }
+  //  private GameObject menuGameOver { get; set; }
+  //  private GameObject menuCoins { get; set; }
   private GameObject menuRevive { get; set; }
   private GameObject menuStore { get; set; }
   private GameObject menuColor { get; set; }
   private GameObject menuMusic { get; set; }
 
-  /// <summary>
-  /// Safety check if revive at last minute and ReviveDeclined called at same time
-  /// </summary>
-  /// <value><c>true</c> if using revive; otherwise, <c>false</c>.</value>
-//  private bool usingRevive { get; set; }
-  // TODO
-//  private GameObject menuFacebookLeaderboard { get; set; }
-  // TODO
-//  private GameObject menuDiamondStore { get; set; }
-  // TODO
-//  private GameObject menuPotionStore { get; set; }
   private GameObject menuTutorialStart { get; set; }
   private GameObject menuTutorialRevive { get; set; }
   private GameObject menuReady { get; set; }
@@ -82,23 +33,23 @@ public class UIManager : MonoBehaviour
   private Text textConnectStatus { get; set; }
   private Image imageCircle { get; set; }
   private Color startImageCircleColor { get; set; }
-  
+
   public ScrollSnapRect diamondStoreList;
   public ScrollSnapRect musicList;
-//  public ScrollSnapRect potionStoreList;
+  //  public ScrollSnapRect potionStoreList;
 
   // TODO
-//  public Button buttonFacebookBack;
+  //  public Button buttonFacebookBack;
   public Button buttonTutorialReviveDone;
   public ParticleSystem coinBoughtEffect;
 
 
   // TODO
-//  public Button buttonSwitchToDiamond;
-//  public Button buttonSwitchToPotion;
+  //  public Button buttonSwitchToDiamond;
+  //  public Button buttonSwitchToPotion;
 
   public Button buttonBuyDiamonds;
-//  public Button buttonBuyPotions;
+  //  public Button buttonBuyPotions;
 
   public Text textTutorial;
   public Text textReady;
@@ -110,30 +61,32 @@ public class UIManager : MonoBehaviour
   public GameObject menuReviveUseCoins;
 
   // TODO
-//  public GameObject menuSwitchDiamondStorePrompt;
-//  public GameObject menuSwitchPotionStorePrompt;
-//  public GameObject menuBuyDiamondMessage;
-//  public GameObject menuBuyPotionMessage;
+  //  public GameObject menuSwitchDiamondStorePrompt;
+  //  public GameObject menuSwitchPotionStorePrompt;
+  //  public GameObject menuBuyDiamondMessage;
+  //  public GameObject menuBuyPotionMessage;
 
   public MaskableGraphic [] allUI { get; set; }
-  
+
   private GameManager.States previousState { get; set; }
 
   private Vector2 originalReviveButtonPosition;
-  
-  void Awake ()
+  private bool switchingMode = false;
+
+  public override void cubiAwake ()
   {
     if (inst == null)
     {
       inst = this;
-//      Initialize <States> ();
+      //      Initialize <States> ();
     }
     else
     {
       GameObject.Destroy (gameObject);
+      return;
     }
   }
-  
+
   // Use this for initialization
   void Start ()
   {
@@ -151,16 +104,9 @@ public class UIManager : MonoBehaviour
 
     imageReviveButtonSeparator = GameObject.Find ("ReviveSeparator");
 
-//    menuFacebookLeaderboard = GameObject.Find ("MenuFacebookLeaderboard");
-//    menuFacebookLeaderboard.GetComponent <CanvasGroup> ().alpha = 0.0f;
     textGameOverScore = GameObject.Find ("TextGameOverScore").GetComponent <Text> ();
     textGameOverFeedback = GameObject.Find ("TextGameOverFeedback").GetComponent <Text> ();
-//    textGameOverFeedback.GetComponent <Animator> ().Stop ();
-    var textConnectStatusGo = GameObject.Find ("TextConnectStatus");
-    if (textConnectStatusGo)
-    {
-      textConnectStatus = textConnectStatusGo.GetComponent <Text> ();
-    }
+
     imageCircle = GameObject.Find ("ImageCircle").GetComponent <Image> ();
     startImageCircleColor = imageCircle.color;
     imageCircle.gameObject.SetActive (false);
@@ -168,13 +114,11 @@ public class UIManager : MonoBehaviour
     menuTutorialStart = GameObject.Find ("MenuTutorialStart");
     menuTutorialRevive = GameObject.Find ("MenuTutorialRevive");
     menuReady = GameObject.Find ("MenuReady");
-    // TODO
-//    menuDiamondStore = GameObject.Find ("MenuDiamondStore");
-//    menuPotionStore = GameObject.Find ("MenuPotionStore");
-//    ShowDiamondStore ();
-    
+
     textGameOverScore.text = BestScore ();
     textGameOverFeedback.text = "";
+
+
 
     UpdateMusicButtons (StatsManager.inst.vMode);
 
@@ -185,74 +129,57 @@ public class UIManager : MonoBehaviour
     SetMenuActive (menuRevive, false);
     SetMenuActive (menuStore, false);
     SetMenuActive (menuMusic, false);
-//    buttonFacebookBack.interactable = false;
-//    buttonStoreBack.interactable = false;
 
     menuOptions = GameObject.Find ("MenuOptions");
-//    buttonOptionsBack.interactable = false;
     SetMenuActive (menuOptions, false);
-    
-//    menuGameOver = GameObject.Find ("MenuGameOver");
-//    SetMenuActive (menuGameOver, false);
-    
-//    menuCoins = GameObject.Find ("MenuCoins");
-//    SetMenuActive (menuCoins, false);
-//    SetMenuActive (menuFacebookLeaderboard, false);
-    
+
     menuGame = GameObject.Find ("MenuGame");
     textScore = GameObject.Find ("TextScore").GetComponent <Text> ();
     textPauseTimer = GameObject.Find ("TextPauseTimer").GetComponent <Text> ();
     textPauseTimer.enabled = false;
     textScore.text = ZeroScore ();
-    
+
     UpdateCoinsText ();
-    
+
     SetMenuActive (menuGame, false);
-    
-    //    menuGameOver = GameObject.Find ("MenuGameOver");
-    //    SetMenuActive (menuGameOver, false);
 
     originalReviveButtonPosition = menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition;
-  }
-  
-  public void UpdateScore ()
-  {
-    //    if (StatsManager.inst.isHighScoreRT)
-    //    {
-    //      StartCoroutine (HighScoreFeedback ());
-    //    }
-    //    else
+
+    RegisterEvent ("FadeInOptions", ((object sender, System.EventArgs e) =>
+    {
+      UpdateMusicButtons (StatsManager.inst.vMode);
+    }));
+
+    RegisterEvent ("FadeInStore", ((object sender, System.EventArgs e) =>
+    {
+      GameManager.inst.SendMessage ("OnStoreFadeIn");
+    }));
+
+    RegisterEvent ("FadeOutRevive", ((object sender, System.EventArgs e) =>
+    {
+      if (GameManager.inst.GetState ().Equals (GameManager.States.AcceptRevive))
+      {
+        GameManager.inst.ChangeState (GameManager.States.ReviveCompleteStart);
+      }
+    }));
+
+    RegisterEvent ("UpdateScore", ((object sender, System.EventArgs e) =>
     {
       textScore.text = ""+StatsManager.inst.score+"";
-    }
-    //    StartCoroutine (ScoreUpdateFeedback ());
+    }));
   }
-  
-  public void DisplayScore ()
-  {
-    //    Text text = menuGameOver.GetComponentInChildren <Text> ();
-    //    text.text += "\n Score: " + StatsManager.inst.score.ToString ();
-  }
-  
+
   public void ShowOptions ()
   {
     GameManager.inst.ChangeState (GameManager.States.ShowOptions); 
-    //    SetMenuActive (menuOptions, true);
-    //    SetMenuActive (menuStart, false);
-    //    //    SetMenuActive (menuGameOver, false);
-    //    SetMenuActive (menuGame, false);
-    
-    #region Old Options Menu Code
-    //    OnDifficultyChange ();
-    //    OnSpeedChange ();
-    #endregion
-  }	
+  }
+
   public void ShowMusicMenu()
   {
     musicList.SetPage (StatsManager.inst.vMode);
-    StartCoroutine(FadeOutColorCanvas());
+    StartCoroutine(FadeOutMenu(menuColor));
 
-    StartCoroutine(FadeInMusicCanvas());
+    StartCoroutine(FadeInMenu(menuMusic));
 
     GameObject.Find ("ButtonColorOption").GetComponent <Image> ().color = Color.clear;
     GameObject.Find ("ButtonMusicOption").GetComponent <Image> ().color = new Color (1.0f, 1.0f, 1.0f, 50.0f / 255.0f);
@@ -262,8 +189,8 @@ public class UIManager : MonoBehaviour
 
   public void ShowColorMenu()
   {
-    StartCoroutine(FadeOutMusicCanvas());
-    StartCoroutine(FadeInColorCanvas());
+    StartCoroutine(FadeOutMenu(menuMusic));
+    StartCoroutine(FadeInMenu(menuColor));
 
     GameObject.Find ("ButtonMusicOption").GetComponent <Image> ().color = Color.clear;
     GameObject.Find ("ButtonColorOption").GetComponent <Image> ().color = new Color (1.0f, 1.0f, 1.0f, 50.0f / 255.0f);
@@ -312,31 +239,31 @@ public class UIManager : MonoBehaviour
 
   public void EndGame ()
   {
-//    StartCoroutine (FadeOutGameOverCanvas ());
+    //    StartCoroutine (FadeOutGameOverCanvas ());
     //    Camera.main.backgroundColor = Utils.Color255 (100, 122, 141, 5);
-    StartCoroutine (FadeInStartCanvas ());
+    StartCoroutine (FadeInMenu (menuStart));
   }
-  
+
   public void HideOptions ()
   {
     GameManager.inst.ChangeState (GameManager.States.HideOptions);
   }
-  
+
   public void ShowLeaderBoard ()
   {
     StatsManager.inst.ShowLeaderBoard ();
   }
-  
+
   public void ShowAchievements ()
   {
     StatsManager.inst.ShowAchievements ();
   }
-  
+
   public void ShowStore ()
   {
     GameManager.inst.ChangeState (GameManager.States.ShowStore);
   }
-  
+
   public void HideStore ()
   {
     GameManager.inst.ChangeState (GameManager.States.HideStore);
@@ -353,10 +280,10 @@ public class UIManager : MonoBehaviour
     else
     {
       previousState = GameManager.States.ShowRevive;
-//      Debug.Log ("PREVIOUS STATE : " + previousState);
+      //      Debug.Log ("PREVIOUS STATE : " + previousState);
       animRevive.SetActive (false);
       StopAllCoroutines ();
-      StartCoroutine (FadeOutReviveCanvas ());
+      StartCoroutine (FadeOutMenu (menuRevive));
       GameManager.inst.ChangeState (GameManager.States.ShowStore);
     }
   }
@@ -367,13 +294,13 @@ public class UIManager : MonoBehaviour
   {
     previousState = GameManager.States.ShowRevive;
     //      Debug.Log ("PREVIOUS STATE : " + previousState);
-//    animRevive.SetActive (false);
+    //    animRevive.SetActive (false);
     GameManager.inst.BroadcastMessage ("OnShowVideo");
   }
-  
+
   public void ReviveDeclined ()
   {
-//    if (!usingRevive)
+    //    if (!usingRevive)
     {
       GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
     }
@@ -384,7 +311,7 @@ public class UIManager : MonoBehaviour
     menuReviveUseCoins.GetComponentInChildren <Button> ().interactable = false;
     menuReviveWatchVideo.GetComponentInChildren <Button> ().interactable = false;
   }
-  
+
   public void PurchaseItem (StoreButton button)
   {
     GameManager.inst.SendMessage ("PurchaseItem", button);
@@ -393,43 +320,43 @@ public class UIManager : MonoBehaviour
   // TODO
   public void PurchaseInGameItem (InGameBuyButton button)
   {
-//    Debug.Log ("PURCHASE IN GAME ITEM");
-//    GameManager.inst.SendMessage ("PurchaseInGameItem", new InGameBuyButtonData (button, counter));
+    //    Debug.Log ("PURCHASE IN GAME ITEM");
+    //    GameManager.inst.SendMessage ("PurchaseInGameItem", new InGameBuyButtonData (button, counter));
     throw new System.NotImplementedException ();
   }
 
   // TODO
   public void AddInGameItem (InGameBuyButton button)
   {
-//    GameManager.inst.SendMessage ("AddInGameItem", button);
+    //    GameManager.inst.SendMessage ("AddInGameItem", button);
     throw new System.NotImplementedException ();
   }
 
   // TODO
   public void SubtractInGameItem (InGameBuyButton button)
   {
-//    GameManager.inst.SendMessage ("SubtractInGameItem", button);
+    //    GameManager.inst.SendMessage ("SubtractInGameItem", button);
     throw new System.NotImplementedException ();
   }
 
   // TODO
   public void FacebookConnect ()
   {
-//    GameManager.inst.ChangeState (GameManager.States.FacebookConnect);
+    //    GameManager.inst.ChangeState (GameManager.States.FacebookConnect);
     throw new System.NotImplementedException ();
   }
 
   // TODO
   public void ShowFacebookLeaderboard ()
   {
-//    GameManager.inst.ChangeState (GameManager.States.TryShowFacebookLeaderboard);
+    //    GameManager.inst.ChangeState (GameManager.States.TryShowFacebookLeaderboard);
     throw new System.NotImplementedException ();
   }
 
   // TODO
   public void HideFacebookLeaderboard ()
   {
-//    GameManager.inst.ChangeState (GameManager.States.HideFacebookLeaderboard);
+    //    GameManager.inst.ChangeState (GameManager.States.HideFacebookLeaderboard);
     throw new System.NotImplementedException ();
   }
 
@@ -443,46 +370,27 @@ public class UIManager : MonoBehaviour
     GameManager.inst.ChangeState (GameManager.States.RemoveAds);
   }
 
-  private bool switchingMode = false;
-
-  public void InvertColor ()
-  {
-    if (!switchingMode)
-    {
-      switchingMode = true;
-
-      if (StatsManager.inst.vMode == 0)
-      {
-        GameManager.inst.SendMessage ("SwitchMode", 1, SendMessageOptions.DontRequireReceiver);
-      }
-      else
-      {
-        GameManager.inst.SendMessage ("SwitchMode", 0, SendMessageOptions.DontRequireReceiver);
-      }
-    }
-  }
-
   // TODO
   public void SwitchStore (int store)
   {
-//    var type = (StoreType) store;
-//    if (menuDiamondStore.activeSelf && type == StoreType.Diamonds ||
-//      menuPotionStore.activeSelf && type == StoreType.Potions)
-//    {
-//      return;
-//    }
-//
-//    switch (type)
-//    {
-//    case StoreType.Diamonds:
-//      ShowDiamondStore ();
-//      break;
-//    case StoreType.Potions:
-//      ShowPotionStore ();
-//      break;
-//    }
-//
-//    GameManager.inst.SendMessage ("OnSwitchStore", store);
+    //    var type = (StoreType) store;
+    //    if (menuDiamondStore.activeSelf && type == StoreType.Diamonds ||
+    //      menuPotionStore.activeSelf && type == StoreType.Potions)
+    //    {
+    //      return;
+    //    }
+    //
+    //    switch (type)
+    //    {
+    //    case StoreType.Diamonds:
+    //      ShowDiamondStore ();
+    //      break;
+    //    case StoreType.Potions:
+    //      ShowPotionStore ();
+    //      break;
+    //    }
+    //
+    //    GameManager.inst.SendMessage ("OnSwitchStore", store);
     throw new System.NotImplementedException ();
   }
 
@@ -490,238 +398,13 @@ public class UIManager : MonoBehaviour
   {
     StatsManager.inst.ShowRateUsDialog ();
   }
-    
+
   public void TutorialReviveDone ()
   {
     GameManager.inst.SendMessage ("TutorialReviveDone");
   }
 
   #region Coroutines
-  
-  private IEnumerator HighScoreFeedback ()
-  {
-    float originalAlpha = textScore.color.a;
-    
-    while (textScore.color.a <= 1.0f)
-    {
-      Color color = textScore.color;
-      color.a += Time.deltaTime * 2.0f;
-      textScore.color = color;
-      yield return null;
-    }
-    
-    while (textScore.color.a >= originalAlpha)
-    {
-      Color color = textScore.color;
-      color.a -= Time.deltaTime * 2.0f;
-      textScore.color = color;
-      yield return null;
-    }
-    
-    textScore.text = ""+StatsManager.inst.score+"";
-  }
-  
-  private IEnumerator FadeOutStartCanvas ()
-  {
-    CanvasGroup group = menuStart.GetComponent<CanvasGroup>();
-    foreach (var v in group.GetComponentsInChildren <Selectable> ())
-      v.interactable = false;
-
-    while (group.alpha > 0.0f)
-    {
-      float alpha = group.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      group.alpha = alpha;
-      yield return null;
-    }
-    
-    group.alpha = 0.0f;
-    SetMenuActive (group.gameObject, false);
-  }
-  
-  private IEnumerator FadeOutGameCanvas ()
-  {
-    CanvasGroup group = menuGame.GetComponent<CanvasGroup>();
-    while (group.alpha > 0.0f)
-    {
-      float alpha = group.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      group.alpha = alpha;
-      yield return null;
-    }
-    
-    group.alpha = 0.0f;
-    SetMenuActive (group.gameObject, false);
-  }
-  
-//  private IEnumerator FadeOutGameOverCanvas ()
-//  {
-//    CanvasGroup group = menuGameOver.GetComponent<CanvasGroup>();
-//    while (group.alpha > 0.0f)
-//    {
-//      float alpha = group.alpha;
-//      alpha -= Time.deltaTime * 5.0f;
-//      group.alpha = alpha;
-//      yield return null;
-//    }
-//    
-//    group.alpha = 0.0f;
-//    SetMenuActive (group.gameObject, false);
-//  }
-  
-  private IEnumerator FadeInOptionsCanvas ()
-  {
-    CanvasGroup group = menuOptions.GetComponent<CanvasGroup>();
-    SetMenuActive (group.gameObject, true);
-   
-    UpdateMusicButtons (StatsManager.inst.vMode);
-
-    while (group.alpha < 1.0f)
-    {
-      float alpha = group.alpha;
-      alpha += Time.deltaTime * 5.0f;
-      group.alpha = alpha;
-      yield return null;
-    }
-    
-    group.alpha = 1.0f;
-    foreach (var v in group.GetComponentsInChildren <Selectable> ())
-      v.interactable = true;
-  }
-  
-//  private IEnumerator FadeInGameOverCanvas ()
-//  {
-//    CanvasGroup group = menuGameOver.GetComponent<CanvasGroup>();
-//    SetMenuActive (group.gameObject, true);
-//    
-//    while (group.alpha < 1.0f)
-//    {
-//      float alpha = group.alpha;
-//      alpha += Time.deltaTime * 5.0f;
-//      group.alpha = alpha;
-//      yield return null;
-//    }
-//    
-//    group.alpha = 1.0f;
-//  }
-
-  private IEnumerator FadeOutColorCanvas()
-  {
-    CanvasGroup group = menuColor.GetComponent<CanvasGroup>();
-
-    while (group.alpha > 0.0f)
-    {
-      float alpha = group.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      group.alpha = alpha;
-      yield return null;
-    }
-
-    group.alpha = 0.0f;
-    SetMenuActive(group.gameObject, false);
-  }
-
-  private IEnumerator FadeInColorCanvas()
-  {
-    CanvasGroup group = menuColor.GetComponent<CanvasGroup>();
-    SetMenuActive(group.gameObject, true);
-
-    while(group.alpha < 1.0f)
-    {
-      float alpha = group.alpha;
-      alpha += Time.deltaTime * 2.0f;
-      group.alpha += alpha;
-      yield return null;
-    }
-    group.alpha = 1.0f;
-  }
-
-  private IEnumerator FadeOutMusicCanvas()
-  {
-    CanvasGroup group = menuMusic.GetComponent<CanvasGroup>();
-
-    while (group.alpha > 0.0f)
-    {
-      float alpha = group.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      group.alpha = alpha;
-      yield return null;
-    }
-
-    group.alpha = 0.0f;
-    SetMenuActive(group.gameObject, false);
-  }
-
-  private IEnumerator FadeInMusicCanvas()
-  {
-    CanvasGroup group = menuMusic.GetComponent<CanvasGroup>();
-    SetMenuActive(group.gameObject, true);
-
-    while (group.alpha < 1.0f)
-    {
-      float alpha = group.alpha;
-      alpha += Time.deltaTime * 2.0f;
-      group.alpha += alpha;
-      yield return null;
-    }
-    group.alpha = 1.0f;
-  }
-
-  private IEnumerator FadeOutOptionsCanvas ()
-  {
-    CanvasGroup group = menuOptions.GetComponent<CanvasGroup>();
-    foreach (var v in group.GetComponentsInChildren <Selectable> ())
-      v.interactable = false;
-
-    while (group.alpha > 0.0f)
-    {
-      float alpha = group.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      group.alpha = alpha;
-      yield return null;
-    }
-    
-    group.alpha = 0.0f;
-    SetMenuActive(group.gameObject, false);
-  }
-
-
-  
-  private IEnumerator FadeInStartCanvas ()
-  {
-    CanvasGroup group = menuStart.GetComponent<CanvasGroup>();
-    SetMenuActive (group.gameObject, true);
-    
-    while (group.alpha < 1.0f)
-    {
-      float alpha = group.alpha;
-      alpha += Time.deltaTime * 5.0f;
-      group.alpha = alpha;
-      yield return null;
-    }
-    
-    group.alpha = 1.0f;
-
-    foreach (var v in group.GetComponentsInChildren <Selectable> ())
-      v.interactable = true;
-  }
-  
-  private IEnumerator FadeInGameCanvas ()
-  {
-    CanvasGroup group = menuGame.GetComponent<CanvasGroup>();
-    SetMenuActive (group.gameObject, true);
-    
-    while (group.alpha < 1.0f)
-    {
-      float alpha = group.alpha;
-      alpha += Time.deltaTime * 5.0f;
-      group.alpha = alpha;
-      yield return null;
-    }
-    
-    group.alpha = 1.0f;
-  }
-  
   private IEnumerator StartPauseTimer ()
   {
     yield return new WaitForSeconds (2.0f);
@@ -733,17 +416,15 @@ public class UIManager : MonoBehaviour
     textPauseTimer.enabled = true;
     textPauseTimer.text = ""+i+"";
     textScore.enabled = false;
-//    textPauseTimer.color = new Color (0.0f, 0.0f, 0.0f, textScore.color.a);
-    
+
     while (i > 0)
     {
       --i;
-      var cor = StartCoroutine (StartPopFeedback(textPauseTimer));
-      yield return new WaitForSeconds (0.5f);
       textPauseTimer.text = ""+i+"";
-      StopCoroutine (cor);
+      yield return StartCoroutine (StartPopFeedback(textPauseTimer));
+      yield return new WaitForSeconds (0.5f);
     }
-    
+
     textScore.enabled = true;
     textPauseTimer.enabled = false;
     GameManager.inst.ChangeState (GameManager.States.UnPause);
@@ -761,7 +442,7 @@ public class UIManager : MonoBehaviour
     textPauseTimer.enabled = true;
     textPauseTimer.text = ""+i+"";
     textScore.enabled = false;
-//    textPauseTimer.color = new Color (0.0f, 0.0f, 0.0f, textScore.color.a);
+    //    textPauseTimer.color = new Color (0.0f, 0.0f, 0.0f, textScore.color.a);
 
     while (i > 0)
     {
@@ -785,14 +466,14 @@ public class UIManager : MonoBehaviour
     while (scale < 1.5f)
     {
       scale += Time.deltaTime * 5.0f;
-//      if (scale > 1.5f) scale = 1.4f;
+      //      if (scale > 1.5f) scale = 1.4f;
       text.transform.localScale = Vector2.one * scale;
       yield return null;
     }
     while (scale > 1.0f)
     {
       scale -= Time.deltaTime * 5.0f;
-//      if (scale < 1.0f) scale = 1.0f;
+      //      if (scale < 1.0f) scale = 1.0f;
       text.transform.localScale = Vector2.one * scale;
       yield return null;
     }
@@ -816,7 +497,7 @@ public class UIManager : MonoBehaviour
   {
     Color c = image.color;
     image.gameObject.SetActive (true);
-    
+
     while (c.a < 1.0f)
     {
       c.a += Time.deltaTime * speed;
@@ -825,257 +506,72 @@ public class UIManager : MonoBehaviour
     }
   }
 
-  private IEnumerator StartColorFeedback (Text text)
-  {
-    float c = text.color.r;
-    while (c > 0.0f)
-    {
-      c -= Time.deltaTime * 5.0f;
-      text.color = new Color (c, c, c, text.color.a);
-      yield return null;
-    }
-    
-    while (c < 1.0f)
-    {
-      c += Time.deltaTime * 5.0f;
-      text.color = new Color (c, c, c, text.color.a);
-      yield return null;
-    }
-  }
-  
   private IEnumerator FadeInReviveCanvas (bool animate = true)
   {
-    CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
+    var group = menuRevive.GetComponent <CanvasGroup> ();
 
     SetMenuActive (menuRevive, true);
     animRevive.SetActive (animate);
 
-    
-    while (revive.alpha < 1.0f)
+
+    while (group.alpha < 1.0f)
     {
-      float alpha = revive.alpha;
+      float alpha = group.alpha;
       alpha += Time.deltaTime * 5.0f;
-      revive.alpha = alpha;
+      group.alpha = alpha;
       yield return null;
     }
 
-    foreach (var v in revive.GetComponentsInChildren <Selectable> ())
-      v.interactable = true;
+    group.interactable = true;
+    group.blocksRaycasts = true;
   }
 
-  private IEnumerator FadeOutReviveCanvas ()
+  private IEnumerator FadeInMenu (GameObject target, float speed = 5.0f, string startMessage = "", string finishMessage = "")
   {
-    CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
-    foreach (var v in revive.GetComponentsInChildren <Selectable> ())
-      v.interactable = false;
-    
-    while (revive.alpha > 0.0f)
-    {
-      float alpha = revive.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      revive.alpha = alpha;
-      yield return null;
-    }
-    
-    revive.alpha = 0.0f;
-    SetMenuActive (menuRevive, false);
-  }
-  
-  private IEnumerator FadeOutReviveCanvasSpecial ()
-  {
-    CanvasGroup revive = menuRevive.GetComponent <CanvasGroup> ();
-    foreach (var v in revive.GetComponentsInChildren <Selectable> ())
-      v.interactable = false;
-    
-    while (revive.alpha > 0.0f)
-    {
-      float alpha = revive.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      revive.alpha = alpha;
-      yield return null;
-    }
-    
-    revive.alpha = 0.0f;
-    SetMenuActive (menuRevive, false);
-    
-    if (GameManager.inst.GetState ().Equals (GameManager.States.AcceptRevive))
-    {
-      GameManager.inst.ChangeState (GameManager.States.ReviveCompleteStart);
-    }
-  }
-  
-  private IEnumerator FadeInStoreCanvas ()
-  {
-    CanvasGroup store = menuStore.GetComponent <CanvasGroup> ();
-    SetMenuActive (menuStore, true);
+    SetMenuActive (target, true);
 
-    // TODO
-//    if (menuDiamondStore.activeSelf)
-//    {
-//      ShowDiamondStore ();
-//    }
-//    else
-//    {
-//      ShowPotionStore ();
-//    }
-    
-    while (store.alpha < 1.0f)
+    if (startMessage != "")
+      InvokeMessageDontRequireReceiver (this, startMessage);
+
+    var group = target.GetComponent <CanvasGroup> ();
+    while (group.alpha < 1.0f)
     {
-      float alpha = store.alpha;
-      alpha += Time.deltaTime * 5.0f;
-      store.alpha = alpha;
+      float alpha = group.alpha;
+      alpha += Time.deltaTime * speed;
+      group.alpha = alpha;
       yield return null;
     }
 
-    foreach (var v in store.GetComponentsInChildren <Selectable> ())
-      v.interactable = true;
-    GameManager.inst.SendMessage ("OnStoreFadeIn");
-  }
-  
-  private IEnumerator FadeOutStoreCanvas ()
-  {
-    CanvasGroup store = menuStore.GetComponent <CanvasGroup> ();
-    foreach (var v in store.GetComponentsInChildren <Selectable> ())
-      v.interactable = false;
-    
-    while (store.alpha > 0.0f)
-    {
-      float alpha = store.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      store.alpha = alpha;
-      yield return null;
-    }
-    
-    store.alpha = 0.0f;
-    SetMenuActive (menuStore, false);
+    group.alpha = 1.0f;
+    group.interactable = true;
+    group.blocksRaycasts = true;
+
+    if (finishMessage != "")
+      InvokeMessageDontRequireReceiver (this, finishMessage);
   }
 
-//  private IEnumerator FadeInFacebookLeaderboardCanvas ()
-//  {
-//    CanvasGroup store = menuFacebookLeaderboard.GetComponent <CanvasGroup> ();
-//    SetMenuActive (menuFacebookLeaderboard, true);
-//    
-//    while (store.alpha < 1.0f)
-//    {
-//      float alpha = store.alpha;
-//      alpha += Time.deltaTime * 5.0f;
-//      store.alpha = alpha;
-//      yield return null;
-//    }
-//
-//    buttonStoreBack.interactable = true;
-//  }
-//  
-//  private IEnumerator FadeOutFacebookLeaderboardCanvas ()
-//  {
-//    CanvasGroup store = menuFacebookLeaderboard.GetComponent <CanvasGroup> ();
-//    buttonStoreBack.interactable = false;
-//    
-//    while (store.alpha > 0.0f)
-//    {
-//      float alpha = store.alpha;
-//      alpha -= Time.deltaTime * 5.0f;
-//      store.alpha = alpha;
-//      yield return null;
-//    }
-//    
-//    store.alpha = 0.0f;
-//    SetMenuActive (menuFacebookLeaderboard, false);
-//  }
+  private IEnumerator FadeOutMenu (GameObject target, float speed = 5.0f, string startMessage = "", string finishMessage = "")
+  {
+    if (startMessage != "")
+      InvokeMessageDontRequireReceiver (this, startMessage);
 
-  private IEnumerator FadeInTutorialCanvas ()
-  {
-    CanvasGroup store = menuTutorialStart.GetComponent <CanvasGroup> ();
-    SetMenuActive (menuTutorialStart, true);
-    
-    while (store.alpha < 1.0f)
-    {
-      float alpha = store.alpha;
-      alpha += Time.deltaTime * 5.0f;
-      store.alpha = alpha;
-      yield return null;
-    }
-  }
-  
-  private IEnumerator FadeOutTutorialCanvas ()
-  {
-    CanvasGroup store = menuTutorialStart.GetComponent <CanvasGroup> ();
-    
-    while (store.alpha > 0.0f)
-    {
-      float alpha = store.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      store.alpha = alpha;
-      yield return null;
-    }
-    
-    store.alpha = 0.0f;
-    SetMenuActive (menuTutorialStart, false);
-  }
+    var group = target.GetComponent <CanvasGroup> ();
+    group.interactable = false;
+    group.blocksRaycasts = false;
 
-  private IEnumerator FadeInTutorialReviveCanvas ()
-  {
-    CanvasGroup store = menuTutorialRevive.GetComponent <CanvasGroup> ();
-    SetMenuActive (menuTutorialRevive, true);
+    while (group.alpha > 0.0f)
+    {
+      float alpha = group.alpha;
+      alpha -= Time.deltaTime * speed;
+      group.alpha = alpha;
+      yield return null;
+    }
 
-    while (store.alpha < 1.0f)
-    {
-      float alpha = store.alpha;
-      alpha += Time.deltaTime * 5.0f;
-      store.alpha = alpha;
-      yield return null;
-    }
-      
-    foreach (var v in store.GetComponentsInChildren <Selectable> ())
-      v.interactable = true;
-  }
-  
-  private IEnumerator FadeOutTutorialReviveCanvas ()
-  {
-    CanvasGroup store = menuTutorialRevive.GetComponent <CanvasGroup> ();
-    foreach (var v in store.GetComponentsInChildren <Selectable> ())
-      v.interactable = false;
+    group.alpha = 0.0f;
+    SetMenuActive (target, false);
 
-    while (store.alpha > 0.0f)
-    {
-      float alpha = store.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      store.alpha = alpha;
-      yield return null;
-    }
-    
-    store.alpha = 0.0f;
-    SetMenuActive (menuTutorialRevive, false);
-  }
-
-  private IEnumerator FadeInReadyCanvas ()
-  {
-    CanvasGroup store = menuReady.GetComponent <CanvasGroup> ();
-    SetMenuActive (menuReady, true);
-    
-    while (store.alpha < 1.0f)
-    {
-      float alpha = store.alpha;
-      alpha += Time.deltaTime * 5.0f;
-      store.alpha = alpha;
-      yield return null;
-    }
-  }
-  
-  private IEnumerator FadeOutReadyCanvas ()
-  {
-    CanvasGroup store = menuReady.GetComponent <CanvasGroup> ();
-    
-    while (store.alpha > 0.0f)
-    {
-      float alpha = store.alpha;
-      alpha -= Time.deltaTime * 5.0f;
-      store.alpha = alpha;
-      yield return null;
-    }
-    
-    store.alpha = 0.0f;
-    SetMenuActive (menuReady, false);
+    if (finishMessage != "")
+      InvokeMessageDontRequireReceiver (this, finishMessage);
   }
 
   private IEnumerator IgnoreSwitchMode (float time)
@@ -1085,57 +581,6 @@ public class UIManager : MonoBehaviour
     switchingMode = false;
   }
 
-  // TODO
-//  bool promptingDiamond = false;
-
-  // TODO
-//  private IEnumerator BuyDiamondPrompt ()
-//  {
-//    promptingDiamond = true; 
-//    float scale = 1.0f;
-//    for (int i = 0; i < 2; ++i)
-//    {
-//      while (buttonSwitchToDiamond.transform.localScale.x < scale + 0.5f)
-//      {
-//        float s = buttonSwitchToDiamond.transform.localScale.x;
-//        s += Time.deltaTime * 5.0f;
-//        buttonSwitchToDiamond.transform.localScale = Vector2.one * s;
-//        yield return null;
-//      }
-//
-//      while (buttonSwitchToDiamond.transform.localScale.x > scale)
-//      {
-//        float s = buttonSwitchToDiamond.transform.localScale.x;
-//        s -= Time.deltaTime * 5.0f;
-//        buttonSwitchToDiamond.transform.localScale = Vector2.one * s;
-//        yield return null;
-//      }
-//    }
-//
-//    promptingDiamond = false;
-////    Debug.Log ("HERE");
-////    var sprite = buttonBuyDiamonds.image;
-////    float alpha = sprite.color.a;
-////    for (int i = 0; i < 5; ++i)
-////    {
-////      while (sprite.color.a < 1.0f)
-////      {
-////        var c = sprite.color;
-////        c.a += Time.deltaTime * 5.0f;
-////        sprite.color = c;
-////        yield return null;
-////      }
-////
-////      while (sprite.color.a > alpha)
-////      {
-////        var c = sprite.color;
-////        c.a -= Time.deltaTime * 5.0f;
-////        sprite.color = c;
-////        yield return null;
-////      }
-////    }
-//  }
-  
   #endregion
 
   private void UpdateMusicButtons (int mode)
@@ -1159,47 +604,47 @@ public class UIManager : MonoBehaviour
     musicList.SetPage (mode);
   }
 
-  private string BestScore ()
+  static public string BestScore ()
   {
     return "BEST: " + ""+StatsManager.inst.highScore+"";
   }
-  
-  private string NewHighScore ()
+
+  static public string NewHighScore ()
   {
     return "NEW HIGH SCORE!";
   }
-  
-  private string ZeroScore ()
+
+  static public string ZeroScore ()
   {
     return "0";
   }
-  
+
   private string Coins ()
   {
     Debug.Log ("RETURN " + StatsManager.inst.coins);
     return ""+StatsManager.inst.coins+"";
   }
-  
+
   #region implemented abstract members of Manager
-  
+
   void OnGameReset ()
   {
     SetMenuActive (menuStart, true);
     SetMenuActive (menuGame, false);
     //    SetMenuActive (menuGameOver, false);
   }
-  
+
   void OnGameStart ()
   {
     //SetMenuActive(menuStart, false);
     //SetMenuActive(menuGame, true);
-    StartCoroutine(FadeOutStartCanvas());
+    StartCoroutine(FadeOutMenu(menuStart));
     ////    Camera.main.backgroundColor = GameObject.FindObjectOfType <Background> ().drawable.color;
-    StartCoroutine(FadeInGameCanvas());
+    StartCoroutine(FadeInMenu(menuGame));
     textScore.text = ZeroScore ();
     //    SetMenuActive (menuGameOver, false);
   }
-  
+
   void OnGameRestart ()
   {
     //    textGameOverScore.text = null;
@@ -1224,35 +669,35 @@ public class UIManager : MonoBehaviour
     }
 
     UpdateRevivePriceText ();
-    StartCoroutine (FadeOutGameCanvas ());
+    StartCoroutine (FadeOutMenu (menuGame));
     StartCoroutine (FadeInReviveCanvas ());
   }
-  
+
   void OnDeclineRevive ()
   {
     previousState = GameManager.States.None;
     animRevive.SetActive (false);
-    StartCoroutine (FadeOutReviveCanvas ());
-    StartCoroutine (FadeOutGameCanvas ());
+    StartCoroutine (FadeOutMenu (menuRevive));
+    StartCoroutine (FadeOutMenu (menuGame));
   }
-  
+
   void OnAcceptRevive ()
   {
     Debug.Log ("CALLED");
-    StartCoroutine (FadeOutReviveCanvasSpecial ());
+    StartCoroutine (FadeOutMenu (menuRevive, 5.0f, "", "FadeOutRevive"));
     animRevive.SetActive (false);
-    StartCoroutine (FadeInGameCanvas ());
+    StartCoroutine (FadeInMenu (menuGame));
   }
-  
+
   void OnReviveCompleteStart ()
   {
     previousState = GameManager.States.None;
-    StartCoroutine (FadeOutStoreCanvas ());
-    StartCoroutine (FadeInGameCanvas ());
+    StartCoroutine (FadeOutMenu (menuStore));
+    StartCoroutine (FadeInMenu (menuGame));
     UpdateCoinsText ();
 
     StartCoroutine (StartReviveTimer ());
-//    ChangeState (States.None);
+    //    ChangeState (States.None);
   }
 
   void OnReviveCompleteEnd ()
@@ -1272,17 +717,17 @@ public class UIManager : MonoBehaviour
       StartCoroutine (IncreaseCoins ());
     }
   }
-  
+
   void OnShowOptions ()
   {
-    StartCoroutine (FadeInOptionsCanvas ());
-    StartCoroutine (FadeOutStartCanvas ());
+    StartCoroutine (FadeInMenu (menuOptions, 5.0f, "FadeInOptions"));
+    StartCoroutine (FadeOutMenu (menuStart));
   }
-  
+
   void OnHideOptions ()
   {
-    StartCoroutine (FadeOutOptionsCanvas ());
-    StartCoroutine (FadeInStartCanvas ());
+    StartCoroutine (FadeOutMenu (menuOptions));
+    StartCoroutine (FadeInMenu (menuStart));
   }
 
   /// <summary>
@@ -1302,76 +747,51 @@ public class UIManager : MonoBehaviour
   {
     return StatsManager.inst.reviveCoinsPrice == StatsManager.inst.originalRevivePrice;
   }
-  
+
   void OnShowStore ()
   {
-    StartCoroutine (FadeInStoreCanvas ());
-    StartCoroutine (FadeOutStartCanvas ());
-
-//    Debug.Log (previousState);
-    // TODO
-//    if (TransitionFromRevive ())
-//    {
-//      if (!potionStoreList.initialized)
-//      {
-//        potionStoreList.gameObject.SetActive (true);
-//        potionStoreList.Start ();
-//      }
-//      
-//      ShowPotionStore ();
-//      potionStoreList.SetPage (0);
-//    }
+    StartCoroutine (FadeInMenu (menuStore, 5.0f, "", "FadeInStore"));
+    StartCoroutine (FadeOutMenu (menuStart));
   }
-  
+
   void OnHideStore ()
   {
-    StartCoroutine (FadeOutStoreCanvas ());
-    StartCoroutine (FadeInStartCanvas ());
+    StartCoroutine (FadeOutMenu (menuStore));
+    StartCoroutine (FadeInMenu (menuStart));
 
-//    Debug.Log ("STATE " + previousState);
+    //    Debug.Log ("STATE " + previousState);
     if (TransitionFromRevive ())
     {
       GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
     }
   }
-  
+
   void OnGameOver ()
   {
-    //SetMenuActive(menuGame, false);
-    //menuGame.GetComponent<CanvasGroup>().alpha = 0.0f;
-    //SetMenuActive(menuStart, true);
-    //menuStart.GetComponent<CanvasGroup>().alpha = 1.0f;
-    
-    //SetMenuActive (menuGameOver, true);
-    
-//    StartCoroutine(FadeOutGameCanvas());
-    StartCoroutine(FadeInStartCanvas());
+    StartCoroutine(FadeInMenu(menuStart));
     textGameOverScore.text = ""+StatsManager.inst.score+"";
     textGameOverFeedback.text = BestScore ();
   }
-  
+
   void OnHighScore ()
   {
     textGameOverScore.text = ""+StatsManager.inst.score+"";
     textGameOverFeedback.text = NewHighScore ();
-//    textGameOverFeedback.GetComponent <Animator> ().SetTime (0.0);
-//    textGameOverFeedback.GetComponent <Animator> ().Play ("HighScoreFeedback");
   }
 
   void OnNoHighScore ()
   {
-//    textGameOverFeedback.GetComponent <Animator> ().Play ("None");
   }
-  
+
   void OnHighScoreCross ()
   {
     Debug.Log ("High Score Crossed");
   }
-  
+
   void OnPause ()
   {
   }
-  
+
   void OnResume ()
   {
     if (GameManager.inst.playing)
@@ -1389,58 +809,58 @@ public class UIManager : MonoBehaviour
   // TODO
   void OnShowFacebookLeaderboard ()
   {
-//    StartCoroutine (FadeInFacebookLeaderboardCanvas ());
-//    StartCoroutine (FadeOutOptionsCanvas ());
+    //    StartCoroutine (FadeInFacebookLeaderboardCanvas ());
+    //    StartCoroutine (FadeOutOptionsCanvas ());
     throw new System.NotImplementedException ();
   }
 
   // TODO
   void OnHideFacebookLeaderboard ()
   {
-//    StartCoroutine (FadeOutFacebookLeaderboardCanvas ());
-//    StartCoroutine (FadeInOptionsCanvas ());
+    //    StartCoroutine (FadeOutFacebookLeaderboardCanvas ());
+    //    StartCoroutine (FadeInOptionsCanvas ());
     throw new System.NotImplementedException ();
   }
 
   // TODO
   void OnAddInGameItem (InGameBuyButton button)
   {
-//    counter++;
-//    buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
+    //    counter++;
+    //    buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
     throw new System.NotImplementedException ();
   }
 
   // TODO
   void OnSubtractInGameItem (InGameBuyButton button)
   {
-//    if (counter - 1 > 0)
-//    {
-//      --counter;
-//      buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
-//    }
+    //    if (counter - 1 > 0)
+    //    {
+    //      --counter;
+    //      buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+button.price * counter+"";
+    //    }
     throw new System.NotImplementedException ();
   }
 
   // TODO
   void OnCannotPurchaseInGameItem ()
   {
-//    if (!promptingDiamond)
-//    {
-//      StartCoroutine (BuyDiamondPrompt ());
-//    }
+    //    if (!promptingDiamond)
+    //    {
+    //      StartCoroutine (BuyDiamondPrompt ());
+    //    }
     throw new System.NotImplementedException ();
   }
 
   // TODO
   void OnStoreButtonSwipe (ScrollSnapRect.ScrollData data)
   {
-//    if (menuDiamondStore != null && menuPotionStore != null)
-//    {
+    //    if (menuDiamondStore != null && menuPotionStore != null)
+    //    {
     if (data.container.gameObject.transform.parent.parent.name == "MenuDiamondStore")
     {
       if (diamondStoreList != null)
       {
-//        Debug.Log (data.container.gameObject.name);
+        //        Debug.Log (data.container.gameObject.name);
         Transform container = diamondStoreList.container;
         if (diamondStoreList.container != null)
         {
@@ -1476,34 +896,34 @@ public class UIManager : MonoBehaviour
         }
       }
     }
-//      else if (menuPotionStore.activeSelf)
-//      {
-//        Transform container = potionStoreList.container;
-//        InGameBuyButton b = container.GetChild (index).GetComponent <InGameBuyButton> ();
-//        buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+b.price+"";
-//        buttonBuyPotions.onClick.RemoveAllListeners ();
-//        buttonBuyPotions.onClick.AddListener (() => {PurchaseInGameItem (b);});
-//      }
-//    }
+    //      else if (menuPotionStore.activeSelf)
+    //      {
+    //        Transform container = potionStoreList.container;
+    //        InGameBuyButton b = container.GetChild (index).GetComponent <InGameBuyButton> ();
+    //        buttonBuyPotions.GetComponentInChildren <Text> ().text = ""+b.price+"";
+    //        buttonBuyPotions.onClick.RemoveAllListeners ();
+    //        buttonBuyPotions.onClick.AddListener (() => {PurchaseInGameItem (b);});
+    //      }
+    //    }
   }
 
   void OnSwitchMode (int mode)
   {
     StartCoroutine (IgnoreSwitchMode (AudioManager.inst._options_menu1.volumeFadeSpeed * 2.0f));
-//    var ui = UIManager.inst.allUI;
-//    foreach (var v in ui)
-//    {
-//      if (!v.gameObject.CompareTag ("noinvert"))
-//      {
-//        v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
-//      }
+    //    var ui = UIManager.inst.allUI;
+    //    foreach (var v in ui)
+    //    {
+    //      if (!v.gameObject.CompareTag ("noinvert"))
+    //      {
+    //        v.color = new Color (1.0f - v.color.r, 1.0f - v.color.g, 1.0f - v.color.b, v.color.a);
+    //      }
     //    }
   }
 
   void OnProductsLoaded (Dictionary <string, StoreInterface.ProductTemplate> products)
   {
     Transform container = diamondStoreList.container;
-//    StoreButton b = container.GetChild (index).GetComponent <StoreButton> ();
+    //    StoreButton b = container.GetChild (index).GetComponent <StoreButton> ();
     foreach (Transform t in container)
     {
       var v = t.GetComponent <StoreButton> ();
@@ -1524,14 +944,14 @@ public class UIManager : MonoBehaviour
 
   void OnTutorialStart ()
   {
-    StartCoroutine (FadeInTutorialCanvas ());
-    StartCoroutine (FadeOutGameCanvas ());
+    StartCoroutine (FadeInMenu (menuTutorialStart));
+    StartCoroutine (FadeOutMenu (menuGame));
   }
 
   void OnTutorialEnd ()
   {
-    StartCoroutine (FadeOutReadyCanvas ());
-    StartCoroutine (FadeInGameCanvas ());
+    StartCoroutine (FadeOutMenu (menuReady));
+    StartCoroutine (FadeInMenu (menuGame));
   }
 
   void OnPreTutorialReviveStart ()
@@ -1540,70 +960,70 @@ public class UIManager : MonoBehaviour
 
   void OnTutorialReviveStart ()
   {
-    StartCoroutine (FadeOutGameCanvas ());
-    StartCoroutine (FadeInTutorialReviveCanvas ());
+    StartCoroutine (FadeOutMenu (menuGame));
+    StartCoroutine (FadeInMenu (menuTutorialRevive));
   }
 
   void OnTutorialReviveEnd ()
   {
-    StartCoroutine (FadeOutTutorialReviveCanvas ());
+    StartCoroutine (FadeOutMenu (menuTutorialRevive));
     GameManager.inst.ChangeState (GameManager.States.ShowTutorialRevive);
   }
 
   void OnShowTutorialRevive ()
   {
-    StartCoroutine (FadeOutGameCanvas ());
+    StartCoroutine (FadeOutMenu (menuGame));
     StartCoroutine (FadeInReviveCanvas (false));
   }
 
   // TODO
   void OnShowSwitchToDiamondStorePrompt ()
   {
-//    buttonSwitchToDiamond.interactable = true;
-//    SetMenuActive (menuSwitchDiamondStorePrompt, true);
+    //    buttonSwitchToDiamond.interactable = true;
+    //    SetMenuActive (menuSwitchDiamondStorePrompt, true);
     throw new System.NotImplementedException ();
   }
 
   // TODO
   void OnShowBuyDiamondPrompt ()
   {
-//    buttonBuyDiamonds.GetComponent <Animator> ().Play ("ScaleInOut");
-//    SetMenuActive (menuSwitchDiamondStorePrompt, false);
-//    SetMenuActive (menuBuyDiamondMessage, true);
-//
-//    SetMenuActive (menuSwitchPotionStorePrompt, true);
-//
-//    buttonSwitchToPotion.interactable = true;
+    //    buttonBuyDiamonds.GetComponent <Animator> ().Play ("ScaleInOut");
+    //    SetMenuActive (menuSwitchDiamondStorePrompt, false);
+    //    SetMenuActive (menuBuyDiamondMessage, true);
+    //
+    //    SetMenuActive (menuSwitchPotionStorePrompt, true);
+    //
+    //    buttonSwitchToPotion.interactable = true;
     throw new System.NotImplementedException ();
   }
 
   // TODO
   void OnShowBuyPotionPrompt ()
   {
-//    SetMenuActive (menuSwitchPotionStorePrompt, false);
-//    SetMenuActive (menuBuyDiamondMessage, false);
-//    buttonBuyDiamonds.GetComponent <Animator> ().Play ("None");
-//
-//    buttonBuyPotions.interactable = true;
-//
-//    SetMenuActive (menuBuyPotionMessage, true);
-//
-//    buttonBuyPotions.GetComponent <Animator> ().Play ("ScaleInOut");
+    //    SetMenuActive (menuSwitchPotionStorePrompt, false);
+    //    SetMenuActive (menuBuyDiamondMessage, false);
+    //    buttonBuyDiamonds.GetComponent <Animator> ().Play ("None");
+    //
+    //    buttonBuyPotions.interactable = true;
+    //
+    //    SetMenuActive (menuBuyPotionMessage, true);
+    //
+    //    buttonBuyPotions.GetComponent <Animator> ().Play ("ScaleInOut");
     throw new System.NotImplementedException ();
   }
 
   // TODO
   void OnTutorialReviveDone ()
   {
-//    SetMenuActive (menuBuyPotionMessage, false);
-//    buttonBuyPotions.GetComponent <Animator> ().Play ("None");
+    //    SetMenuActive (menuBuyPotionMessage, false);
+    //    buttonBuyPotions.GetComponent <Animator> ().Play ("None");
     throw new System.NotImplementedException ();
   }
 
   void OnShowReadyMessage ()
   {
-    StartCoroutine (FadeOutTutorialCanvas ());
-    StartCoroutine (FadeInReadyCanvas ());
+    StartCoroutine (FadeOutMenu (menuTutorialStart));
+    StartCoroutine (FadeInMenu (menuReady));
   }
 
   void OnInterstitialStarted ()
@@ -1611,54 +1031,54 @@ public class UIManager : MonoBehaviour
     // Only do this if watch video for revive
     if (previousState == GameManager.States.ShowRevive)
     {
-  //    previousState =  (GameManager.States)GameManager.inst.GetState ();
+      //    previousState =  (GameManager.States)GameManager.inst.GetState ();
       animRevive.SetActive (false);
       StopAllCoroutines ();
-      StartCoroutine (FadeOutReviveCanvas ());
+      StartCoroutine (FadeOutMenu (menuRevive));
     }
   }
 
   void OnInterstitialFailed ()
   {
-//    animRevive.SetActive (true);
+    //    animRevive.SetActive (true);
     Debug.Log ("Interstitial Failed Received");
   }
 
   // TODO
-//  void ShowDiamondStore ()
-//  {
-//    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
-//    Color c = diamond.color;
-//    c.a = 100.0f / 255.0f;
-//    diamond.color = c;
-//
-//    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
-//    c = potion.color;
-//    c.a = 30.0f / 255.0f;
-//    potion.color = c;
-//
-//    menuDiamondStore.SetActive (true);
-//    menuPotionStore.SetActive (false);
-//    OnStoreButtonSwipe (diamondStoreList.currentPage);
-//  }
-//
-//  void ShowPotionStore ()
-//  {
-//    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
-//    Color c = diamond.color;
-//    c.a = 30.0f / 255.0f;
-//    diamond.color = c;
-//    
-//    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
-//    c = potion.color;
-//    c.a = 100.0f / 255.0f;
-//    potion.color = c;
-//
-//    menuDiamondStore.SetActive (false);
-//    menuPotionStore.SetActive (true);
-//
-//    OnStoreButtonSwipe (potionStoreList.currentPage);
-//  }
+  //  void ShowDiamondStore ()
+  //  {
+  //    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
+  //    Color c = diamond.color;
+  //    c.a = 100.0f / 255.0f;
+  //    diamond.color = c;
+  //
+  //    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
+  //    c = potion.color;
+  //    c.a = 30.0f / 255.0f;
+  //    potion.color = c;
+  //
+  //    menuDiamondStore.SetActive (true);
+  //    menuPotionStore.SetActive (false);
+  //    OnStoreButtonSwipe (diamondStoreList.currentPage);
+  //  }
+  //
+  //  void ShowPotionStore ()
+  //  {
+  //    Image diamond = GameObject.Find ("ButtonDiamondType").GetComponent <Image> ();
+  //    Color c = diamond.color;
+  //    c.a = 30.0f / 255.0f;
+  //    diamond.color = c;
+  //    
+  //    Image potion = GameObject.Find ("ButtonPotionType").GetComponent <Image> ();
+  //    c = potion.color;
+  //    c.a = 100.0f / 255.0f;
+  //    potion.color = c;
+  //
+  //    menuDiamondStore.SetActive (false);
+  //    menuPotionStore.SetActive (true);
+  //
+  //    OnStoreButtonSwipe (potionStoreList.currentPage);
+  //  }
 
   private IEnumerator IncreaseCoins ()
   {
@@ -1700,7 +1120,7 @@ public class UIManager : MonoBehaviour
     int price = StatsManager.inst.reviveCoinsPrice;
     textRevivePrice.text = ""+price+"";
   }
-  
+
   //  void OnDifficultyChange ()
   //  {
   //    GameObject go = GameObject.Find ("GroupDifficulty");
@@ -1722,7 +1142,7 @@ public class UIManager : MonoBehaviour
   //    textGameOverScore.text = BestScore ();
   //    textGameOverFeedback.text = null;
   //  }
-  
+
   //  void OnSpeedChange ()
   //  {
   //    GameObject go = GameObject.Find ("GroupSpeed");
@@ -1744,9 +1164,9 @@ public class UIManager : MonoBehaviour
   //    textGameOverScore.text = BestScore ();
   //    textGameOverFeedback.text = null;
   //  }
-  
+
   #endregion
-  
+
   private void SetMenuActive (GameObject menu, bool active)
   {
     menu.SetActive (active);

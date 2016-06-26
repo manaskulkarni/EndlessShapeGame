@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using TheNextFlow.UnityPlugins;
 
 
-public class StatsManager : MonoBehaviour
+public class StatsManager : CubiBase
 {
 
   public class AchievementData
@@ -179,7 +179,7 @@ public class StatsManager : MonoBehaviour
   private GooglePlayInterface store { get; set; }
   #endif
 
-  void Awake ()
+  public override void cubiAwake ()
   {
     if (inst == null)
     {
@@ -232,6 +232,12 @@ public class StatsManager : MonoBehaviour
     originalRevivePrice = reviveCoinsPrice;
 
     productActions.Add ("100 Diamonds", new ProductData (100, BuyDiamonds));
+
+
+    RegisterEvent ("UpdateScore", ((object sender, System.EventArgs e) =>
+    {
+      ++score;
+    }));
   }
 
   // Use this for initialization
@@ -279,37 +285,6 @@ public class StatsManager : MonoBehaviour
     //    {
     //      PlayerPrefs.SetInt ("Item" + i, gameItems [(InGameBuyButton.ButtonType)i]);
     //    }
-  }
-
-  public void AddPoint ()
-  {
-    ++score;
-//    if(isFlipped)
-//    {
-//      ++FlippedScore;
-//    }
-    //Debug.Log("Flipped Score " + FillpedScore);
-
-//    #if UNITY_EDITOR
-//    BroadcastMessage (ReportAchievementEvent, new AchievementData ("StillLearning", 100.0f, true));
-
-//    if (!highScoreCrossed && score > highScore)
-//    {
-//      GameManager.inst.ChangeState (GameManager.States.HighScoreCrossed);
-//      highScoreCrossed = true;
-//    }
-
-//    if(FlippedScore > 5)
-//    {
-//    BroadcastMessage(ReportAchievementEvent, new AchievementData("AdjustYourView",100.0f,true));
-//    }
-//
-//    if(playerStats.numBlackCollision >= 100)
-//    {
-//    BroadcastMessage(ReportAchievementEvent, new AchievementData("NoMatch", 100.0f,true));
-//    }
-//    #endif
-
   }
 
   public void AddCoin (int count = 1)

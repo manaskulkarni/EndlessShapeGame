@@ -576,6 +576,7 @@
      <Compile Include="Assets\Scripts\Managers\StoreInterface.cs" />
      <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
      <Compile Include="Assets\Scripts\Singleton.cs" />
+     <Compile Include="Assets\Scripts\UI\TextBase.cs" />
      <Compile Include="Assets\TouchScript\Modules\TUIO\Scripts\InputSources\TuioInput.cs" />
      <Compile Include="Assets\TouchScript\Scripts\Behaviors\TouchScriptInputModule.cs" />
      <Compile Include="Assets\TouchScript\Scripts\Behaviors\Transformer.cs" />
