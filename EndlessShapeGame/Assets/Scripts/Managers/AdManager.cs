@@ -7,12 +7,12 @@ using AdToApp;
 
 public class AdManager : MonoBehaviour
 {
-//  #if UNITY_ANDROID
+  #if UNITY_ANDROID
   private bool sendInterstitialFailed = false;
   private bool sendInterstitialStarted = false;
   private bool sendEndVideo = false;
   private bool sendRewardComplete = false;
-//  #endif
+  #endif
 
   static public AdManager inst { get; private set; }
 
@@ -63,7 +63,7 @@ public class AdManager : MonoBehaviour
     {
       Debug.Log ("Ads not shown in editor");
     }
-  #else
+  #elif UNITY_IOS
     var sdkDelegate = AdToAppSDKDelegate.CreateInstance(this);
     
     sdkDelegate.OnInterstitialStarted += SdkDelegate_OnInterstitialStarted;
@@ -131,7 +131,7 @@ public class AdManager : MonoBehaviour
 
     #if UNITY_IOS
     GameManager.inst.BroadcastMessage ("OnInterstitialStarted");
-    #else
+    #elif UNITY_ANDROID
     sendInterstitialStarted = true;
     #endif
   }
@@ -142,7 +142,7 @@ public class AdManager : MonoBehaviour
 
     #if UNITY_IOS
     GameManager.inst.BroadcastMessage ("OnEndVideo");
-    #else
+    #elif UNITY_ANDROID
     sendEndVideo = true;
     #endif
   }
@@ -153,7 +153,7 @@ public class AdManager : MonoBehaviour
 
     #if UNITY_IOS
     GameManager.inst.BroadcastMessage ("OnInterstitialFailed");
-    #else
+    #elif UNITY_ANDROID
     sendInterstitialFailed = true;
     #endif
   }
@@ -170,7 +170,7 @@ public class AdManager : MonoBehaviour
     #if UNITY_IOS
     GameManager.inst.BroadcastMessage ("OnRewardCompleted", "100 Diamonds");
     GameManager.inst.BroadcastMessage ("OnEndVideo");
-    #else
+    #elif UNITY_ANROID
     sendRewardComplete = true;
     #endif
   }
@@ -208,7 +208,7 @@ public class AdManager : MonoBehaviour
 //      {
         ShowUnityRewardAd ();
 //      }
-      #else
+      #elif UNITY_IOS
       AdToAppBinding.showInterstitial (AdToAppContentType.REWARDED);
       #endif
       #endif
@@ -235,7 +235,7 @@ public class AdManager : MonoBehaviour
 //      {
       ShowUnityAd ();
 //      }
-      #else
+      #elif UNITY_IOS
       AdToAppBinding.showInterstitial (AdToAppContentType.VIDEO);
       #endif
       #endif
