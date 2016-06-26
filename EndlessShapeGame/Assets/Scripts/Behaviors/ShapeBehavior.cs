@@ -55,7 +55,7 @@ public class ShapeBehavior : MonoBehaviour
 
     AddBehavior (((ref float t, ShapeBehavior shape) =>
     {
-      transform.position += transform.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime;
+      shape.transform.position += shape.transform.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime;
     }));
   }
 
