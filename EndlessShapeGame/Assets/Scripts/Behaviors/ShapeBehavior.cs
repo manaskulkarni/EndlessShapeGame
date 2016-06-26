@@ -29,18 +29,34 @@ public class ShapeBehavior : MonoBehaviour
   private Coroutine updateSpecial { get; set; }
   private Coroutine updateInvisible { get; set; }
   private bool update { get; set; }
+  private int behaviorCounter { get; set; }
 
-  public delegate void BehaviorHandle ();
-  private HashSet <BehaviorHandle> behaviors { get; set; }
+  public class BehaviorData
+  {
+    public BehaviorHandle del;
+    public float t;
+  }
+
+  public delegate void BehaviorHandle (ref float t, ShapeBehavior shape);
+  private BehaviorData [] behaviors;
+
+  private const int MAX_BEHAVIORS = 4;
 
   void Start ()
   {
-    behaviors = new HashSet<BehaviorHandle> (new BehaviorHandle [1] {
-      () =>
-      {
-        transform.position += transform.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime; 
-      }
-    });
+    behaviorCounter = 0;
+
+    behaviors = new BehaviorData[MAX_BEHAVIORS] {
+      new BehaviorData { del = null, t = 0.0f },
+      new BehaviorData { del = null, t = 0.0f },
+      new BehaviorData { del = null, t = 0.0f },
+      new BehaviorData { del = null, t = 0.0f }
+    };
+
+    AddBehavior (((ref float t, ShapeBehavior shape) =>
+    {
+      transform.position += transform.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime;
+    }));
   }
 
   // Use this for initialization
@@ -55,119 +71,44 @@ public class ShapeBehavior : MonoBehaviour
     }
   }
 
-  public void AddBehavior (BehaviorHandle beh)
+  public void ClearBehaviors ()
   {
-    behaviors.Add (beh);
+    behaviorCounter = 1;
+    shapeResponse = ShapeResponse.Normal;
+    shapeType = ShapeType.Normal;
+    spriteRenderer.color = originalColor;
+  }
+
+  public void AddBehavior (BehaviorHandle b)
+  {
+    if (behaviorCounter >= MAX_BEHAVIORS)
+    {
+      behaviorCounter = MAX_BEHAVIORS - 1;
+    }
+
+    var behavior = behaviors [behaviorCounter];
+    behavior.del = b;
+    behavior.t = 0.0f;
+
+    ++behaviorCounter;
   }
 
   public void StopGame ()
   {
-    if (updatePosition != null)
-    {
-      StopCoroutine (updatePosition);
-      updatePosition = null;
-    }
     update = false;
-    if (updateInvisible != null)
-    {
-      StopCoroutine (updateInvisible);
-      updateInvisible = null;
-    }
   }
 
   public void ResetProperties ()
   {
-    shapeResponse = ShapeResponse.Normal;
-    Color c = Color.white;
-//    c.a = spriteRenderer.color.a;
-    spriteRenderer.color = c;
-
-    if (updateSpecial != null)
-    {
-      StopCoroutine (updateSpecial);
-      updateSpecial = null;
-    }
-
-    StopInvisibleCoroutine ();
-    transform.localScale = Vector2.one;
-  }
-  
-  public void StartSpecialShapeCoroutine (ShapeResponse response)
-  {
-    shapeResponse = response;
-
-    if (updateSpecial == null)
-    {
-      switch (shapeResponse)
-      {
-        case ShapeResponse.Opposite:
-          updateSpecial = StartCoroutine(UpdateSpecial());
-          break;
-      }
-    }
-  }
-
-  public void StopSpecialShapeCoroutine ()
-  {
-    shapeResponse = ShapeResponse.Normal;
-    spriteRenderer.color = originalColor;
-
-    if (updateSpecial != null)
-    {
-      StopCoroutine (updateSpecial);
-      updateSpecial = null;
-    }
-  }
-  
-  public void StartInvisibleCoroutine ()
-  {
-    shapeType = ShapeType.Invisible;
-    
-    updateInvisible = StartCoroutine (UpdateInvisible ());
-  }
-  
-  public void StopInvisibleCoroutine ()
-  {
-    shapeType = ShapeType.Normal;
-    
-    if (updateInvisible != null)
-    {
-      StopCoroutine (updateInvisible);
-      updateInvisible = null;
-    }
+    ClearBehaviors ();
   }
 
   void Update ()
   {
     if (update)
     {
-      foreach (var b in behaviors)
-        b ();
-//      gameObject.transform.Translate (Vector2.up * ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * Time.deltaTime);
-    }
-  }
-
-  private IEnumerator UpdateSpecial ()
-  {
-    while (true)
-    {
-      while (transform.localScale.x >= 0.8f)
-      {
-        Vector2 scale = transform.localScale;
-        scale -= Vector2.one * Time.deltaTime;
-        transform.localScale = scale;
-        yield return null;
-      }
-
-      while (transform.localScale.x <= 1.0f)
-      {
-        Vector2 scale = transform.localScale;
-        scale += Vector2.one * Time.deltaTime;
-        transform.localScale = scale;
-        yield return null;
-      }
-
-      yield return null;
+      for (int i = 0; i < behaviorCounter; ++i)
+        behaviors [i].del (ref behaviors [i].t, this);
     }
   }
   

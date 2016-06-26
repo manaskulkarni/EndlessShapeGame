@@ -911,6 +911,7 @@ public class ShapeManager : CubiBase
     float nextPosition = shapeProperties[randomPosIndex].position.x;
     Sprite nextSprite = shapeProperties[randomSpriteIndex].sprite;
     previousSprite = nextSprite;
+    shape.ClearBehaviors ();
     /*************************************************************************/
     // Choose Whether Shape Is Special
     /*************************************************************************/
@@ -921,22 +922,29 @@ public class ShapeManager : CubiBase
     if (CurveWeightedRandom(specialRandomCurve) > 0.5f && currentScore > minSpecialScore)
     {
       //Debug.Log("Special");
-      shape.StartSpecialShapeCoroutine(ShapeBehavior.ShapeResponse.Opposite);
+      shape.AddBehavior (((ref float t, ShapeBehavior s) => {
+        t += Time.deltaTime;
+        s.shapeResponse = ShapeBehavior.ShapeResponse.Opposite;
+        s.transform.localScale = Vector3.one * (Mathf.PingPong (t, 0.2f) + 0.8f);
+      }));
       shape.spriteRenderer.color = specialColor;
-    }
-    else
-    {
-      shape.StopSpecialShapeCoroutine();
     }
     
     if (CurveWeightedRandom (invisibleRandomCurve) > 0.5f && currentScore > minInvisibleScore)
     {
       //Debug.Log ("Invisible");
-      shape.StartInvisibleCoroutine ();
-    }
-    else
-    {
-      shape.StopInvisibleCoroutine ();
+      shape.AddBehavior (((ref float t, ShapeBehavior s) => {
+        bool outOfScreen = s.transform.position.y >=
+          (Camera.main.transform.position.y + Camera.main.orthographicSize) +
+          ShapeManager.inst.invisibleFadeStartOffset;
+
+        if (!outOfScreen)
+        {
+          Color c = s.spriteRenderer.color;
+          c.a -= Time.deltaTime * ShapeManager.inst.fadeOutSpeed * Mathf.Abs(ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * 0.25f);
+          s.spriteRenderer.color = c;
+        }
+      }));
     }
     /*************************************************************************/
     // Assign the selected properties to the shape
