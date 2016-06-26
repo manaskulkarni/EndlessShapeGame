@@ -63,18 +63,6 @@
     <Reference Include="UnityEngine.Analytics">
       <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -616,6 +604,8 @@
     <Compile Include="Assets\Scripts\Behaviors\StoreButton.cs" />
     <Compile Include="Assets\Scripts\Behaviors\StoreButtonList.cs" />
     <Compile Include="Assets\Scripts\Behaviors\TutorialStartTrigger.cs" />
+    <Compile Include="Assets\Scripts\Classes\CubiBase.cs" />
+    <Compile Include="Assets\Scripts\Classes\PropertyAnimator.cs" />
     <Compile Include="Assets\Scripts\Classes\StateMachine\StateBehaviour.cs" />
     <Compile Include="Assets\Scripts\Classes\StateMachine\StateEngine.cs" />
     <Compile Include="Assets\Scripts\Classes\Utils.cs" />
@@ -633,6 +623,7 @@
     <Compile Include="Assets\Scripts\Managers\StoreInterface.cs" />
     <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
+    <Compile Include="Assets\Scripts\UI\TextBase.cs" />
     <Compile Include="Assets\TouchScript\Modules\TUIO\Scripts\InputSources\TuioInput.cs" />
     <Compile Include="Assets\TouchScript\Scripts\Behaviors\TouchScriptInputModule.cs" />
     <Compile Include="Assets\TouchScript\Scripts\Behaviors\Transformer.cs" />
