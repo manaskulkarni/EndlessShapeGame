@@ -64,11 +64,6 @@ public class ShapeBehavior : MonoBehaviour
   {
     triggered = false;
     update = true;
-
-    if (shapeType == ShapeType.Invisible)
-    {
-      updateInvisible = StartCoroutine (UpdateInvisible ());
-    }
   }
 
   public void ClearBehaviors ()
@@ -112,30 +107,5 @@ public class ShapeBehavior : MonoBehaviour
         behaviors [i].del (ref behaviors [i].t, this);
     }
   }
-  
-  private IEnumerator UpdateInvisible ()
-  {
-    while (spriteRenderer.color.a > 0.0f)
-    {
-      bool outOfScreen = gameObject.transform.position.y >=
-      (Camera.main.transform.position.y + Camera.main.orthographicSize) +
-      ShapeManager.inst.invisibleFadeStartOffset;
-      
-      if (!outOfScreen)
-      {
-        Color c = spriteRenderer.color;
-        c.a -= Time.deltaTime * ShapeManager.inst.fadeOutSpeed * Mathf.Abs(ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * 0.25f);
-        spriteRenderer.color = c;
-        yield return null;
-      }
-      
-      yield return null;
-    }
-  }
-  
-//  void OnTriggerEnter2D (Collider2D coll)
-//  {
-//    ShapeManager.inst.ShapeTriggered (this, /*coll.gameObject.GetComponent <SpriteRenderer> ()*/null);
-//  }
 
 }
