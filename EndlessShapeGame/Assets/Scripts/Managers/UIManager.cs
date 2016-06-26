@@ -288,8 +288,6 @@ public class UIManager : CubiBase
     }
   }
 
-  private float circleFillerSpeed = 0.0f;
-
   public void ShowRewardVideo ()
   {
     previousState = GameManager.States.ShowRevive;
@@ -304,6 +302,12 @@ public class UIManager : CubiBase
     {
       GameManager.inst.ChangeState (GameManager.States.DeclineRevive);
     }
+  }
+
+  public void PlayAgain ()
+  {
+    ReviveDeclined ();
+    GameManager.inst.PlayGame ();
   }
 
   public void DisableReviveButtons ()

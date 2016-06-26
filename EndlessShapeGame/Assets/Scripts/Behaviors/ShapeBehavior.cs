@@ -77,6 +77,7 @@ public class ShapeBehavior : MonoBehaviour
     shapeResponse = ShapeResponse.Normal;
     shapeType = ShapeType.Normal;
     spriteRenderer.color = originalColor;
+    transform.localScale = Vector3.one;
   }
 
   public void AddBehavior (BehaviorHandle b)

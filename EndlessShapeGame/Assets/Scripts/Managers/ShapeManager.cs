@@ -937,7 +937,7 @@ public class ShapeManager : CubiBase
         bool outOfScreen = s.transform.position.y >=
           (Camera.main.transform.position.y + Camera.main.orthographicSize) +
           ShapeManager.inst.invisibleFadeStartOffset;
-
+        s.shapeType = ShapeBehavior.ShapeType.Invisible;
         if (!outOfScreen)
         {
           Color c = s.spriteRenderer.color;
