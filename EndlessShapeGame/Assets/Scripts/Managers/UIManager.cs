@@ -87,6 +87,8 @@ public class UIManager : CubiBase
     }
   }
 
+  private string PRIVACY_POLICY = "https://www.iubenda.com/privacy-policy/7821865";
+
   // Use this for initialization
   void Start ()
   {
@@ -117,8 +119,6 @@ public class UIManager : CubiBase
 
     textGameOverScore.text = BestScore ();
     textGameOverFeedback.text = "";
-
-
 
     UpdateMusicButtons (StatsManager.inst.vMode);
 
@@ -167,6 +167,12 @@ public class UIManager : CubiBase
     {
       textScore.text = ""+StatsManager.inst.score+"";
     }));
+
+
+    RegisterEvent ("ShowPrivacyPolicy", (object sender, System.EventArgs e) =>
+    {
+      Application.OpenURL (PRIVACY_POLICY);
+    });
   }
 
   public void ShowOptions ()
@@ -306,8 +312,7 @@ public class UIManager : CubiBase
 
   public void PlayAgain ()
   {
-    ReviveDeclined ();
-    GameManager.inst.PlayGame ();
+    GameManager.inst.ChangeState (GameManager.States.PlayAgain);
   }
 
   public void DisableReviveButtons ()
@@ -772,9 +777,12 @@ public class UIManager : CubiBase
 
   void OnGameOver ()
   {
-    StartCoroutine(FadeInMenu(menuStart));
-    textGameOverScore.text = ""+StatsManager.inst.score+"";
-    textGameOverFeedback.text = BestScore ();
+    if (((GameManager.States)GameManager.inst.GetState ()) == GameManager.States.GameOver)
+    {
+      StartCoroutine (FadeInMenu (menuStart));
+      textGameOverScore.text = "" + StatsManager.inst.score + "";
+      textGameOverFeedback.text = BestScore ();
+    }
   }
 
   void OnHighScore ()

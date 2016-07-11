@@ -46,6 +46,7 @@ public class GameManager : StateBehaviour
     TutorialStart,
     TutorialRevive,
     ShowTutorialRevive,
+    PlayAgain,
   }
 
   public enum DifficultyLevel
@@ -600,6 +601,46 @@ public class GameManager : StateBehaviour
     }
 
     yield return null;
+  }
+
+  private IEnumerator PlayAgain_Enter ()
+  {
+    BroadcastMessage (DeclineReviveEvent);
+    BroadcastMessage (GameOverEvent);
+
+    if (StatsManager.inst.showAds == 1 && StatsManager.inst.numSessions % adInterval == 0)
+    {
+      yield return new WaitForSeconds (0.5f);
+      AdManager.inst.ShowNormalVideo ();
+      playingAd = true;
+    }
+    else
+    {
+      playingAd = false;
+    }
+
+    while (playingAd)
+    {
+      yield return null;
+    }
+
+    if (StatsManager.inst.isHighScore)
+    {
+      BroadcastMessage (HighScoreEvent);
+    }
+    else
+    {
+      BroadcastMessage (NoHighScoreEvent);
+    }
+
+    if (StatsManager.inst.numSessions % 21 == 0 && Random.Range (0, 100) > 50)
+    {
+      BroadcastMessage (RateUsEvent);
+    }
+
+    yield return null;
+
+    PlayGame ();
   }
 
   private void GameOver_Exit ()

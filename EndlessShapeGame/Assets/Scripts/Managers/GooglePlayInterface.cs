@@ -233,7 +233,7 @@ public class GooglePlayInterface : StoreInterface
 
   protected override void OnShowLeaderboard ()
   {
-    GooglePlayManager.Instance.ShowLeaderBoardById (StatsManager.inst.leaderBoardId);
+    GooglePlayManager.Instance.ShowLeaderBoardsUI ();
   }
 
   protected override void OnShowAchievements ()

@@ -25,9 +25,6 @@ public class ShapeBehavior : MonoBehaviour
   public bool triggered { get; set; }
   public ShapeResponse shapeResponse { get; set; }
   public ShapeType shapeType { get; set; }
-  private Coroutine updatePosition { get; set; }
-  private Coroutine updateSpecial { get; set; }
-  private Coroutine updateInvisible { get; set; }
   private bool update { get; set; }
   private int behaviorCounter { get; set; }
 

@@ -44,7 +44,7 @@ MonoBehaviour:
   MaxImageLoadSize: 512
   CameraCaptureMode: 0
   ImageFormat: 0
-  ShowAppPermissions: 0
+  ShowAppPermissions: 1
   EnableBillingAPI: 1
   EnablePSAPI: 1
   EnableSocialAPI: 1
@@ -77,7 +77,7 @@ MonoBehaviour:
   CameraAPI: 0
   KeepManifestClean: 1
   GooglePlayServiceAppID: 59718458234
-  ToolbarSelectedIndex: 1
+  ToolbarSelectedIndex: 6
   base64EncodedPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjiaFx7FHx5PS8W6vSl9ES2R/f2JJjzmI5LTM4znu3EB2pnABedMTNuvOZ0qDflA/iXkwmMJTzRK32sZm6Om/4aVm0r+W7x/KpP4TaXALVRtN3uI9s8H/87BmtD8Z3O02tELStkoZZYGNi+q0wceP59fSB9SxSVCR7YH6cAHOQbWB2Ch2OLcRTJumZezdkZJAp1w+q+FS2oF9krgkLLDbP5mWJaUPV4TErAwbZpGVIuUlgtU/JEwcE1UoOmIrGO2QCXGzY9UJMi9poEE+Z0LjtByHPo8dyupUxq7sTxv4S8lyECB/6ghefjZdItG6lJWfI6WMHj8hXJlsB4VuHEhuwwIDAQAB
   ShowStoreProducts: 1
   InAppProducts:
