@@ -16,7 +16,7 @@ uniform sampler2D _MainTex;
 
 fixed4 frag (v2f_img i) : SV_Target
 {
-	return fixed4 (1.0) - tex2D(_MainTex, i.uv);
+	return fixed4 (1.0, 1.0, 1.0, 1.0) - tex2D(_MainTex, i.uv);
 }
 ENDCG
 

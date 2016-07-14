@@ -281,6 +281,7 @@
      <Compile Include="Assets\Scripts\Behaviors\StoreButton.cs" />
      <Compile Include="Assets\Scripts\Behaviors\StoreButtonList.cs" />
      <Compile Include="Assets\Scripts\Behaviors\TutorialStartTrigger.cs" />
+     <Compile Include="Assets\Scripts\Behaviors\VignetteManager.cs" />
      <Compile Include="Assets\Scripts\Classes\CubiBase.cs" />
      <Compile Include="Assets\Scripts\Classes\PropertyAnimator.cs" />
      <Compile Include="Assets\Scripts\Classes\StateMachine\StateBehaviour.cs" />
@@ -393,6 +394,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\MinMaxReduction.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
+     <None Include="Assets\GameResources\Shaders\Vignette_Alpha.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
