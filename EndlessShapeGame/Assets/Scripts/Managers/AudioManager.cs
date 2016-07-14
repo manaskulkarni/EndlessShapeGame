@@ -28,7 +28,7 @@ public class AudioManager : MonoBehaviour
   static public AudioManager inst { get; private set; }
   bool _playOnce;
   //  bool _inOptions;
-  int _mode { get { return StatsManager.inst.vMode; } }
+  int _mode { get; set; }
 
   #region AudioObjects
   public AudioObject[] gameTracks;
@@ -58,7 +58,7 @@ public class AudioManager : MonoBehaviour
   public AudioSource lose { get; private set; }
   #endregion
 
-  public const int MUTE_MODE = 2;
+  public const int MUTE_MODE = 3;
 
   void Awake()
   {
@@ -84,6 +84,14 @@ public class AudioManager : MonoBehaviour
   // Use this for initialization
   void Start()
   {
+    _mode = StatsManager.inst.vMode;
+
+    if (_mode == MUTE_MODE)
+    {
+      AudioListener.volume = 0.0f;
+      _mode = 0;
+    }
+    
     InitializeAudioSource ();
 
     _playOnce = true;
@@ -226,11 +234,13 @@ public class AudioManager : MonoBehaviour
 
   void OnSwitchMode(int mode)
   {
-    //    _mode = mode;
+    _mode = mode;
 
-    if (_mode == MUTE_MODE)
+    if (mode == MUTE_MODE)
     {
-      StartCoroutine (FadeOutVolume ());
+      _mode = 0;
+      AudioListener.volume = 0.0f;
+      StopAll ();
     }
     else
     {
@@ -264,10 +274,12 @@ public class AudioManager : MonoBehaviour
   private IEnumerator FadeOutVolume ()
   {
     var t = 0.0f;
+    var start = AudioListener.volume;
+
     while (t < 1.0f)
     {
       t += Time.deltaTime * _options.volumeFadeSpeed;
-      AudioListener.volume = Mathf.Lerp (1.0f, 0.0f, t);
+      AudioListener.volume = Mathf.Lerp (start, 0.0f, t);
       yield return null;
     }
   }
@@ -515,6 +527,15 @@ public class AudioManager : MonoBehaviour
   {
     track.UnPause();
     loop.UnPause();
+  }
+
+  private void StopAll()
+  {
+    track.Stop();
+    loop.Stop();
+    main.Stop();
+    options.Stop();
+    store.Stop();
   }
 
   private void PauseAll()

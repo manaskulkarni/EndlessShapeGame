@@ -866,7 +866,7 @@ public class UIManager : CubiBase
 
   void OnSwitchMode (int mode)
   {
-    StartCoroutine (IgnoreSwitchMode (AudioManager.inst._options.volumeFadeSpeed * 2.0f));
+    StartCoroutine (IgnoreSwitchMode (0.8f * 2.0f));
   }
 
   void OnProductsLoaded (Dictionary <string, StoreInterface.ProductTemplate> products)
