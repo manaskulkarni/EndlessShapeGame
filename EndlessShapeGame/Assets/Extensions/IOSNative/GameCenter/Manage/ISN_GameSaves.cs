@@ -1,4 +1,4 @@
-﻿//#define SA_DEBUG_MODE
+#define GAME_CENTER_ENABLED
 
 using UnityEngine;
 using System;
@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 using System.Runtime.InteropServices;
 #endif
 
@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 public class ISN_GameSaves : ISN_Singleton<ISN_GameSaves> {
 
 
-	#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+	#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 
 	[DllImport ("__Internal")]
 	private static extern void _ISN_SaveGame(string data, string name);
@@ -64,7 +64,7 @@ public class ISN_GameSaves : ISN_Singleton<ISN_GameSaves> {
 	///<param name="name">A string that identifies the saved game data.</param>
 	/// </summary>
 	public void SaveGame(byte[] data, string name) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		string bytesString = System.Convert.ToBase64String (data);
 		_ISN_SaveGame(bytesString, name);
 		#endif
@@ -81,7 +81,7 @@ public class ISN_GameSaves : ISN_Singleton<ISN_GameSaves> {
 	/// 
 	/// </summary>
 	public void FetchSavedGames() {
-		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_FetchSavedGames();
 		#endif
 	}
@@ -93,7 +93,7 @@ public class ISN_GameSaves : ISN_Singleton<ISN_GameSaves> {
 	/// <param name="name">A string that identifies the saved game data to be deleted.</param>
 	/// </summary>
 	public void DeleteSavedGame(string name) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_DeleteSavedGame(name);
 		#endif
 	}
@@ -112,7 +112,7 @@ public class ISN_GameSaves : ISN_Singleton<ISN_GameSaves> {
 	/// <param name="data">An object that contains the saved game data.</param>
 	/// </summary>
 	public void ResolveConflictingSavedGames(List<GK_SavedGame> conflicts, byte[] data) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		string bytesString = System.Convert.ToBase64String (data);
 
 		List<string> savesKeys =  new List<string>();
@@ -130,7 +130,7 @@ public class ISN_GameSaves : ISN_Singleton<ISN_GameSaves> {
 	/// Method for plugin internal use only.
 	/// </summary>
 	public void LoadSaveData(GK_SavedGame save) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_LoadSaveData(save.Id);
 		#endif
 	}

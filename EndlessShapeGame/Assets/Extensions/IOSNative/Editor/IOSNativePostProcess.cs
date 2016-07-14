@@ -123,6 +123,16 @@ public class IOSNativePostProcess  {
 			}
 		}
 
+		if(IOSNativeSettings.Instance.EnablePickerAPI) {
+			string AssetsLibrary = "AssetsLibrary.framework";
+			if(!ISDSettings.Instance.ContainsFreamworkWithName(AssetsLibrary)) {
+				ISD_Framework F =  new ISD_Framework();
+				F.Name = AssetsLibrary;
+				F.IsOptional = true;
+				ISDSettings.Instance.Frameworks.Add(F);
+			}
+		}
+
 
 		if(IOSNativeSettings.Instance.EnableSoomla) {
 			string AdSupport = "AdSupport.framework";

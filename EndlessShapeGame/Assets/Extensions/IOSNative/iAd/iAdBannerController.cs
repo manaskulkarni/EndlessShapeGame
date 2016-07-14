@@ -1,4 +1,4 @@
-#define IAD_API
+//#define IAD_API
 
 ////////////////////////////////////////////////////////////////////////////////
 //  
@@ -60,6 +60,10 @@ public class iAdBannerController : ISN_Singleton<iAdBannerController> {
 	void Awake() {
 		_banners =  new Dictionary<int, iAdBanner>();
 		DontDestroyOnLoad(gameObject);
+
+		if (IsEditorTestingEnabled) {
+			SA_EditorAd.Instance.SetFillRate(IOSNativeSettings.Instance.EditorFillRate);
+		}
 	}
 
 	
@@ -100,27 +104,29 @@ public class iAdBannerController : ISN_Singleton<iAdBannerController> {
 		}
 	}
 
-
+	private bool _ShowOnLoad = false;
 	public void StartInterstitialAd() {
+		if (IsEditorTestingEnabled) {
+			_ShowOnLoad = true;
+			InterstitialAdWillLoadAction();
+			
+			SA_EditorAd.OnInterstitialLoadComplete += HandleOnInterstitialLoadComplete_Editor;
+			SA_EditorAd.Instance.LoadInterstitial();
+			return;
+		}
 
 		#if (UNITY_IPHONE && !UNITY_EDITOR && IAD_API) || SA_DEBUG_MODE
 
 		#if UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 			if((iPhone.generation.ToString()).IndexOf("iPhone") == -1 && (iPhone.generation.ToString()).IndexOf("iPad") == -1){
-				if(!IOSNativeSettings.Instance.DisablePluginLogs) 	
-					Debug.Log("Device: " + iPhone.generation.ToString() + " is not supported by iAd");
-				interstitialdidFailWithError("");
-				return;
+					ISN_Logger.Log("Device: " + iPhone.generation.ToString() + " is not supported by iAd");
+					interstitialdidFailWithError("");
+					return;
 			}
-
 		#else
 
-
-
-		if(UnityEngine.iOS.Device.generation.ToString().IndexOf("iPhone") == -1 && (UnityEngine.iOS.Device.generation.ToString()).IndexOf("iPad") == -1) {
-			if(!IOSNativeSettings.Instance.DisablePluginLogs) 	
-				Debug.Log("Device: " + UnityEngine.iOS.Device.generation.ToString() + " is not supported by iAd");
-
+		if(UnityEngine.iOS.Device.generation.ToString().IndexOf("iPhone") == -1 && (UnityEngine.iOS.Device.generation.ToString()).IndexOf("iPad") == -1) {			
+			ISN_Logger.Log("Device: " + UnityEngine.iOS.Device.generation.ToString() + " is not supported by iAd");
 			interstitialdidFailWithError("");
 			return;
 		}
@@ -132,21 +138,27 @@ public class iAdBannerController : ISN_Singleton<iAdBannerController> {
 	}
 	
 	public void LoadInterstitialAd() {
+		if (IsEditorTestingEnabled) {
+			InterstitialAdWillLoadAction();
+
+			SA_EditorAd.OnInterstitialLoadComplete += HandleOnInterstitialLoadComplete_Editor;
+			SA_EditorAd.Instance.LoadInterstitial();
+			return;
+		}
+
 		#if (UNITY_IPHONE && !UNITY_EDITOR && IAD_API) || SA_DEBUG_MODE
 
 		#if UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 			if((iPhone.generation.ToString()).IndexOf("iPhone") == -1 && (iPhone.generation.ToString()).IndexOf("iPad") == -1){
-				if(!IOSNativeSettings.Instance.DisablePluginLogs) 	
-					Debug.Log("Device: " + iPhone.generation.ToString() + " is not supported by iAd");
+				if(IOSNativeSettings.Instance.EnablePluginLogs) 	
+					ISN_Logger.Log("Device: " + iPhone.generation.ToString() + " is not supported by iAd");
 				interstitialdidFailWithError("");
 				return;
 			}
 		#else
 
-		if(UnityEngine.iOS.Device.generation.ToString().IndexOf("iPhone") == -1 && (UnityEngine.iOS.Device.generation.ToString()).IndexOf("iPad") == -1) {
-				if(!IOSNativeSettings.Instance.DisablePluginLogs) 	
-				Debug.Log("Device: " + UnityEngine.iOS.Device.generation.ToString() + " is not supported by iAd");
-				
+		if(UnityEngine.iOS.Device.generation.ToString().IndexOf("iPhone") == -1 && (UnityEngine.iOS.Device.generation.ToString()).IndexOf("iPad") == -1) {	
+				ISN_Logger.Log("Device: " + UnityEngine.iOS.Device.generation.ToString() + " is not supported by iAd");				
 				interstitialdidFailWithError("");
 				return;
 			}
@@ -155,8 +167,31 @@ public class iAdBannerController : ISN_Singleton<iAdBannerController> {
 		_IADLoadInterstitialAd();
 		#endif
 	}
+
+	void HandleOnInterstitialLoadComplete_Editor (bool success)
+	{
+		SA_EditorAd.OnInterstitialLoadComplete -= HandleOnInterstitialLoadComplete_Editor;
+
+		if (success) {
+			_IsInterstisialsAdReady = true;
+			InterstitialAdDidLoadAction();
+			if (_ShowOnLoad) {
+				_ShowOnLoad = false;
+				ShowInterstitialAd();
+			}
+		} else {
+			InterstitialDidFailWithErrorAction();
+		}
+	}
 	
 	public void ShowInterstitialAd() {
+		if (IsEditorTestingEnabled) {
+			_IsInterstisialsAdReady = false;
+			SA_EditorAd.OnInterstitialFinished += HandleOnInterstitialFinished_Editor;
+			SA_EditorAd.Instance.ShowInterstitial();
+			return;
+		}
+
 		if(_IsInterstisialsAdReady) {
 
 			Invoke("interstitialAdActionDidFinish", 1f);
@@ -165,6 +200,12 @@ public class iAdBannerController : ISN_Singleton<iAdBannerController> {
 				_IADShowInterstitialAd();
 			#endif
 		}
+	}
+
+	void HandleOnInterstitialFinished_Editor (bool isRewarded)
+	{
+		SA_EditorAd.OnInterstitialFinished -= HandleOnInterstitialFinished_Editor;
+		InterstitialAdDidFinishAction();
 	}
 
 	
@@ -185,14 +226,18 @@ public class iAdBannerController : ISN_Singleton<iAdBannerController> {
 		}
 	}
 	
-
+	public bool IsEditorTestingEnabled {
+		get {
+			return SA_EditorTesting.IsInsideEditor && IOSNativeSettings.Instance.IsEditorTestingEnabled;
+		}
+	}
 	
 	public iAdBanner GetBanner(int id) {
 		if(_banners.ContainsKey(id)) {
 			return _banners[id];
 		} else {
 			if(!IOSNativeSettings.Instance.DisablePluginLogs) 
-				Debug.LogWarning("Banner id: " + id.ToString() + " not found");
+				ISN_Logger.Log("Banner id: " + id.ToString() + " not found", LogType.Warning);
 			return null;
 		}
 	}

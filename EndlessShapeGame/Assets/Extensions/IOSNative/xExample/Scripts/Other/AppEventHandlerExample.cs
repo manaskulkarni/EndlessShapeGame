@@ -33,14 +33,14 @@ public class AppEventHandlerExample : MonoBehaviour {
 
 
 	void HandleOnApplicationDidBecomeActive () {
-		Debug.Log("Caught OnApplicationDidBecomeActive event");
+		ISN_Logger.Log("Caught OnApplicationDidBecomeActive event");
 	}
 
 
 	private void OnApplicationDidReceiveMemoryWarning() {
 		//Called when the application receives a memory warning from the system.
 
-		Debug.Log ("Caught OnApplicationDidReceiveMemoryWarning event");
+		ISN_Logger.Log ("Caught OnApplicationDidReceiveMemoryWarning event");
 	}
 
 

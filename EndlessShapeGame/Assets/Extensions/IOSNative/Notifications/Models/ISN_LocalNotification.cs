@@ -43,8 +43,8 @@ public class ISN_LocalNotification  {
 			_SoundName = nodes[4];
 			_Date = new DateTime(System.Convert.ToInt64(nodes[5]));
 		} catch(Exception ex) {
-			Debug.LogError("Failed to deserialize the ISN_LocalNotification object");
-			Debug.LogError(ex.Message);
+			ISN_Logger.Log("Failed to deserialize the ISN_LocalNotification object");
+			ISN_Logger.Log(ex.Message);
 		}
 
 	}

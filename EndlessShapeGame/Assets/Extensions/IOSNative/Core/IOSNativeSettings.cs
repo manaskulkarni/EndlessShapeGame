@@ -10,7 +10,7 @@ using UnityEditor;
 
 public class IOSNativeSettings : ScriptableObject {
 
-	public const string VERSION_NUMBER = "8.2";
+	public const string VERSION_NUMBER = "8.5";
 
 	public string AppleId = "XXXXXXXXX";
 
@@ -32,7 +32,7 @@ public class IOSNativeSettings : ScriptableObject {
 	public bool ShowLeaderboards = true;
 	public bool ShowAchievementsParams = true;
 	public bool ShowUsersParams = false;
-	public bool ShowOtherParams = false;
+	public bool ShowOtherParams = true;
 	public bool ShowRPKParams = false;
 
 
@@ -42,6 +42,7 @@ public class IOSNativeSettings : ScriptableObject {
 	public bool EnableGameCenterAPI = true;
 	public bool EnableInAppsAPI = true;
 	public bool EnableCameraAPI = true;
+	public bool EnablePickerAPI = false;
 	public bool EnableSocialSharingAPI = true;
 	public bool EnableMediaPlayerAPI = true;
 	public bool EnableiAdAPI = true;
@@ -49,11 +50,15 @@ public class IOSNativeSettings : ScriptableObject {
 	public bool EnableCloudKit = false;
 	public bool EnableSoomla = false;
 
+	public bool EnableGestureAPI = false;
+
 	public bool EnablePushNotificationsAPI = false;
 
+	public int EditorFillRateIndex = 4;
+	public int EditorFillRate = 100;
+	public bool IsEditorTestingEnabled = true;
 
 	public bool DisablePluginLogs = false;
-
 
 	public bool UseGCRequestCaching = false;
 	public bool UsePPForAchievements = false;
@@ -101,7 +106,7 @@ public class IOSNativeSettings : ScriptableObject {
 					instance = CreateInstance<IOSNativeSettings>();
 					#if UNITY_EDITOR
 
-					FileStaticAPI.CreateFolder(SA_Config.SettingsPath);
+					SA_FileStaticAPI.CreateFolder(SA_Config.SettingsPath);
 				
 					/*string properPath = Path.Combine(Application.dataPath, ISNSettingsPath);
 					if (!Directory.Exists(properPath)) {

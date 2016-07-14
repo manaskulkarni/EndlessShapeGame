@@ -118,6 +118,7 @@
 - (void) saveToCameraRoll:(NSString*)media;
 
 -(void) PickImage:(int) source;
+- (NSString*) EncodeImage:(UIImage *)image;
 
 @end
 
@@ -138,7 +139,7 @@ static UIImagePickerController *_imagePicker = NULL;
 }
 
 - (void) saveToCameraRoll:(NSString *)media {
-    NSLog(@"saveToCameraRoll");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"saveToCameraRoll"];
     NSData *imageData = [[NSData alloc] initWithBase64Encoding:media];
     UIImage *image = [[UIImage alloc] initWithData:imageData];
 
@@ -164,11 +165,11 @@ static UIImagePickerController *_imagePicker = NULL;
 #endif
     
     if (error) {
-        NSLog(@"image not saved: %@", error.description);
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"image not saved: %@", error.description];
         UnitySendMessage("IOSCamera", "OnImageSaveFailed", [ISN_DataConvertor NSStringToChar:@""]);
         
     } else {
-        NSLog(@"image saved");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"image saved"];
         UnitySendMessage("IOSCamera", "OnImageSaveSuccess", [ISN_DataConvertor NSStringToChar:@""]);
     }
     
@@ -209,7 +210,7 @@ static UIImagePickerController *_imagePicker = NULL;
 
 
 -(void) StartCameraImagePic {
-    NSLog(@"StartCameraImagePic");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"StartCameraImagePic"];
     [self GetImage:UIImagePickerControllerSourceTypeCamera];
 }
 
@@ -280,41 +281,9 @@ static UIImagePickerController *_imagePicker = NULL;
         UIImage *photo = [info objectForKey:UIImagePickerControllerOriginalImage];
         NSString *encodedImage = @"";
         if (photo == nil) {
-            NSLog(@"no photo");
+             [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"no photo"];
         } else {
-            // NSLog(@"MaxImageSize: %i", [self MaxImageSize]);
-            //  NSLog(@"photo.size.width: %f", photo.size.width);
-            
-            photo = [photo fixOrientation];
-            
-            
-            
-            if(photo.size.width > [self MaxImageSize] || photo.size.height > [self MaxImageSize] ) {
-                NSLog(@"resizing image");
-                CGSize s = CGSizeMake([self MaxImageSize], [self MaxImageSize]);
-                
-                if(photo.size.width > photo.size.height) {
-                    CGFloat new_height = [self MaxImageSize] / (photo.size.width / photo.size.height);
-                    s.height = new_height;
-
-                } else {
-                    CGFloat new_width = [self MaxImageSize] / (photo.size.height / photo.size.width);
-                    s.width = new_width;
-
-                }
-                              
-                photo =   [ISN_Camera imageWithImage:photo scaledToSize:s];
-
-            }
-            
-            NSData *imageData = nil;
-            NSLog(@"ImageCompressionRate: %f", [self ImageCompressionRate]);
-            if([self encodingType] == 0) {
-                imageData = UIImagePNGRepresentation(photo);
-            } else {
-                imageData = UIImageJPEGRepresentation(photo, [self ImageCompressionRate]);
-            }
-            encodedImage = [imageData base64Encoding];
+            encodedImage = [self EncodeImage:photo];
         }
         
         UnitySendMessage("IOSCamera", "OnImagePickedEvent", [ISN_DataConvertor NSStringToChar:encodedImage]);
@@ -322,6 +291,42 @@ static UIImagePickerController *_imagePicker = NULL;
     }
     
 }
+
+- (NSString*) EncodeImage:(UIImage *)image {
+    image = [image fixOrientation];
+    
+    
+    if(image.size.width > [self MaxImageSize] || image.size.height > [self MaxImageSize] ) {
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"resizing image"];
+        CGSize s = CGSizeMake([self MaxImageSize], [self MaxImageSize]);
+        
+        if(image.size.width > image.size.height) {
+            CGFloat new_height = [self MaxImageSize] / (image.size.width / image.size.height);
+            s.height = new_height;
+            
+        } else {
+            CGFloat new_width = [self MaxImageSize] / (image.size.height / image.size.width);
+            s.width = new_width;
+            
+        }
+        
+        image =   [ISN_Camera imageWithImage:image scaledToSize:s];
+        
+    }
+    
+    NSData *imageData = nil;
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ImageCompressionRate: %f", [self ImageCompressionRate]];
+    
+    if([self encodingType] == 0) {
+        imageData = UIImagePNGRepresentation(image);
+    } else {
+        imageData = UIImageJPEGRepresentation(image, [self ImageCompressionRate]);
+    }
+    
+    return  [imageData base64Encoding];
+}
+
+
 
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
     //UIGraphicsBeginImageContext(newSize);
@@ -360,9 +365,11 @@ extern "C" {
         [[ISN_Camera sharedInstance] GetVideoPathFromAlbum];
     }
     
+    
     void _ISN_PickImage(int source) {
         [[ISN_Camera sharedInstance] PickImage:source];
     }
+
     
     void _ISN_InitCameraAPI(float compressionRate, int maxSize, int encodingType) {
         [[ISN_Camera sharedInstance] setImageCompressionRate:compressionRate];

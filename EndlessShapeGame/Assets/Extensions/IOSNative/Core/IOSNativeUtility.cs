@@ -40,6 +40,8 @@ public class IOSNativeUtility : ISN_Singleton<IOSNativeUtility> {
 	[DllImport ("__Internal")]
 	private static extern void _ISN_RequestGuidedAccessSession(bool enable);
 
+
+
 	#endif
 	public static event Action<ISN_Locale> OnLocaleLoaded = delegate {};
 	public static event Action<bool> GuidedAccessSessionRequestResult = delegate {};
@@ -91,6 +93,8 @@ public class IOSNativeUtility : ISN_Singleton<IOSNativeUtility> {
 		_ISN_RequestGuidedAccessSession(enabled);
 		#endif
 	}
+
+
 
 	//--------------------------------------
 	//  Get / Set

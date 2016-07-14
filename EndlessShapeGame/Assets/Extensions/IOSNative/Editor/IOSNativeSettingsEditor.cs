@@ -9,7 +9,7 @@ using System.Reflection;
 public class IOSNativeSettingsEditor : Editor {
 	
 	
-	private static string[] ToolbarHeaders =new string[] {"General", "Billing", "Game Center", "Other"};
+		private static string[] ToolbarHeaders =new string[] {"General", "Billing", "Game Center", "Editor Testing", "Other"};
 	
 	private static GUIContent AppleIdLabel = new GUIContent("Apple Id [?]:", "Your Application Apple ID.");
 	private static GUIContent SdkVersion   = new GUIContent("Plugin Version [?]", "This is the Plugin version.  If you have problems or compliments please include this so that we know exactly which version to look out for.");
@@ -26,8 +26,7 @@ public class IOSNativeSettingsEditor : Editor {
 	private static GUIContent AutoLoadBigmagesLoadTitle  = new GUIContent("Autoload Big Player Photo[?]:", "As soon as player info received, big player photo will be requested automatically");
 	
 	
-	
-	private static GUIContent DisablePluginLogsNote  = new GUIContent("Disable Plugin Logs[?]:", "All plugins 'Debug.Log' lines will be disabled if this option is enabled.");
+
 	
 	
 	
@@ -37,6 +36,7 @@ public class IOSNativeSettingsEditor : Editor {
 	private static string GameCenterManager_Path = "Extensions/IOSNative/GameCenter/Manage/GameCenterManager.cs";
 	private static string GameCenter_TBM_Path = "Extensions/IOSNative/GameCenter/Manage/GameCenter_TBM.cs";
 	private static string GameCenter_RTM_Path = "Extensions/IOSNative/GameCenter/Manage/GameCenter_RTM.cs";
+	private static string ISN_GameSaves_Path = "Extensions/IOSNative/GameCenter/Manage/ISN_GameSaves.cs";
 	
 	private static string IOSNativeMarketBridge_Path = "Extensions/IOSNative/Market/IOSNativeMarketBridge.cs";
 	private static string IOSStoreProductView_Path = "Extensions/IOSNative/Market/IOSStoreProductView.cs";
@@ -49,7 +49,7 @@ public class IOSNativeSettingsEditor : Editor {
 	private static string IOSSocialManager_Path = "Extensions/IOSNative/Social/IOSSocialManager.cs";
 	
 	private static string IOSCamera_Path = "Extensions/IOSNative/Other/Camera/IOSCamera.cs";
-	
+	private static string ISN_FilePicker_Path = "Extensions/IOSNative/Other/Camera/ISN_FilePicker.cs";
 	
 	private static string IOSVideoManager_Path = "Extensions/IOSNative/Other/VIdeo/IOSVideoManager.cs";
 	private static string ISN_MediaController_Path = "Extensions/IOSNative/Other/Media/Controllers/ISN_MediaController.cs";
@@ -58,6 +58,9 @@ public class IOSNativeSettingsEditor : Editor {
 	private static string ISN_ReplayKit_Path = "Extensions/IOSNative/Other/VIdeo/ISN_ReplayKit.cs";
 	private static string ISN_CloudKit_Path = "Extensions/IOSNative/iCloud/ISN_CloudKit.cs";
 	private static string ISN_Soomla_Path = "Extensions/IOSNative/Addons/Soomla/Controllers/ISN_SoomlaGrow.cs";
+
+
+	private static string ISN_GestureRecognizer_Path = "Extensions/IOSNative/Other/System/Gestures/ISN_GestureRecognizer.cs";
 	
 	
 	private  GUIStyle _ImageBoxStyle = null;
@@ -129,9 +132,13 @@ public class IOSNativeSettingsEditor : Editor {
 			GameCenterSettings();
 			break;
 		case 3:
+			EditorTesting();
+			break;
+		case 4:
 			CameraAndGallery();
 			ReplayKitSetings();
 			ThirdPartySettings();
+			ISNSettings();
 			break;
 		}
 		
@@ -143,9 +150,42 @@ public class IOSNativeSettingsEditor : Editor {
 		
 		
 	}
-	
-	
-	
+
+	private static int[] rates = new int[]{0, 20, 50, 80, 100};
+	private string[] FillRateToolbarStrings = new string[] {"0%", "20%", "50%", "80%", "100%"};
+	private void EditorTesting() {
+		EditorGUILayout.Space();
+		EditorGUILayout.HelpBox("In-App Purchases", MessageType.None);
+
+		EditorGUILayout.Space();
+		EditorGUILayout.HelpBox("IAd", MessageType.None);
+
+		IOSNativeSettings.Instance.IsEditorTestingEnabled = SA_EditorTool.ToggleFiled("Editor Testing", IOSNativeSettings.Instance.IsEditorTestingEnabled);
+		
+		GUI.enabled = IOSNativeSettings.Instance.IsEditorTestingEnabled;
+		
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.LabelField("Fill Rate:");
+		IOSNativeSettings.Instance.EditorFillRateIndex = GUILayout.Toolbar(IOSNativeSettings.Instance.EditorFillRateIndex, FillRateToolbarStrings, EditorStyles.radioButton);
+		IOSNativeSettings.Instance.EditorFillRate = rates[IOSNativeSettings.Instance.EditorFillRateIndex];
+		EditorGUILayout.Space();
+		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.LabelField("");
+		EditorGUILayout.LabelField("0% - Always Error");
+		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.LabelField("");
+		EditorGUILayout.LabelField("100% - Always Provide Ad");
+		EditorGUILayout.EndHorizontal();
+		
+		GUI.enabled = true;
+
+		EditorGUILayout.Space();
+		EditorGUILayout.HelpBox("Notifications", MessageType.None);
+	}
 	
 	private void InstallOptions() {
 		
@@ -255,10 +295,30 @@ public class IOSNativeSettingsEditor : Editor {
 			
 			EditorGUILayout.BeginHorizontal();
 			IOSNativeSettings.Instance.EnableCameraAPI = EditorGUILayout.Toggle("Camera And Gallery",  IOSNativeSettings.Instance.EnableCameraAPI);
-			IOSNativeSettings.Instance.EnableiAdAPI = EditorGUILayout.Toggle("iAd",  IOSNativeSettings.Instance.EnableiAdAPI);
+
+			GUI.enabled = IOSNativeSettings.Instance.EnableCameraAPI;
+
+			EditorGUI.BeginChangeCheck();
+
+			IOSNativeSettings.Instance.EnablePickerAPI = EditorGUILayout.Toggle("Multy Image Picker",  IOSNativeSettings.Instance.EnablePickerAPI);
+
+			if(EditorGUI.EndChangeCheck()) {
+				int index = EditorUtility.DisplayDialogComplex("Picker API Requires Additional components", "See the documentation, to findout how to instal picker API", "Open Documentation", "Cancel", "Later");
+				switch(index) {
+				case 1:
+					IOSNativeSettings.Instance.EnablePickerAPI = false;
+					break;
+
+				case 0:
+					Application.OpenURL("https://goo.gl/XdzXDB");
+					break;
+				}
+			}
+
+			GUI.enabled = true;
 			EditorGUILayout.EndHorizontal();
 			
-			
+
 			
 			EditorGUILayout.BeginHorizontal();
 			IOSNativeSettings.Instance.EnableMediaPlayerAPI = EditorGUILayout.Toggle("Media Player",  IOSNativeSettings.Instance.EnableMediaPlayerAPI);
@@ -268,6 +328,11 @@ public class IOSNativeSettingsEditor : Editor {
 			EditorGUILayout.BeginHorizontal();
 			IOSNativeSettings.Instance.EnableReplayKit = EditorGUILayout.Toggle("Replay Kit ",  IOSNativeSettings.Instance.EnableReplayKit);
 			IOSNativeSettings.Instance.EnableCloudKit = EditorGUILayout.Toggle("Cloud Kit ",  IOSNativeSettings.Instance.EnableCloudKit);
+			EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.BeginHorizontal();
+			IOSNativeSettings.Instance.EnableGestureAPI = EditorGUILayout.Toggle("Gestures API",  IOSNativeSettings.Instance.EnableGestureAPI);
+			IOSNativeSettings.Instance.EnableiAdAPI = EditorGUILayout.Toggle("iAd",  IOSNativeSettings.Instance.EnableiAdAPI);
 			EditorGUILayout.EndHorizontal();
 			
 			
@@ -595,7 +660,7 @@ public class IOSNativeSettingsEditor : Editor {
 			if(EditorGUI.EndChangeCheck())  {
 				
 				if(IOSNativeSettings.Instance.OneSignalEnabled) {
-					if(!(FileStaticAPI.IsFolderExists("Plugins/OneSignal") || !FileStaticAPI.IsFolderExists("OneSignal"))) {
+					if(!(SA_FileStaticAPI.IsFolderExists("Plugins/OneSignal") || SA_FileStaticAPI.IsFolderExists("OneSignal"))) {
 						bool res = EditorUtility.DisplayDialog("One Signal not found", "IOS Native wasn't able to find One Signal libraries in your project. Would you like to download and install it?", "Download", "No Thanks");
 						if(res) {
 							Application.OpenURL(IOSNativeSettings.Instance.OneSignalDocsLink);
@@ -650,14 +715,20 @@ public class IOSNativeSettingsEditor : Editor {
 			GUI.enabled = true;
 			
 		}EditorGUI.indentLevel--;
-		
-		
-		
-		
-		
-		
+
 	}
-	
+
+	private void ISNSettings() {
+		EditorGUILayout.Space();
+		EditorGUILayout.HelpBox("IOS Native Settings", MessageType.None);
+
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.LabelField("Disable IOS Native Logs");
+		IOSNativeSettings.Instance.DisablePluginLogs = EditorGUILayout.Toggle (IOSNativeSettings.Instance.DisablePluginLogs);
+		EditorGUILayout.EndHorizontal();
+	}
+
+
 	private void MoreActions() {
 		
 		
@@ -669,16 +740,7 @@ public class IOSNativeSettingsEditor : Editor {
 			
 			
 			EditorGUI.BeginChangeCheck();
-			
-			
-			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField(DisablePluginLogsNote);
-			IOSNativeSettings.Instance.DisablePluginLogs = EditorGUILayout.Toggle(IOSNativeSettings.Instance.DisablePluginLogs);
-			EditorGUILayout.EndHorizontal();
-			
-			
-			EditorGUILayout.Space();
-			
+						
 			EditorGUILayout.BeginHorizontal();
 			if(GUILayout.Button("Load Example Settings",  GUILayout.Width(140))) {
 				PlayerSettings.bundleIdentifier = "com.stansassets.iosnative.dev";
@@ -1075,7 +1137,7 @@ public class IOSNativeSettingsEditor : Editor {
 	}
 	
 	public static void UpdateVersionInfo() {
-		FileStaticAPI.Write(SA_VersionsManager.ISN_VERSION_INFO_PATH, IOSNativeSettings.VERSION_NUMBER);
+		SA_FileStaticAPI.Write(SA_VersionsManager.ISN_VERSION_INFO_PATH, IOSNativeSettings.VERSION_NUMBER);
 	}
 	
 	
@@ -1102,6 +1164,9 @@ public class IOSNativeSettingsEditor : Editor {
 		ChnageDefineState(GameCenterManager_Path, 				"GAME_CENTER_ENABLED", IOSNativeSettings.Instance.EnableGameCenterAPI);
 		ChnageDefineState(GameCenter_TBM_Path, 					"GAME_CENTER_ENABLED", IOSNativeSettings.Instance.EnableGameCenterAPI);
 		ChnageDefineState(GameCenter_RTM_Path, 					"GAME_CENTER_ENABLED", IOSNativeSettings.Instance.EnableGameCenterAPI);
+		ChnageDefineState(ISN_GameSaves_Path, 					"GAME_CENTER_ENABLED", IOSNativeSettings.Instance.EnableGameCenterAPI);
+
+
 		
 		ChnageDefineState(IOSNativeMarketBridge_Path, 			"INAPP_API_ENABLED", IOSNativeSettings.Instance.EnableInAppsAPI);
 		ChnageDefineState(IOSStoreProductView_Path, 			"INAPP_API_ENABLED", IOSNativeSettings.Instance.EnableInAppsAPI);
@@ -1115,69 +1180,83 @@ public class IOSNativeSettingsEditor : Editor {
 		ChnageDefineState(IOSSocialManager_Path, 				"SOCIAL_API", IOSNativeSettings.Instance.EnableSocialSharingAPI);
 		
 		ChnageDefineState(IOSCamera_Path, 						"CAMERA_API", IOSNativeSettings.Instance.EnableCameraAPI);
+		ChnageDefineState(ISN_FilePicker_Path, 					"PICKER_API", IOSNativeSettings.Instance.EnablePickerAPI);
 		
 		ChnageDefineState(IOSVideoManager_Path, 				"VIDEO_API", IOSNativeSettings.Instance.EnableMediaPlayerAPI);
 		ChnageDefineState(ISN_MediaController_Path, 			"VIDEO_API", IOSNativeSettings.Instance.EnableMediaPlayerAPI);
 		
 		ChnageDefineState(ISN_ReplayKit_Path, 					"REPLAY_KIT", IOSNativeSettings.Instance.EnableReplayKit);
 		ChnageDefineState(ISN_CloudKit_Path, 					"CLOUD_KIT", IOSNativeSettings.Instance.EnableCloudKit);
+
+
+		ChnageDefineState(ISN_GestureRecognizer_Path, 			"GESTURE_API", IOSNativeSettings.Instance.EnableGestureAPI);
 		
+
 		
-		
-		
-		
+		if(!IOSNativeSettings.Instance.EnableGestureAPI) {
+			PluginsInstalationUtil.RemoveIOSFile("ISN_GestureRecognizer");
+		} else {
+			SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_GestureRecognizer.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_GestureRecognizer.mm");
+		}
 		
 		
 		if(!IOSNativeSettings.Instance.EnableGameCenterAPI) {
 			PluginsInstalationUtil.RemoveIOSFile("ISN_GameCenter");
 		} else {
-			FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_GameCenter.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_GameCenter.mm");
+			SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_GameCenter.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_GameCenter.mm");
 		}
 		
 		
 		if(!IOSNativeSettings.Instance.EnableInAppsAPI) {
 			PluginsInstalationUtil.RemoveIOSFile("ISN_InApp");
 		} else {
-			FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_InApp.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_InApp.mm");
+			SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_InApp.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_InApp.mm");
 		}
 		
 		
 		if(!IOSNativeSettings.Instance.EnableiAdAPI) {
 			PluginsInstalationUtil.RemoveIOSFile("ISN_iAd");
 		} else {
-			FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_iAd.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_iAd.mm");
+			SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_iAd.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_iAd.mm");
 		}
 		
 		
 		if(!IOSNativeSettings.Instance.EnableCameraAPI) {
 			PluginsInstalationUtil.RemoveIOSFile("ISN_Camera");
 		} else {
-			FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_Camera.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_Camera.mm");
+			SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_Camera.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_Camera.mm");
+		}
+
+
+		if(!IOSNativeSettings.Instance.EnablePickerAPI) {
+			PluginsInstalationUtil.RemoveIOSFile("ISN_FilePicker");
+		} else {
+			SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_FilePicker.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_FilePicker.mm");
 		}
 		
 		if(!IOSNativeSettings.Instance.EnableSocialSharingAPI) {
 			PluginsInstalationUtil.RemoveIOSFile("ISN_SocialGate");
 		} else {
-			FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_SocialGate.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_SocialGate.mm");
+			SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_SocialGate.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_SocialGate.mm");
 		}
 		
 		if(!IOSNativeSettings.Instance.EnableMediaPlayerAPI) {
 			PluginsInstalationUtil.RemoveIOSFile("ISN_Media");
 		} else {
-			FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_Media.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_Media.mm");
+			SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_Media.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_Media.mm");
 		}
 		
 		if(!IOSNativeSettings.Instance.EnableReplayKit) {
 			PluginsInstalationUtil.RemoveIOSFile("ISN_ReplayKit");
 		} else {
-			FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_ReplayKit.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_ReplayKit.mm");
+			SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_ReplayKit.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_ReplayKit.mm");
 		}
 		
 		
 		if(!IOSNativeSettings.Instance.EnableCloudKit) {
 			PluginsInstalationUtil.RemoveIOSFile("ISN_CloudKit");
 		} else {
-			FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_CloudKit.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_CloudKit.mm");
+			SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_CloudKit.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_CloudKit.mm");
 		}
 		
 		
@@ -1187,9 +1266,9 @@ public class IOSNativeSettingsEditor : Editor {
 			PluginsInstalationUtil.RemoveIOSFile("ISN_Soomla");
 		} else {
 			
-			if(FileStaticAPI.IsFileExists("Plugins/IOS/libSoomlaGrowLite.a")) {
+			if(SA_FileStaticAPI.IsFileExists("Plugins/IOS/libSoomlaGrowLite.a")) {
 				ChnageDefineState(ISN_Soomla_Path, 						"SOOMLA", IOSNativeSettings.Instance.EnableSoomla);
-				FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_Soomla.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_Soomla.mm");
+				SA_FileStaticAPI.CopyFile(PluginsInstalationUtil.IOS_SOURCE_PATH + "ISN_Soomla.mm.txt", 	PluginsInstalationUtil.IOS_DESTANATION_PATH + "ISN_Soomla.mm");
 			} else {
 				
 				
@@ -1208,7 +1287,7 @@ public class IOSNativeSettingsEditor : Editor {
 	
 	private static void ChnageDefineState(string file, string tag, bool IsEnabled) {
 		
-		string content = FileStaticAPI.Read(file);
+		string content = SA_FileStaticAPI.Read(file);
 		
 		int endlineIndex;
 		endlineIndex = content.IndexOf(System.Environment.NewLine);
@@ -1224,7 +1303,7 @@ public class IOSNativeSettingsEditor : Editor {
 			content 	= content.Replace(TagLine, "//#define " + tag);
 		}
 		
-		FileStaticAPI.Write(file, content);
+		SA_FileStaticAPI.Write(file, content);
 		
 	}
 	

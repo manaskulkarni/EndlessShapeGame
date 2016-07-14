@@ -110,7 +110,7 @@ public class MarketExample : BaseIOSFeaturePreview {
 	}
 
 	void StoreProductViewDisnissed () {
-		Debug.Log("Store Product View was dismissed");
+		ISN_Logger.Log("Store Product View was dismissed");
 	}	
 
 
@@ -124,17 +124,61 @@ public class MarketExample : BaseIOSFeaturePreview {
 	//--------------------------------------
 	
 
-
+	byte[] ReceiptData = null;
 	void OnReceiptLoaded (ISN_LocalReceiptResult result) {
-		Debug.Log("OnReceiptLoaded");
+		ISN_Logger.Log("OnReceiptLoaded");
 		ISN_Security.OnReceiptLoaded -= OnReceiptLoaded;
 		if(result.Receipt != null) {
 
-			IOSNativePopUpManager.showMessage("Success", "Receipt loaded, byte array length: " + result.Receipt.Length);
+			ReceiptData = result.Receipt;
+			IOSDialog dialog =  IOSDialog.Create("Success", "Receipt loaded, byte array length: " + result.Receipt.Length + " Would you like to veriday it with Apple Sandbox server?");
+
+			dialog.OnComplete += OnVerifayComplete;
+
+
 		} else {
 			IOSDialog dialog =  IOSDialog.Create("Failed", "No Receipt found on the device. Would you like to refresh local Receipt?");
 			dialog.OnComplete += OnComplete;
 
+		}
+	}
+
+	void OnVerifayComplete (IOSDialogResult res) {
+		if(res == IOSDialogResult.YES) {
+
+
+			StartCoroutine(SendRequest());
+
+
+		}
+	}
+
+
+	private IEnumerator SendRequest() {
+
+
+		string base64string = System.Convert.ToBase64String(ReceiptData);
+
+		Dictionary<string, object> OriginalJSON =  new Dictionary<string, object>();
+		OriginalJSON.Add("receipt-data", base64string);
+		//Only used for receipts that contain auto-renewable subscriptions. Your app’s shared secret (a hexadecimal string).
+		//OriginalJSON.Add("password", "");
+
+		string data = SA_MiniJSON.Json.Serialize(OriginalJSON);
+		byte[] binaryData = System.Text.ASCIIEncoding.UTF8.GetBytes(data);
+
+
+		//Should be used with live enviroment
+		//WWW www = new WWW("https://buy.itunes.apple.com/verifyReceipt", binaryData);
+
+		//Should be used with the sandbox enviroment
+		WWW www = new WWW("https://sandbox.itunes.apple.com/verifyReceipt", binaryData);
+		yield return www;
+
+		if(www.error == null) { 
+			Debug.Log(www.text);
+		} else {
+			Debug.Log(www.error);
 		}
 	}
 

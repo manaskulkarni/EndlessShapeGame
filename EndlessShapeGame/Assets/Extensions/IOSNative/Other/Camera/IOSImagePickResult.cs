@@ -20,7 +20,7 @@ public class IOSImagePickResult : ISN_Result {
 		_image.hideFlags = HideFlags.DontSave;
 
 		if(!IOSNativeSettings.Instance.DisablePluginLogs) 
-			Debug.Log("IOSImagePickResult: w" + _image.width + " h: " + _image.height);
+			ISN_Logger.Log("IOSImagePickResult: w" + _image.width + " h: " + _image.height);
 	}
 	
 

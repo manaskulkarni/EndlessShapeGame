@@ -34,7 +34,7 @@ public class GameCenterInvitations : ISN_Singleton<GameCenterInvitations> {
 	// --------------------------------------
 
 	private void OnInviteeResponse(string data) {
-		Debug.Log("OnInviteeResponse");
+		ISN_Logger.Log("OnInviteeResponse");
 		string[] DataArray = data.Split(IOSNative.DATA_SPLITTER);
 
 		GK_Player player = GameCenterManager.GetPlayerById(DataArray[0]);
@@ -49,13 +49,13 @@ public class GameCenterInvitations : ISN_Singleton<GameCenterInvitations> {
 	// --------------------------------------
 
 	private void OnPlayerAcceptedInvitation_RTM(string data) {
-		Debug.Log("OnPlayerAcceptedInvitation_RTM");
+		ISN_Logger.Log("OnPlayerAcceptedInvitation_RTM");
 		GK_Invite invite = new GK_Invite(data);
 		ActionPlayerAcceptedInvitation(GK_MatchType.RealTime, invite);
 	}
 
 	private void OnPlayerRequestedMatchWithRecipients_RTM(string data) {
-		Debug.Log("OnPlayerRequestedMatchWithRecipients_RTM");
+		ISN_Logger.Log("OnPlayerRequestedMatchWithRecipients_RTM");
 		string[] playersIds = IOSNative.ParseArray(data);
 		List<GK_Player> players = new List<GK_Player>();
 		foreach(string playerId in playersIds) {
@@ -72,13 +72,13 @@ public class GameCenterInvitations : ISN_Singleton<GameCenterInvitations> {
 
 
 	private void OnPlayerAcceptedInvitation_TBM(string data) {
-		Debug.Log("OnPlayerAcceptedInvitation_TBM");
+		ISN_Logger.Log("OnPlayerAcceptedInvitation_TBM");
 		GK_Invite invite = new GK_Invite(data);
 		ActionPlayerAcceptedInvitation(GK_MatchType.TurnBased, invite);
 	}
 	
 	private void OnPlayerRequestedMatchWithRecipients_TBM(string data) {
-		Debug.Log("OnPlayerRequestedMatchWithRecipients_TBM");
+		ISN_Logger.Log("OnPlayerRequestedMatchWithRecipients_TBM");
 		string[] playersIds = IOSNative.ParseArray(data);
 		List<GK_Player> players = new List<GK_Player>();
 		foreach(string playerId in playersIds) {

@@ -54,7 +54,7 @@ public class UIManager : CubiBase
   public Text textTutorial;
   public Text textReady;
 
-  public GameObject animRevive;
+  public Animator animRevive;
   public Text textRevivePrice;
 
   public GameObject menuReviveWatchVideo;
@@ -287,7 +287,7 @@ public class UIManager : CubiBase
     {
       previousState = GameManager.States.ShowRevive;
       //      Debug.Log ("PREVIOUS STATE : " + previousState);
-      animRevive.SetActive (false);
+      animRevive.gameObject.SetActive (false);
       StopAllCoroutines ();
       StartCoroutine (FadeOutMenu (menuRevive));
       GameManager.inst.ChangeState (GameManager.States.ShowStore);
@@ -317,8 +317,8 @@ public class UIManager : CubiBase
 
   public void DisableReviveButtons ()
   {
-    menuReviveUseCoins.GetComponentInChildren <Button> ().interactable = false;
-    menuReviveWatchVideo.GetComponentInChildren <Button> ().interactable = false;
+    menuRevive.GetComponent <CanvasGroup> ().interactable = false;
+    menuRevive.GetComponent <CanvasGroup> ().blocksRaycasts = false;
   }
 
   public void PurchaseItem (StoreButton button)
@@ -416,7 +416,7 @@ public class UIManager : CubiBase
   #region Coroutines
   private IEnumerator StartPauseTimer ()
   {
-    yield return new WaitForSeconds (2.0f);
+    yield return new WaitForSeconds (1.0f);
     int i = 3;
 
     imageCircle.gameObject.SetActive (true);
@@ -428,10 +428,10 @@ public class UIManager : CubiBase
 
     while (i > 0)
     {
-      --i;
       textPauseTimer.text = ""+i+"";
       yield return StartCoroutine (StartPopFeedback(textPauseTimer));
       yield return new WaitForSeconds (0.5f);
+      --i;
     }
 
     textScore.enabled = true;
@@ -520,7 +520,7 @@ public class UIManager : CubiBase
     var group = menuRevive.GetComponent <CanvasGroup> ();
 
     SetMenuActive (menuRevive, true);
-    animRevive.SetActive (animate);
+    animRevive.gameObject.SetActive (animate);
 
 
     while (group.alpha < 1.0f)
@@ -668,12 +668,16 @@ public class UIManager : CubiBase
       Vector2 v = menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition;
       v.y = 0.0f;
       menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition = v;
+      var size = menuReviveUseCoins.GetComponent <RectTransform> ().sizeDelta;
+      menuReviveUseCoins.GetComponent <RectTransform> ().sizeDelta = Vector2.one * size.x;
       imageReviveButtonSeparator.SetActive (false);
     }
     else
     {
       menuReviveWatchVideo.SetActive (true);
       menuReviveUseCoins.GetComponent <RectTransform> ().anchoredPosition = originalReviveButtonPosition;
+      var size = menuReviveUseCoins.GetComponent <RectTransform> ().sizeDelta;
+      menuReviveUseCoins.GetComponent <RectTransform> ().sizeDelta = new Vector2 (size.x, size.x * 0.5f);
       imageReviveButtonSeparator.SetActive (true);
     }
 
@@ -685,7 +689,7 @@ public class UIManager : CubiBase
   void OnDeclineRevive ()
   {
     previousState = GameManager.States.None;
-    animRevive.SetActive (false);
+    animRevive.gameObject.SetActive (false);
     StartCoroutine (FadeOutMenu (menuRevive));
     StartCoroutine (FadeOutMenu (menuGame));
   }
@@ -694,7 +698,7 @@ public class UIManager : CubiBase
   {
     Debug.Log ("CALLED");
     StartCoroutine (FadeOutMenu (menuRevive, 5.0f, "", "FadeOutRevive"));
-    animRevive.SetActive (false);
+    animRevive.gameObject.SetActive (false);
     StartCoroutine (FadeInMenu (menuGame));
   }
 
@@ -862,7 +866,7 @@ public class UIManager : CubiBase
 
   void OnSwitchMode (int mode)
   {
-    StartCoroutine (IgnoreSwitchMode (AudioManager.inst._options_menu1.volumeFadeSpeed * 2.0f));
+    StartCoroutine (IgnoreSwitchMode (AudioManager.inst._options.volumeFadeSpeed * 2.0f));
   }
 
   void OnProductsLoaded (Dictionary <string, StoreInterface.ProductTemplate> products)
@@ -927,12 +931,29 @@ public class UIManager : CubiBase
     StartCoroutine (FadeInMenu (menuReady));
   }
 
+  private float animReviveSpeed { get; set; }
+
   void OnInterstitialStarted ()
   {
     // Only do this if watch video for revive
     if (previousState == GameManager.States.ShowRevive)
     {
-      animRevive.SetActive (false);
+      animReviveSpeed = animRevive.speed;
+      animRevive.speed = 0.0f;
+//      animRevive.SetActive (false);
+    }
+  }
+
+  void OnSkipRewardVideo ()
+  {
+    animRevive.speed = animReviveSpeed;
+//    animRevive.SetActive (true);
+  }
+
+  void OnRewardCompleted (string reward)
+  {
+    if (previousState == GameManager.States.ShowRevive)
+    {
       StopAllCoroutines ();
       StartCoroutine (FadeOutMenu (menuRevive));
     }

@@ -36,7 +36,7 @@ public class GK_LocalPlayerScoreUpdateListener  {
 	}
 
 	public void ReportScoreUpdateFail(string errorData) {
-		Debug.Log("ReportScoreUpdateFail");
+		ISN_Logger.Log("ReportScoreUpdateFail");
 		_ErrorData = errorData;
 		Scores.Add(null);
 

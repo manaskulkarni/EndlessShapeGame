@@ -11,7 +11,7 @@ using UnityEditor;
 public class ISDSettings : ScriptableObject
 {
 
-	public const string VERSION_NUMBER = "2.1";
+	public const string VERSION_NUMBER = "2.2";
 
 	public bool IsfwSettingOpen;
 	public bool IsLibSettingOpen;
@@ -56,7 +56,7 @@ public class ISDSettings : ScriptableObject
 					#if UNITY_EDITOR
 
 
-					FileStaticAPI.CreateFolder(SA_Config.SettingsPath);
+					SA_FileStaticAPI.CreateFolder(SA_Config.SettingsPath);
 					
 					string fullPath = Path.Combine(Path.Combine("Assets", SA_Config.SettingsPath), ISDAssetName + ISDAssetExtension );
 					

@@ -40,8 +40,8 @@
 - (void) ShowSpinner;
 - (void) HideSpinner;
 - (void) GetIFA;
-
-
+- (void) ISN_NativeLog: (NSString *) appId, ...;
+- (void) ISN_SetLogState: (BOOL) appId;
 
 @end
 

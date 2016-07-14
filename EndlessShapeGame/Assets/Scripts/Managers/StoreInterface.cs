@@ -53,8 +53,8 @@ public abstract class StoreInterface : MonoBehaviour
   protected abstract void TryRemoveAds ();
   protected abstract void OnTryRestorePurchase ();
   protected abstract void OnRestorePurchaseComplete ();
-
   protected abstract void OnStoreInfo (string info);
+  protected abstract void OnOpenReviewScreen ();
   #endregion
 
   #region Common Methods

@@ -107,6 +107,7 @@ public class GameManager : StateBehaviour
   public string DeclineReviveEvent = "OnDeclineRevive";
   public string AcceptReviveEvent = "OnAcceptRevive";
 
+  public string PlayAgainEvent = "OnPlayAgain";
   public string GameOverEvent = "OnGameOver";
   public string HighScoreEvent = "OnHighScore";
   public string HighScoreCrossEvent = "OnHighScoreCross";
@@ -196,10 +197,13 @@ public class GameManager : StateBehaviour
     ChangeState (States.None);
   }
 
-  // Use this for initialization
-  void Start ()
+  #if UNITY_ANDROID
+  void Update ()
   {
+    if (Input.GetKeyDown (KeyCode.Escape))
+      Application.Quit ();
   }
+  #endif
 
   void OnApplicationPause (bool pause)
   {
@@ -561,6 +565,12 @@ public class GameManager : StateBehaviour
     playingAd = false;
   }
 
+  private void OnSkipRewardVideo ()
+  {
+//    StopAllCoroutines ();
+//    ChangeState (States.DeclineRevive);
+  }
+
   private void OnInterstitialFailed ()
   {
     playingAd = false;
@@ -605,6 +615,7 @@ public class GameManager : StateBehaviour
 
   private IEnumerator PlayAgain_Enter ()
   {
+    BroadcastMessage (PlayAgainEvent);
     BroadcastMessage (DeclineReviveEvent);
     BroadcastMessage (GameOverEvent);
 

@@ -81,7 +81,7 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 	//--------------------------------------
 
 	private void Save (string name) {
-		Debug.Log ("Start to save game!");
+		ISN_Logger.Log ("Start to save game!");
 		ISN_GameSaves.ActionGameSaved += HandleActionGameSaved;
 
 		byte[] data = System.Text.Encoding.UTF8.GetBytes("Some data");
@@ -89,23 +89,23 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 	}
 
 	private void Fetch() {
-		Debug.Log ("Start to fetch games!");
+		ISN_Logger.Log ("Start to fetch games!");
 		ISN_GameSaves.ActionSavesFetched += HandleActionSavesFetched;
 		ISN_GameSaves.Instance.FetchSavedGames();
 	}
 
 	private void Delete(string name) {
-		Debug.Log ("Start to delete game by name!");
+		ISN_Logger.Log ("Start to delete game by name!");
 		ISN_GameSaves.ActionSaveRemoved += HandleActionSaveRemoved;
 		ISN_GameSaves.Instance.DeleteSavedGame(name);
 	}
 
 	private void Load() {
-		Debug.Log ("Start to load game!");
+		ISN_Logger.Log ("Start to load game!");
 		GK_SavedGame save = GetLoadedSave(test_name);
 
 		if (save == null) {
-			Debug.Log ("You don't have any saved game!");
+			ISN_Logger.Log ("You don't have any saved game!");
 
 			return;
 		}
@@ -122,11 +122,11 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 	/// </summary>
 	/// <returns>The count conflicts.</returns>
 	private void ResolveConflicts() {
-		Debug.Log ("Trying to fix conflicts");
+		ISN_Logger.Log ("Trying to fix conflicts");
 		List<GK_SavedGame> conflicts = GetConflict();
 
 		if (conflicts == null) {
-			Debug.Log ("You don't have any conflicts!");
+			ISN_Logger.Log ("You don't have any conflicts!");
 
 			return;
 		}
@@ -153,7 +153,7 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 	}
 
 	private int GetConflictsCount() {
-		Debug.Log("The total number of duplicates =" + SavesConflicts.Count);
+		ISN_Logger.Log("The total number of duplicates =" + SavesConflicts.Count);
 		return SavesConflicts.Count;
 	}
 
@@ -168,10 +168,10 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 				GameSaves.Remove(pair.Key); 
 			}
 		}
-		Debug.Log("------------------------------------------");
-		Debug.Log("Duplicates " + SavesConflicts.Count);
-		Debug.Log("Unique saves " + GameSaves.Count);
-		Debug.Log("------------------------------------------");
+		ISN_Logger.Log("------------------------------------------");
+		ISN_Logger.Log("Duplicates " + SavesConflicts.Count);
+		ISN_Logger.Log("Unique saves " + GameSaves.Count);
+		ISN_Logger.Log("------------------------------------------");
 	}
 
 	//--------------------------------------
@@ -182,7 +182,7 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 		GameCenterManager.OnAuthFinished -= HandleOnAuthFinished;
 
 		if (result.IsSucceeded) {
-		    Debug.Log("Player Authed");
+		    ISN_Logger.Log("Player Authed");
 		} else {
 		    IOSNativePopUpManager.showMessage("Game Center ", "Player authentication failed");
 		}
@@ -192,10 +192,10 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 		ISN_GameSaves.ActionGameSaved -= HandleActionGameSaved;
 
 		if(res.IsSucceeded) {
-			Debug.Log("Saved game with name " + res.SavedGame.Name);
-			Debug.Log("------------------------------------------");
+			ISN_Logger.Log("Saved game with name " + res.SavedGame.Name);
+			ISN_Logger.Log("------------------------------------------");
 		} else {
-			Debug.Log("Failed: " + res.Error.Description);
+			ISN_Logger.Log("Failed: " + res.Error.Description);
 		}
 	}
 
@@ -203,19 +203,19 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 		ISN_GameSaves.ActionSaveRemoved -= HandleActionSaveRemoved;
 
 		if(res.IsSucceeded) {
-			Debug.Log("Deleted game with name " + res.SaveName);
-			Debug.Log("------------------------------------------");
+			ISN_Logger.Log("Deleted game with name " + res.SaveName);
+			ISN_Logger.Log("------------------------------------------");
 		} else {
-			Debug.Log("Failed: " + res.Error.Description);
+			ISN_Logger.Log("Failed: " + res.Error.Description);
 		}
 	}
 
 	private void HandleActionDataLoaded (GK_SaveDataLoaded res) {
 		res.SavedGame.ActionDataLoaded -= HandleActionDataLoaded;
 		if(res.IsSucceeded) {
-			Debug.Log("Data loaded. data Length: " + res.SavedGame.Data.Length);
+			ISN_Logger.Log("Data loaded. data Length: " + res.SavedGame.Data.Length);
 		} else {
-			Debug.Log("Failed: " + res.Error.Description);
+			ISN_Logger.Log("Failed: " + res.Error.Description);
 		}
 	}
 
@@ -223,11 +223,11 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 		ISN_GameSaves.ActionSavesFetched -= HandleActionSavesFetched;
 
 		if(res.IsSucceeded) {
-			Debug.Log("Received " + res.SavedGames.Count + " game saves");
+			ISN_Logger.Log("Received " + res.SavedGames.Count + " game saves");
 			foreach (GK_SavedGame game in res.SavedGames) {
-				Debug.Log("The name of the save game " + game.Name);
+				ISN_Logger.Log("The name of the save game " + game.Name);
 			}
-			Debug.Log("------------------------------------------");
+			ISN_Logger.Log("------------------------------------------");
 
 			GameSaves.Clear ();
 			foreach (GK_SavedGame game in res.SavedGames) {
@@ -239,10 +239,10 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 
 			}
 
-			Debug.Log("Check the saves on duplicates");
+			ISN_Logger.Log("Check the saves on duplicates");
 			CheckSavesOnDuplicates();
 		} else {
-			Debug.Log("Failed: " + res.Error.Description + " with code " + res.Error.Code);
+			ISN_Logger.Log("Failed: " + res.Error.Description + " with code " + res.Error.Code);
 		}
 	}
 
@@ -250,7 +250,7 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 		ISN_GameSaves.ActionSavesResolved -= HandleActionSavesResolved;
 
 		if(res.IsSucceeded) {
-			Debug.Log("The conflict is resolved");
+			ISN_Logger.Log("The conflict is resolved");
 
 			foreach (GK_SavedGame game in res.SavedGames) {
 				SavesConflicts.Remove (game.Name);
@@ -261,15 +261,15 @@ public class GameSavesExample : BaseIOSFeaturePreview {
 				}
 			}
 
-			Debug.Log("------------------------------------------");
-			Debug.Log("Duplicates " + SavesConflicts.Count);
-			Debug.Log("Unique saves " + GameSaves.Count);
-			Debug.Log("------------------------------------------");
+			ISN_Logger.Log("------------------------------------------");
+			ISN_Logger.Log("Duplicates " + SavesConflicts.Count);
+			ISN_Logger.Log("Unique saves " + GameSaves.Count);
+			ISN_Logger.Log("------------------------------------------");
 			foreach (GK_SavedGame game in res.SavedGames) {
-				Debug.Log("The name of the save game " + game.Name);
+				ISN_Logger.Log("The name of the save game " + game.Name);
 			}
 		} else {
-			Debug.Log("Failed: " + res.Error.Description);
+			ISN_Logger.Log("Failed: " + res.Error.Description);
 		}
 	}
 

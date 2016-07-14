@@ -25,7 +25,11 @@ public class GK_TBM_Match  {
 	public string UTF8StringData {
 		get {
 			if(Data != null) {
+#if !UNITY_WP8 && !UNITY_WSA
 				return System.Text.Encoding.UTF8.GetString(Data);
+#else
+				return string.Empty;
+#endif
 			} else {
 				return string.Empty;
 			}

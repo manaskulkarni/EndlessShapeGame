@@ -157,16 +157,17 @@ public class IOSNotificationController : ISN_Singleton<IOSNotificationController
 
 
 
-	#if (UNITY_IPHONE && !UNITY_EDITOR && PUSH_ENABLED && PUSH_ENABLED) || SA_DEBUG_MODE
-	void FixedUpdate() {
-		if(NotificationServices.remoteNotificationCount > 0) {
-			foreach(var rn in NotificationServices.remoteNotifications) {
-				if(!IOSNativeSettings.Instance.DisablePluginLogs) 
-					UnityEngine.Debug.Log("Remote Noti: " + rn.alertBody);
+	#if (UNITY_IPHONE && !UNITY_EDITOR && PUSH_ENABLED) || SA_DEBUG_MODE
+	void FixedUpdate() {	
+		if(UnityEngine.iOS.NotificationServices.remoteNotificationCount > 0) {
+			foreach(var rn in UnityEngine.iOS.NotificationServices.remoteNotifications) {
+				if(!IOSNativeSettings.Instance.DisablePluginLogs)
+						ISN_Logger.Log("Remote Notification: " + rn.alertBody);
+
 				//IOSNotificationController.instance.ShowNotificationBanner("", rn.alertBody);
 				OnRemoteNotificationReceived(rn);
 			}
-			NotificationServices.ClearRemoteNotifications();
+			UnityEngine.iOS.NotificationServices.ClearRemoteNotifications();
 		}
 	}
 	#endif
@@ -316,7 +317,7 @@ public class IOSNotificationController : ISN_Singleton<IOSNotificationController
 						tpls.Add(notification);
 					}
 				} catch(Exception e) {
-					Debug.Log("IOS Native. IOSNotificationController loading notification data failed: " + e.Message);
+					ISN_Logger.Log("IOS Native. IOSNotificationController loading notification data failed: " + e.Message);
 				}
 				
 			}

@@ -284,7 +284,7 @@ public class GameCenter_TBM : ISN_Singleton<GameCenter_TBM> {
 		
 		MatchInfo = MatchInfo + "----------------------------------------" + "\n";
 		
-		Debug.Log(MatchInfo);
+		ISN_Logger.Log(MatchInfo);
 	} 
 	
 	// --------------------------------------
@@ -314,7 +314,7 @@ public class GameCenter_TBM : ISN_Singleton<GameCenter_TBM> {
 	// --------------------------------------
 	
 	public void OnLoadMatchesResult(string data) {
-		Debug.Log("TBM::OnLoadMatchesResult: " + data);
+		ISN_Logger.Log("TBM::OnLoadMatchesResult: " + data);
 		
 		GK_TBM_LoadMatchesResult result = new GK_TBM_LoadMatchesResult(true);
 		

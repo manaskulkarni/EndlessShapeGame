@@ -55,7 +55,8 @@ public class ISN_MediaController : ISN_Singleton<ISN_MediaController> {
 	[DllImport ("__Internal")]
 	private static extern void _ISN_SetCollection(string itemsIds);
 	
-
+	[DllImport ("__Internal")]
+	private static extern void ISN_MP_AddItemWithProductID(string productID);
 	
 	#endif
 
@@ -67,7 +68,7 @@ public class ISN_MediaController : ISN_Singleton<ISN_MediaController> {
 
 
 	public static event Action<MP_MediaPickerResult> ActionMediaPickerResult = delegate {};
-	public static event Action<List<MP_MediaItem>> ActionQueueUpdated = delegate {};
+	public static event Action<MP_MediaPickerResult> ActionQueueUpdated = delegate {};
 	public static event Action<MP_MediaItem> ActionNowPlayingItemChanged = delegate {};
 	public static event Action<MP_MusicPlaybackState> ActionPlaybackStateChanged = delegate {};
 
@@ -153,6 +154,12 @@ public class ISN_MediaController : ISN_Singleton<ISN_MediaController> {
 	}
 
 
+	public void AddItemWithProductID(string productID) {
+		#if (UNITY_IPHONE && !UNITY_EDITOR && VIDEO_API) || SA_DEBUG_MODE
+		ISN_MP_AddItemWithProductID(productID);
+		#endif
+	}
+
 	public void SetCollection(params string[] itemIds) {
 		#if (UNITY_IPHONE && !UNITY_EDITOR && VIDEO_API) || SA_DEBUG_MODE
 		_ISN_SetCollection(IOSNative.SerializeArray(itemIds));
@@ -215,7 +222,14 @@ public class ISN_MediaController : ISN_Singleton<ISN_MediaController> {
 		string[] DataArray = data.Split(IOSNative.DATA_SPLITTER);
 		
 		_CurrentQueue =  ParseMediaItemsList(DataArray);
-		ActionQueueUpdated(_CurrentQueue);
+		MP_MediaPickerResult result =  new MP_MediaPickerResult(_CurrentQueue);
+
+		ActionQueueUpdated(result);
+	}
+
+	private void OnQueueUpdateFailed(string errorData)  {
+		MP_MediaPickerResult result =  new MP_MediaPickerResult(errorData);
+		ActionQueueUpdated(result);
 	}
 
 	
@@ -227,7 +241,7 @@ public class ISN_MediaController : ISN_Singleton<ISN_MediaController> {
 		MP_MediaPickerResult result =  new MP_MediaPickerResult(_CurrentQueue);
 		ActionMediaPickerResult(result);
 
-		ActionQueueUpdated(_CurrentQueue);
+		ActionQueueUpdated(result);
 	}
 
 	private void OnMediaPickerFailed(string errorData) {

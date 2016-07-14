@@ -21,11 +21,6 @@ public class GameCenterInterface : StoreInterface
 
     GameCenterManager.Init ();
     loadingGameCenter = true;
-
-    string appKey, data;
-    KeyChainBinding.GetKeyChainData(out appKey, out data);
-    Debug.Log ("APPLICATION KEY " + appKey);
-    Debug.Log ("DATA " + data);
   }
 
   void OnApplicationPause (bool pause)
@@ -95,7 +90,7 @@ public class GameCenterInterface : StoreInterface
       }
       else if (score.LongScore < StatsManager.inst.highScore)
       {
-        GameCenterManager.ReportScore (StatsManager.inst.highScore, StatsManager.inst.leaderBoardId);
+        GameCenterManager.ReportScore (StatsManager.inst.highScore, StatsManager.inst.leaderBoardId, context:0);
       }
     }
   }
@@ -198,7 +193,7 @@ public class GameCenterInterface : StoreInterface
   {
     Debug.Log ("Submitting Score");
 
-    GameCenterManager.ReportScore (StatsManager.inst.score, StatsManager.inst.leaderBoardId);
+    GameCenterManager.ReportScore (StatsManager.inst.score, StatsManager.inst.leaderBoardId, context:0);
   }
 
   protected override void OnShowLeaderboard()
@@ -254,31 +249,6 @@ public class GameCenterInterface : StoreInterface
   protected override void OnTryRestorePurchase ()
   {
     IOSInAppPurchaseManager.Instance.RestorePurchases ();
-
-    string appKey, data;
-    KeyChainBinding.GetKeyChainData (out appKey, out data);
-    Debug.Log ("FOUND KEYCHAIN DATA " + data);
-
-    var split = data.Split('_');
-    foreach (string s in split) Debug.Log ("MATCH " + s);
-
-    if (split.Length > 1)
-    {
-      string coinString = split [1];
-
-      Debug.Log ("EXTRACTED COIN INFORMATION " + coinString);
-
-      int coinCount = 0;
-      if (int.TryParse(coinString, out coinCount))
-      {
-        if (coinCount > 0 && coinCount > StatsManager.inst.coins)
-        {
-          GameManager.inst.BroadcastMessage ("OnRestoreCoinsFromInfo", coinCount);
-        }
-      }
-
-      Debug.Log ("COIN COUNT " + coinCount);
-    }
   }
 
   protected override void OnRestorePurchaseComplete ()
@@ -287,7 +257,11 @@ public class GameCenterInterface : StoreInterface
 
   protected override void OnStoreInfo (string info)
   {
-    KeyChainBinding.SetKeyChainData(Application.productName, info);
+  }
+
+  protected override void OnOpenReviewScreen ()
+  {
+    Application.OpenURL("itms-apps://itunes.apple.com/app/id" + IOSNativeSettings.Instance.AppleId);
   }
   #endregion
 

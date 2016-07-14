@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.Advertisements;
 using System.Collections;
 using System;
-using AdToApp.AndroidWrapper;
-using AdToApp;
 
 public class AdManager : MonoBehaviour
 {
@@ -20,32 +18,32 @@ public class AdManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
   {
-  #if UNITY_ANDROID
-  #elif UNITY_IOS
-    var sdkDelegate = AdToAppSDKDelegate.CreateInstance(this);
-    
-    sdkDelegate.OnInterstitialStarted += SdkDelegate_OnInterstitialStarted;
-    sdkDelegate.OnInterstitialClosed += SdkDelegate_OnInterstitialClosed;
-    sdkDelegate.OnInterstitialFailedToAppear += SdkDelegate_OnInterstitialFailedToAppear;
-    sdkDelegate.OnInterstitialClicked += SdkDelegate_OnInterstitialClicked;
-    sdkDelegate.OnRewardedCompleted += SdkDelegate_OnRewardedCompleted;
-    sdkDelegate.OnBannerLoad += SdkDelegate_OnBannerLoad;
-    sdkDelegate.OnBannerFailedToLoad += SdkDelegate_OnBannerFailedToLoad;
-    sdkDelegate.OnBannerClicked += SdkDelegate_OnBannerClicked;
-    try
-    {
-      AdToAppBinding.setCallbacks(sdkDelegate);
-      
-      AdToAppBinding.start(
-        adContentType:AdToAppContentType.VIDEO + AdToAppContentType.REWARDED,
-        appId:"0b03983b-769a-47aa-97e9-1bded06f5095:71c49bf9-ace9-45e5-8f97-fc5dfb1ec7ed"
-        );
-    }
-    catch (EntryPointNotFoundException)
-    {
-      Debug.Log ("Ads not shown in editor");
-    }
-  #endif
+//  #if UNITY_ANDROID
+//  #elif UNITY_IOS
+//    var sdkDelegate = AdToAppSDKDelegate.CreateInstance(this);
+//    
+//    sdkDelegate.OnInterstitialStarted += SdkDelegate_OnInterstitialStarted;
+//    sdkDelegate.OnInterstitialClosed += SdkDelegate_OnInterstitialClosed;
+//    sdkDelegate.OnInterstitialFailedToAppear += SdkDelegate_OnInterstitialFailedToAppear;
+//    sdkDelegate.OnInterstitialClicked += SdkDelegate_OnInterstitialClicked;
+//    sdkDelegate.OnRewardedCompleted += SdkDelegate_OnRewardedCompleted;
+//    sdkDelegate.OnBannerLoad += SdkDelegate_OnBannerLoad;
+//    sdkDelegate.OnBannerFailedToLoad += SdkDelegate_OnBannerFailedToLoad;
+//    sdkDelegate.OnBannerClicked += SdkDelegate_OnBannerClicked;
+//    try
+//    {
+//      AdToAppBinding.setCallbacks(sdkDelegate);
+//      
+//      AdToAppBinding.start(
+//        adContentType:AdToAppContentType.VIDEO + AdToAppContentType.REWARDED,
+//        appId:"0b03983b-769a-47aa-97e9-1bded06f5095:71c49bf9-ace9-45e5-8f97-fc5dfb1ec7ed"
+//        );
+//    }
+//    catch (EntryPointNotFoundException)
+//    {
+//      Debug.Log ("Ads not shown in editor");
+//    }
+//  #endif
 	}
 
   void SdkDelegate_OnInterstitialStarted (string adType, string provider)
@@ -116,47 +114,15 @@ public class AdManager : MonoBehaviour
 
   public void OnShowVideo ()
   {
-//    if (!AdToAppBinding.isInterstitialDisplayed() && !AdToAppBinding.hasInterstitial (AdToAppContentType.VIDEO))
-    try
-    {
-      #if UNITY_EDITOR
-      SdkDelegate_OnInterstitialStarted ("", "");
-      SdkDelegate_OnRewardedCompleted ("", "100 Diamonds", "");
-      #else
-      #if UNITY_ANDROID
-      ShowUnityRewardAd ();
-      #elif UNITY_IOS
-      AdToAppBinding.showInterstitial (AdToAppContentType.REWARDED);
-      #endif
-      #endif
-    }
-    catch (EntryPointNotFoundException)
-    {
-      Debug.Log ("Ads not shown in editor");
-    }
+    ShowUnityRewardAd ();
   }
 
   public void ShowNormalVideo ()
   {
-    try
-    {
-      #if UNITY_EDITOR
-      SdkDelegate_OnInterstitialClosed ("", "");
-      #else
-      #if UNITY_ANDROID
-      ShowUnityAd ();
-      #elif UNITY_IOS
-      AdToAppBinding.showInterstitial (AdToAppContentType.VIDEO);
-      #endif
-      #endif
-    }
-    catch (EntryPointNotFoundException)
-    {
-      Debug.Log ("Ads not shown in editor");
-    }
+    ShowUnityAd ();
   }
 
-  #if UNITY_ANDROID
+//  #if UNITY_ANDROID
   private void ShowUnityAd ()
   {
     if (Advertisement.IsReady ("video"))
@@ -174,6 +140,9 @@ public class AdManager : MonoBehaviour
       ShowOptions options = new ShowOptions { resultCallback = HandleRewardedShowResult };
       Advertisement.Show ("rewardedVideo", options);
       GameManager.inst.BroadcastMessage ("OnInterstitialStarted");
+//      #if UNITY_EDITOR
+//      GameManager.inst.BroadcastMessage ("OnSkipRewardVideo");
+//      #endif
     }
   }
 
@@ -187,6 +156,7 @@ public class AdManager : MonoBehaviour
         break;
       case ShowResult.Skipped:
         Debug.Log("The ad was skipped before reaching the end.");
+        GameManager.inst.BroadcastMessage ("OnEndVideo");
         break;
       case ShowResult.Failed:
         Debug.LogError("The ad failed to be shown.");
@@ -199,21 +169,24 @@ public class AdManager : MonoBehaviour
   {
     switch (result)
     {
-      case ShowResult.Skipped:
-      case ShowResult.Finished:
-        Debug.Log("The reward ad was successfully shown.");
+    case ShowResult.Skipped:
+      Debug.LogError ("The user is a dick trying to cheat. Game Over!");
+      GameManager.inst.BroadcastMessage ("OnSkipRewardVideo");
+      break;
+    case ShowResult.Finished:
+      Debug.Log ("The reward ad was successfully shown.");
 
         //
         // YOUR CODE TO REWARD THE GAMER
         // Give coins etc.
-        GameManager.inst.BroadcastMessage ("OnRewardCompleted", "100 Diamonds");
-        GameManager.inst.BroadcastMessage ("OnEndVideo");
-        break;
-      case ShowResult.Failed:
-        Debug.LogError("The ad failed to be shown.");
-        GameManager.inst.BroadcastMessage ("OnInterstitialFailed");
-        break;
+      GameManager.inst.BroadcastMessage ("OnRewardCompleted", "100 Diamonds");
+      GameManager.inst.BroadcastMessage ("OnEndVideo");
+      break;
+    case ShowResult.Failed:
+      Debug.LogError ("The ad failed to be shown.");
+      GameManager.inst.BroadcastMessage ("OnInterstitialFailed");
+      break;
     }
   }
-  #endif
+//  #endif
 }

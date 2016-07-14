@@ -13,7 +13,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 using System.Runtime.InteropServices;
 #endif
 
@@ -45,7 +45,7 @@ public class GameCenterManager : MonoBehaviour {
 
 
 
-	#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+	#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 
 	[DllImport ("__Internal")]
 	private static extern void _initGameCenter();
@@ -54,8 +54,7 @@ public class GameCenterManager : MonoBehaviour {
 	private static extern void _showLeaderboard(string leaderboardId, int timeSpan);
 
 	[DllImport ("__Internal")]
-	private static extern void _reportScore (string score, string leaderboardId);
-
+	private static extern void _reportScore (string score, string leaderboardId, string context);
 
 
 	[DllImport ("__Internal")]
@@ -122,6 +121,11 @@ public class GameCenterManager : MonoBehaviour {
 
 
 
+	[DllImport ("__Internal")]
+	private static extern void _ISN_GK_SendFriendRequest(int id, string emails, string players);
+
+
+
 	#endif
 
 
@@ -134,6 +138,7 @@ public class GameCenterManager : MonoBehaviour {
 
 
 	private static List<GK_LeaderboardSet> _LeaderboardSets = new List<GK_LeaderboardSet>();
+	private static Dictionary<int, GK_FriendRequest> _FriendRequests = new Dictionary<int, GK_FriendRequest>();
 
 
 	private static GK_Player _player = null;
@@ -172,7 +177,7 @@ public class GameCenterManager : MonoBehaviour {
 		}
 		
 		
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_initGameCenter();
 		#endif
 		
@@ -180,14 +185,14 @@ public class GameCenterManager : MonoBehaviour {
 
 
 	public static void RetrievePlayerSignature() {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_getSignature();
 		#endif
 	}
 
 
 	public static void ShowGmaeKitNotification (string title, string message) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_ShowNotificationBanner (title, message);
 		#endif
 	}
@@ -236,41 +241,41 @@ public class GameCenterManager : MonoBehaviour {
 
 
 	public static void ShowLeaderboard(string leaderboardId, GK_TimeSpan timeSpan) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 			_showLeaderboard(leaderboardId, (int) timeSpan);
 		#endif
 	}
 
 	public static void ShowLeaderboards() {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 			_showLeaderboards ();
 		#endif
 	}
 	
 
-	public static void ReportScore(long score, string leaderboardId) {
+	public static void ReportScore(long score, string leaderboardId, long context = 0) {
 		if(!IOSNativeSettings.Instance.DisablePluginLogs) 
-			Debug.Log("unity reportScore: " + leaderboardId);
+			ISN_Logger.Log("unity reportScore: " + leaderboardId);
 
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
-		_reportScore(score.ToString(), leaderboardId);
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		_reportScore(score.ToString(),  leaderboardId, context.ToString());
 		#endif
 	}
 
 
 	public static void ReportScore(double score, string leaderboardId) {
 		if(!IOSNativeSettings.Instance.DisablePluginLogs) 
-			Debug.Log("unity reportScore double: " + leaderboardId);
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+			ISN_Logger.Log("unity reportScore double: " + leaderboardId);
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		long s = System.Convert.ToInt64(score * 100);
-		_reportScore(s.ToString(), leaderboardId);
+		_reportScore(s.ToString(),  leaderboardId, "0");
 		#endif
 	}
 
 
 
 	public static void RetrieveFriends() {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_RetrieveFriends();
 		#endif
 	}
@@ -281,13 +286,13 @@ public class GameCenterManager : MonoBehaviour {
 	}
 	
 	public static void LoadGKPlayerInfo(string playerId) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_loadGKPlayerData(playerId);
 		#endif
 	}
 	
 	public static void LoadGKPlayerPhoto(string playerId, GK_PhotoSize size) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_loadGKPlayerPhoto(playerId, (int) size);
 		#endif
 	}
@@ -305,7 +310,7 @@ public class GameCenterManager : MonoBehaviour {
 
 
 
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		int requestId = SA_IdFactory.NextId;
 		GK_Leaderboard leaderboard = GetLeaderboard(leaderboardId);
 		leaderboard.CreateScoreListener(requestId, false);
@@ -318,7 +323,7 @@ public class GameCenterManager : MonoBehaviour {
 
 	private IEnumerator LoadLeaderboardInfoLocal(string leaderboardId) {
 		yield return new WaitForSeconds(4f);
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		int requestId = SA_IdFactory.NextId;
 		GK_Leaderboard leaderboard = GetLeaderboard(leaderboardId);
 		leaderboard.CreateScoreListener(requestId, true);
@@ -333,7 +338,7 @@ public class GameCenterManager : MonoBehaviour {
 	public static void LoadScore(string leaderboardId, int startIndex, int length, GK_TimeSpan timeSpan = GK_TimeSpan.ALL_TIME, GK_CollectionType collection = GK_CollectionType.GLOBAL) {
 
 
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_loadLeaderboardScore(leaderboardId, (int) timeSpan, (int) collection, startIndex, length);
 		#endif
 
@@ -341,13 +346,13 @@ public class GameCenterManager : MonoBehaviour {
 
 
 	public static void IssueLeaderboardChallenge(string leaderboardId, string message, string playerId) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_issueLeaderboardChallenge(leaderboardId, message, playerId);
 		#endif
 	}
 
 	public static void IssueLeaderboardChallenge(string leaderboardId, string message, string[] playerIds) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 			string ids = "";
 			int len = playerIds.Length;
 			for(int i = 0; i < len; i++) {
@@ -364,7 +369,7 @@ public class GameCenterManager : MonoBehaviour {
 
 
 	public static void IssueLeaderboardChallenge(string leaderboardId, string message) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_issueLeaderboardChallengeWithFriendsPicker(leaderboardId, message);
 		#endif
 	}
@@ -373,19 +378,19 @@ public class GameCenterManager : MonoBehaviour {
 
 
 	public static void IssueAchievementChallenge(string achievementId, string message, string playerId) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_issueAchievementChallenge(achievementId, message, playerId);
 		#endif
 	}
 
 	public static void LoadLeaderboardSetInfo() {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_loadLeaderboardSetInfo();
 		#endif
 	}
 
 	public static void LoadLeaderboardsForSet(string setId) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_loadLeaderboardsForSet(setId);
 		#endif
 	}
@@ -393,14 +398,14 @@ public class GameCenterManager : MonoBehaviour {
 
 
 	public static void LoadAchievements() {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_LoadAchievements();
 		#endif
 	}
 
 
 	public static void IssueAchievementChallenge(string achievementId, string message, string[] playerIds) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 			string ids = "";
 			int len = playerIds.Length;
 			for(int i = 0; i < len; i++) {
@@ -418,20 +423,20 @@ public class GameCenterManager : MonoBehaviour {
 
 
 	public static void IssueAchievementChallenge(string achievementId, string message) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_ISN_issueAchievementChallengeWithFriendsPicker(achievementId, message);
 		#endif
 	}
 
 
 	public static void ShowAchievements() {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 			_showAchievements();
 		#endif
 	}
 
 	public static void ResetAchievements() {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 			_resetAchievements();
 
 			foreach(GK_AchievementTemplate tpl in Achievements) {
@@ -450,7 +455,7 @@ public class GameCenterManager : MonoBehaviour {
 	}
 
 	public static void SubmitAchievementNoCache(float percent, string achievementId) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 		_submitAchievement(percent, achievementId, false);
 		#endif
 	}
@@ -467,7 +472,7 @@ public class GameCenterManager : MonoBehaviour {
 		}
 
 
-		#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 			_submitAchievement(percent, achievementId, isCompleteNotification);
 		#endif
 	}
@@ -522,14 +527,36 @@ public class GameCenterManager : MonoBehaviour {
 
 	public static GK_Player GetPlayerById(string playerID) {
 		if(_players.ContainsKey(playerID)) {
-			//Debug.Log("Returning player object for id: " + playerID);
+			//ISN_Logger.Log("Returning player object for id: " + playerID);
 			return _players[playerID];
 		} else {
-			//Debug.Log("player not found with id: " + playerID);
+			//ISN_Logger.Log("player not found with id: " + playerID);
 			return null;
 		}
 	}
+
+
 	
+	//--------------------------------------
+	//  Friends Request
+	//--------------------------------------
+
+	public static void SendFriendRequest(GK_FriendRequest request, List<string> emails, List<string> players) {
+
+		_FriendRequests.Add(request.Id, request);
+
+		#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+
+		string EmailsList = IOSNative.SerializeArray(emails.ToArray());
+		string PlayersList = IOSNative.SerializeArray(players.ToArray());
+
+		_ISN_GK_SendFriendRequest(request.Id, EmailsList, PlayersList);
+		#endif
+
+
+	}
+	
+
 
 	//--------------------------------------
 	//  GET/SET
@@ -578,7 +605,7 @@ public class GameCenterManager : MonoBehaviour {
 
 	public static bool IsPlayerAuthenticated {
 		get {
-			#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+			#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 			return _ISN_GK_IsAuthenticated();
 			#else
 			return false;
@@ -602,7 +629,7 @@ public class GameCenterManager : MonoBehaviour {
 
 	public static bool IsPlayerUnderage {
 		get {
-			#if (UNITY_IPHONE && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
+			#if ( (UNITY_IPHONE || UNITY_TVOS)  && !UNITY_EDITOR && GAME_CENTER_ENABLED) || SA_DEBUG_MODE
 			return _ISN_GK_IsUnderage();
 			#else
 			return false;
@@ -642,11 +669,12 @@ public class GameCenterManager : MonoBehaviour {
 		GK_CollectionType collection 	= (GK_CollectionType) System.Convert.ToInt32(DataArray[2]);
 		int requestId 					= System.Convert.ToInt32(DataArray[3]);
 
-		long scoreVal 					= System.Convert.ToInt64(DataArray[4]);
+		long scoreVal 			= System.Convert.ToInt64(DataArray[4]);
 		int rank 						= System.Convert.ToInt32(DataArray[5]);
-		int maxRange 					=  System.Convert.ToInt32(DataArray[6]);
-		string title 					= DataArray[7];
-		string describtion 				= DataArray[8];
+		int context 				= System.Convert.ToInt32(DataArray[6]);
+		int maxRange 			=  System.Convert.ToInt32(DataArray[7]);
+		string title 				= DataArray[8];
+		string describtion 	= DataArray[9];
 
 
 
@@ -658,7 +686,7 @@ public class GameCenterManager : MonoBehaviour {
 		board.Info.Description = describtion;
 
 
-		GK_Score score =  new GK_Score(scoreVal, rank, timeSpan, collection, leaderboardId, Player.Id);
+		GK_Score score =  new GK_Score(scoreVal, rank, context, timeSpan, collection, leaderboardId, Player.Id);
 		board.ReportLocalPlayerScoreUpdate(score, requestId);
 
 	}
@@ -710,12 +738,12 @@ public class GameCenterManager : MonoBehaviour {
 
 		
 		
-		for(int i = 3; i < DataArray.Length; i+=3) {
+		for(int i = 3; i < DataArray.Length; i+=4) {
 			string playerId = DataArray[i];
 			long scoreVal = System.Convert.ToInt64 (DataArray[i + 1]); 
 			int rank = System.Convert.ToInt32(DataArray[i + 2]);
-
-			GK_Score score =  new GK_Score(scoreVal, rank, timeSpan, collection, leaderboardId, playerId);
+			int context = System.Convert.ToInt32(DataArray[i + 3]);
+			GK_Score score =  new GK_Score(scoreVal, rank, context,timeSpan, collection, leaderboardId, playerId);
 			board.UpdateScore(score);
 
 
@@ -832,7 +860,7 @@ public class GameCenterManager : MonoBehaviour {
 
 
 	private void OnUserInfoLoadedEvent(string array) {
-		Debug.Log("OnUserInfoLoadedEvent");
+		ISN_Logger.Log("OnUserInfoLoadedEvent");
 
 		string[] data = array.Split(IOSNative.DATA_SPLITTER);
 
@@ -854,7 +882,7 @@ public class GameCenterManager : MonoBehaviour {
 			_player = p;
 		}
 
-		Debug.Log("Player Info loaded, for player with id: " + p.Id);
+		ISN_Logger.Log("Player Info loaded, for player with id: " + p.Id);
 
 		GK_UserInfoLoadResult result = new GK_UserInfoLoadResult (p);
 		OnUserInfoLoaded (result);
@@ -908,7 +936,7 @@ public class GameCenterManager : MonoBehaviour {
 		}
 
 		if(!IOSNativeSettings.Instance.DisablePluginLogs) 
-			Debug.Log("Friends list loaded, total friends: " + _friendsList.Count);
+			ISN_Logger.Log("Friends list loaded, total friends: " + _friendsList.Count);
 
 
 		ISN_Result result = new ISN_Result (true);

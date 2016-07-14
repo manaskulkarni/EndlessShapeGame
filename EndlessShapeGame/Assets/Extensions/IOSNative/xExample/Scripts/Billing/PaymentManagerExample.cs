@@ -49,11 +49,10 @@ public class PaymentManagerExample {
 
 			IsInitialized = true;
 
+
+			IOSInAppPurchaseManager.Instance.LoadStore();
 		} 
-
-		IOSInAppPurchaseManager.Instance.LoadStore();
-
-
+			
 	}
 
 
@@ -90,8 +89,8 @@ public class PaymentManagerExample {
 
 	private static void OnTransactionComplete (IOSStoreKitResult result) {
 
-		Debug.Log("OnTransactionComplete: " + result.ProductIdentifier);
-		Debug.Log("OnTransactionComplete: state: " + result.State);
+		ISN_Logger.Log("OnTransactionComplete: " + result.ProductIdentifier);
+		ISN_Logger.Log("OnTransactionComplete: state: " + result.State);
 
 		switch(result.State) {
 		case InAppPurchaseState.Purchased:
@@ -108,8 +107,8 @@ public class PaymentManagerExample {
 		case InAppPurchaseState.Failed:
 			//Our purchase flow is failed.
 			//We can unlock intrefase and repor user that the purchase is failed. 
-			Debug.Log("Transaction failed with error, code: " + result.Error.Code);
-			Debug.Log("Transaction failed with error, description: " + result.Error.Description);
+			ISN_Logger.Log("Transaction failed with error, code: " + result.Error.Code);
+			ISN_Logger.Log("Transaction failed with error, description: " + result.Error.Description);
 
 
 			break;
@@ -136,7 +135,7 @@ public class PaymentManagerExample {
 	static void HandleOnVerificationComplete (IOSStoreKitVerificationResponse response) {
 		IOSNativePopUpManager.showMessage("Verification", "Transaction verification status: " + response.status.ToString());
 		
-		Debug.Log("ORIGINAL JSON: " + response.originalJSON);
+		ISN_Logger.Log("ORIGINAL JSON: " + response.originalJSON);
 	}
 	
 
@@ -152,7 +151,7 @@ public class PaymentManagerExample {
 			}
 
 			IOSNativePopUpManager.showMessage("StoreKit Init Succeeded", "Available products count: " + avaliableProductsCount);
-			Debug.Log("StoreKit Init Succeeded Available products count: " + avaliableProductsCount);
+			ISN_Logger.Log("StoreKit Init Succeeded Available products count: " + avaliableProductsCount);
 		} else {
 			IOSNativePopUpManager.showMessage("StoreKit Init Failed",  "Error code: " + result.Error.Code + "\n" + "Error description:" + result.Error.Description);
 		}

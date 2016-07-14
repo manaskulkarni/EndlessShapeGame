@@ -18,24 +18,31 @@ public class ISNMediaExample : BaseIOSFeaturePreview {
 	}
 
 	void HandleActionNowPlayingItemChanged (MP_MediaItem item) {
-		Debug.Log("Now Playing Item Changed: " + ISN_MediaController.Instance.NowPlayingItem.Title);
+		ISN_Logger.Log("Now Playing Item Changed: " + ISN_MediaController.Instance.NowPlayingItem.Title);
 	}
 
 	void HandleActionPlaybackStateChanged (MP_MusicPlaybackState state) {
-		Debug.Log("Playback State Changed: " + ISN_MediaController.Instance.State.ToString());
+		ISN_Logger.Log("Playback State Changed: " + ISN_MediaController.Instance.State.ToString());
 	}
 
-	void HandleActionQueueUpdated (List<MP_MediaItem> items) {
-		foreach(MP_MediaItem item in items) {
-			Debug.Log("Item: " + item.Title + " / " + item.Id);
+	void HandleActionQueueUpdated (MP_MediaPickerResult res) {
+
+		if(res.IsSucceeded) {
+			foreach(MP_MediaItem item in res.Items) {
+				ISN_Logger.Log("Item: " + item.Title + " / " + item.Id);
+			}
+		} else {
+			ISN_Logger.Log("Queue Updated failed: " + res.Error.Description);
 		}
+
+
 	}
 
 	void HandleActionMediaPickerResult (MP_MediaPickerResult res) {
 		if(res.IsSucceeded) {
-			Debug.Log("Media piacker Succeeded");
+			ISN_Logger.Log("Media piacker Succeeded");
 		} else {
-			Debug.Log("Media piacker failed: " + res.Error.Description);
+			ISN_Logger.Log("Media piacker failed: " + res.Error.Description);
 		}
 	}
 
@@ -56,7 +63,7 @@ public class ISNMediaExample : BaseIOSFeaturePreview {
 		StartX += XButtonStep;
 		if(GUI.Button(new Rect(StartX, StartY, buttonWidth, buttonHeight), "Set Perviostly Picked Song")) {
 			ISN_MediaController.Instance.Pause();
-			Debug.Log(ISN_MediaController.Instance.CurrentQueue[0].Title);
+			ISN_Logger.Log(ISN_MediaController.Instance.CurrentQueue[0].Title);
 			ISN_MediaController.Instance.SetCollection(ISN_MediaController.Instance.CurrentQueue[0]);
 			ISN_MediaController.Instance.Play();
 		}

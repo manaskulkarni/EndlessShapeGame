@@ -12,7 +12,7 @@ NSString * const UNITY_EOF = @"endofline";
 
 @interface ISN_Media : NSObject<MPMediaPickerControllerDelegate> {
     
-    MPMusicPlayerController		*musicPlayer;
+    MPMusicPlayerController     *musicPlayer;
     
 }
 
@@ -36,6 +36,7 @@ NSString * const UNITY_EOF = @"endofline";
 
 - (void) showMediaPicker;
 - (void) setCollection: (NSArray*) itemsIds;
+- (void) addItemWithProductID:(NSString *)productID;
 
 
 
@@ -121,7 +122,7 @@ static ISN_Media * media_sharedInstance;
 -(void) play {
     MPMusicPlaybackState playbackState = [musicPlayer playbackState];
     if (playbackState == MPMusicPlaybackStateStopped || playbackState == MPMusicPlaybackStatePaused) {
-        NSLog(@"ISN_Media: play");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN_Media: play"];
         [musicPlayer play];
     }
 }
@@ -129,7 +130,7 @@ static ISN_Media * media_sharedInstance;
 -(void) pause {
     MPMusicPlaybackState playbackState = [musicPlayer playbackState];
     if ( !(playbackState == MPMusicPlaybackStateStopped || playbackState == MPMusicPlaybackStatePaused)) {
-        NSLog(@"ISN_Media: pause");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN_Media: pause"];
         [musicPlayer pause];
     }
 }
@@ -150,14 +151,13 @@ static ISN_Media * media_sharedInstance;
 
 
 -(void) showMediaPicker {
-    
-    NSLog(@"showMediaPicker");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"showMediaPicker"];
     
     MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes: MPMediaTypeAnyAudio];
     
-    picker.delegate						= self;
-    picker.allowsPickingMultipleItems	= YES;
- //   picker.prompt						= NSLocalizedString (@"AddSongsPrompt", @"Prompt to user to choose some songs to play");
+    picker.delegate                     = self;
+    picker.allowsPickingMultipleItems   = YES;
+ //   picker.prompt                     = NSLocalizedString (@"AddSongsPrompt", @"Prompt to user to choose some songs to play");
     
    
     [[self vc] presentViewController: picker animated: YES completion:nil];
@@ -195,14 +195,32 @@ static ISN_Media * media_sharedInstance;
     }
 }
 
+-(void) addItemWithProductID:(NSString *)productID  {
+    
+    [[MPMediaLibrary defaultMediaLibrary] addItemWithProductID:productID completionHandler:^(NSArray<__kindof MPMediaEntity *> * _Nonnull entities, NSError * _Nullable error) {
+        
+         NSLog(@"added id%@ entities: %@ and error is %@", productID, entities, error);
+        
+        if(error == nil) {
+            NSArray *tracksToPlay = [NSArray arrayWithObject:productID];
+            [musicPlayer setQueueWithStoreIDs:tracksToPlay];
+            
+            NSString* serializedItems = [self serializeMediaItemsInfo:tracksToPlay];
+            UnitySendMessage("ISN_MediaController", "OnQueueUpdate", [ISN_DataConvertor NSStringToChar:serializedItems]);
+        } else {
+             UnitySendMessage("ISN_MediaController", "OnQueueUpdateFailed", [ISN_DataConvertor serializeError:error]);
+        }
+        
+    }];
+}
+
 
 
 - (void) updatePlayerQueueWithMediaCollection: (MPMediaItemCollection *) mediaItemCollection {
-    NSLog(@"ISN_Media: updatePlayerQueueWithMediaCollection");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN_Media: updatePlayerQueueWithMediaCollection"];
     // Configure the music player, but only if the user chose at least one song to play
     if (mediaItemCollection) {
-        
-         NSLog(@"ISN_Media: setQueueWithItemCollection");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN_Media: setQueueWithItemCollection"];
  
         NSString* serializedItems = [self serializeMediaItemsInfo:mediaItemCollection.items];
         
@@ -224,8 +242,8 @@ static ISN_Media * media_sharedInstance;
     
     
     
-    for(MPMediaItem * item in items){
-        NSLog(@"id: %@", [item valueForProperty: MPMediaItemPropertyPersistentID]);
+    for(MPMediaEntity * item in items){
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"id: %@", [item valueForProperty: MPMediaItemPropertyPersistentID]];
         [data appendString:[self serializeMPMediaItemInfo:item]];
         [data appendString: UNITY_SPLITTER];
     }
@@ -235,7 +253,7 @@ static ISN_Media * media_sharedInstance;
     return data;
 }
 
--(NSString*) serializeMPMediaItemInfo :(MPMediaItem *) mediaItem {
+-(NSString*) serializeMPMediaItemInfo :(MPMediaEntity *) mediaItem {
     NSMutableString * data = [[NSMutableString alloc] init];
    
 
@@ -356,14 +374,14 @@ static ISN_Media * media_sharedInstance;
 
 
 - (void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection {
-    NSLog(@"ISN_Media: mediaPicker");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN_Media: mediaPicker"];
     
     [[self vc] dismissViewControllerAnimated:YES completion:nil];
     [self updatePlayerQueueWithMediaCollection:mediaItemCollection];
 }
 
 - (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
-    NSLog(@"ISN_Media: mediaPickerDidCancel");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN_Media: mediaPickerDidCancel"];
     
     [[self vc] dismissViewControllerAnimated:YES completion:nil];
     
@@ -443,7 +461,7 @@ static ISNVideo * video_sharedInstance;
 
 
 -(void) openYouTubeVideo:(NSString *)url {
-    NSLog(@"openYouTubeVideo");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"openYouTubeVideo"];
     
     NSMutableString *str = [[NSMutableString alloc] init];
     [str appendString:@"http://www.youtube.com/v/"];
@@ -504,6 +522,10 @@ extern "C" {
     }
     
 
+    void ISN_MP_AddItemWithProductID(char* productID ) {
+        NSString *pid = [ISN_DataConvertor charToNSString:productID];
+        [[ISN_Media sharedInstance] addItemWithProductID:pid];
+    }
     
     
     
@@ -517,6 +539,9 @@ extern "C" {
         [[ISNVideo sharedInstance] openYouTubeVideo:url];
     }
     
+  
+    
+    ;
 
     
 }

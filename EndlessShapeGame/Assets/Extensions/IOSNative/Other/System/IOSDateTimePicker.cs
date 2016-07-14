@@ -2,13 +2,9 @@
 using System;
 using System.Collections;
 
-
 #if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
 using System.Runtime.InteropServices;
 #endif
-
-
-
 
 public class IOSDateTimePicker : ISN_Singleton<IOSDateTimePicker>  {
 
@@ -16,27 +12,43 @@ public class IOSDateTimePicker : ISN_Singleton<IOSDateTimePicker>  {
 	
 	[DllImport ("__Internal")]
 	private static extern void _ISN_ShowDP(int mode);
+
+	[DllImport ("__Internal")]
+	private static extern void _ISN_ShowDPWithTime(int mode, double seconds);
 		
 	#endif
 
 	public Action<DateTime> OnDateChanged = delegate {};
 	public Action<DateTime> OnPickerClosed = delegate {};
 
-	
-
-
 	//--------------------------------------
 	// Public Methods
 	//--------------------------------------
-		
-		
+
+	/// <summary>
+	/// Displays DateTimePickerUI with DateTimePicker Mode.
+	///
+	///<param name="mode">An object that contains the IOSDateTimePicker mode.</param>
+	/// </summary>	
 	public void Show(IOSDateTimePickerMode mode) {
 		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
-		_ISN_ShowDP( (int) mode);
+			_ISN_ShowDP( (int) mode);
 		#endif
 	}
 
-
+	/// <summary>
+	/// Displays DateTimePickerUI with DateTimePicker Mode and pre-set date.
+	///
+	///<param name="mode">An object that contains the IOSDateTimePicker mode</param>
+	///<param name="name">An object DateTime that contains pre-set date</param>
+	/// </summary>
+	public void Show(IOSDateTimePickerMode mode, DateTime dateTime) {
+		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+			DateTime sTime = new DateTime(1970, 1, 1,0,0,0,DateTimeKind.Utc);
+			double unixTimestamp = (dateTime - sTime).TotalSeconds;
+			_ISN_ShowDPWithTime( (int) mode, unixTimestamp);	
+		#endif
+	}
 
 	//--------------------------------------
 	// Events

@@ -147,8 +147,8 @@ public class NotificationExample : BaseIOSFeaturePreview {
 	//--------------------------------------
 	
 	private void OnDeviceTokenReceived(IOSNotificationDeviceToken token) {
-		UnityEngine.Debug.Log ("OnTokenReceived");
-		UnityEngine.Debug.Log (token.tokenString);
+		ISN_Logger.Log ("OnTokenReceived");
+		ISN_Logger.Log (token.tokenString);
 		
 		IOSDialog.Create("OnTokenReceived", token.tokenString);
 		

@@ -137,6 +137,7 @@ NSString * const UNITY_EOF = @"endofline";
 
 @implementation ISN_NativeUtility
 
+static bool logState = false;
 static ISN_NativeUtility * na_sharedInstance;
 static NSString* templateReviewURLIOS7  = @"itms-apps://itunes.apple.com/app/idAPP_ID";
 NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=APP_ID";
@@ -165,7 +166,7 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
 
 -(void) redirectToRatingPage:(NSString *)appId {
 #if TARGET_IPHONE_SIMULATOR
-    NSLog(@"NOTE: iTunes App Store is not supported on the iOS simulator. Unable to open App Store page.");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"NOTE: iTunes App Store is not supported on the iOS simulator. Unable to open App Store page."];
 #else
     
     
@@ -179,8 +180,8 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
         reviewURL = [templateReviewURL stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%@", appId]];
     }
     
-    NSLog(@"redirecting to iTunes page, iOS version: %i", [[vComp objectAtIndex:0] intValue]);
-    NSLog(@"redirect URL: %@", reviewURL);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"redirecting to iTunes page, iOS version: %i", [[vComp objectAtIndex:0] intValue]];
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"redirect URL: %@", reviewURL];
     
     
     
@@ -188,15 +189,27 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
 #endif
 }
 
-
--(void) setApplicationBagesNumber:(int) count {
-    
-#if !TARGET_OS_TV
-    [UIApplication sharedApplication].applicationIconBadgeNumber = count;
-#endif
+-(void) ISN_SetLogState:(BOOL)state {
+    logState = state;
 }
 
+-(void) ISN_NativeLog:(NSString *)msg, ... {
+    if(logState) {
+        va_list argumentList;
+        va_start(argumentList, msg);
+        
+        NSString *message = [[NSString alloc] initWithFormat:msg arguments:argumentList];
+        
+        // clean up
+        va_end(argumentList);
 
+        NSLog(@"ISN_NativeLog: %@", message);
+    }
+}
+
+-(void) setApplicationBagesNumber:(int) count {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = count;
+}
 
 - (void) ShowSpinner {
     
@@ -219,18 +232,19 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
     
     
     
+    
     NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     if ([[vComp objectAtIndex:0] intValue] >= 8) {
-        NSLog(@"iOS 8 detected");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"iOS 8 detected"];
         [[self spinner] setFrame:CGRectMake(0,0, vc.view.frame.size.width, vc.view.frame.size.height)];
     } else {
         
         if([[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait || [[UIDevice currentDevice] orientation] == UIDeviceOrientationPortraitUpsideDown) {
-            NSLog(@"portrait detected");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"portrait detected"];
             [[self spinner] setFrame:CGRectMake(0,0, vc.view.frame.size.width, vc.view.frame.size.height)];
             
         } else {
-            NSLog(@"landscape detected");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"landscape detected"];
             [[self spinner] setFrame:CGRectMake(0,0, vc.view.frame.size.height, vc.view.frame.size.width)];
         }
         
@@ -328,8 +342,7 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
     
     [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
     NSString *dateString = [dateFormatter stringFromDate:sender.date];
-    
-    NSLog(@"DateChangedEvent: %@", dateString);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"DateChangedEvent: %@", dateString];
     
     UnitySendMessage("IOSDateTimePicker", "DateChangedEvent", [ISN_DataConvertor NSStringToChar:dateString]);
 }
@@ -341,24 +354,17 @@ NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZSto
 #endif
     [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
     NSString *dateString = [dateFormatter stringFromDate:sender.date];
-    
-    NSLog(@"DateChangedEvent: %@", dateString);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"DateChangedEvent: %@", dateString];
     
     UnitySendMessage("IOSDateTimePicker", "PickerClosed", [ISN_DataConvertor NSStringToChar:dateString]);
     
 }
 
 
-
 UIDatePicker *datePicker;
 
-- (void) DP_show:(int)mode {
+- (void) DP_show:(int)mode date: (NSDate*) date {
     UIViewController *vc =  UnityGetGLViewController();
-    
-    
-    
-    
-    
     
     CGRect toolbarTargetFrame = CGRectMake(0, vc.view.bounds.size.height-216-44, [self GetW], 44);
     CGRect datePickerTargetFrame = CGRectMake(0, vc.view.bounds.size.height-216, [self GetW], 216);
@@ -376,7 +382,11 @@ UIDatePicker *datePicker;
     
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, vc.view.bounds.size.height+44, [self GetW], 216)];
     datePicker.tag = 10;
-    
+    if(date != nil) {
+        [datePicker setDate:date];
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"DateChangedEventManually date: %@", date];
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"DateChangedEventManually datePicker: %@", [datePicker date]];
+    }
     
 #if UNITY_VERSION < 500
     [darkView autorelease];
@@ -568,8 +578,7 @@ static CloudManager * cm_sharedInstance;
     } else {
         UnitySendMessage("iCloudManager", "OnCloudInitFail", [ISN_DataConvertor NSStringToChar:@""]);
     }
-    
-    NSLog(@"iCloud Initialize");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"iCloud Initialize"];
     
 }
 
@@ -631,8 +640,7 @@ static CloudManager * cm_sharedInstance;
     
     
     [array appendString:stringData];
-    
-    NSLog(@"data: %@", stringData);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"data: %@", stringData];
     
     
     NSString *package = [array copy];
@@ -727,7 +735,7 @@ static CloudManager * cm_sharedInstance;
 }
 
 -(void) iCloudAccountAvailabilityChanged {
-    NSLog(@"iCloudAccountAvailabilityChanged:");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"iCloudAccountAvailabilityChanged:"];
 }
 
 @end
@@ -1031,7 +1039,7 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
 
 - (id)init {
     if ((self = [super init])) {
-        NSLog(@"Subscibing...");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"Subscibing..."];
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver: self
                                selector: @selector (handle_NotificationEvent:)
@@ -1050,8 +1058,7 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
 #if !TARGET_OS_TV
 
 - (void) handle_NotificationEvent: (NSNotification *) receivedNotification {
-    
-    NSLog(@"ISN: handle_NotificationEvent");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: handle_NotificationEvent"];
     UILocalNotification* notification = (UILocalNotification*) receivedNotification.userInfo;
     
     
@@ -1133,7 +1140,7 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
         UIUserNotificationSettings* NotificationSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
         
         if((NotificationSettings.types & UIUserNotificationTypeAlert) == 0) {
-            NSLog(@"ISN: user disabled local notification for this app, sending fail event.");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: user disabled local notification for this app, sending fail event."];
             
             NSMutableString * data = [[NSMutableString alloc] init];
             [data appendString: @"0" ];
@@ -1149,7 +1156,7 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
         if((NotificationSettings.types & UIUserNotificationTypeBadge) == 0) {
             
             if(badges > 0) {
-                NSLog(@"ISN: no badges allowed for this user. Notification badge disabled.");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: no badges allowed for this user. Notification badge disabled."];
                 badges = 0;
             }
             
@@ -1158,7 +1165,7 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
         
         if((NotificationSettings.types & UIUserNotificationTypeSound) == 0) {
             if(sound) {
-                NSLog(@"ISN: no sound allowed for this user. Notification sound disabled.");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: no sound allowed for this user. Notification sound disabled."];
 #if UNITY_VERSION < 500
                 sound = false;
 #endif
@@ -1193,8 +1200,7 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
     
     // Set some extra info to your alarm
     localNotification.userInfo = userInfo;
-    
-    NSLog(@"ISN: scheduleNotification AlarmKey: %@", alarmID);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: scheduleNotification AlarmKey: %@", alarmID];
     
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     
@@ -1233,12 +1239,11 @@ static IOSNativeNotificationCenter *sharedHelper = nil;
 
 - (void)cleanUpLocalNotificationWithAlarmID:(NSString *)alarmID {
     #if !TARGET_OS_TV
-    
-    NSLog(@"cleanUpLocalNotificationWithAlarmID AlarmKey: %@", alarmID);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"cleanUpLocalNotificationWithAlarmID AlarmKey: %@", alarmID];
     
     UILocalNotification *notification = [self existingNotificationWithAlarmID:alarmID];
     if (notification) {
-        NSLog(@"notification canceled");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"notification canceled"];
         [[UIApplication sharedApplication] cancelLocalNotification:notification];
     }
     
@@ -1308,13 +1313,18 @@ extern "C" {
     //--------------------------------------
     
     void _ISN_ShowDP(int mode) {
-         #if !TARGET_OS_TV
-        [[ISN_NativeUtility sharedInstance] DP_show:mode];
+        #if !TARGET_OS_TV
+            [[ISN_NativeUtility sharedInstance] DP_show:mode date:nil];
         #endif
     }
     
-    
-    
+    void _ISN_ShowDPWithTime(int mode, double seconds) {
+        #if !TARGET_OS_TV
+            NSTimeInterval _interval = seconds;
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:_interval];
+            [[ISN_NativeUtility sharedInstance] DP_show:mode date:date];
+        #endif
+    }
     
     //--------------------------------------
     //  IOS Native Utility
@@ -1347,6 +1357,13 @@ extern "C" {
         [[ISN_NativeUtility sharedInstance] GetLocale];
     }
     
+    void _ISN_SetLogState(bool state) {
+        [[ISN_NativeUtility sharedInstance] ISN_SetLogState:(state)];
+    }
+    
+    void _ISN_NativeLog(char* message) {
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: [ISN_DataConvertor charToNSString:message]];
+    }
     
     void _ISN_RequestGuidedAccessSession(bool enable) {
         UIAccessibilityRequestGuidedAccessSession(enable, ^(BOOL didSucceed) {
@@ -1390,7 +1407,7 @@ extern "C" {
        
         
     
-	    NSMutableString * data = [[NSMutableString alloc] init];
+        NSMutableString * data = [[NSMutableString alloc] init];
         
         if([[UIDevice currentDevice] name] != nil) {
             [data appendString:[[UIDevice currentDevice] name]];
@@ -1464,9 +1481,9 @@ extern "C" {
         [data appendString:encodedString];
 
   
-	    #if UNITY_VERSION < 500
-	    [data autorelease];
-		#endif
+        #if UNITY_VERSION < 500
+        [data autorelease];
+        #endif
 
          return ISN_MakeStringCopy([ISN_DataConvertor NSStringToChar:data]);
     }
@@ -1692,7 +1709,7 @@ extern "C" {
     void _ISN_RegisterForRemoteNotifications(int types) {
         #if !TARGET_OS_TV
         
-        NSLog(@"_ISN_RegisterForRemoteNotifications");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"_ISN_RegisterForRemoteNotifications"];
         
         UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert |  UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];

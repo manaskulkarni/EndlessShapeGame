@@ -23,4 +23,10 @@ public class MP_MediaPickerResult : ISN_Result {
 			return _SelectedmediaItems;
 		}
 	}
+
+	public List<MP_MediaItem> Items {
+		get {
+			return SelectedmediaItems;
+		}
+	}
 }

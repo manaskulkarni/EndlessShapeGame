@@ -13,6 +13,7 @@ public class GK_SavedGame  {
 	private DateTime _ModificationDate;
 
 	private byte[] _Data = null;
+	private bool _IsDataLoaded = false;
 
 
 
@@ -51,6 +52,7 @@ public class GK_SavedGame  {
 	/// </summary>
 	public void GenerateDataLoadEvent(string base64Data) {
 		_Data =  System.Convert.FromBase64String(base64Data);
+		_IsDataLoaded = true;
 		GK_SaveDataLoaded result =  new GK_SaveDataLoaded(this);
 		ActionDataLoaded(result);
 	}
@@ -119,6 +121,15 @@ public class GK_SavedGame  {
 	public byte[] Data {
 		get {
 			return _Data;
+		}
+	}
+
+	/// <summary>
+	/// Inidcates if save data was already loaded.
+	/// </summary>
+	public bool IsDataLoaded {
+		get {
+			return _IsDataLoaded;
 		}
 	}
 }

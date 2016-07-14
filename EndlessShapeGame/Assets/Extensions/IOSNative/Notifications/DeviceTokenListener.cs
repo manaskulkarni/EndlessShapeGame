@@ -57,7 +57,7 @@ public class DeviceTokenListener : UnityEngine.MonoBehaviour {
 		if (!tokenSent) {
 
 			byte[] token   = NotificationServices.deviceToken;
-			//Debug.Log(NotificationServices.deviceToken);
+			//ISN_Logger.Log(NotificationServices.deviceToken);
 			if(token != null) {
 
 				IOSNotificationDeviceToken t = new IOSNotificationDeviceToken(token);

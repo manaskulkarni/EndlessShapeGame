@@ -39,7 +39,7 @@ public class MultiplayerManagerExample : MonoBehaviour {
 
 
 	void HandleActionPlayerRequestedMatchWithRecipients (GK_MatchType matchType, string[] recepientIds, GK_Player[] recepients) {
-		Debug.Log("inictation received");
+		ISN_Logger.Log("inictation received");
 		if(matchType == GK_MatchType.RealTime) {
 			//Optionally you can provide and invitation message
 			string invitationMessage = "Come play with me, bro.";
@@ -122,7 +122,7 @@ public class MultiplayerManagerExample : MonoBehaviour {
 	void HandleActionPlayerStateChanged (GK_Player player, GK_PlayerConnectionState state, GK_RTM_Match match) {
 
 
-		Debug.Log("Player State Changed " +  player.Alias + " state: " + state.ToString() + "\n  ExpectedPlayerCount: " + match.ExpectedPlayerCount);
+		ISN_Logger.Log("Player State Changed " +  player.Alias + " state: " + state.ToString() + "\n  ExpectedPlayerCount: " + match.ExpectedPlayerCount);
 
 	}
 	

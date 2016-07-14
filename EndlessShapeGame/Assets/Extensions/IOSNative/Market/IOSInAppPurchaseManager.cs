@@ -116,7 +116,7 @@ public class IOSInAppPurchaseManager : ISN_Singleton<IOSInAppPurchaseManager> {
 		if(!_IsStoreLoaded) {
 
 			if(!IOSNativeSettings.Instance.DisablePluginLogs) 
-				Debug.LogWarning("buyProduct shouldn't be called before StoreKit is initialized"); 
+				ISN_Logger.Log("buyProduct shouldn't be called before StoreKit is initialized"); 
 			SendTransactionFailEvent(productId, "StoreKit not yet initialized", IOSTransactionErrorCode.SKErrorPaymentNotAllowed);
 
 			return;
@@ -203,7 +203,7 @@ public class IOSInAppPurchaseManager : ISN_Singleton<IOSInAppPurchaseManager> {
 		if(IOSNativeSettings.Instance.SendFakeEventsInEditor) {
 			foreach(IOSProductTemplate product in Products) {
 				if(product.ProductType == ISN_InAppType.NonConsumable) {
-					Debug.Log("Restored: " + product.Id);
+					ISN_Logger.Log("Restored: " + product.Id);
 					FireProductBoughtEvent(product.Id, "", "", "", true);
 				}
 			}
@@ -291,12 +291,12 @@ public class IOSInAppPurchaseManager : ISN_Singleton<IOSInAppPurchaseManager> {
 
 
 		if(!IOSNativeSettings.Instance.DisablePluginLogs) 
-			Debug.Log("STORE_KIT_INIT_FAILED Error: " + e.Description);
+			ISN_Logger.Log("STORE_KIT_INIT_FAILED Error: " + e.Description);
 	}
 	
 	private void onStoreDataReceived(string data) {
 		if(data.Equals(string.Empty)) {
-			Debug.Log("InAppPurchaseManager, no products avaiable");
+			ISN_Logger.Log("InAppPurchaseManager, no products avaiable");
 			ISN_Result res = new ISN_Result(true);
 			OnStoreKitInitComplete(res);
 			return;
@@ -320,7 +320,7 @@ public class IOSInAppPurchaseManager : ISN_Singleton<IOSInAppPurchaseManager> {
 			
 		}
 		
-		Debug.Log("InAppPurchaseManager, total products in settings: " + Products.Count.ToString());
+		ISN_Logger.Log("InAppPurchaseManager, total products in settings: " + Products.Count.ToString());
 
 
 		int avaliableProductsCount = 0;
@@ -330,7 +330,7 @@ public class IOSInAppPurchaseManager : ISN_Singleton<IOSInAppPurchaseManager> {
 			}
 		}
 
-		Debug.Log("InAppPurchaseManager, total avaliable products" + avaliableProductsCount);
+		ISN_Logger.Log("InAppPurchaseManager, total avaliable products" + avaliableProductsCount);
 		FireSuccessInitEvent();
 	}
 	

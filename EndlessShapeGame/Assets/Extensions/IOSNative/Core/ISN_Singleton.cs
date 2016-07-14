@@ -28,7 +28,7 @@ public abstract class ISN_Singleton<T> : MonoBehaviour where T : MonoBehaviour {
 		get {
 			if(applicationIsQuitting) {
 				if(!IOSNativeSettings.Instance.DisablePluginLogs) 
-					Debug.Log(typeof(T) + " [Mog.Singleton] is already destroyed. Returning null. Please check HasInstance first before accessing instance in destructor.");
+					ISN_Logger.Log(typeof(T) + " [Mog.Singleton] is already destroyed. Returning null. Please check HasInstance first before accessing instance in destructor.");
 				return null;
 			}
 			

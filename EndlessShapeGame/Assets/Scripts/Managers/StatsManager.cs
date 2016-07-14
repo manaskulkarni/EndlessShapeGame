@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using UnityEngine.UI;
-using TheNextFlow.UnityPlugins;
 
 
 public class StatsManager : CubiBase
@@ -166,6 +165,7 @@ public class StatsManager : CubiBase
   public string PurchaseCoinsEvent { get { return "OnPurchaseItem"; } }
   public string RemoveAdsEvent { get { return "TryRemoveAds"; } }
   public string StoreInfoEvent { get { return "OnStoreInfo"; } }
+  public string OpenReviewScreenEvent { get { return "OnOpenReviewScreen"; } }
   #endregion 
 
   private int previousScore { get; set; }
@@ -578,37 +578,33 @@ public class StatsManager : CubiBase
 
   void OnShowRateUsPopup ()
   {
-    if (showRateUs == 1)
-    {
-      MobileNativePopups.OpenAlertDialog(
-        "Rate Just Flick", "If you enjoy playing this game, would you mind taking a moment to rate it? Thanks for your support!",
-        "No, Thanks", "Remind me later", "Rate!",
-        () => { Debug.Log("User will not rate right now"); },
-        () => { Debug.Log("User will rate later"); },
-        () =>
-          {
-            Debug.Log("User rated");
-            ShowRateUsDialog ();
-            showRateUs = 0;
-          });
-//      MobileNativeRateUs ratePopUp = new MobileNativeRateUs("Like this game?", "Please rate to " +
-//        "support future updates!");
-//      ratePopUp.OnComplete = OnRateUsFeedback;
-//
-//      #if UNITY_IOS
-//      ratePopUp.SetAppleId (IOSNativeSettings.Instance.AppleId);
-//      #elif UNITY_ANDROID
-//      #endif
-    }
+//    if (showRateUs == 1)
+//    {
+//      MobileNativePopups.OpenAlertDialog(
+//        "Rate Just Flick", "If you enjoy playing this game, would you mind taking a moment to rate it? Thanks for your support!",
+//        "No, Thanks", "Remind me later", "Rate!",
+//        () => { Debug.Log("User will not rate right now"); },
+//        () => { Debug.Log("User will rate later"); },
+//        () =>
+//          {
+//            Debug.Log("User rated");
+//            ShowRateUsDialog ();
+//            showRateUs = 0;
+//          });
+////      MobileNativeRateUs ratePopUp = new MobileNativeRateUs("Like this game?", "Please rate to " +
+////        "support future updates!");
+////      ratePopUp.OnComplete = OnRateUsFeedback;
+////
+////      #if UNITY_IOS
+////      ratePopUp.SetAppleId (IOSNativeSettings.Instance.AppleId);
+////      #elif UNITY_ANDROID
+////      #endif
+//    }
   }
 
   public void ShowRateUsDialog ()
   {
-    #if UNITY_IOS
-    AppstoreHandler.Instance.openAppInStore (IOSNativeSettings.Instance.AppleId);
-    #elif UNITY_ANDROID
-    AppstoreHandler.Instance.openAppInStore (AndroidNativeSettings.Instance.GooglePlayServiceAppID);
-    #endif
+    BroadcastMessage (OpenReviewScreenEvent);
   }
 
 //  void OnRateUsFeedback (MNDialogResult res)

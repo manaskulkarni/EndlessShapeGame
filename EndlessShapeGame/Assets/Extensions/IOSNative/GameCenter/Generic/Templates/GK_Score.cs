@@ -15,6 +15,7 @@ public class GK_Score  {
 
 	private int _Rank;
 	private long _Score;
+	private long _Context;
 
 	private string _PlayerId;
 	private string _LeaderboardId;
@@ -23,10 +24,11 @@ public class GK_Score  {
 	private GK_TimeSpan _TimeSpan;
 
 
-	public GK_Score(long vScore, int vRank, GK_TimeSpan vTimeSpan, GK_CollectionType sCollection, string lid, string pid) {
+	public GK_Score(long vScore, int vRank, long vContext, GK_TimeSpan vTimeSpan, GK_CollectionType sCollection, string lid, string pid) {
 		_Score = vScore; 
 		_Rank = vRank;
-		
+		_Context = vContext;
+
 		_PlayerId = pid;
 		_LeaderboardId = lid;
 		
@@ -83,6 +85,11 @@ public class GK_Score  {
 		}
 	}
 
+	public long Context {
+		get {
+			return _Context;
+		}
+	}
 
 
 	public System.TimeSpan Minutes {

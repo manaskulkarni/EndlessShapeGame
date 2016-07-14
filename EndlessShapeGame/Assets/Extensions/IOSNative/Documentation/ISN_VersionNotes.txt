@@ -1,6 +1,31 @@
+8.4:
+New Features:
+Cloud Kit Improvements / Fixes
+Apple TV API (InApps / Game Centre) https://goo.gl/cWCm1r
+Multi Image Picker API https://goo.gl/BPFk4m
+Gesture Recognition https://goo.gl/8NpoJB
+Local receipt validation tutorial 
+SKCloudService API
+
+
+8.3.1:
+Minor Fixes
+
+8.3:
+New Features:
+Game Canter firnds invite: https://goo.gl/sBr9mv
+Game Canter Score context support
+ISN Date time picker, ability to set date before displaying the picker.
+Documentation update
+
+Fixes:
+ISN_CloudKit - record saving
+GameCenter Connection NULL-pointer issue
+Cloud kit records parsing fix
+
 8.2:
 New Features:
-IOS Native Settings is no under the StansAssetsConfig folder
+IOS Native Settings is now under the StansAssetsConfig folder
 Ability to Dectect IS App runing  at release mode. Read more: https://goo.gl/A224K4
 Saved Games API Added. Read more: https://goo.gl/dzUvDj
 

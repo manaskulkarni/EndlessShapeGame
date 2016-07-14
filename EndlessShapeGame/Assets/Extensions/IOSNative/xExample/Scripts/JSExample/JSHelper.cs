@@ -47,7 +47,7 @@ public class JSHelper : MonoBehaviour {
 
 		GameCenterManager.Init();
 		
-		Debug.Log("InitGameCenter");
+		ISN_Logger.Log("InitGameCenter");
 	}
 
 
@@ -62,8 +62,8 @@ public class JSHelper : MonoBehaviour {
 	
 
 	private void SubmitScore(int val) {
-		Debug.Log("SubmitScore");
-		GameCenterManager.ReportScore(val, leaderboardId);
+		ISN_Logger.Log("SubmitScore");
+		GameCenterManager.ReportScore(val, leaderboardId, 0);
 	}
 	
 	private void SubmitAchievement(string data) {
@@ -76,7 +76,7 @@ public class JSHelper : MonoBehaviour {
 
 		
 		
-		Debug.Log("SubmitAchievement: " + achievementId + "  " + percent.ToString());
+		ISN_Logger.Log("SubmitAchievement: " + achievementId + "  " + percent.ToString());
 		GameCenterManager.SubmitAchievement(percent, achievementId);
 	}
 	
@@ -91,22 +91,22 @@ public class JSHelper : MonoBehaviour {
 	//--------------------------------------
 	
 	void HandleOnAchievementsLoaded (ISN_Result res) {
-		Debug.Log ("Achievements loaded from iOS Game Center");
+		ISN_Logger.Log ("Achievements loaded from iOS Game Center");
 		
 		foreach(GK_AchievementTemplate tpl in GameCenterManager.Achievements) {
-			Debug.Log (tpl.Id + ":  " + tpl.Progress);
+			ISN_Logger.Log (tpl.Id + ":  " + tpl.Progress);
 		}
 	}
 
 	void HandleOnAchievementsProgress (GK_AchievementProgressResult progress) {
-		Debug.Log ("OnAchievementProgress");
+		ISN_Logger.Log ("OnAchievementProgress");
 		
 		GK_AchievementTemplate tpl = progress.Achievement;
-		Debug.Log (tpl.Id + ":  " + tpl.Progress.ToString());
+		ISN_Logger.Log (tpl.Id + ":  " + tpl.Progress.ToString());
 	}
 
 	void HandleOnAchievementsReset (ISN_Result res) {
-		Debug.Log ("All Achievements were reset");
+		ISN_Logger.Log ("All Achievements were reset");
 	}
 
 	void OnScoreSubmitted (GK_LeaderboardResult result) {

@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 #if (UNITY_IPHONE && !UNITY_EDITOR && CLOUD_KIT) || SA_DEBUG_MODE
 using System.Runtime.InteropServices;
 #endif
@@ -25,7 +26,8 @@ public class ISN_CloudKit : ISN_Singleton<ISN_CloudKit> {
 	[DllImport ("__Internal")]
 	private static extern void _ISN_FetchRecord(int dbId, int recordId);
 
-
+	[DllImport ("__Internal")]
+	private static extern void _ISN_PerformQuery(int dbId, string query, string type);
 
 
 
@@ -163,14 +165,54 @@ public class ISN_CloudKit : ISN_Singleton<ISN_CloudKit> {
 	 * Fetch
 	 */
 
+	private void OnPerformQuerySuccess(string data) {
+		string[] DataArray = data.Split(new string[] { IOSNative.DATA_SPLITTER2 }, StringSplitOptions.None);
+
+		int dbId = System.Convert.ToInt32(DataArray[0]);
+		CK_Database db = CK_Database.GetDatabaseByInternalId(dbId);
+
+		List<CK_Record> records = new List<CK_Record>();
+
+		for(int i = 1; i < DataArray.Length; i+=2) {
+			if(DataArray[i] == IOSNative.DATA_EOF) {
+				break;
+			}
+
+			string name = DataArray[i];
+			string recordData = DataArray[i + 1];
+
+			CK_Record record =  new CK_Record(name, recordData);
+			records.Add(record);
+		}
+
+		CK_QueryResult result =  new CK_QueryResult(records);
+		db.FireQueryCompleteResult(result);
+
+	}
+
+	private void OnPerformQueryFailed(string data) {
+		string[] DataArray = data.Split(new string[] { IOSNative.DATA_SPLITTER2 }, StringSplitOptions.None);
+
+
+		int dbId = System.Convert.ToInt32(DataArray[0]);
+		CK_Database db = CK_Database.GetDatabaseByInternalId(dbId);
+
+
+		string errorData = DataArray[1];
+		CK_QueryResult result =  new CK_QueryResult(errorData);
+		db.FireQueryCompleteResult(result);
+	}
+
+
+
 	private void OnFetchRecordSuccess(string data) {
 		string[] DataArray = data.Split(new string[] { IOSNative.DATA_SPLITTER2 }, StringSplitOptions.None);
 		int dbId = System.Convert.ToInt32(DataArray[0]);
+		string name = DataArray[1];
+		string recordData = DataArray[2];
 
 		CK_Database db = CK_Database.GetDatabaseByInternalId(dbId);
-
-		string recordData = DataArray[1];
-		CK_Record record =  new CK_Record(recordData);
+		CK_Record record =  new CK_Record(name, recordData);
 		CK_RecordResult result =  new CK_RecordResult(record.Internal_Id);
 
 		db.FireFetchRecordResult(result);
@@ -233,6 +275,11 @@ public class ISN_CloudKit : ISN_Singleton<ISN_CloudKit> {
 
 
 
+	public static void PerformQuery(int dbId, string query, string type) {
+		#if (UNITY_IPHONE && !UNITY_EDITOR && CLOUD_KIT) || SA_DEBUG_MODE
+		_ISN_PerformQuery(dbId, query, type);
+		#endif
+	}
 
 
 

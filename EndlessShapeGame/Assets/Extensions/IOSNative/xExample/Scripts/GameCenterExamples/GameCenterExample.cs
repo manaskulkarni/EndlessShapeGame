@@ -130,8 +130,7 @@ public class GameCenterExample : BaseIOSFeaturePreview {
 		StartX += XButtonStep;
 		if(GUI.Button(new Rect(StartX, StartY, buttonWidth, buttonHeight), "Report Score LB 1")) {
 			hiScore++;
-			GameCenterManager.ReportScore(hiScore, TEST_LEADERBOARD_1);
-			
+			GameCenterManager.ReportScore(hiScore, TEST_LEADERBOARD_1, 17);
 		}
 		
 		StartX += XButtonStep;
@@ -164,7 +163,7 @@ public class GameCenterExample : BaseIOSFeaturePreview {
 			hiScore++;
 			
 			GameCenterManager.OnScoreSubmitted += OnScoreSubmitted;
-			GameCenterManager.ReportScore(hiScore, TEST_LEADERBOARD_2);
+			GameCenterManager.ReportScore((double)hiScore, TEST_LEADERBOARD_2);
 		}
 		
 		
@@ -238,27 +237,27 @@ public class GameCenterExample : BaseIOSFeaturePreview {
 	
 	private void OnAchievementsLoaded(ISN_Result result) {
 		
-		Debug.Log("OnAchievementsLoaded");
-		Debug.Log(result.IsSucceeded);
+		ISN_Logger.Log("OnAchievementsLoaded");
+		ISN_Logger.Log(result.IsSucceeded);
 		
 		if(result.IsSucceeded) {
-			Debug.Log ("Achievements were loaded from iOS Game Center");
+			ISN_Logger.Log ("Achievements were loaded from iOS Game Center");
 			
 			foreach(GK_AchievementTemplate tpl in GameCenterManager.Achievements) {
-				Debug.Log (tpl.Id + ":  " + tpl.Progress);
+				ISN_Logger.Log (tpl.Id + ":  " + tpl.Progress);
 			}
 		}
 		
 	}
 
 	void OnLeaderboardSetsInfoLoaded (ISN_Result res) {
-		Debug.Log("OnLeaderboardSetsInfoLoaded");
+		ISN_Logger.Log("OnLeaderboardSetsInfoLoaded");
 		GameCenterManager.OnLeaderboardSetsInfoLoaded -= OnLeaderboardSetsInfoLoaded;
 		if(res.IsSucceeded) {
 			foreach(GK_LeaderboardSet s in GameCenterManager.LeaderboardSets) {
-				Debug.Log(s.Title);
-				Debug.Log(s.Identifier);
-				Debug.Log(s.GroupIdentifier);
+				ISN_Logger.Log(s.Title);
+				ISN_Logger.Log(s.Identifier);
+				ISN_Logger.Log(s.GroupIdentifier);
 			}
 		}
 
@@ -278,23 +277,23 @@ public class GameCenterExample : BaseIOSFeaturePreview {
 
 		if(res.IsSucceeded) {
 			foreach(GK_LeaderBoardInfo l in res.LeaderBoardsSet.BoardsInfo) {
-				Debug.Log(l.Title);
-				Debug.Log(l.Description);
-				Debug.Log(l.Identifier);
+				ISN_Logger.Log(l.Title);
+				ISN_Logger.Log(l.Description);
+				ISN_Logger.Log(l.Identifier);
 			}
 		}
 
 	}
 
 	void HandleOnAchievementsReset (ISN_Result obj){
-		Debug.Log ("All Achievements were reset");
+		ISN_Logger.Log ("All Achievements were reset");
 	}
 
 
 	private void HandleOnAchievementsProgress (GK_AchievementProgressResult result) {
 		if(result.IsSucceeded) {
 			GK_AchievementTemplate tpl = result.Achievement;
-			Debug.Log (tpl.Id + ":  " + tpl.Progress.ToString());
+			ISN_Logger.Log (tpl.Id + ":  " + tpl.Progress.ToString());
 		}
 	}
 
@@ -311,11 +310,11 @@ public class GameCenterExample : BaseIOSFeaturePreview {
 			GK_Score score = result.Leaderboard.GetCurrentPlayerScore(GK_TimeSpan.ALL_TIME, GK_CollectionType.GLOBAL);
 			IOSNativePopUpManager.showMessage("Leaderboard " + score.LeaderboardId, "Score: " + score.LongScore + "\n" + "Rank:" + score.Rank);
 			
-			Debug.Log("double score representation: " + score.DecimalFloat_2);
-			Debug.Log("long score representation: " + score.LongScore);
+			ISN_Logger.Log("double score representation: " + score.DecimalFloat_2);
+			ISN_Logger.Log("long score representation: " + score.LongScore);
 			
 			if(score.LeaderboardId.Equals(TEST_LEADERBOARD_2)) {
-				Debug.Log("Updating leaderboard 2 score");
+				ISN_Logger.Log("Updating leaderboard 2 score");
 				LB2BestScores = score.LongScore;
 				
 			}
@@ -326,9 +325,9 @@ public class GameCenterExample : BaseIOSFeaturePreview {
 		GameCenterManager.OnScoreSubmitted -= OnScoreSubmitted;
 		
 		if(result.IsSucceeded)  {
-			Debug.Log("Score Submitted");
+			ISN_Logger.Log("Score Submitted");
 		} else {
-			Debug.Log("Score Submit Failed");
+			ISN_Logger.Log("Score Submit Failed");
 		}
 	}
 	
@@ -344,23 +343,21 @@ public class GameCenterExample : BaseIOSFeaturePreview {
 	
 	
 	void OnPlayerSignatureRetrieveResult (GK_PlayerSignatureResult result) {
-		Debug.Log("OnPlayerSignatureRetrieveResult");
+		ISN_Logger.Log("OnPlayerSignatureRetrieveResult");
 		
 		if(result.IsSucceeded) {
 			
-			Debug.Log("PublicKeyUrl: " + result.PublicKeyUrl);
-			Debug.Log("Signature: " + result.Signature);
-			Debug.Log("Salt: " + result.Salt);
-			Debug.Log("Timestamp: " + result.Timestamp);
+			ISN_Logger.Log("PublicKeyUrl: " + result.PublicKeyUrl);
+			ISN_Logger.Log("Signature: " + result.Signature);
+			ISN_Logger.Log("Salt: " + result.Salt);
+			ISN_Logger.Log("Timestamp: " + result.Timestamp);
 
 		} else {
-			Debug.Log("Error code: " + result.Error.Code);
-			Debug.Log("Error description: " + result.Error.Description);
+			ISN_Logger.Log("Error code: " + result.Error.Code);
+			ISN_Logger.Log("Error description: " + result.Error.Description);
 		}
 		
 		GameCenterManager.OnPlayerSignatureRetrieveResult -= OnPlayerSignatureRetrieveResult;
-
-
 
 	}
 

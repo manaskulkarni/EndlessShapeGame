@@ -11,7 +11,7 @@
 #import <Foundation/Foundation.h>
 #import <iAd/iAd.h>
 
-
+#import "ISN_NativeCore.h"
 #if UNITY_VERSION < 450
 #include "iPhone_View.h"
 #endif
@@ -95,7 +95,7 @@ static BOOL IsLoadRequestLaunched = false;
 - (void) StartInterstitialAd {
     
     if(!IsLoadRequestLaunched) {
-        NSLog(@"StartInterstitialAd request");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"StartInterstitialAd request"];
         [self LoadInterstitialAd];
         IsShowInterstitialsOnLoad = true;
         IsLoadRequestLaunched = true;
@@ -105,7 +105,7 @@ static BOOL IsLoadRequestLaunched = false;
 -(void) LoadInterstitialAd {
     
     if(!IsLoadRequestLaunched) {
-        NSLog(@"LoadInterstitialAd request");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"LoadInterstitialAd request"];
         interstitial = [[ADInterstitialAd alloc] init];
         interstitial.delegate = self;
         
@@ -180,7 +180,7 @@ static BOOL IsLoadRequestLaunched = false;
 #pragma mark - ADInterstitialAdDelegate
 
 - (void)interstitialAdDidUnload:(ADInterstitialAd *)interstitialAd {
-    NSLog(@"interstitialAdDidUnload");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"interstitialAdDidUnload"];
     
 #if UNITY_VERSION < 500
     [interstitial release];
@@ -190,8 +190,7 @@ static BOOL IsLoadRequestLaunched = false;
 }
 
 - (void)interstitialAd:(ADInterstitialAd *)interstitialAd didFailWithError:(NSError *)error {
-    
-    NSLog(@"didFailWithError: %@", error.description);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"didFailWithError: %@", error.description];
     
 #if UNITY_VERSION < 500
     [interstitial release];
@@ -203,13 +202,13 @@ static BOOL IsLoadRequestLaunched = false;
 }
 
 - (void)interstitialAdWillLoad:(ADInterstitialAd *)interstitialAd  {
-    NSLog(@"interstitialAdWillLoad");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"interstitialAdWillLoad"];
     
     UnitySendMessage("iAdBannerController", "interstitialAdWillLoad", "");
 }
 
 - (void)interstitialAdDidLoad:(ADInterstitialAd *)interstitialAd {
-    NSLog(@"interstitialAdDidLoad");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"interstitialAdWillLoad"];
     
     if(IsShowInterstitialsOnLoad) {
         UIViewController *vc =  UnityGetGLViewController();
@@ -224,7 +223,7 @@ static BOOL IsLoadRequestLaunched = false;
 
 
 - (void)interstitialAdActionDidFinish:(ADInterstitialAd *)interstitialAd {
-    NSLog(@"interstitialAdActionDidFinish");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"interstitialAdActionDidFinish"];
     return;
     
 #if UNITY_VERSION < 500
@@ -275,8 +274,7 @@ static BOOL IsLoadRequestLaunched = false;
     } else {
         IsLandscape = false;
     }
-    
-    NSLog(@"IsLandscape %i", IsLandscape);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"IsLandscape %i", IsLandscape];
     
     
     
@@ -425,7 +423,7 @@ static BOOL IsLoadRequestLaunched = false;
     
     NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     if ([[vComp objectAtIndex:0] intValue] >= 8) {
-        NSLog(@"IOS 8 detected");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"IOS 8 detected"];
         w = vc.view.frame.size.width;
     }
     
@@ -463,7 +461,7 @@ static BOOL IsLoadRequestLaunched = false;
     
     NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     if ([[vComp objectAtIndex:0] intValue] >= 8) {
-        NSLog(@"IOS 8 detected");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"IOS 8 detected"];
         h = vc.view.frame.size.height;
     }
     
@@ -501,29 +499,29 @@ static BOOL IsLoadRequestLaunched = false;
 
 -(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
     if(error != nil) {
-        NSLog(@"didFailToReceiveAdWithError %@", error.description);
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"didFailToReceiveAdWithError %@", error.description];
     }
     
     UnitySendMessage("iAdBannerController", "didFailToReceiveAdWithError", [[[self bid] stringValue] UTF8String]);
 }
 
 -(void)bannerViewDidLoadAd:(ADBannerView *)banner{
-    NSLog(@"bannerViewDidLoadAd");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"bannerViewDidLoadAd"];
     UnitySendMessage("iAdBannerController", "bannerViewDidLoadAd", [[[self bid] stringValue] UTF8String]);
 }
 -(void)bannerViewWillLoadAd:(ADBannerView *)banner{
-    NSLog(@"bannerViewWillLoadAd");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"bannerViewWillLoadAd"];
     
     UnitySendMessage("iAdBannerController", "bannerViewWillLoadAd", [[[self bid] stringValue] UTF8String]);
 }
 -(void)bannerViewActionDidFinish:(ADBannerView *)banner{
-    NSLog(@"bannerViewActionDidFinish");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"bannerViewActionDidFinish"];
     
     UnitySendMessage("iAdBannerController", "bannerViewActionDidFinish", [[[self bid] stringValue] UTF8String]);
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
-    NSLog(@"bannerViewActionShouldBegin");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"bannerViewActionShouldBegin"];
     
     UnitySendMessage("iAdBannerController", "bannerViewActionShouldBegin", [[[self bid] stringValue] UTF8String]);
     return true;

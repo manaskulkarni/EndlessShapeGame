@@ -1,4 +1,4 @@
-#if !TARGET_OS_TV
+
 
 //
 //  ISN_InApp.m
@@ -92,7 +92,7 @@ extern NSString *isn_kReachabilityChangedNotification;
 -(void) verifyLastPurchase:(NSString *) verificationURL;
 @end
 
-
+#if !TARGET_OS_TV
 
 @interface StoreProductView : NSObject<SKStoreProductViewControllerDelegate>
 @property (strong)  NSNumber *vid;
@@ -101,6 +101,8 @@ extern NSString *isn_kReachabilityChangedNotification;
 - (void) CreateView:(int) viewId products: (NSArray *) products;
 - (void) Show;
 @end
+
+#endif
 
 
 @interface ISN_Security : NSObject <SKRequestDelegate>
@@ -123,6 +125,9 @@ extern NSString *isn_kReachabilityChangedNotification;
     
     
 }
+
+@property (nonatomic, strong) SKProductsRequest* productRequest;
+
 
 + (InAppPurchaseManager *) instance;
 
@@ -179,7 +184,7 @@ static NSMutableDictionary* _views;
 }
 
 -(id) init {
-    NSLog(@"init");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"init"];
     if(self = [super init]){
         _views = [[NSMutableDictionary alloc] init];
         _productIdentifiers = [[NSMutableArray alloc] init];
@@ -203,8 +208,14 @@ static NSMutableDictionary* _views;
 
 
 - (void)loadStore {
-    NSLog(@"loadStore....");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"loadStore...."];
     SKProductsRequest *request= [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:_productIdentifiers]];
+    
+    [self setProductRequest:request];
+    
+    // [self productRequest] = request;
+    [self productRequest].delegate = self;
+    [[self productRequest] start];
     
     request.delegate = self;
     [request start];
@@ -228,7 +239,7 @@ static NSMutableDictionary* _views;
 
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
-    NSLog(@"productsRequest....failed: %@", error.description);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"productsRequest....failed: %@", error.description];
     NSString *code = [NSString stringWithFormat: @"%d", (int)error.code];
     
     NSMutableString * data = [[NSMutableString alloc] init];
@@ -247,8 +258,8 @@ static NSMutableDictionary* _views;
 
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-    NSLog(@"productsRequest....");
-    NSLog(@"Total loaded products: %i", [response.products count]);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"productsRequest...."];
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"Total loaded products: %i", [response.products count]];
     
     
     
@@ -324,7 +335,7 @@ static NSMutableDictionary* _views;
     }
     
     for (NSString *invalidProductId in response.invalidProductIdentifiers) {
-        NSLog(@"Invalid product id: %@" , invalidProductId);
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"Invalid product id: %@" , invalidProductId];
     }
     
     
@@ -372,27 +383,34 @@ static NSMutableDictionary* _views;
 
 
 - (void) CreateProductView:(int)viewId products:(NSArray *)products {
+    
+#if !TARGET_OS_TV
     StoreProductView* v = [[StoreProductView alloc] init];
     [v CreateView:viewId products:products];
     
     [_views setObject:v forKey:[NSNumber numberWithInt:viewId]];
+#endif
 }
 
 -(void) ShowProductView:(int)viewId {
+#if !TARGET_OS_TV
     StoreProductView *v = [_views objectForKey:[NSNumber numberWithInt:viewId]];
     if(v != nil) {
         [v Show];
     }
+#endif
 }
 
 @end
 
 
+#if !TARGET_OS_TV
+
+
 @implementation StoreProductView
 
 - (void) CreateView:(int)viewId products:(NSArray *)products {
-    
-    NSLog(@"CreateView");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"CreateView"];
     
     NSNumber *n = [NSNumber numberWithInt:viewId];
     [self setVid:n];
@@ -412,10 +430,10 @@ static NSMutableDictionary* _views;
     
     [[self storeViewController] loadProductWithParameters:parameters completionBlock:^(BOOL result, NSError *error) {
         if (result) {
-            NSLog(@"ok");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ok"];
             UnitySendMessage("IOSInAppPurchaseManager", "OnProductViewLoaded", [[[self vid] stringValue] UTF8String]);
         } else {
-            NSLog(@"no");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"no"];
             UnitySendMessage("IOSInAppPurchaseManager", "OnProductViewLoadedFailed", [[[self vid] stringValue] UTF8String]);
         }
     }];
@@ -440,7 +458,7 @@ static NSMutableDictionary* _views;
 @end
 
 
-
+#endif
 
 
 
@@ -474,7 +492,7 @@ NSString* lastTransaction = @"";
 
 
 -(void) verifyLastPurchase:(NSString *)verificationURL {
-    NSLog(@"ISN: url: %@",verificationURL);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: url: %@",verificationURL];
     
     
     NSURL *url = [NSURL URLWithString:verificationURL];
@@ -542,14 +560,13 @@ NSString* lastTransaction = @"";
 
 
 - (void)reportDeferredState:(SKPaymentTransaction *)transaction {
-    NSLog(@"ISN: Transaction  Deferred for: %@", transaction.payment.productIdentifier);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Transaction  Deferred for: %@", transaction.payment.productIdentifier];
     
     UnitySendMessage("IOSInAppPurchaseManager", "onProductStateDeferred", [ISN_DataConvertor NSStringToChar:transaction.payment.productIdentifier]);
 }
 
 - (void)provideContent:(SKPaymentTransaction *)transaction  isRestored:(BOOL)isRestored{
-    
-    NSLog(@"ISN: provideContent for: %@", transaction.payment.productIdentifier);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: provideContent for: %@", transaction.payment.productIdentifier];
     
     lastTransaction = [self encodeBase64:(uint8_t *)transaction.transactionReceipt.bytes length:transaction.transactionReceipt.length];
     
@@ -602,17 +619,15 @@ NSString* lastTransaction = @"";
 
 
 - (void)completeTransaction:(SKPaymentTransaction *)transaction {
-    NSLog(@"ISN: completeTransaction...");
-    
-    
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: completeTransaction..."];
     
     ISN_Reachability* reachability = [ISN_Reachability reachabilityWithHostName:@"www.apple.com"];
     NetworkStatus remoteHostStatus = [reachability currentReachabilityStatus];
     
     if(remoteHostStatus == NotReachable) {
-        NSLog(@"ISN: apple.com not reachable, sending tracnsactio finish canseled");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: apple.com not reachable, sending tracnsactio finish canseled"];
     } else {
-        NSLog(@"ISN: apple.com reachable sending tracnsactio finish");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: apple.com reachable sending tracnsactio finish"];
         [self provideContent:transaction isRestored:false];
         [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
     }
@@ -623,7 +638,7 @@ NSString* lastTransaction = @"";
 }
 
 - (void)restoreTransaction:(SKPaymentTransaction *)transaction {
-    NSLog(@"ISN: restoreTransaction...");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: restoreTransaction..."];
     
     [self provideContent:transaction isRestored:true];
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
@@ -631,8 +646,8 @@ NSString* lastTransaction = @"";
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
-    NSLog(@"ISN: Transaction Failed with code : %li", (long)transaction.error.code);
-    NSLog(@"ISN: Transaction error: %@", transaction.error.description);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Transaction Failed with code : %li", (long)transaction.error.code];
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Transaction error: %@", transaction.error.description];
     
     NSString *erroCode;
     switch (transaction.error.code) {
@@ -695,7 +710,7 @@ NSString* lastTransaction = @"";
 
 
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error {
-    NSLog(@"ISN: paymentQueue %@",error);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: paymentQueue %@",error];
     
     NSMutableString * data = [[NSMutableString alloc] init];
     
@@ -718,10 +733,10 @@ NSString* lastTransaction = @"";
 }
 
 - (void) paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue {
-    NSLog(@"ISN: received restored transactions: %lu", (unsigned long)queue.transactions.count);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: received restored transactions: %lu", (unsigned long)queue.transactions.count];
     
     if (queue.transactions.count == 0) {
-        NSLog(@"ISN: No purchases to restore, fail event sent");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: No purchases to restore, fail event sent"];
         
         NSMutableString * data = [[NSMutableString alloc] init];
         
@@ -741,7 +756,7 @@ NSString* lastTransaction = @"";
     
     for (SKPaymentTransaction *transaction in queue.transactions) {
         NSString *productID = transaction.payment.productIdentifier;
-        NSLog(@"ISN: restored: %@",productID);
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: restored: %@",productID];
     }
     
     UnitySendMessage("IOSInAppPurchaseManager", "onRestoreTransactionComplete", [ISN_DataConvertor NSStringToChar:@""]);
@@ -766,20 +781,18 @@ NSString *isn_kReachabilityChangedNotification = @"isn_kNetworkReachabilityChang
 static void PrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char* comment)
 {
 #if kShouldPrintReachabilityFlags
-    
-    NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
-          (flags & kSCNetworkReachabilityFlagsIsWWAN)				? 'W' : '-',
-          (flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
-          
-          (flags & kSCNetworkReachabilityFlagsTransientConnection)  ? 't' : '-',
-          (flags & kSCNetworkReachabilityFlagsConnectionRequired)   ? 'c' : '-',
-          (flags & kSCNetworkReachabilityFlagsConnectionOnTraffic)  ? 'C' : '-',
-          (flags & kSCNetworkReachabilityFlagsInterventionRequired) ? 'i' : '-',
-          (flags & kSCNetworkReachabilityFlagsConnectionOnDemand)   ? 'D' : '-',
-          (flags & kSCNetworkReachabilityFlagsIsLocalAddress)       ? 'l' : '-',
-          (flags & kSCNetworkReachabilityFlagsIsDirect)             ? 'd' : '-',
-          comment
-          );
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
+     (flags & kSCNetworkReachabilityFlagsIsWWAN)                ? 'W' : '-',
+     (flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
+     
+     (flags & kSCNetworkReachabilityFlagsTransientConnection)  ? 't' : '-',
+     (flags & kSCNetworkReachabilityFlagsConnectionRequired)   ? 'c' : '-',
+     (flags & kSCNetworkReachabilityFlagsConnectionOnTraffic)  ? 'C' : '-',
+     (flags & kSCNetworkReachabilityFlagsInterventionRequired) ? 'i' : '-',
+     (flags & kSCNetworkReachabilityFlagsConnectionOnDemand)   ? 'D' : '-',
+     (flags & kSCNetworkReachabilityFlagsIsLocalAddress)       ? 'l' : '-',
+     (flags & kSCNetworkReachabilityFlagsIsDirect)             ? 'd' : '-',
+     comment];
 #endif
 }
 
@@ -1021,8 +1034,7 @@ static ISN_Security * security_sharedInstance;
 
 
 - (void) RetrieveLocalReceipt {
-    
-    NSLog(@"RetrieveLocalRecipe");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"RetrieveLocalRecipe"];
     
     NSString *encodedString = @"";
     NSBundle *mainBundle = [NSBundle mainBundle];
@@ -1039,7 +1051,7 @@ static ISN_Security * security_sharedInstance;
 }
 
 -(void) ReceiptRefreshRequest {
-    NSLog(@"SKReceiptRefreshRequest");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"SKReceiptRefreshRequest"];
     SKReceiptRefreshRequest *request = [[SKReceiptRefreshRequest alloc] init];
     [request setDelegate:self];
     [request start];
@@ -1082,7 +1094,7 @@ extern "C" {
     void _ISN_ReceiptRefreshRequest ()  {
         [[ISN_Security sharedInstance] ReceiptRefreshRequest];
     }
-
+    
     
     //--------------------------------------
     //  MARKET
@@ -1130,10 +1142,102 @@ extern "C" {
     }
     
     
+    //--------------------------------------
+    //  SKCloudServiceController
+    //--------------------------------------
+    
+    int ISN_SKCloudService_AuthorizationStatus() {
+        
+        
+        SKCloudServiceAuthorizationStatus status = [SKCloudServiceController authorizationStatus];
+        
+        switch (status) {
+            case SKCloudServiceAuthorizationStatusNotDetermined:
+                return 0;
+                break;
+                
+            case SKCloudServiceAuthorizationStatusDenied:
+                return 1;
+                break;
+                
+            case SKCloudServiceAuthorizationStatusRestricted:
+                return 2;
+                break;
+                
+            case SKCloudServiceAuthorizationStatusAuthorized:
+                return 3;
+                break;
+                
+            default:
+                  return 0;
+                break;
+        }
+    }
+    
+    void ISN_SKCloudService_RequestAuthorization() {
+        [SKCloudServiceController requestAuthorization:^(SKCloudServiceAuthorizationStatus status) {
+            switch (status) {
+                    
+                case SKCloudServiceAuthorizationStatusDenied:
+                    UnitySendMessage("SK_CloudService", "Event_AuthorizationFinished", [ISN_DataConvertor NSStringToChar:@"1"]);;
+                    break;
+                    
+                case SKCloudServiceAuthorizationStatusRestricted:
+                     UnitySendMessage("SK_CloudService", "Event_AuthorizationFinished", [ISN_DataConvertor NSStringToChar:@"2"]);
+                    break;
+                    
+                case SKCloudServiceAuthorizationStatusAuthorized:
+                     UnitySendMessage("SK_CloudService", "Event_AuthorizationFinished", [ISN_DataConvertor NSStringToChar:@"3"]);
+                    break;
+                    
+                default:
+                   UnitySendMessage("SK_CloudService", "Event_AuthorizationFinished", [ISN_DataConvertor NSStringToChar:@"0"]);
+                    break;
+            }
+            
+        }];
+    }
+    
+     void ISN_SKCloudService_RequestCapabilities() {
+         SKCloudServiceController * controller = [[SKCloudServiceController alloc] init];
+         [controller requestCapabilitiesWithCompletionHandler:^(SKCloudServiceCapability capabilities, NSError * _Nullable error) {
+             
+             if(error == nil) {
+                 
+                 NSMutableString * data = [[NSMutableString alloc] init];
+                 [data appendString:[NSString stringWithFormat: @"%lu", (unsigned long)capabilities]];
+                 UnitySendMessage("SK_CloudService", "Event_RequestCapabilitieSsuccess",  [ISN_DataConvertor NSStringToChar:data] );
+                 
+             } else {
+                  UnitySendMessage("SK_CloudService", "Event_RequestCapabilitiesFailed",  [ISN_DataConvertor serializeError:error] );
+             }
+             
+         }];
+     }
+    
+    
+    void ISN_SKCloudService_RequestStorefrontIdentifier() {
+        SKCloudServiceController * controller = [[SKCloudServiceController alloc] init];
+        [controller requestStorefrontIdentifierWithCompletionHandler:^(NSString * _Nullable storefrontIdentifier, NSError * _Nullable error) {
+            
+            if(error == nil) {
+                
+                NSString* Identifier = @"";
+                if(storefrontIdentifier != nil) {
+                    Identifier = storefrontIdentifier;
+                }
+                UnitySendMessage("SK_CloudService", "Event_RequestStorefrontIdentifierSsuccess",  [ISN_DataConvertor NSStringToChar:Identifier] );
+            } else {
+                 UnitySendMessage("SK_CloudService", "Event_RequestStorefrontIdentifierFailed",  [ISN_DataConvertor serializeError:error] );
+            }
+            
+            
+        }];
+        
+    }
+    
     
 }
 
-
-#endif
 
 

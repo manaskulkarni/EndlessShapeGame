@@ -27,7 +27,8 @@ public class IOSCamera : ISN_Singleton<IOSCamera> {
 	public static event Action<string> OnVideoPathPicked = delegate{};
 
 
-	private bool IsWaitngForResponce = false;
+	private bool _IsWaitngForResponce = false;
+	private bool _IsInitialized = false;
 
 
 
@@ -53,13 +54,20 @@ public class IOSCamera : ISN_Singleton<IOSCamera> {
 
 	void Awake() {
 		DontDestroyOnLoad(gameObject);
+		Init();
+	}
+
+
+	public void Init() {
+		if(_IsInitialized) return;
+
+		_IsInitialized = true;
 
 		#if (UNITY_IPHONE && !UNITY_EDITOR && CAMERA_API) || SA_DEBUG_MODE
 		_ISN_InitCameraAPI(IOSNativeSettings.Instance.JPegCompressionRate, IOSNativeSettings.Instance.MaxImageLoadSize, (int) IOSNativeSettings.Instance.GalleryImageFormat);
 		#endif
+
 	}
-
-
 
 	public void SaveTextureToCameraRoll(Texture2D texture) {
 		#if (UNITY_IPHONE && !UNITY_EDITOR && CAMERA_API) || SA_DEBUG_MODE
@@ -93,10 +101,10 @@ public class IOSCamera : ISN_Singleton<IOSCamera> {
 	}
 
 	public void PickImage(ISN_ImageSource source) {
-		if(IsWaitngForResponce) {
+		if(_IsWaitngForResponce) {
 			return;
 		}
-		IsWaitngForResponce = true;
+		_IsWaitngForResponce = true;
 
 		#if (UNITY_IPHONE && !UNITY_EDITOR && CAMERA_API) || SA_DEBUG_MODE
 		_ISN_PickImage((int) source);
@@ -107,7 +115,7 @@ public class IOSCamera : ISN_Singleton<IOSCamera> {
 
 	private void OnImagePickedEvent(string data) {
 
-		IsWaitngForResponce = false;
+		_IsWaitngForResponce = false;
 
 		IOSImagePickResult result =  new IOSImagePickResult(data);
 		OnImagePicked(result);

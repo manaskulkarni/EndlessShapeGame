@@ -20,10 +20,10 @@ public class CheckCompatibility : MonoBehaviour
 
     Debug.Log ("Stats Manager VMode : " + StatsManager.inst.vMode);
 
-    if (StatsManager.inst.vMode != 0)
-    {
-      GameManager.inst.BroadcastMessage ("SwitchMode", StatsManager.inst.vMode);
-    }
+//    if (StatsManager.inst.vMode != 0)
+//    {
+//      GameManager.inst.BroadcastMessage ("SwitchMode", StatsManager.inst.vMode);
+//    }
 //    if (lowPerformance)
 //    {
 //      Debug.Log ("Disable Post Process Effects");

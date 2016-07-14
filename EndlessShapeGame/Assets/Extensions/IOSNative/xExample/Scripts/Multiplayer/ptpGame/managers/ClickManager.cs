@@ -60,7 +60,7 @@ public class ClickManager : MonoBehaviour {
 		
 		switch(pId) {
 		case 1:
-			Debug.Log("Sphere pack");
+			ISN_Logger.Log("Sphere pack");
 			Vector3 pos = new Vector3 (0, 0, 1);
 			pos.x = b.readFloat ();
 			pos.y = b.readFloat ();
@@ -70,7 +70,7 @@ public class ClickManager : MonoBehaviour {
 			PTPGameController.instance.createRedSphere (pos);
 			break;
 		default:
-			Debug.Log("Got pack wit id: " + pId);
+			ISN_Logger.Log("Got pack wit id: " + pId);
 			break;
 		}
 	}

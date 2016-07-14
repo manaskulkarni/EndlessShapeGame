@@ -281,6 +281,11 @@ public class GooglePlayInterface : StoreInterface
   {
   }
 
+  protected override void OnOpenReviewScreen ()
+  {
+    Application.OpenURL("market://details?id=com.spk.esg");
+  }
+
   #endregion
 }
 #endif

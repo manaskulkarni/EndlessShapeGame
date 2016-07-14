@@ -113,13 +113,13 @@ public class PopUpExamples : BaseIOSFeaturePreview {
 	private void onRatePopUpClose(IOSDialogResult result) {
 		switch(result) {
 		case IOSDialogResult.RATED:
-			Debug.Log ("Rate button pressed");
+			ISN_Logger.Log ("Rate button pressed");
 			break;
 		case IOSDialogResult.REMIND:
-			Debug.Log ("Remind button pressed");
+			ISN_Logger.Log ("Remind button pressed");
 			break;
 		case IOSDialogResult.DECLINED:
-			Debug.Log ("Decline button pressed");
+			ISN_Logger.Log ("Decline button pressed");
 			break;
 			
 		}
@@ -132,10 +132,10 @@ public class PopUpExamples : BaseIOSFeaturePreview {
 		//parsing result
 		switch(result) {
 		case IOSDialogResult.YES:
-			Debug.Log ("Yes button pressed");
+			ISN_Logger.Log ("Yes button pressed");
 			break;
 		case IOSDialogResult.NO:
-			Debug.Log ("No button pressed");
+			ISN_Logger.Log ("No button pressed");
 			break;
 
 		}
@@ -144,14 +144,14 @@ public class PopUpExamples : BaseIOSFeaturePreview {
 	}
 	
 	private void onMessageClose() {
-		Debug.Log("Message was just closed");
+		ISN_Logger.Log("Message was just closed");
 		IOSNativePopUpManager.showMessage("Result", "Message Closed");
 	}
 
 
 	private void GetLocale (ISN_Locale locale){
-		Debug.Log ("GetLocale");
-		Debug.Log (locale.DisplayCountry);
+		ISN_Logger.Log ("GetLocale");
+		ISN_Logger.Log (locale.DisplayCountry);
 			IOSNativePopUpManager.showMessage("Locale Info:", "Country:" + locale.CountryCode + "/" 
 		                          + locale.DisplayCountry + "  :   " + "Language:" 
 		                          + locale.LanguageCode + "/" 

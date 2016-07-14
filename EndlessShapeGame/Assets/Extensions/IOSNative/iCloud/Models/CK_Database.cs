@@ -10,8 +10,7 @@ public class CK_Database {
 	public event Action<CK_RecordResult> ActionRecordFetchComplete = delegate {};
 
 	public event Action<CK_RecordDeleteResult> ActionRecordDeleted = delegate {};
-
-
+	public event Action<CK_QueryResult> ActionQueryComplete = delegate {};
 
 
 	private static Dictionary<int, CK_Database> _Databases =  new Dictionary<int, CK_Database>();
@@ -72,7 +71,7 @@ public class CK_Database {
 	/// </summary>
 	/// <param name="query">The ID of the record you want to delete.</param>
 	public void PerformQuery(CK_Query query) {
-		
+		ISN_CloudKit.PerformQuery(_InternalId, query.Predicate, query.RecordType);
 	}
 
 
@@ -104,6 +103,11 @@ public class CK_Database {
 	public void FireDeleteRecordResult(CK_RecordDeleteResult result) {
 		result.SetDatabase(this);
 		ActionRecordDeleted(result);
+	}
+
+	public void FireQueryCompleteResult(CK_QueryResult result) {
+		result.SetDatabase(this);
+		ActionQueryComplete(result);
 	}
 
 }

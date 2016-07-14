@@ -39,6 +39,20 @@ public class GameCenterFriendLoadExample : MonoBehaviour {
 		}
 
 
+		if(GUI.Button(new Rect(500, 10, 150, 50), "Invite Friends")) {
+			GK_FriendRequest r =  new GK_FriendRequest();
+			r.Send();
+		}
+
+		if(GUI.Button(new Rect(700, 10, 150, 50), "Invite with Emails")) {
+			GK_FriendRequest r =  new GK_FriendRequest();
+			r.addRecipientsWithEmailAddresses("support@stansassets.com", "test@test.com");
+			r.Send();
+		}
+
+	
+
+
 		if(!renderFriendsList) {
 			return;
 		}
@@ -89,7 +103,7 @@ public class GameCenterFriendLoadExample : MonoBehaviour {
 
 	void HandleOnAuthFinished (ISN_Result result){
 		if (result.IsSucceeded) {
-			Debug.Log("Player Authed");
+			ISN_Logger.Log("Player Authed");
 		} else {
 			IOSNativePopUpManager.showMessage("Game Center ", "Player authentication failed");
 		}

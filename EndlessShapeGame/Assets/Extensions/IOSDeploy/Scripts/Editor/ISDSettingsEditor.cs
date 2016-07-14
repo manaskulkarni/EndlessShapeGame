@@ -12,8 +12,7 @@ public class ISDSettingsEditor : Editor {
 
 	
 	GUIContent SdkVersion   = new GUIContent("Plugin Version [?]", "This is Plugin version.  If you have problems or compliments please include this so we know exactly what version to look out for.");
-	GUIContent SupportEmail = new GUIContent("Support [?]", "If you have any technical quastion, feel free to drop an e-mail");
-	
+
 
 
 
@@ -608,11 +607,14 @@ public class ISDSettingsEditor : Editor {
 		GUI.enabled = true;
 		EditorGUILayout.HelpBox("About the Plugin", MessageType.None);
 		EditorGUILayout.Space();
+	
+		SA_EditorTool.SelectableLabelField(SdkVersion,   ISDSettings.VERSION_NUMBER);
+		SA_EditorTool.SupportMail();
 		
-		SelectableLabelField(SdkVersion, ISDSettings.VERSION_NUMBER);
-		SelectableLabelField(SupportEmail, "support@stansassets.com");
+		SA_EditorTool.DrawSALogo();
 
 
+		#if DISABLED
 		EditorGUILayout.Space();
 		EditorGUILayout.LabelField("Note: This version of IOS Deploy designed for Stan's Assets");
 		EditorGUILayout.LabelField("plugins internal use only. If you want to use IOS Deploy  ");
@@ -631,6 +633,8 @@ public class ISDSettingsEditor : Editor {
 		}
 		
 		EditorGUILayout.EndHorizontal();
+
+		#endif
 	}
 	
 	private void SelectableLabelField(GUIContent label, string value) {

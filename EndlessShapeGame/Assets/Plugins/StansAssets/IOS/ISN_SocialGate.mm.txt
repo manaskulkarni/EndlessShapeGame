@@ -124,8 +124,7 @@ static ISN_SocialGate * cg_sharedInstance;
 
 
 -(void) mediaShare:(NSString *)text  media:(NSString *)media {
-    
-    NSLog(@"ISN: mediaShare");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: mediaShare"];
     UIActivityViewController *controller;
                                             
                                             
@@ -134,18 +133,17 @@ static ISN_SocialGate * cg_sharedInstance;
         UIImage *image = [[UIImage alloc] initWithData:imageData];
         
         //[UIPopoverPresentationController alloc] ini
-        
-         NSLog(@"ISN: image added");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: image added"];
         if(text.length != 0) {
-              NSLog(@"ISN: text added");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: text added"];
             controller = [[UIActivityViewController alloc] initWithActivityItems:@[text, image] applicationActivities:nil];
         } else {
-             NSLog(@"ISN: no text");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: no text"];
             controller = [[UIActivityViewController alloc] initWithActivityItems:@[image] applicationActivities:nil];
         }
         
     } else {
-        NSLog(@"ISN: no media");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: no media"];
         controller = [[UIActivityViewController alloc] initWithActivityItems:@[text] applicationActivities:nil];
     }
     
@@ -157,7 +155,7 @@ static ISN_SocialGate * cg_sharedInstance;
     
     NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     if ([[vComp objectAtIndex:0] intValue] >= 8) {
-          NSLog(@"ISN: iOS8 detected");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: iOS8 detected"];
         UIPopoverPresentationController *presentationController = [controller popoverPresentationController];
         presentationController.sourceView = vc.view;
     }
@@ -167,17 +165,13 @@ static ISN_SocialGate * cg_sharedInstance;
 }
 
 -(void) twitterPost:(NSString *)status url:(NSString *)url media:(NSString *)media {
-    NSLog(@"ISN: twitterPost");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: twitterPost"];
     
-   
-    
-    
-
     [SLComposeServiceViewController attemptRotationToDeviceOrientation];
     SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
     
     if(tweetSheet == NULL) {
-        NSLog(@"ISN: SLServiceTypeTwitter not avaliable ");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: SLServiceTypeTwitter not avaliable "];
         UnitySendMessage("IOSSocialManager", "OnTwitterPostFailed", [ISN_DataConvertor NSStringToChar:@""]);
         return;
     }
@@ -211,13 +205,12 @@ static ISN_SocialGate * cg_sharedInstance;
                     [tweetSheet dismissViewControllerAnimated:YES completion:nil];
                 }
                 
-                
-                NSLog(@"ISN: Tweet message was cancelled");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Tweet message was cancelled"];
                 UnitySendMessage("IOSSocialManager", "OnTwitterPostFailed", [ISN_DataConvertor NSStringToChar:@""]);
                 break;
                 //  This means the user hit 'Send'
             case SLComposeViewControllerResultDone:
-                NSLog(@"ISN: Done pressed successfully");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Done pressed successfully"];
                 
                 vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
                 if ([[vComp objectAtIndex:0] intValue] < 7) {
@@ -236,14 +229,12 @@ static ISN_SocialGate * cg_sharedInstance;
 
 
 - (void) fbPost:(NSString *)status url:(NSString *)url media:(NSString *)media {
-    NSLog(@"ISN: fbPostWithMedia");
-    
-
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: fbPostWithMedia"];
 
     [SLComposeServiceViewController attemptRotationToDeviceOrientation];
     SLComposeViewController *fbSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
     if(fbSheet == NULL) {
-        NSLog(@"ISN: SLServiceTypeFacebook not avaliable ");
+        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: SLServiceTypeFacebook not avaliable "];
         UnitySendMessage("IOSSocialManager", "OnFacebookPostFailed", [ISN_DataConvertor NSStringToChar:@""]);
         return;
     }
@@ -280,8 +271,7 @@ static ISN_SocialGate * cg_sharedInstance;
                     [fbSheet dismissViewControllerAnimated:YES completion:nil];
                 }
                 
-                
-                NSLog(@"ISN: Tweet message was cancelled");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Tweet message was cancelled"];
                 UnitySendMessage("IOSSocialManager", "OnFacebookPostFailed", [ISN_DataConvertor NSStringToChar:@""]);
                 break;
                 //  This means the user hit 'Send'
@@ -292,8 +282,7 @@ static ISN_SocialGate * cg_sharedInstance;
                     [fbSheet dismissViewControllerAnimated:YES completion:nil];
                 }
                 
-                
-                NSLog(@"ISN: Done pressed successfully");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Done pressed successfully"];
                 UnitySendMessage("IOSSocialManager", "OnFacebookPostSuccess", [ISN_DataConvertor NSStringToChar:@""]);
                 break;
         }
@@ -305,8 +294,7 @@ static ISN_SocialGate * cg_sharedInstance;
 
 
 - (void) sendEmail:(NSString *)subject body:(NSString *)body recipients: (NSString*) recipients media:(NSString *)media {
-    
-    NSLog(@"ISN: sendEmail");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: sendEmail"];
 
    
     //Create a string with HTML formatting for the email body
@@ -386,19 +374,19 @@ static ISN_SocialGate * cg_sharedInstance;
     {
         case MFMailComposeResultCancelled:
             UnitySendMessage("IOSSocialManager", "OnMailFailed", [ISN_DataConvertor NSStringToChar:@""]);
-            NSLog(@"ISN: Mail cancelled");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Mail cancelled"];
             break;
         case MFMailComposeResultSaved:
              UnitySendMessage("IOSSocialManager", "OnMailFailed", [ISN_DataConvertor NSStringToChar:@""]);
-            NSLog(@"ISN: Mail saved");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Mail saved"];
             break;
         case MFMailComposeResultSent:
             UnitySendMessage("IOSSocialManager", "OnMailSuccess", [ISN_DataConvertor NSStringToChar:@""]);
-            NSLog(@"ISN: Mail sent");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Mail sent"];
             break;
         case MFMailComposeResultFailed:
             UnitySendMessage("IOSSocialManager", "OnMailFailed", [ISN_DataConvertor NSStringToChar:@""]);
-            NSLog(@"ISN: Mail sent failure: %@", [error localizedDescription]);
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"ISN: Mail sent failure: %@", [error localizedDescription]];
             break;
         default:
             UnitySendMessage("IOSSocialManager", "OnMailFailed", [ISN_DataConvertor NSStringToChar:@""]);
@@ -482,7 +470,7 @@ static IOSInstaPlugin *_sharedInstance;
     return _sharedInstance;
 }
 -(void) share:(NSString *)status media:(NSString *)media {
-    NSLog(@"Insta share");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"Insta share"];
     
     NSData *imageData = [[NSData alloc] initWithBase64Encoding:media];
     UIImage *image = [[UIImage alloc] initWithData:imageData];
@@ -521,7 +509,7 @@ static IOSInstaPlugin *_sharedInstance;
 
 
 - (void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
-    NSLog(@"documentInteractionControllerDidDismissOpenInMenu");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"documentInteractionControllerDidDismissOpenInMenu"];
     UnitySendMessage("IOSInstagramManager", "OnInstaPostFailed", [ISN_DataConvertor NSStringToChar:@"2"]);
     UnitySendMessage("IOSSocialManager", "OnInstaPostFailed", [ISN_DataConvertor NSStringToChar:@"2"]);
 
@@ -530,7 +518,7 @@ static IOSInstaPlugin *_sharedInstance;
 
 
 - (void) documentInteractionController: (UIDocumentInteractionController *) controller willBeginSendingToApplication: (NSString *) application {
-    NSLog(@"willBeginSendingToApplication");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"willBeginSendingToApplication"];
     UnitySendMessage("IOSInstagramManager", "OnInstaPostSuccess", [ISN_DataConvertor NSStringToChar:@""]);
     UnitySendMessage("IOSSocialManager", "OnInstaPostSuccess", [ISN_DataConvertor NSStringToChar:@""]);
 }
@@ -652,7 +640,7 @@ static IOSTwitterPlugin * itp_sharedInstance;
 
 
 - (void) initTwitterPlugin {
-    NSLog(@"MSP: Twitter init");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: Twitter init"];
     
     NSString * status = @"0";
     
@@ -661,14 +649,13 @@ static IOSTwitterPlugin * itp_sharedInstance;
             status = @"1";
         }
     }
-    
-    NSLog(@"MSP: Status init %@", status);
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: Status init %@", status];
     UnitySendMessage("IOSTwitterManager", "OnInited", [ISN_DataConvertor NSStringToChar:status]);
     
 }
 
 -(void) authificateUser {
-    NSLog(@"MSP:  authificateUser");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP:  authificateUser"];
     ACAccountStore *account = [[ACAccountStore alloc] init];
     ACAccountType *twitterAccountType = [account accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
     
@@ -676,17 +663,16 @@ static IOSTwitterPlugin * itp_sharedInstance;
         if (granted) {
             NSArray *twitterAccounts = [account accountsWithAccountType:twitterAccountType];
             if ([twitterAccounts count] > 0) {
-                
-                NSLog(@"MSP:  OnAuthSuccess");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP:  OnAuthSuccess"];
                 UnitySendMessage("IOSTwitterManager", "OnAuthSuccess", [ISN_DataConvertor NSStringToChar:@""]);
                 
             } else {
-                NSLog(@"MSP: OnAuthFailed no aacounts");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: OnAuthFailed no aacounts"];
                 UnitySendMessage("IOSTwitterManager", "OnAuthFailed", [ISN_DataConvertor NSStringToChar:@"0"]);
             }
             
         } else {
-            NSLog(@"MSP: OnAuthFailed no accses");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: OnAuthFailed no accses"];
             UnitySendMessage("IOSTwitterManager", "OnAuthFailed", [ISN_DataConvertor NSStringToChar:@"1"]);
         }
     }];
@@ -696,8 +682,7 @@ static IOSTwitterPlugin * itp_sharedInstance;
 
 
 -(void) loadUserData {
-    
-    NSLog(@"MSP: loadUserData");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: loadUserData"];
     ACAccountStore *account = [[ACAccountStore alloc] init];
     ACAccountType *twitterAccountType = [account accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
     
@@ -708,7 +693,7 @@ static IOSTwitterPlugin * itp_sharedInstance;
                 ACAccount *twitterAccount = [twitterAccounts objectAtIndex:0];
                 
                 // Creating a request to get the info about a user on Twitter
-                NSLog(@"MSP: Using twitter acc with name: %@", twitterAccount.username);
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: Using twitter acc with name: %@", twitterAccount.username];
                 
                 SLRequest *twitterInfoRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/users/show.json"] parameters:[NSDictionary dictionaryWithObject:twitterAccount.username forKey:@"screen_name"]];
                 [twitterInfoRequest setAccount:twitterAccount];
@@ -719,19 +704,19 @@ static IOSTwitterPlugin * itp_sharedInstance;
                 // Making the request
                 [twitterInfoRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        NSLog(@"MSP: twitterInfoRequest finished");
+                        [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: twitterInfoRequest finished"];
                         
                         
                         // Check if we reached the reate limit
                         if ([urlResponse statusCode] == 429) {
-                            NSLog(@"MSP: Rate limit reached");
+                            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: Rate limit reached"];
                             UnitySendMessage("IOSTwitterManager", "OnUserDataLoadFailed", [ISN_DataConvertor NSStringToChar:@""]);
                             return;
                         }
                         
                         // Check if there was an error
                         if (error) {
-                            NSLog(@"MSP: Error: %@", error.localizedDescription);
+                            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: Error: %@", error.localizedDescription];
                             UnitySendMessage("IOSTwitterManager", "OnUserDataLoadFailed", [ISN_DataConvertor NSStringToChar:@""]);
                             return;
                         }
@@ -739,13 +724,14 @@ static IOSTwitterPlugin * itp_sharedInstance;
                         // Check if there is some response data
                         if (responseData) {
                             NSString *resp =  [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-                            NSLog(@"MSP: Request Succsesful: %@", resp);
+                            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: Request Succsesful: %@", resp];
                             
                             UnitySendMessage("IOSTwitterManager", "OnUserDataLoaded", [ISN_DataConvertor NSStringToChar:resp]);
                             
                             
                         } else {
-                            NSLog(@"MSP: No respoce data founded");
+                            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: No respoce data founded"];
+                            
                             UnitySendMessage("IOSTwitterManager", "OnUserDataLoadFailed", [ISN_DataConvertor NSStringToChar:@""]);
                         }
                     });
@@ -753,12 +739,12 @@ static IOSTwitterPlugin * itp_sharedInstance;
                 
                 
             } else {
-                NSLog(@"MSP: OnUserDataLoadFailed no accounts founded");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: OnUserDataLoadFailed no accounts founded"];
                 UnitySendMessage("IOSTwitterManager", "OnUserDataLoadFailed", [ISN_DataConvertor NSStringToChar:@""]);
             }
             
         } else {
-            NSLog(@"MSP: OnUserDataLoadFailed no accses");
+            [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"MSP: OnUserDataLoadFailed no access"];
             UnitySendMessage("IOSTwitterManager", "OnUserDataLoadFailed", [ISN_DataConvertor NSStringToChar:@""]);
         }
     }];
@@ -767,7 +753,7 @@ static IOSTwitterPlugin * itp_sharedInstance;
 
 
 -(void) postWithMedia:(NSString *)status media:(NSString *)media {
-    NSLog(@"postWithMedia");
+    [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"postWithMedia"];
     
     NSData *imageData = [[NSData alloc] initWithBase64Encoding:media];
     UIImage *image = [[UIImage alloc] initWithData:imageData];
@@ -784,13 +770,13 @@ static IOSTwitterPlugin * itp_sharedInstance;
         switch(result) {
                 //  This means the user cancelled without sending the Tweet
             case SLComposeViewControllerResultCancelled:
-                NSLog(@"Tweet message was cancelled");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"Tweet message was cancelled"];
                 UnitySendMessage("IOSTwitterManager", "OnPostFailed", [ISN_DataConvertor NSStringToChar:@""]);
                 [tweetSheet dismissViewControllerAnimated:YES completion:nil];
                 break;
                 //  This means the user hit 'Send'
             case SLComposeViewControllerResultDone:
-                NSLog(@"Done pressed successfully");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"Done pressed successfully"];
                 UnitySendMessage("IOSTwitterManager", "OnPostSuccess", [ISN_DataConvertor NSStringToChar:@""]);
                 [tweetSheet dismissViewControllerAnimated:YES completion:nil];
                 break;
@@ -813,13 +799,14 @@ static IOSTwitterPlugin * itp_sharedInstance;
         switch(result) {
                 //  This means the user cancelled without sending the Tweet
             case SLComposeViewControllerResultCancelled:
-                NSLog(@"Tweet message was cancelled");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"Tweet message was cancelled"];
+
                 UnitySendMessage("IOSTwitterManager", "OnPostFailed", [ISN_DataConvertor NSStringToChar:@""]);
                 [tweetSheet dismissViewControllerAnimated:YES completion:nil];
                 break;
                 //  This means the user hit 'Send'
             case SLComposeViewControllerResultDone:
-                NSLog(@"Done pressed successfully");
+                [[ISN_NativeUtility sharedInstance] ISN_NativeLog: @"Done pressed successfully"];
                 UnitySendMessage("IOSTwitterManager", "OnPostSuccess", [ISN_DataConvertor NSStringToChar:@""]);
                 [tweetSheet dismissViewControllerAnimated:YES completion:nil];
                 break;
@@ -852,8 +839,8 @@ extern "C" {
     
     
     //--------------------------------------
-	//  IOS Plugin Section
-	//--------------------------------------
+    //  IOS Plugin Section
+    //--------------------------------------
     
     
     void _ISN_TwPost(char* text, char* url, char* encodedMedia) {

@@ -19,7 +19,6 @@ public class CK_Record  {
 	private int _internalId;
 
 
-
 	/// <summary>
 	/// Initializes and returns a record using an id that you provide..
 	/// 
@@ -37,9 +36,12 @@ public class CK_Record  {
 	/// <summary>
 	/// Do not use this method. It is created for plugin internal use only.
 	/// </summary>
-	public CK_Record(string template) {
-		string[] DataArray = template.Split(new string[] { IOSNative.DATA_SPLITTER2 }, StringSplitOptions.None);
+	public CK_Record(string name, string template) {
 
+
+		_Id = new CK_RecordID(name);
+
+		string[] DataArray = template.Split(IOSNative.DATA_SPLITTER); 
 		_Type = DataArray[0];
 
 		for(int i = 1; i < DataArray.Length; i += 2) {
@@ -110,14 +112,13 @@ public class CK_Record  {
 
 	public void UpdateRecord() {
 
+
 		List<string> keys =  new List<string>();
 		List<string> values =  new List<string>();
-
 		foreach(KeyValuePair<string, string> pair in _Data) {
 			keys.Add(pair.Key);
 			values.Add(pair.Value);
 		}
-
 		ISN_CloudKit.UpdateRecord_Object(Internal_Id, Type, IOSNative.SerializeArray(keys.ToArray()), IOSNative.SerializeArray(values.ToArray()), Id.Internal_Id);
 	}
 

@@ -30,7 +30,7 @@ public class ReplayKitUseExample : BaseIOSFeaturePreview {
 
 		IOSNativePopUpManager.showMessage ("Welcome", "Hey there, welcome to the ReplayKit testing scene!");
 
-		Debug.Log("ReplayKit Is Avaliable: " + ISN_ReplayKit.Instance.IsAvailable);
+		ISN_Logger.Log("ReplayKit Is Avaliable: " + ISN_ReplayKit.Instance.IsAvailable);
 	}
 
 
@@ -104,7 +104,7 @@ public class ReplayKitUseExample : BaseIOSFeaturePreview {
 			IOSNativePopUpManager.showMessage ("Success", "Record was successfully started!");
 
 		} else {
-			Debug.Log("Record start failed: " + res.Error.Description);
+			ISN_Logger.Log("Record start failed: " + res.Error.Description);
 			IOSNativePopUpManager.showMessage ("Fail","Error: " + res.Error.Description);
 		}
 		ISN_ReplayKit.ActionRecordStarted -= HandleActionRecordStarted;
@@ -112,14 +112,14 @@ public class ReplayKitUseExample : BaseIOSFeaturePreview {
 
 
 	void HandleActionRecorderDidChangeAvailability (bool IsRecordingAvaliable) 	{
-		Debug.Log("Is Recording Avaliable: " + IsRecordingAvaliable);
+		ISN_Logger.Log("Is Recording Avaliable: " + IsRecordingAvaliable);
 
 		ISN_ReplayKit.ActionRecordDiscard += HandleActionRecordDiscard;
 		ISN_ReplayKit.Instance.DiscardRecording();
 	}
 
 	void HandleActionRecordDiscard () {
-		Debug.Log("Record Discarded");
+		ISN_Logger.Log("Record Discarded");
 	}
 	
 

@@ -1,7 +1,7 @@
 //#define SA_DEBUG_MODE
 using UnityEngine;
 using System.Collections;
-#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+#if (UNITY_IPHONE || UNITY_TVOS && !UNITY_EDITOR) || SA_DEBUG_MODE
 using System.Runtime.InteropServices;
 #endif
 
@@ -11,7 +11,7 @@ public class IOSNativePopUpManager {
 	//  NATIVE FUNCTIONS
 	//--------------------------------------
 	
-	#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+	#if (UNITY_IPHONE || UNITY_TVOS && !UNITY_EDITOR) || SA_DEBUG_MODE
 	[DllImport ("__Internal")]
 	private static extern void _ISN_ShowRateUsPopUp(string title, string message, string rate, string remind, string declined);
 	
@@ -27,7 +27,7 @@ public class IOSNativePopUpManager {
 
 
 	public static void dismissCurrentAlert() {
-		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+		#if (UNITY_IPHONE || UNITY_TVOS && !UNITY_EDITOR) || SA_DEBUG_MODE
 			_ISN_DismissCurrentAlert();
 		#endif
 		
@@ -36,7 +36,7 @@ public class IOSNativePopUpManager {
 	
 	
 	public static void showRateUsPopUp(string title, string message, string rate, string remind, string declined) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+		#if (UNITY_IPHONE || UNITY_TVOS && !UNITY_EDITOR) || SA_DEBUG_MODE
 			_ISN_ShowRateUsPopUp(title, message, rate, remind, declined);
 		#endif
 	}
@@ -47,7 +47,7 @@ public class IOSNativePopUpManager {
 	}
 	
 	public static void showDialog(string title, string message, string yes, string no) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+		#if (UNITY_IPHONE || UNITY_TVOS && !UNITY_EDITOR) || SA_DEBUG_MODE
 			_ISN_ShowDialog(title, message, yes, no);
 		#endif
 	}
@@ -58,7 +58,7 @@ public class IOSNativePopUpManager {
 	}
 	
 	public static void showMessage(string title, string message, string ok) {
-		#if (UNITY_IPHONE && !UNITY_EDITOR) || SA_DEBUG_MODE
+		#if (UNITY_IPHONE || UNITY_TVOS && !UNITY_EDITOR) || SA_DEBUG_MODE
 			_ISN_ShowMessage(title, message, ok);
 		#endif
 	}

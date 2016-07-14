@@ -39,6 +39,7 @@ NSString * const UNITY_EOF = @"endofline";
 -(void) saveRecord: (int) dbId recordId: (int) recordId;
 -(void) deleteRecord: (int) dbId recordId: (int) recordId;
 -(void) fetchRecord: (int) dbId recordId: (int) recordId;
+-(void) performQuery:(int) dbId queryString: (NSString*)queryString recordType: (NSString*) recordType;
 
 
 @end
@@ -120,7 +121,48 @@ static ISN_CloudKit * cloudkit_sharedInstance;
             
             UnitySendMessage("ISN_CloudKit", "OnSaveRecordSuccess", [ISN_DataConvertor NSStringsArrayToChar:data]);
         } else  {
+            //record already exists
+            if(error.code == 14) {
+                [self OverrideRecord:dbId recordId:recordId];
+            } else {
+                NSMutableString * data = [[NSMutableString alloc] init];
+                
+                NSString* serializedData = [ISN_DataConvertor serializeErrorToNSString:error];
+                
+                [data appendString:[NSString stringWithFormat:@"%d", dbId]];
+                [data appendString:UNITY_SPLITTER2];
+                [data appendString:serializedData];
+                
+                UnitySendMessage("ISN_CloudKit", "OnSaveRecordFailed", [ISN_DataConvertor NSStringToChar:data]);
+            }
+        }
+    }];
+    
+}
+
+-(void) OverrideRecord: (int) dbId recordId: (int) recordId {
+    
+    NSNumber *db_key = [NSNumber numberWithInt:dbId];
+    NSNumber *record_key = [NSNumber numberWithInt:recordId];
+    
+    CKDatabase* database = [[self CKDatabase_Dict] objectForKey:db_key];
+    CKRecord* record = [[self CKRecord_Dict] objectForKey:record_key];
+    
+    NSArray<CKRecord *> * saves = [[NSArray alloc] initWithObjects:record, nil];
+    CKModifyRecordsOperation *mro = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:saves recordIDsToDelete:nullptr];
+    
+    
+    mro.savePolicy = CKRecordSaveAllKeys;
+    mro.qualityOfService = NSQualityOfServiceUserInitiated;
+    mro.modifyRecordsCompletionBlock = ^(NSArray * _Nullable savedRecords, NSArray * _Nullable deletedRecordIDs, NSError * _Nullable error) {
+        if (!error)
+        {
+            NSMutableArray * data = [[NSMutableArray alloc] init];
+            [data addObject:[NSString stringWithFormat:@"%d", dbId]];
+            [data addObject:[NSString stringWithFormat:@"%d", recordId]];
             
+            UnitySendMessage("ISN_CloudKit", "OnSaveRecordSuccess", [ISN_DataConvertor NSStringsArrayToChar:data]);
+        } else {
             NSMutableString * data = [[NSMutableString alloc] init];
             
             NSString* serializedData = [ISN_DataConvertor serializeErrorToNSString:error];
@@ -131,10 +173,8 @@ static ISN_CloudKit * cloudkit_sharedInstance;
             
             UnitySendMessage("ISN_CloudKit", "OnSaveRecordFailed", [ISN_DataConvertor NSStringToChar:data]);
         }
-    }];
-    
-    
-    
+    };
+    [database addOperation:mro];
 }
 
 
@@ -169,6 +209,64 @@ static ISN_CloudKit * cloudkit_sharedInstance;
     }];
 }
 
+
+-(void) performQuery:(int) dbId queryString: (NSString*)queryString recordType: (NSString*) recordType {
+    
+    NSNumber *db_key = [NSNumber numberWithInt:dbId];
+    CKDatabase* database = [[self CKDatabase_Dict] objectForKey:db_key];
+    
+    
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:queryString];
+    
+    CKQuery* query = [[CKQuery alloc] initWithRecordType:recordType predicate:predicate];
+    
+    
+    [database performQuery:query inZoneWithID:[CKRecordZone defaultRecordZone].zoneID completionHandler:^(NSArray<CKRecord *> * _Nullable results, NSError * _Nullable error) {
+        
+        if(!error) {
+            
+            if(results == nil) {
+                results = [[NSArray alloc] init];
+            }
+            
+            NSMutableString * data = [[NSMutableString alloc] init];
+            
+            [data appendString:[NSString stringWithFormat:@"%d", dbId]];
+            [data appendString:UNITY_SPLITTER2];
+            
+            
+            for(CKRecord* r : results) {
+                [data appendString:r.recordID.recordName];
+                [data appendString:UNITY_SPLITTER2];
+                
+                [data appendString:[self serializeRecord:r]];
+                [data appendString:UNITY_SPLITTER2];
+                
+            }
+            
+            [data appendString:UNITY_EOF];
+            UnitySendMessage("ISN_CloudKit", "OnPerformQuerySuccess", [ISN_DataConvertor NSStringToChar:data]);
+            
+            
+        } else {
+            NSMutableString * data = [[NSMutableString alloc] init];
+            
+            NSString* serializedData = [ISN_DataConvertor serializeErrorToNSString:error];
+            
+            [data appendString:[NSString stringWithFormat:@"%d", dbId]];
+            [data appendString:UNITY_SPLITTER2];
+            [data appendString:serializedData];
+            
+            UnitySendMessage("ISN_CloudKit", "OnPerformQueryFailed", [ISN_DataConvertor NSStringToChar:data]);
+        }
+        
+    }];
+    
+    
+}
+
+
 -(void) fetchRecord:(int)dbId recordId:(int)recordId {
     NSNumber *db_key = [NSNumber numberWithInt:dbId];
     NSNumber *record_key = [NSNumber numberWithInt:recordId];
@@ -181,8 +279,14 @@ static ISN_CloudKit * cloudkit_sharedInstance;
             
             NSMutableString * data = [[NSMutableString alloc] init];
             
+            
             [data appendString:[NSString stringWithFormat:@"%d", dbId]];
             [data appendString:UNITY_SPLITTER2];
+            
+            [data appendString:record.recordID.recordName];
+            [data appendString:UNITY_SPLITTER2];
+            
+            
             [data appendString:[self serializeRecord:record]];
             
             
@@ -208,74 +312,21 @@ static ISN_CloudKit * cloudkit_sharedInstance;
     
     NSMutableString * data = [[NSMutableString alloc] init];
     [data appendString:record.recordType];
-    [data appendString:UNITY_SPLITTER2];
-    [data appendString:record.recordType];
+    [data appendString:UNITY_SPLITTER];
     for(NSString* key in record.allKeys) {
         [data appendString:key];
-        [data appendString:UNITY_SPLITTER2];
+        [data appendString:UNITY_SPLITTER];
         
         NSString* val = record[key];
         
         [data appendString:val];
-        [data appendString:UNITY_SPLITTER2];
+        [data appendString:UNITY_SPLITTER];
     }
     
     [data appendString:UNITY_EOF];
     
     return data;
 }
-
-/*
- 
- 
- 
- - (void) test2 {
- 
- //predicate for query
- NSPredicate *predicate = [NSPredicate predicateWithFormat:@"String_Test = 'String_Test'", nil];
- 
- //create query
- CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Establishment" predicate:predicate];
- 
- //execute query
- [[self publicDB] performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
- 
- //handle query error
- if(error) {
- 
- NSLog(@"Uh oh, there was an error querying ... %@", error);
- 
- } else {
- 
- //handle query results
- if([results count] > 0) {
- 
- //iterate query results
- for(CKRecord *record in results) {
- 
- NSLog(@"Query was successfully");
- NSLog(@"Title: %@", record[@"title"]);
- NSLog(@"Description: %@", record[@"description"]);
- NSLog(@"Address: %@", record[@"address"]);
- NSLog(@"String_Test: %@", record[@"String_Test"]);
- 
- NSLog(@"Float_Test: %@", record[@"Float_Test"]);
- NSLog(@"Byte_Test: %@", record[@"Byte_Test"]);
- 
- }
- 
- //handle no query results
- } else {
- 
- NSLog(@"Query returned zero results");
- }
- }
- }];
- }
- 
- 
- */
-
 @end
 
 extern "C" {
@@ -302,6 +353,15 @@ extern "C" {
     
     void _ISN_SaveRecord(int dbId, int recordId) {
         [[ISN_CloudKit sharedInstance] saveRecord:dbId recordId:recordId];
+    }
+    
+    void _ISN_PerformQuery(int dbId, char* query, char* type) {
+        NSString *queryString = [ISN_DataConvertor charToNSString:query];
+        NSString *recordType = [ISN_DataConvertor charToNSString:type];
+        
+        [[ISN_CloudKit sharedInstance] performQuery:dbId queryString:queryString recordType:recordType];
+        
+        
     }
     
     void _ISN_DeleteRecord(int dbId, int recordId) {

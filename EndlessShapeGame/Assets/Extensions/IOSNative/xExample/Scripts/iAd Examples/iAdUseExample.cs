@@ -68,13 +68,13 @@ public class iAdUseExample : MonoBehaviour {
 
 		/*
 		if(Input.GetMouseButtonDown(0)) {
-			Debug.Log("click");
-			Debug.Log(Input.mousePosition);
+			ISN_Logger.Log("click");
+			ISN_Logger.Log(Input.mousePosition);
 		} 
 
 		if (Input.touchCount > 0) {
-			Debug.Log("touch");
-			Debug.Log(Input.GetTouch(0).position); 
+			ISN_Logger.Log("touch");
+			ISN_Logger.Log(Input.GetTouch(0).position); 
 
 		}
 		*/
@@ -82,11 +82,11 @@ public class iAdUseExample : MonoBehaviour {
 
 
 	void FixedUpdate() {
-		//Debug.Log(iAdBannerController.Instance.IsPresentingFullScreenAd);
+		//ISN_Logger.Log(iAdBannerController.Instance.IsPresentingFullScreenAd);
 	}
 
 	void OnApplicationPause(bool pauseStatus) {
-		Debug.Log(pauseStatus);
+		ISN_Logger.Log(pauseStatus);
 	}
 
 
@@ -198,7 +198,7 @@ public class iAdUseExample : MonoBehaviour {
 		}
 		StartX += 170;
 		if(GUI.Button(new Rect(StartX, StartY, 150, 50), "Destroy")) {
-			Debug.Log("Destroy banner with ID: " + banner1.id);
+			ISN_Logger.Log("Destroy banner with ID: " + banner1.id);
 			iAdBannerController.instance.DestroyBanner(banner1.id);
 			banner1 = null;
 
@@ -218,12 +218,12 @@ public class iAdUseExample : MonoBehaviour {
 	//--------------------------------------
 
 	void HandleInterstitialAdDidFinishAction () {
-		Debug.Log("OnInterstitialFinish action fired");
+		ISN_Logger.Log("OnInterstitialFinish action fired");
 		IOSMessage.Create("Ad Event", "Ad Did Finish");
 	}
 	
 	void HandleInterstitialAdDidLoadAction (){
-		Debug.Log("HandleInterstitialAdDidLoadAction event fired");
+		ISN_Logger.Log("HandleInterstitialAdDidLoadAction event fired");
 	}
 	
 

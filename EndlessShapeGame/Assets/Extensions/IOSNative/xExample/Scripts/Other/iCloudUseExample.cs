@@ -35,7 +35,7 @@ public class iCloudUseExample : BaseIOSFeaturePreview {
 
 	void HandleOnStoreDidChangeExternally (System.Collections.Generic.List<iCloudData> changedData) {
 		foreach(iCloudData data in changedData) {
-			Debug.Log("Cloud data with key:  " + data.key + " was chnaged");
+			ISN_Logger.Log("Cloud data with key:  " + data.key + " was chnaged");
 		}
 	}
 

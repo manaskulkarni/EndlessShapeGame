@@ -140,7 +140,7 @@ public class PTPGameController : MonoBehaviour {
 				d.enabled = true;
 				
 				
-				Debug.Log("Sending HelloPackage ");
+				ISN_Logger.Log("Sending HelloPackage ");
 				HelloPackage p =  new HelloPackage();
 				p.send();
 			} else {

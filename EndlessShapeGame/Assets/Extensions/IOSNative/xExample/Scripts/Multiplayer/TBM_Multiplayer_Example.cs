@@ -55,8 +55,8 @@ public class TBM_Multiplayer_Example : BaseIOSFeaturePreview {
 	}
 
 	void HandleActionNearbyPlayerStateUpdated (GK_Player player, bool IsAvaliable) {
-		Debug.Log("Player: " + player.DisplayName + "IsAvaliable: " + IsAvaliable);
-		Debug.Log("Nearby Players Count: " + GameCenter_RTM.Instance.NearbyPlayers.Count);
+		ISN_Logger.Log("Player: " + player.DisplayName + "IsAvaliable: " + IsAvaliable);
+		ISN_Logger.Log("Nearby Players Count: " + GameCenter_RTM.Instance.NearbyPlayers.Count);
 	}
 
 	void HandleActionPlayerAcceptedInvitation (GK_MatchType matchType, GK_Invite invite) {
@@ -77,19 +77,19 @@ public class TBM_Multiplayer_Example : BaseIOSFeaturePreview {
 
 	void HandleActionMatchStarted (GK_RTM_MatchStartedResult result) {
 		if(result.IsSucceeded) {
-			Debug.Log("Match is successfully created");
+			ISN_Logger.Log("Match is successfully created");
 			if(result.Match.ExpectedPlayerCount == 0) {
 				//we should start the match
 			}
 		} else {
-			Debug.Log("Match is creation failed with error: " + result.Error.Description);
+			ISN_Logger.Log("Match is creation failed with error: " + result.Error.Description);
 		}
 	}
 
 	void HandleOnPlayerPhotoLoaded (GK_UserPhotoLoadResult result) {
 		if(result.IsSucceeded) {
-			Debug.Log(result.Photo);
-			Debug.Log(GameCenterManager.Player.BigPhoto);
+			ISN_Logger.Log(result.Photo);
+			ISN_Logger.Log(GameCenterManager.Player.BigPhoto);
 		}
 	}
 
@@ -195,13 +195,13 @@ public class TBM_Multiplayer_Example : BaseIOSFeaturePreview {
 	}
 	 
 	void OnAuthFinished (ISN_Result res) {
-		Debug.Log("Auth IsSucceeded: " + res.IsSucceeded.ToString());
+		ISN_Logger.Log("Auth IsSucceeded: " + res.IsSucceeded.ToString());
 	}
 
 
 	public void ActionMatchesResultLoaded (GK_TBM_LoadMatchesResult res) {
 		GameCenter_TBM.ActionMatchesInfoLoaded -= ActionMatchesResultLoaded;
-		Debug.Log("ActionMatchesResultLoaded: " + res.IsSucceeded);
+		ISN_Logger.Log("ActionMatchesResultLoaded: " + res.IsSucceeded);
 
 		if(res.IsFailed) {
 			return;
@@ -220,9 +220,9 @@ public class TBM_Multiplayer_Example : BaseIOSFeaturePreview {
 
 	void ActionMatchDataUpdated (GK_TBM_MatchDataUpdateResult res) {
 		GameCenter_TBM.ActionMatchDataUpdated -= ActionMatchDataUpdated;
-		Debug.Log("ActionMatchDataUpdated: " + res.IsSucceeded);
+		ISN_Logger.Log("ActionMatchDataUpdated: " + res.IsSucceeded);
 		if(res.IsFailed) {
-			Debug.Log(res.Error.Description);
+			ISN_Logger.Log(res.Error.Description);
 		} else {
 			GameCenter_TBM.PrintMatchInfo(res.Match);
 		}
@@ -232,11 +232,11 @@ public class TBM_Multiplayer_Example : BaseIOSFeaturePreview {
 
 	void ActionTrunEnded (GK_TBM_EndTrunResult result) {
 		GameCenter_TBM.ActionTrunEnded -= ActionTrunEnded;
-		Debug.Log("ActionTrunEnded IsSucceeded: " + result.IsSucceeded);
+		ISN_Logger.Log("ActionTrunEnded IsSucceeded: " + result.IsSucceeded);
 
 		if(result.IsFailed) {
 			IOSMessage.Create("ActionTrunEnded", result.Error.Description);
-			Debug.Log(result.Error.Description);
+			ISN_Logger.Log(result.Error.Description);
 		} else {
 			GameCenter_TBM.PrintMatchInfo(result.Match);
 		}
@@ -244,10 +244,10 @@ public class TBM_Multiplayer_Example : BaseIOSFeaturePreview {
 
 	void ActionMacthEnded (GK_TBM_MatchEndResult result) {
 		GameCenter_TBM.ActionMacthEnded -= ActionMacthEnded;
-		Debug.Log("ActionMacthEnded IsSucceeded: " + result.IsSucceeded);
+		ISN_Logger.Log("ActionMacthEnded IsSucceeded: " + result.IsSucceeded);
 
 		if(result.IsFailed) {
-			Debug.Log(result.Error.Description);
+			ISN_Logger.Log(result.Error.Description);
 		} else {
 			GameCenter_TBM.PrintMatchInfo(result.Match);
 		}
@@ -255,12 +255,12 @@ public class TBM_Multiplayer_Example : BaseIOSFeaturePreview {
 
 	void ActionMacthRemoved (GK_TBM_MatchRemovedResult result) {
 		GameCenter_TBM.ActionMatchRemoved -= ActionMacthRemoved;
-		Debug.Log("ActionMacthRemoved IsSucceeded: " + result.IsSucceeded);
+		ISN_Logger.Log("ActionMacthRemoved IsSucceeded: " + result.IsSucceeded);
 
 		if(result.IsFailed) {
-			Debug.Log(result.Error.Description);
+			ISN_Logger.Log(result.Error.Description);
 		} else {
-			Debug.Log("Match Id: " + result.MatchId);
+			ISN_Logger.Log("Match Id: " + result.MatchId);
 		}
 	}	
 
@@ -276,10 +276,10 @@ public class TBM_Multiplayer_Example : BaseIOSFeaturePreview {
 
 	void ActionMatchFound (GK_TBM_MatchInitResult result) {
 		GameCenter_TBM.ActionMatchFound -= ActionMatchFound;
-		Debug.Log("ActionMatchFound IsSucceeded: " + result.IsSucceeded);
+		ISN_Logger.Log("ActionMatchFound IsSucceeded: " + result.IsSucceeded);
 		
 		if(result.IsFailed) {
-			Debug.Log(result.Error.Description);
+			ISN_Logger.Log(result.Error.Description);
 		} else {
 			GameCenter_TBM.PrintMatchInfo(result.Match);
 		}

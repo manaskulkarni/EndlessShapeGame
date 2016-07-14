@@ -73,37 +73,37 @@ public class IOSNative {
 		}
 		public static void Log (object message)
 		{   if (!IOSNativeSettings.Instance.DisablePluginLogs)
-			UnityEngine.Debug.Log (getTimestamp() + prefix + message);
+			UnityEngine.ISN_Logger.Log (getTimestamp() + prefix + message);
 			
 		}
 		
 		public static void Log (object message, UnityEngine.Object context)
 		{   if (!IOSNativeSettings.Instance.DisablePluginLogs)
-			UnityEngine.Debug.Log (getTimestamp() + prefix +  message, context);
+			UnityEngine.ISN_Logger.Log (getTimestamp() + prefix +  message, context);
 			
 		}
 		
 		
 		public static void LogError (object message)
 		{   if (!IOSNativeSettings.Instance.DisablePluginLogs)
-			UnityEngine.Debug.LogError (getTimestamp() + prefix +  message);
+			UnityEngine.ISN_Logger.LogError (getTimestamp() + prefix +  message);
 			;
 		}
 		
 		public static void LogError (object message, UnityEngine.Object context)
 		{   if (!IOSNativeSettings.Instance.DisablePluginLogs)
-			UnityEngine.Debug.LogError (getTimestamp() + prefix +  message, context);
+			UnityEngine.ISN_Logger.LogError (getTimestamp() + prefix +  message, context);
 			
 		}
 		
 		public static void LogWarning (object message)
 		{   if (!IOSNativeSettings.Instance.DisablePluginLogs)
-			UnityEngine.Debug.LogWarning (getTimestamp() + prefix +  message.ToString ());
+			UnityEngine.ISN_Logger.LogWarning (getTimestamp() + prefix +  message.ToString ());
 		}
 		
 		public static void LogWarning (object message, UnityEngine.Object context)
 		{   if (!IOSNativeSettings.Instance.DisablePluginLogs)
-			UnityEngine.Debug.LogWarning (getTimestamp() + prefix +  message.ToString (), context);
+			UnityEngine.ISN_Logger.LogWarning (getTimestamp() + prefix +  message.ToString (), context);
 		}
 	}
 	*/
