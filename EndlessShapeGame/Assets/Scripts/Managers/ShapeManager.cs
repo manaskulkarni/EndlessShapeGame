@@ -1119,6 +1119,7 @@ public class ShapeManager : CubiBase
   }
   #endregion
 
+  #if UNITY_EDITOR
   private void DeserializeBPMData ()
   {
     System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Config));
@@ -1141,5 +1142,6 @@ public class ShapeManager : CubiBase
     for (int i = 0; i < speedPresets.Length; ++i)
       times.Add (new List<float>());
   }
+  #endif
 
 }

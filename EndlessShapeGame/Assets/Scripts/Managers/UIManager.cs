@@ -494,14 +494,14 @@ public class UIManager : CubiBase
     float scale = text.transform.localScale.x;
     while (scale < 1.5f)
     {
-      scale += Time.deltaTime * 5.0f;
+      scale += Time.unscaledDeltaTime * 5.0f;
       //      if (scale > 1.5f) scale = 1.4f;
       text.transform.localScale = Vector2.one * scale;
       yield return null;
     }
     while (scale > 1.0f)
     {
-      scale -= Time.deltaTime * 5.0f;
+      scale -= Time.unscaledDeltaTime * 5.0f;
       //      if (scale < 1.0f) scale = 1.0f;
       text.transform.localScale = Vector2.one * scale;
       yield return null;

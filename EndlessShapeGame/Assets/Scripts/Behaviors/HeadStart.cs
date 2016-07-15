@@ -17,7 +17,6 @@ public class HeadStart : CubiBase
     RegisterEvent ("BeginHeadStart", ((object sender, System.EventArgs e) =>
     {
       ShapeManager.inst.shapeTriggered = ShapeManager.inst.HeadStartShapeTriggered;
-      PlayerManager.inst.invincible = true;
       Time.timeScale = 10.0f;
       AudioManager.inst.track.pitch = 1.5f;
 
@@ -28,7 +27,6 @@ public class HeadStart : CubiBase
     RegisterEvent ("FinishHeadStart", ((object s, System.EventArgs msg) => 
     {
       ShapeManager.inst.shapeTriggered = ShapeManager.inst.NormalShapeTriggered;
-      PlayerManager.inst.invincible = false;
       Time.timeScale = 1.0f;
       AudioManager.inst.track.pitch = 1.0f;
 

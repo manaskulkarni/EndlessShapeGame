@@ -355,7 +355,7 @@ public class StatsManager : CubiBase
 
   void OnGameStart ()
   {
-    if (coins > headStartCoinsPrice)
+    if (coins >= headStartCoinsPrice)
     {
       InvokeMessage (this, "HeadStartPossible");
     }
