@@ -31,6 +31,10 @@ public class HeadStart : CubiBase
       PlayerManager.inst.invincible = false;
       Time.timeScale = 1.0f;
       AudioManager.inst.track.pitch = 1.0f;
+
+      GameManager.inst.BroadcastMessage (GameManager.inst.PauseEvent);
+      GameManager.inst.BroadcastMessage (GameManager.inst.ResumeEvent);
+      GameManager.inst.ChangeState (GameManager.States.None);
     }));
   }
 
@@ -46,6 +50,13 @@ public class HeadStart : CubiBase
     {
       UnregisterEvent ("UpdateScore", UpdateScore);
       InvokeMessage ("FinishHeadStart");
+    }
+    else if (PlayerManager.inst.player.Ready ())
+    {
+      if (Random.Range (0, 100) > 50)
+        PlayerManager.inst.player.GoLeft ();
+      else
+        PlayerManager.inst.player.GoRight ();
     }
   }
 }
