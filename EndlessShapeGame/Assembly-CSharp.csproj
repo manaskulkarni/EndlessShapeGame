@@ -269,6 +269,7 @@
      <Compile Include="Assets\Scripts\Behaviors\FullScreenQuad.cs" />
      <Compile Include="Assets\Scripts\Behaviors\GameCamera.cs" />
      <Compile Include="Assets\Scripts\Behaviors\GameOverFeedback.cs" />
+     <Compile Include="Assets\Scripts\Behaviors\HeadStart.cs" />
      <Compile Include="Assets\Scripts\Behaviors\HorizontalScrollSnap.cs" />
      <Compile Include="Assets\Scripts\Behaviors\InGameBuyButton.cs" />
      <Compile Include="Assets\Scripts\Behaviors\PlayerBehavior.cs" />

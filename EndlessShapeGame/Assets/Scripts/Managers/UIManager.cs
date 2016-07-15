@@ -12,7 +12,7 @@ public class UIManager : CubiBase
   private GameObject menuStart { get; set; }
   private GameObject menuGame { get; set; }
   private GameObject menuOptions { get; set; }
-  //  private GameObject menuGameOver { get; set; }
+  private GameObject menuHeadStart { get; set; }
   //  private GameObject menuCoins { get; set; }
   private GameObject menuRevive { get; set; }
   private GameObject menuStore { get; set; }
@@ -102,6 +102,9 @@ public class UIManager : CubiBase
 
     menuColor = GameObject.Find("MenuColorWheel");
     menuMusic = GameObject.Find("MenuMusic");
+    menuHeadStart = GameObject.Find ("MenuHeadStart");
+
+    menuHeadStart.GetComponent <CanvasGroup> ().alpha = 0.0f;
     menuMusic.gameObject.GetComponent<CanvasGroup>().alpha = 0.0f;
 
     imageReviveButtonSeparator = GameObject.Find ("ReviveSeparator");
@@ -129,6 +132,7 @@ public class UIManager : CubiBase
     SetMenuActive (menuRevive, false);
     SetMenuActive (menuStore, false);
     SetMenuActive (menuMusic, false);
+    SetMenuActive (menuHeadStart, false);
 
     menuOptions = GameObject.Find ("MenuOptions");
     SetMenuActive (menuOptions, false);
@@ -173,6 +177,23 @@ public class UIManager : CubiBase
     {
       Application.OpenURL (PRIVACY_POLICY);
     });
+
+    RegisterEvent ("HeadStartButtonPress", ((object sender, System.EventArgs e) =>
+    {
+      StartCoroutine (FadeOutMenu (menuHeadStart));
+      InvokeMessage ("BeginHeadStart");
+      UpdateCoinsText ();
+    }));
+
+    RegisterEvent ("HeadStartPossible", ((object sender, System.EventArgs e) =>
+    {
+      StartCoroutine (FadeInMenu (menuHeadStart, 5.0f, "HeadStartActive"));
+    }));
+
+    RegisterEvent ("HeadStartDecline", ((object sender, System.EventArgs e) =>
+    {
+      StartCoroutine (FadeOutMenu (menuHeadStart, 10.0f));
+    }));
   }
 
   public void ShowOptions ()
@@ -235,7 +256,6 @@ public class UIManager : CubiBase
         if (StatsManager.inst.vMode != mode)
         {
           switchingMode = true;
-          Debug.Log ("Swtcdfsdjkfl" + mode);
           GameManager.inst.BroadcastMessage ("OnSwitchMode", mode);
           UpdateMusicButtons (mode);
         }
@@ -684,6 +704,8 @@ public class UIManager : CubiBase
     UpdateRevivePriceText ();
     StartCoroutine (FadeOutMenu (menuGame));
     StartCoroutine (FadeInReviveCanvas ());
+
+    StartCoroutine (FadeOutMenu (menuHeadStart, 10.0f));
   }
 
   void OnDeclineRevive ()
@@ -786,6 +808,8 @@ public class UIManager : CubiBase
       StartCoroutine (FadeInMenu (menuStart));
       textGameOverScore.text = "" + StatsManager.inst.score + "";
       textGameOverFeedback.text = BestScore ();
+
+      StartCoroutine (FadeOutMenu (menuHeadStart, 10.0f));
     }
   }
 

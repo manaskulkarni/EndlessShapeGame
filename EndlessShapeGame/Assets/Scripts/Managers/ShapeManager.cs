@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.Linq;
+using BadassProjects.StateMachine;
 
 public class ShapeManager : CubiBase
 {
@@ -193,6 +194,10 @@ public class ShapeManager : CubiBase
   /// </summary>
   private Transform topShape { get; set; }
 
+  // Shape Trigger Response Delegate
+  public delegate void ShapeTriggeredHandle (ShapeBehavior shapeBehavior, SpriteRenderer spriteRenderer);
+  public ShapeTriggeredHandle shapeTriggered { get; set; }
+
 #if UNITY_EDITOR
   List<List<float>> times = new List<List<float>>();
 
@@ -207,9 +212,6 @@ public class ShapeManager : CubiBase
 
   Config config = new Config ();
 #endif
-
-  public Dictionary <int, System.Type> colliders;
-
 
 #endregion
   #region Static Properties
@@ -227,19 +229,21 @@ public class ShapeManager : CubiBase
       shapePool = new ShapePool();
       specialFeedback.gameObject.SetActive(false);
       gameOverFeedback.gameObject.SetActive(false);
+
+      shapeTriggered = NormalShapeTriggered;
       
-      float [] bpms = new float[]
+      float[] bpms = new float[]
       {
-      60.217f,
-      66.064f,
-      71.823f,
-      78.279f,
-      83.859f,
-      90.023f,
-      96.154f,
-      102.039f,
-      108.170f,
-    };
+        60.217f,
+        66.064f,
+        71.823f,
+        78.279f,
+        83.859f,
+        90.023f,
+        96.154f,
+        102.039f,
+        108.170f,
+      };
     
       Debug.Log ("FPS: " + Application.targetFrameRate);
       
@@ -249,35 +253,16 @@ public class ShapeManager : CubiBase
         v.preset.speedMultiplier.y = -((shapeSpawnOffset.y / 60) * bpms[i]);
         Debug.Log ("Speed Preset [" + i + "]: " + v.preset.speedMultiplier.y);
       }
+
+      #if UNITY_EDITOR
+      DeserializeBPMData ();
+      #endif
     }
     else
     {
       GameObject.Destroy(gameObject);
+      return;
     }
-
-#if UNITY_EDITOR
-    System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Config));
-    System.IO.TextReader reader = null;
-    if (!System.IO.File.Exists(Application.persistentDataPath + "/Config.xml"))
-    {
-      System.IO.TextWriter writer = new System.IO.StreamWriter(Application.persistentDataPath + "/Config.xml");
-      Config newConfig = new Config();
-      serializer.Serialize(writer, newConfig);
-      writer.Close();
-      reader = new System.IO.StreamReader(Application.persistentDataPath + "/Config.xml");
-    }
-    else
-    {
-       reader = new System.IO.StreamReader(Application.persistentDataPath + "/Config.xml");
-    }
-
-    config = (Config)serializer.Deserialize(reader);
-    
-	#if UNITY_EDITOR
-	for (int i = 0; i < speedPresets.Length; ++i)
-		times.Add (new List<float>());
-	#endif
-#endif
   }
 
   // Use this for initialization
@@ -305,9 +290,9 @@ public class ShapeManager : CubiBase
     public int numBlocks;
   }
 
-  void OnDestroy ()
+  #if UNITY_EDITOR
+  void OnGameExit ()
   {
-#if UNITY_EDITOR
     if (config.saveAudioData)
     {
       List<AudioData> bpmData = new List<AudioData>();
@@ -334,8 +319,8 @@ public class ShapeManager : CubiBase
       System.IO.TextWriter writer = new System.IO.StreamWriter(Application.dataPath + "/AudioTesting/BPMData.xml");
       serializer.Serialize(writer, bpmData);
     }
-    #endif
   }
+  #endif
   
 //  /// <summary>
 //  /// Updates the speed of the shapes based on presets
@@ -390,122 +375,7 @@ public class ShapeManager : CubiBase
   /// <param name="spriteRenderer"></param>
   public void ShapeTriggered(ShapeBehavior shapeBehavior, SpriteRenderer spriteRenderer)
   {
-//    if (GameManager.inst.GetState ().Equals (GameManager.States.Playing))
-    {
-      bool sameSprite = shapeBehavior.spriteRenderer.sprite == spriteRenderer.sprite;
-#if UNITY_EDITOR
-      if (PlayerManager.inst.invincible)
-      {
-        sameSprite = shapeBehavior.shapeResponse == ShapeBehavior.ShapeResponse.Normal ? true : false;
-      }
-#endif
-
-#if UNITY_EDITOR
-      times[currentIntervalIndex].Add(Time.fixedTime);
-#endif
-
-//      GameManager.inst.BroadcastMessage ("OnShapeTriggered", shapeBehavior);
-
-      if (numCollisions == 0)
-      {
-        GameManager.inst.BroadcastMessage (GameManager.inst.FirstBeatEvent);
-      }
-
-      ++numCollisions;
-
-      if (currentIntervalIndex + 1 < speedPresets.Length)
-      if (!speedPresets [currentIntervalIndex].scoreInterval.Contains (StatsManager.inst.score))
-      {
-        currentSpeedPreset = speedPresets[++currentIntervalIndex].preset;
-      }
-
-      /***********************************************************************/
-      // If Player sprite collides with shape of same sprite
-      /***********************************************************************/
-      switch (shapeBehavior.shapeResponse)
-      {
-        case ShapeBehavior.ShapeResponse.Normal:
-//        // Choose which particle system to use
-//        ParticleSystem fdb = sameSprite ? gameOverFeedback : specialFeedback;
-//        fdb.startColor = specialColor;
-//        fdb.gameObject.SetActive(true);
-//        fdb.transform.position = shapeBehavior.transform.position;
-//        fdb.Play();
-          if (sameSprite)
-          {          
-            // Shuffle the shape properties to increase randomness
-            Shuffle<ShapeProperties>(shapeProperties);
-
-            // Add Point to Player Stats
-            InvokeMessage ("UpdateScore");
-                        
-            StartCoroutine(DestroyShape(shapeBehavior));
-            if (playerFeedback != null)
-              StopCoroutine (playerFeedback);
-            playerFeedback = StartCoroutine (PlayerFeedback (spriteRenderer));
-          }
-          else
-          {
-            // Store the currrent top shape position to avoid artifacts (Currently not used)
-//            baseShape = spriteRenderer.transform;
-//            topShape = shapeBehavior.transform;
-//            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
-
-            topShape = shapes.First.Next.Value.transform;
-
-            // Play Particle Effect
-            PlayParticleEffect (gameOverFeedback, shapeBehavior.transform.position, shapeBehavior.originalColor, gameOverFeedback.maxParticles);
-
-            // Choose the properties of the shape for next game
-            ChooseShapeProperties(shapeBehavior);
-            shapes.RemoveFirst();
-            shapes.AddLast(shapeBehavior);
-            shapeBehavior.transform.localScale = Vector3.one;
-            //          shapeBehavior.triggered = false;
-            WrongShape ();
-          }
-          break;
-        case ShapeBehavior.ShapeResponse.Opposite:
-          // Choose which particle system to use
-          ParticleSystem feedback = sameSprite ? gameOverFeedback : specialFeedback;
-          PlayParticleEffect (feedback, shapeBehavior.transform.position, specialColor, feedback.maxParticles);
-//          feedback.Play();
-
-          // Response is opposite, so send game over event is sprites are same
-          if (sameSprite)
-          {
-            // Shuffle the shape properties to increase randomness
-//            baseShape = spriteRenderer.transform;
-//            topShape = shapeBehavior.transform;
-//            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
-
-            topShape = shapes.First.Next.Value.transform;
-
-            ChooseShapeProperties(shapeBehavior);
-            shapes.RemoveFirst();
-            shapes.AddLast(shapeBehavior);
-            shapeBehavior.transform.localScale = Vector3.one;
-            //          shapeBehavior.triggered = false;
-            WrongShape ();
-          }
-          else
-          {
-            // Add Point to Player Stats
-            InvokeMessage ("UpdateScore");
-//            UIManager.inst.UpdateScore();
-            
-            Shuffle<ShapeProperties>(shapeProperties);
-            StartCoroutine(DestroyShape(shapeBehavior));
-
-            if (playerFeedback != null)
-              StopCoroutine (playerFeedback);
-            playerFeedback = StartCoroutine (PlayerFeedback (spriteRenderer));
-          }
-          break;
-        default:
-          break;
-      }
-    }
+    shapeTriggered (shapeBehavior, spriteRenderer);
   }
 
   public bool PredictCollision ()
@@ -550,7 +420,148 @@ public class ShapeManager : CubiBase
     GameManager.inst.ChangeState(GameManager.States.Stop);
   }
 
+  public void NormalShapeTriggered (ShapeBehavior shapeBehavior, SpriteRenderer spriteRenderer)
+  {
+    //    if (GameManager.inst.GetState ().Equals (GameManager.States.Playing))
+    {
+      bool sameSprite = shapeBehavior.spriteRenderer.sprite == spriteRenderer.sprite;
+      #if UNITY_EDITOR
+      if (PlayerManager.inst.invincible)
+      {
+        sameSprite = shapeBehavior.shapeResponse == ShapeBehavior.ShapeResponse.Normal ? true : false;
+      }
+      #endif
+
+      #if UNITY_EDITOR
+      times[currentIntervalIndex].Add(Time.fixedTime);
+      #endif
+
+      //      GameManager.inst.BroadcastMessage ("OnShapeTriggered", shapeBehavior);
+
+      if (numCollisions == 0)
+      {
+        GameManager.inst.BroadcastMessage (GameManager.inst.FirstBeatEvent);
+      }
+
+      ++numCollisions;
+
+      if (currentIntervalIndex + 1 < speedPresets.Length)
+      if (!speedPresets [currentIntervalIndex].scoreInterval.Contains (StatsManager.inst.score))
+      {
+        currentSpeedPreset = speedPresets[++currentIntervalIndex].preset;
+      }
+
+      /***********************************************************************/
+      // If Player sprite collides with shape of same sprite
+      /***********************************************************************/
+      switch (shapeBehavior.shapeResponse)
+      {
+      case ShapeBehavior.ShapeResponse.Normal:
+        //        // Choose which particle system to use
+        //        ParticleSystem fdb = sameSprite ? gameOverFeedback : specialFeedback;
+        //        fdb.startColor = specialColor;
+        //        fdb.gameObject.SetActive(true);
+        //        fdb.transform.position = shapeBehavior.transform.position;
+        //        fdb.Play();
+        if (sameSprite)
+        {          
+          // Shuffle the shape properties to increase randomness
+          Shuffle<ShapeProperties>(shapeProperties);
+
+          // Add Point to Player Stats
+          InvokeMessage ("UpdateScore");
+
+          StartCoroutine(DestroyShape(shapeBehavior));
+          if (playerFeedback != null)
+            StopCoroutine (playerFeedback);
+          playerFeedback = StartCoroutine (PlayerFeedback (spriteRenderer));
+        }
+        else
+        {
+          // Store the currrent top shape position to avoid artifacts (Currently not used)
+          //            baseShape = spriteRenderer.transform;
+          //            topShape = shapeBehavior.transform;
+          //            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
+
+          topShape = shapes.First.Next.Value.transform;
+
+          // Play Particle Effect
+          PlayParticleEffect (gameOverFeedback, shapeBehavior.transform.position, shapeBehavior.originalColor, gameOverFeedback.maxParticles);
+
+          // Choose the properties of the shape for next game
+          ChooseShapeProperties(shapeBehavior);
+          shapes.RemoveFirst();
+          shapes.AddLast(shapeBehavior);
+          shapeBehavior.transform.localScale = Vector3.one;
+          //          shapeBehavior.triggered = false;
+          WrongShape ();
+        }
+        break;
+      case ShapeBehavior.ShapeResponse.Opposite:
+        // Choose which particle system to use
+        ParticleSystem feedback = sameSprite ? gameOverFeedback : specialFeedback;
+        PlayParticleEffect (feedback, shapeBehavior.transform.position, specialColor, feedback.maxParticles);
+        //          feedback.Play();
+
+        // Response is opposite, so send game over event is sprites are same
+        if (sameSprite)
+        {
+          // Shuffle the shape properties to increase randomness
+          //            baseShape = spriteRenderer.transform;
+          //            topShape = shapeBehavior.transform;
+          //            topShape.position = new Vector3(topShape.position.x, baseShape.position.y + 1.61f, topShape.position.z);
+
+          topShape = shapes.First.Next.Value.transform;
+
+          ChooseShapeProperties(shapeBehavior);
+          shapes.RemoveFirst();
+          shapes.AddLast(shapeBehavior);
+          shapeBehavior.transform.localScale = Vector3.one;
+          //          shapeBehavior.triggered = false;
+          WrongShape ();
+        }
+        else
+        {
+          // Add Point to Player Stats
+          InvokeMessage ("UpdateScore");
+          //            UIManager.inst.UpdateScore();
+
+          Shuffle<ShapeProperties>(shapeProperties);
+          StartCoroutine(DestroyShape(shapeBehavior));
+
+          if (playerFeedback != null)
+            StopCoroutine (playerFeedback);
+          playerFeedback = StartCoroutine (PlayerFeedback (spriteRenderer));
+        }
+        break;
+      default:
+        break;
+      }
+    }
+  }
+
+  public void HeadStartShapeTriggered (ShapeBehavior shapeBehavior, SpriteRenderer spriteRenderer)
+  {
+    if (numCollisions == 0)
+    {
+      GameManager.inst.BroadcastMessage (GameManager.inst.FirstBeatEvent);
+    }
+
+    ++numCollisions;
+
+    if (currentIntervalIndex + 1 < speedPresets.Length)
+    if (!speedPresets [currentIntervalIndex].scoreInterval.Contains (StatsManager.inst.score))
+    {
+      currentSpeedPreset = speedPresets [++currentIntervalIndex].preset;
+    }
+
+    InvokeMessage ("UpdateScore");
+    //            UIManager.inst.UpdateScore();
+    //      Shuffle<ShapeProperties>(shapeProperties);
+    StartCoroutine(DestroyShape(shapeBehavior));
+  }
   #endregion
+
   #region implemented abstract members of Manager
   void OnGameReset()
   {
@@ -1107,5 +1118,28 @@ public class ShapeManager : CubiBase
     }
   }
   #endregion
+
+  private void DeserializeBPMData ()
+  {
+    System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Config));
+    System.IO.TextReader reader = null;
+    if (!System.IO.File.Exists(Application.persistentDataPath + "/Config.xml"))
+    {
+      System.IO.TextWriter writer = new System.IO.StreamWriter(Application.persistentDataPath + "/Config.xml");
+      Config newConfig = new Config();
+      serializer.Serialize(writer, newConfig);
+      writer.Close();
+      reader = new System.IO.StreamReader(Application.persistentDataPath + "/Config.xml");
+    }
+    else
+    {
+      reader = new System.IO.StreamReader(Application.persistentDataPath + "/Config.xml");
+    }
+
+    config = (Config)serializer.Deserialize(reader);
+
+    for (int i = 0; i < speedPresets.Length; ++i)
+      times.Add (new List<float>());
+  }
 
 }

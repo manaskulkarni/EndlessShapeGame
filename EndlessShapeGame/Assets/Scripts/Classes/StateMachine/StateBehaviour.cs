@@ -11,7 +11,7 @@ namespace BadassProjects.StateMachine
 	 */
 
 	[RequireComponent(typeof(StateEngine))]
-	public class StateBehaviour : MonoBehaviour
+	public class StateBehaviour : CubiBase
 	{
 		private StateEngine _stateMachine;
 

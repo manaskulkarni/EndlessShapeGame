@@ -53,6 +53,7 @@ public class CubiBase : Dummy
     {
       events[fn] -= handler;
     }
+    currentRegistered.Remove(fn);
   }
 
   public void UnregisterAll ()

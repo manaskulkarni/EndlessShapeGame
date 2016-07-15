@@ -72,6 +72,7 @@ public class StatsManager : CubiBase
   public int prevFacebookStatus = 0;
 
   public int reviveCoinsPrice = 150;
+  public int headStartCoinsPrice = 100;
   public Color defaultBackgroundColor;
 
   #region Properties
@@ -238,6 +239,11 @@ public class StatsManager : CubiBase
     {
       ++score;
     }));
+
+    RegisterEvent ("BeginHeadStart", ((object sender, System.EventArgs e) =>
+    {
+      coins -= headStartCoinsPrice;
+    }));
   }
 
   // Use this for initialization
@@ -349,6 +355,11 @@ public class StatsManager : CubiBase
 
   void OnGameStart ()
   {
+    if (coins > headStartCoinsPrice)
+    {
+      InvokeMessage (this, "HeadStartPossible");
+    }
+
     firstSession = false;
   }
 
