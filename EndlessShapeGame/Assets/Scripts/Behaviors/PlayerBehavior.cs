@@ -112,19 +112,8 @@ public class PlayerBehavior : CubiBase
   {
     for (int i = 0; i < shapes.Count; ++i)
     {
-      //if (!done[i])
-      //{
-      //  if (waitDone[i])
-      //  {
-      //    StartCoroutine (WaitForSlide (i, state));
-      //    // StopCoroutine(slideCoroutine[i]);
-      //  }
-      //  continue;
-      //}
-      StartCoroutine(SlideRight(i));
+      StartCoroutine(SlideRight(i, Time.unscaledDeltaTime));
     }
-
-//    state = 1;
   }
 
   /// <summary>
@@ -134,19 +123,24 @@ public class PlayerBehavior : CubiBase
   {
     for (int i = 0; i < shapes.Count; ++i)
     {
-      //if (!done[i])
-      //{
-      //  if (waitDone[i])
-      //  {
-      //    StartCoroutine (WaitForSlide (i, state));
-      //    // StopCoroutine(slideCoroutine[i]);
-      //  }
-      //  continue;
-      //}
-      slideCoroutine [i] = StartCoroutine(SlideLeft(i));
+      slideCoroutine [i] = StartCoroutine(SlideLeft(i, Time.unscaledDeltaTime));
     }
+  }
 
-//    state = -1;
+  public void GoRightInstant ()
+  {
+    for (int i = 0; i < shapes.Count; ++i)
+    {
+      slideCoroutine [i] = StartCoroutine(SlideRight(i, Time.deltaTime));
+    }
+  }
+
+  public void GoLeftInstant ()
+  {
+    for (int i = 0; i < shapes.Count; ++i)
+    {
+      slideCoroutine [i] = StartCoroutine(SlideLeft(i, Time.deltaTime));
+    }
   }
 
   public bool Ready ()
@@ -224,7 +218,7 @@ public class PlayerBehavior : CubiBase
   
   #endregion
   #region Coroutines
-  private IEnumerator SlideRight(int i)
+  private IEnumerator SlideRight(int i, float dt)
   {
     done[i] = false;
     Transform v = shapes[i].transform;
@@ -247,7 +241,7 @@ public class PlayerBehavior : CubiBase
         while (v.position.x < xOut)
         {
           Vector2 pos = v.position;
-          pos.x += Time.deltaTime * swipeSpeed;
+          pos.x += dt * swipeSpeed;
           
           if (pos.x > xOut)
           {
@@ -266,7 +260,7 @@ public class PlayerBehavior : CubiBase
         while (v.position.x < minXPosition)
         {
           Vector2 pos = v.position;
-          pos.x += Time.deltaTime * swipeSpeed;
+          pos.x += dt * swipeSpeed;
           
           if (pos.x > minXPosition)
           {
@@ -284,7 +278,7 @@ public class PlayerBehavior : CubiBase
         while (v.position.x > minXPosition)
         {
           Vector2 pos = v.position;
-          pos.x -= Time.deltaTime * swipeSpeed;
+          pos.x -= dt * swipeSpeed;
   
           if (pos.x < minXPosition)
           {
@@ -303,7 +297,7 @@ public class PlayerBehavior : CubiBase
       while (v.position.x < nextPos)
       {
         Vector3 pos = v.position;
-        pos.x += Time.deltaTime * swipeSpeed;
+        pos.x += dt * swipeSpeed;
 
         if (pos.x > nextPos)
         {
@@ -324,7 +318,7 @@ public class PlayerBehavior : CubiBase
     yield return null;
   }
 
-  private IEnumerator SlideLeft(int i)
+  private IEnumerator SlideLeft(int i, float dt)
   {
     done[i] = false;
     Transform v = shapes[i].transform;
@@ -347,7 +341,7 @@ public class PlayerBehavior : CubiBase
         while (v.position.x > xOut)
         {
           Vector2 pos = v.position;
-          pos.x -= Time.deltaTime * swipeSpeed;
+          pos.x -= dt * swipeSpeed;
           
           if (pos.x < xOut)
           {
@@ -364,7 +358,7 @@ public class PlayerBehavior : CubiBase
         while (v.position.x > maxXPosition)
         {
           Vector2 pos = v.position;
-          pos.x -= Time.deltaTime * swipeSpeed;
+          pos.x -= dt * swipeSpeed;
           
           if (pos.x < maxXPosition)
           {
@@ -382,7 +376,7 @@ public class PlayerBehavior : CubiBase
         while (v.position.x < maxXPosition)
         {
           Vector2 pos = v.position;
-          pos.x += Time.deltaTime * swipeSpeed;
+          pos.x += dt * swipeSpeed;
   
           if (pos.x > maxXPosition)
           {
@@ -401,7 +395,7 @@ public class PlayerBehavior : CubiBase
       while (v.position.x > nextPos)
       {
         Vector3 pos = v.position;
-        pos.x -= Time.deltaTime * swipeSpeed;
+        pos.x -= dt * swipeSpeed;
 
         if (pos.x < nextPos)
         {
