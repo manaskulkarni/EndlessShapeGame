@@ -35,7 +35,7 @@ public class AdManager : MonoBehaviour
     BannerView bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Bottom);
     // Create an empty ad request.
     var builder = new AdRequest.Builder();
-    var request = builder.AddTestDevice (SystemInfo.deviceUniqueIdentifier).Build ();
+    var request = builder.Build ();
 
     bannerView.OnAdFailedToLoad += (object sender, AdFailedToLoadEventArgs e) => {
       Debug.Log ("FAIL");
@@ -48,6 +48,39 @@ public class AdManager : MonoBehaviour
     bannerView.LoadAd(request);
   }
 
+  private void RequestInterstital()
+  {
+    #if UNITY_ANDROID
+    string adUnitId = "INSERT_ANDROID_BANNER_AD_UNIT_ID_HERE";
+    #elif UNITY_IOS
+    string adUnitId = "ca-app-pub-5893579961320397/7801552262";
+    #else
+    string adUnitId = "unexpected_platform";
+    #endif
+    Debug.Log ("INTER");
+    // Create a 320x50 banner at the top of the screen.
+    InterstitialAd interstitialAd = new InterstitialAd(adUnitId);
+    // Create an empty ad request.
+    var builder = new AdRequest.Builder();
+    var request = builder.Build ();
+    GameManager.inst.BroadcastMessage ("OnInterstitialStarted");
+
+    interstitialAd.OnAdFailedToLoad += (object sender, AdFailedToLoadEventArgs e) => {
+      Debug.Log ("INTER FAIL");
+      GameManager.inst.BroadcastMessage ("OnInterstitialFailed");
+    };
+    interstitialAd.OnAdLoaded += (object sender, System.EventArgs e) => {
+      Debug.Log ("INTER LOAD");
+      interstitialAd.Show ();
+    };
+    interstitialAd.OnAdClosed += (object sender, System.EventArgs e) => {
+      GameManager.inst.BroadcastMessage ("OnEndVideo");
+    };
+
+    // Load the banner with the request.
+    interstitialAd.LoadAd(request);
+  }
+
   public void OnShowVideo ()
   {
     ShowUnityRewardAd ();
@@ -55,7 +88,8 @@ public class AdManager : MonoBehaviour
 
   public void ShowNormalVideo ()
   {
-    ShowUnityAd ();
+//    ShowUnityAd ();
+    RequestInterstital ();
   }
 
 //  #if UNITY_ANDROID

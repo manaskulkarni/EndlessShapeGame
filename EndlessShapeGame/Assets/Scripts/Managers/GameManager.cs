@@ -553,7 +553,7 @@ public class GameManager : StateBehaviour
   }
 
   bool playingAd = false;
-  public int adInterval = 4;
+  private int adInterval = 5;
 
   private void OnInterstitialStarted ()
   {
