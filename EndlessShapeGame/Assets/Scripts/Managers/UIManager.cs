@@ -88,6 +88,7 @@ public class UIManager : CubiBase
   }
 
   private string PRIVACY_POLICY = "https://www.iubenda.com/privacy-policy/7821865";
+  private string MORE_MUSIC = "https://www.google.com";
 
   // Use this for initialization
   void Start ()
@@ -194,6 +195,11 @@ public class UIManager : CubiBase
     {
       StartCoroutine (FadeOutMenu (menuHeadStart, 10.0f));
     }));
+
+    RegisterEvent ("MoreMusic", (object sender, System.EventArgs e) =>
+    {
+      Application.OpenURL (MORE_MUSIC);
+    });
   }
 
   public void ShowOptions ()

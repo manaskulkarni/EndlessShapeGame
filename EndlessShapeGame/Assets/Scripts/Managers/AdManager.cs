@@ -17,7 +17,8 @@ public class AdManager : MonoBehaviour
 
   void Start ()
   {
-    RequestBanner ();
+    if (StatsManager.inst.showAds == 1)
+      RequestBanner ();
   }
 
   private void RequestBanner()
@@ -34,7 +35,7 @@ public class AdManager : MonoBehaviour
     BannerView bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Bottom);
     // Create an empty ad request.
     var builder = new AdRequest.Builder();
-    var request = builder.Build ();
+    var request = builder.AddTestDevice (SystemInfo.deviceUniqueIdentifier).Build ();
 
     bannerView.OnAdFailedToLoad += (object sender, AdFailedToLoadEventArgs e) => {
       Debug.Log ("FAIL");
