@@ -15,10 +15,6 @@ public class PlayerManager : MonoBehaviour
   #endregion
   #region Public Fields
   /// <summary>
-  /// Player Object to spawn
-  /// </summary>
-  public GameObject playerInputPrefab;
-  /// <summary>
   /// Array of all player presets to use
   /// </summary>
   public PlayerPreset [] playerPresets;
@@ -199,10 +195,7 @@ public class PlayerManager : MonoBehaviour
 
   private void SpawnPlayerInput ()
   {
-    GameObject go = Instantiate (playerInputPrefab) as GameObject;
-    go.transform.parent = gameObject.transform;
-    
-    playerInput = go.GetComponent <PlayerInput> ();
+    playerInput = FindObjectOfType <PlayerInput> ();
   }
 
   private void DestroyPlayer ()

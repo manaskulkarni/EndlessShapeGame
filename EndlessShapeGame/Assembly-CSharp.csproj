@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_3_5;UNITY_5_3;UNITY_5;UNITY_ADS;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;ENABLE_RUNTIME_GI;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_NETWORK;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_UNITYWEBREQUEST;ENABLE_TEXTUREID_MAP;PLAYERCONNECTION_LISTENS_FIXED_PORT;DEBUGGER_LISTENS_FIXED_PORT;PLATFORM_SUPPORTS_ADS_ID;SUPPORT_ENVIRONMENT_VARIABLES;PLATFORM_SUPPORTS_PROFILER;PLATFORM_HAS_NO_SUPPORT_FOR_BUCKET_ALLOCATOR;STRICTCPP_NEW_DELETE_SIGNATURES;WWW_USE_CURL;HAS_NEON_SKINNIG;UNITY_INPUT_SIMULATE_EVENTS;PLATFORM_ALWAYS_USES_STDOUT_FOR_LOG;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;UNITY_IOS;UNITY_IPHONE;UNITY_IPHONE_API;SUPPORT_MULTIPLE_DISPLAYS;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;ENABLE_IOS_ON_DEMAND_RESOURCES;ENABLE_IOS_APP_SLICING</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_1;UNITY_5_5;UNITY_5;UNITY_ADS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_RUNTIME_GI;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_NETWORK;ENABLE_UNITYWEBREQUEST;ENABLE_VIDEO;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLAYERCONNECTION_LISTENS_FIXED_PORT;DEBUGGER_LISTENS_FIXED_PORT;PLATFORM_SUPPORTS_ADS_ID;SUPPORT_ENVIRONMENT_VARIABLES;PLATFORM_SUPPORTS_PROFILER;PLATFORM_HAS_NO_SUPPORT_FOR_BUCKET_ALLOCATOR;STRICTCPP_NEW_DELETE_SIGNATURES;HAS_NEON_SKINNIG;UNITY_GFX_USE_PLATFORM_VSYNC;UNITY_INPUT_SIMULATE_EVENTS;PLATFORM_ALWAYS_USES_STDOUT_FOR_LOG;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;UNITY_IOS;UNITY_IPHONE;UNITY_IPHONE_API;SUPPORT_MULTIPLE_DISPLAYS;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;ENABLE_IOS_ON_DEMAND_RESOURCES;ENABLE_IOS_APP_SLICING</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -36,12 +36,13 @@
     <Reference Include="System" />
     <Reference Include="System.XML" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -302,80 +303,10 @@
      <Compile Include="Assets\Scripts\Managers\StoreInterface.cs" />
      <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
      <Compile Include="Assets\Scripts\UI\TextBase.cs" />
-     <Compile Include="Assets\TouchScript\Modules\TUIO\Scripts\InputSources\TuioInput.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Behaviors\TouchScriptInputModule.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Behaviors\Transformer.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Behaviors\Visualizer\TouchProxy.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Behaviors\Visualizer\TouchVisualizer.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Clusters\Clusters.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\DebuggableMonoBehaviour.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Devices\Display\DisplayDevice.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Devices\Display\GenericDisplayDevice.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Devices\Display\IDisplayDevice.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\GestureManager.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\GestureManagerInstance.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\Base\PinnedTransformGestureBase.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\Base\TransformGestureBase.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\Clustered\ClusteredPinnedTransformGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\Clustered\ClusteredScreenTransformGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\Clustered\ClusteredTransformGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\FlickGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\Gesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\IGestureDelegate.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\ITransformGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\LongPressGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\MetaGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\PinnedTransformGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\PressGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\ReleaseGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\ScreenTransformGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\TapGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\TransformGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Gestures\UI\UIGesture.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Hit\HitTest.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Hit\TouchHit.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Hit\Untouchable.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\IDebuggable.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\IGestureManager.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\ITouchManager.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\InputSources\ICoordinatesRemapper.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\InputSources\IInputSource.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\InputSources\InputHandlers\MouseHandler.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\InputSources\InputHandlers\TouchHandler.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\InputSources\InputHandlers\WindowsTouchHandlers.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\InputSources\InputSource.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\InputSources\MobileInput.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\InputSources\MouseInput.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\InputSources\StandardInput.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Layers\CameraLayer.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Layers\CameraLayer2D.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Layers\CameraLayerBase.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Layers\FullscreenLayer.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Layers\ILayerDelegate.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Layers\ProjectionParams.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Layers\TouchLayer.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Layers\UILayer.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Tags.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\TouchManager.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\TouchManagerInstance.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\TouchPoint.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\Attributes\NullToggleAttribute.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\Attributes\ToggleLeftAttribute.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\ClusterUtils.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\Debug\DebugHelper.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\Debug\GLDebug.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\EventHandlerExtensions.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\Geom\TwoD.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\ObjectPool.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\ProjectionUtils.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\TimedSequence.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\TouchUtils.cs" />
-     <Compile Include="Assets\TouchScript\Scripts\Utils\TransformUtils.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
-     <None Include="Assets\TouchScript\Shaders\DebugDepthTest.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
@@ -400,12 +331,10 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
-     <None Include="Assets\TouchScript\license.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
      <None Include="Assets\GameResources\Shaders\Mask.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
-     <None Include="Assets\TouchScript\Shaders\DebugMultiplyDepthTest.shader" />
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_Camera.mm.txt" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
@@ -415,7 +344,6 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
-     <None Include="Assets\TouchScript\Shaders\DebugNoDepthTest.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_NativeCore.mm.txt" />
      <None Include="Assets\Plugins\StansAssets\IOS\ISN_SocialGate.mm.txt" />
@@ -458,7 +386,6 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VignettingShader.shader" />
-     <None Include="Assets\TouchScript\Shaders\DebugMultiplyNoDepthTest.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA2.shader" />
@@ -479,20 +406,26 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
- <Reference Include="UnityEngine.Networking">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
- <Reference Include="OSCsharp">
- <HintPath>/Users/agent47/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Modules/TUIO/Libraries/OSCsharp.dll</HintPath>
+ <Reference Include="UnityEngine.PlaymodeTestsRunner">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/PlaymodeTestsRunner/UnityEngine.PlaymodeTestsRunner.dll</HintPath>
  </Reference>
- <Reference Include="TUIOsharp">
- <HintPath>/Users/agent47/Documents/BadassProjects/EndlessShapeGame/EndlessShapeGame/Assets/TouchScript/Modules/TUIO/Libraries/TUIOsharp.dll</HintPath>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VR">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

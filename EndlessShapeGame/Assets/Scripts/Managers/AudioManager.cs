@@ -58,7 +58,7 @@ public class AudioManager : MonoBehaviour
   public AudioSource lose { get; private set; }
   #endregion
 
-  public const int MUTE_MODE = 3;
+  public const int MUTE_MODE = 1;
 
   void Awake()
   {

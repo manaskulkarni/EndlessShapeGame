@@ -123,6 +123,9 @@ public class StatsManager : CubiBase
   /// </summary>
   public bool firstSession { get; private set; }
   public int numSessions { get; private set; }
+  public int lifetimeSessions {
+    get { return PlayerPrefs.GetInt ("lifetime"); } set { PlayerPrefs.SetInt ("lifetime", value); }
+  }
   public Color backgroundColor { get; private set; }
   public Vector2 wheelPosition { get; private set; }
 
@@ -355,7 +358,7 @@ public class StatsManager : CubiBase
 
   void OnGameStart ()
   {
-    if (coins >= headStartCoinsPrice)
+    if (coins >= headStartCoinsPrice && lifetimeSessions++ > 10)
     {
       InvokeMessage (this, "HeadStartPossible");
     }
