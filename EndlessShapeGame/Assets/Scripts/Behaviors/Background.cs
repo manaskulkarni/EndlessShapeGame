@@ -46,8 +46,8 @@ public class Background : MonoBehaviour
     switch (interpolationMode)
     {
     case InterpolationMode.Constant:
-      colorOne = Utils.ClampColor (Utils.RandomColor (), minColor, maxColor);
-      colorTwo = Utils.ClampColor (Utils.RandomColor (), minColor, maxColor);
+      colorOne = NMath.ClampColor (NMath.RandomColor (), minColor, maxColor);
+      colorTwo = NMath.ClampColor (NMath.RandomColor (), minColor, maxColor);
       break;
 
     case InterpolationMode.Array:
@@ -108,7 +108,7 @@ public class Background : MonoBehaviour
       }
 
 //      colorOne = colorTwo;
-      colorTwo = Utils.ClampColor (Utils.RandomColor (), minColor, maxColor);
+      colorTwo = NMath.ClampColor (NMath.RandomColor (), minColor, maxColor);
 //      colorTwo = Utils.RandomColor ();
       changeTimer = 0.0f;
 
@@ -137,7 +137,7 @@ public class Background : MonoBehaviour
       }
 
       colorOne = colorTwo;
-      colorTwo = Utils.ClampColor (Utils.RandomColor (), minColor, maxColor);
+      colorTwo = NMath.ClampColor (NMath.RandomColor (), minColor, maxColor);
       changeTimer = 0.0f;
     }
   }

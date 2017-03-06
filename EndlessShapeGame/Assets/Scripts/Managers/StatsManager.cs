@@ -358,11 +358,7 @@ public class StatsManager : CubiBase
 
   void OnGameStart ()
   {
-    if (coins >= headStartCoinsPrice && lifetimeSessions++ > 10)
-    {
-      InvokeMessage (this, "HeadStartPossible");
-    }
-
+    ++lifetimeSessions;
     firstSession = false;
   }
 

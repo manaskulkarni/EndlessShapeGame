@@ -107,7 +107,7 @@ public class BackgroundSprite : MonoBehaviour
     switch (interpolationMode)
     {
     case InterpolationMode.Constant:
-      colorTwo = Utils.ClampColor (Utils.RandomColor (), minColor, maxColor);
+      colorTwo = NMath.ClampColor (NMath.RandomColor (), minColor, maxColor);
       break;
 
     case InterpolationMode.Array:
@@ -187,7 +187,7 @@ public class BackgroundSprite : MonoBehaviour
       break;
     case LerpState.Transit:
       //      colorOne = colorTwo;
-      colorTwo = Utils.ClampColor (Utils.RandomColor (), minColor, maxColor);
+      colorTwo = NMath.ClampColor (NMath.RandomColor (), minColor, maxColor);
       //      colorTwo = Utils.RandomColor ();
       changeTimer = 0.0f;
       lerpState = LerpState.Interpolate;
@@ -229,7 +229,7 @@ public class BackgroundSprite : MonoBehaviour
       else
       {
         colorOne = colorTwo;
-        colorTwo = Utils.ClampColor (Utils.RandomColor (), minColor, maxColor);
+        colorTwo = NMath.ClampColor (NMath.RandomColor (), minColor, maxColor);
         changeTimer = 0.0f;
         lerpState = LerpState.Idle;
       }

@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Utils
+public class NMath
 {
-  
   static public Color RandomColor (Color minColor, Color maxColor)
   {
     return new Color

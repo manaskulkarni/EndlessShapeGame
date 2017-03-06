@@ -182,7 +182,7 @@ public class GameManager : StateBehaviour
     }
   }
 
-  void Awake ()
+  public override void cubiAwake ()
   {
     #if !UNITY_EDITOR
     Application.targetFrameRate = 60;

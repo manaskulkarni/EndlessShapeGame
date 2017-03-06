@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using SA.IOSNative.StoreKit;
 
 public class GameCenterInterface : StoreInterface
 {
@@ -15,9 +16,9 @@ public class GameCenterInterface : StoreInterface
     storeLoaded = achievementsLoaded = false;
     GameCenterManager.OnAuthFinished += HandleOnAuthFinished;
 
-    IOSInAppPurchaseManager.OnStoreKitInitComplete += HandleOnStoreKitInitComplete;
-    IOSInAppPurchaseManager.OnTransactionComplete += HandleOnTransactionComplete;
-    IOSInAppPurchaseManager.OnRestoreComplete += HandleOnRestoreComplete;
+    PaymentManager.OnStoreKitInitComplete += HandleOnStoreKitInitComplete;
+    PaymentManager.OnTransactionComplete += HandleOnTransactionComplete;
+    PaymentManager.OnRestoreComplete += HandleOnRestoreComplete;
 
     GameCenterManager.Init ();
     loadingGameCenter = true;
@@ -39,7 +40,7 @@ public class GameCenterInterface : StoreInterface
     //    }
   }
 
-  void HandleOnAuthFinished (ISN_Result res)
+  void HandleOnAuthFinished (SA.Common.Models.Result res)
   {
     if (res.IsSucceeded)
     {
@@ -61,7 +62,7 @@ public class GameCenterInterface : StoreInterface
       CheckHighScore ();
 
       loadingStore = true;
-      IOSInAppPurchaseManager.Instance.LoadStore ();
+      PaymentManager.Instance.LoadStore ();
     }
     else
     {
@@ -95,20 +96,20 @@ public class GameCenterInterface : StoreInterface
     }
   }
 
-  void HandleOnStoreKitInitComplete (ISN_Result res)
+  void HandleOnStoreKitInitComplete (SA.Common.Models.Result res)
   {
-    IOSInAppPurchaseManager.OnStoreKitInitComplete -= HandleOnStoreKitInitComplete;
+    PaymentManager.OnStoreKitInitComplete -= HandleOnStoreKitInitComplete;
 
     loadingStore = false;
 
     if(res.IsSucceeded)
     {
-      Debug.Log("Inited successfully, Available allProducts count: " + IOSInAppPurchaseManager.Instance.Products.Count.ToString());
+      Debug.Log("Inited successfully, Available allProducts count: " + PaymentManager.Instance.Products.Count.ToString());
 
       allProducts = new Dictionary<string, ProductTemplate> ();
       storeLoaded = true;
 
-      foreach(IOSProductTemplate tpl in IOSInAppPurchaseManager.Instance.Products)
+      foreach(var tpl in PaymentManager.Instance.Products)
       {
         //        Debug.Log("id" + tpl.Id);
         //        Debug.Log("title" + tpl.DisplayName);
@@ -132,18 +133,18 @@ public class GameCenterInterface : StoreInterface
     }
     else
     {
-      Debug.Log("StoreKit Init Failed.  Error code: " + res.Error.Code + "\n" + "Error description:" + res.Error.Description);
+      Debug.Log("StoreKit Init Failed.  Error code: " + res.Error.Code + "\n" + "Error description:" + res.Error.Message);
     }
   }
 
-  void HandleOnTransactionComplete (IOSStoreKitResult res)
+  void HandleOnTransactionComplete (PurchaseResult res)
   {
     switch (res.State)
     {
-      case InAppPurchaseState.Purchased:
-      case InAppPurchaseState.Restored:
+      case PurchaseState.Purchased:
+      case PurchaseState.Restored:
         {
-          var product = IOSInAppPurchaseManager.Instance.GetProductById (res.ProductIdentifier);
+          var product = PaymentManager.Instance.GetProductById (res.ProductIdentifier);
           if (allProducts.ContainsKey (product.DisplayName))
           {
             GameManager.inst.BroadcastMessage ("BuyProduct", product.DisplayName);
@@ -155,7 +156,7 @@ public class GameCenterInterface : StoreInterface
     }
   }
 
-  void HandleOnRestoreComplete (IOSStoreKitRestoreResult res)
+  void HandleOnRestoreComplete (RestoreResult res)
   {
     if (res.IsSucceeded)
     {
@@ -176,7 +177,7 @@ public class GameCenterInterface : StoreInterface
 
   public override bool IsIAPInitialized ()
   {
-    return IOSInAppPurchaseManager.Instance.IsStoreLoaded;
+    return PaymentManager.Instance.IsStoreLoaded;
   }
 
   public override string GetPrice (string productName)
@@ -233,7 +234,7 @@ public class GameCenterInterface : StoreInterface
       if (allProducts != null && allProducts.ContainsKey (button.title.text))
       {
         Debug.Log ("Purchasing Item : " + allProducts[button.title.text].DisplayName);
-        IOSInAppPurchaseManager.Instance.BuyProduct (allProducts[button.title.text].Id);
+        PaymentManager.Instance.BuyProduct (allProducts[button.title.text].Id);
       }
     }
   }
@@ -242,13 +243,13 @@ public class GameCenterInterface : StoreInterface
   {
     if (allProducts != null && allProducts.ContainsKey ("Remove Ads"))
     {
-      IOSInAppPurchaseManager.Instance.BuyProduct(allProducts["Remove Ads"].Id);
+      PaymentManager.Instance.BuyProduct(allProducts["Remove Ads"].Id);
     }
   }
 
   protected override void OnTryRestorePurchase ()
   {
-    IOSInAppPurchaseManager.Instance.RestorePurchases ();
+    PaymentManager.Instance.RestorePurchases ();
   }
 
   protected override void OnRestorePurchaseComplete ()

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 
-static public class Utils
+static public class PUtils
 {
   static public void FloatField (string name, ref System.ValueType val)
   {
@@ -162,7 +162,7 @@ public class PropertyAnimatorEditor : Editor
       names [i] = componentNames [i] + "." + variableNames [i];
     }
 
-    Utils.TextField ("Event Listener", ref myTarget.eventListener);
+    PUtils.TextField ("Event Listener", ref myTarget.eventListener);
 
     var selectedIndex = myTarget.selectIndex = EditorGUILayout.Popup (myTarget.selectIndex, names);
 
@@ -182,51 +182,51 @@ public class PropertyAnimatorEditor : Editor
 
     if (variableValues [selectedIndex].GetType () == typeof(float))
     {
-      Utils.FloatField ("Start Value", ref myTarget.from);
-      Utils.FloatField ("End Value", ref myTarget.to);
+      PUtils.FloatField ("Start Value", ref myTarget.from);
+      PUtils.FloatField ("End Value", ref myTarget.to);
     }
     else if (variableValues [selectedIndex].GetType () == typeof(bool))
     {
-      Utils.BoolField ("Start Value", ref myTarget.from);
-      Utils.BoolField ("End Value", ref myTarget.to);
+      PUtils.BoolField ("Start Value", ref myTarget.from);
+      PUtils.BoolField ("End Value", ref myTarget.to);
     }
     else if (variableValues [selectedIndex].GetType () == typeof(int))
     {
-      Utils.IntField ("Start Value", ref myTarget.from);
-      Utils.IntField ("End Value", ref myTarget.to);
+      PUtils.IntField ("Start Value", ref myTarget.from);
+      PUtils.IntField ("End Value", ref myTarget.to);
     }
     else if (variableValues [selectedIndex].GetType () == typeof(Vector2))
     {
-      Utils.Vector2Field ("Start Value", ref myTarget.from);
-      Utils.Vector2Field ("End Value", ref myTarget.to);
+      PUtils.Vector2Field ("Start Value", ref myTarget.from);
+      PUtils.Vector2Field ("End Value", ref myTarget.to);
     }
     else if (variableValues [selectedIndex].GetType () == typeof(Vector3))
     {
-      Utils.Vector3Field ("Start Value", ref myTarget.from);
-      Utils.Vector3Field ("End Value", ref myTarget.to);
+      PUtils.Vector3Field ("Start Value", ref myTarget.from);
+      PUtils.Vector3Field ("End Value", ref myTarget.to);
     }
     else if (variableValues [selectedIndex].GetType () == typeof(Vector4))
     {
-      Utils.Vector4Field ("Start Value", ref myTarget.from);
-      Utils.Vector4Field ("End Value", ref myTarget.to);
+      PUtils.Vector4Field ("Start Value", ref myTarget.from);
+      PUtils.Vector4Field ("End Value", ref myTarget.to);
     }
     else if (variableValues [selectedIndex].GetType () == typeof(Color))
     {
-      Utils.ColorField ("Start Value", ref myTarget.from);
-      Utils.ColorField ("End Value", ref myTarget.to);
+      PUtils.ColorField ("Start Value", ref myTarget.from);
+      PUtils.ColorField ("End Value", ref myTarget.to);
     }
 
-    Utils.BoolField ("Default Start Value", ref myTarget.defaultStartValue);
-    Utils.FloatField ("Duration", ref myTarget.duration);
-    Utils.CurveField ("Animation Curve", ref myTarget.curve);
+    PUtils.BoolField ("Default Start Value", ref myTarget.defaultStartValue);
+    PUtils.FloatField ("Duration", ref myTarget.duration);
+    PUtils.CurveField ("Animation Curve", ref myTarget.curve);
 
-    Utils.BoolField ("Send Event On Start", ref myTarget.sendEventOnStart);
+    PUtils.BoolField ("Send Event On Start", ref myTarget.sendEventOnStart);
     if (myTarget.sendEventOnStart)
-      Utils.TextField ("Start Event", ref myTarget.startEventName);
+      PUtils.TextField ("Start Event", ref myTarget.startEventName);
 
-    Utils.BoolField ("Send Event On Finish", ref myTarget.sendEventOnFinish);
+    PUtils.BoolField ("Send Event On Finish", ref myTarget.sendEventOnFinish);
     if (myTarget.sendEventOnFinish)
-      Utils.TextField ("Finish Event", ref myTarget.finishEventName);
+      PUtils.TextField ("Finish Event", ref myTarget.finishEventName);
     //    myTarget.experience = EditorGUILayout.IntField("Experience", myTarget.experience);
     //    EditorGUILayout.LabelField("Level", myTarget.Level.ToString());
   }

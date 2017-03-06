@@ -250,7 +250,7 @@ public class ShapeManager : CubiBase
       for (int i = 0; i < bpms.Length; ++i)
       {
         var v = speedPresets[i];
-        v.preset.speedMultiplier.y = -((shapeSpawnOffset.y / 60) * bpms[i]);
+        v.preset.speedMultiplier.y = -((shapeSpawnOffset.y / 60) * bpms[i]) * 0.8f;
         Debug.Log ("Speed Preset [" + i + "]: " + v.preset.speedMultiplier.y);
       }
 
@@ -411,8 +411,8 @@ public class ShapeManager : CubiBase
     feedback.startColor = col;
     feedback.gameObject.SetActive(true);
     feedback.transform.position = pos;
-    feedback.Emit (count);
-    feedback.startLifetime = feedback.startLifetime;
+    var e = new ParticleSystem.EmitParams { startLifetime = feedback.main.startLifetime.constant };
+    feedback.Emit (e, count);
   }
 
   private void WrongShape ()
@@ -861,6 +861,7 @@ public class ShapeManager : CubiBase
     playerFeedback = null;
   }
 
+
   
   /// <summary>
   /// Destroys the shape after playing the destroy animation (FadeOut)
@@ -886,6 +887,27 @@ public class ShapeManager : CubiBase
   }
   #endregion
   #region Shape Property Selection Logic
+  private void SpecialBehavior (ref float t, ShapeBehavior s)
+  {
+    t += Time.deltaTime;
+    s.shapeResponse = ShapeBehavior.ShapeResponse.Opposite;
+    s.transform.localScale = Vector3.one * (Mathf.PingPong (t, 0.2f) + 0.8f);
+  }
+
+  private void InvisibleBehavior (ref float t, ShapeBehavior s)
+  {
+    bool outOfScreen = s.transform.position.y >=
+      (Camera.main.transform.position.y + Camera.main.orthographicSize) +
+      ShapeManager.inst.invisibleFadeStartOffset;
+    s.shapeType = ShapeBehavior.ShapeType.Invisible;
+    if (!outOfScreen)
+    {
+      Color c = s.spriteRenderer.color;
+      c.a -= Time.deltaTime * ShapeManager.inst.fadeOutSpeed * Mathf.Abs(ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * 0.25f);
+      s.spriteRenderer.color = c;
+    }
+  }
+
   private void ChooseShapeProperties(ShapeBehavior shape)
   {
     // Get index of a ShapeProperty in the Shape Properties Array
@@ -933,29 +955,14 @@ public class ShapeManager : CubiBase
     if (CurveWeightedRandom(specialRandomCurve) > 0.5f && currentScore > minSpecialScore)
     {
       //Debug.Log("Special");
-      shape.AddBehavior (((ref float t, ShapeBehavior s) => {
-        t += Time.deltaTime;
-        s.shapeResponse = ShapeBehavior.ShapeResponse.Opposite;
-        s.transform.localScale = Vector3.one * (Mathf.PingPong (t, 0.2f) + 0.8f);
-      }));
+      shape.AddBehavior (SpecialBehavior);
       shape.spriteRenderer.color = specialColor;
     }
     
     if (CurveWeightedRandom (invisibleRandomCurve) > 0.5f && currentScore > minInvisibleScore)
     {
       //Debug.Log ("Invisible");
-      shape.AddBehavior (((ref float t, ShapeBehavior s) => {
-        bool outOfScreen = s.transform.position.y >=
-          (Camera.main.transform.position.y + Camera.main.orthographicSize) +
-          ShapeManager.inst.invisibleFadeStartOffset;
-        s.shapeType = ShapeBehavior.ShapeType.Invisible;
-        if (!outOfScreen)
-        {
-          Color c = s.spriteRenderer.color;
-          c.a -= Time.deltaTime * ShapeManager.inst.fadeOutSpeed * Mathf.Abs(ShapeManager.inst.currentSpeedPreset.speedMultiplier.y * 0.25f);
-          s.spriteRenderer.color = c;
-        }
-      }));
+      shape.AddBehavior (InvisibleBehavior);
     }
     /*************************************************************************/
     // Assign the selected properties to the shape

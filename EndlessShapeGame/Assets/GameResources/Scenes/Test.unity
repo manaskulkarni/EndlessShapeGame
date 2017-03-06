@@ -12082,138 +12082,138 @@ MonoBehaviour:
   shapePrefab: {fileID: 176260, guid: cf57cdeb9ee534fd496a252ca4919c73, type: 2}
   speedPresets:
   - preset:
-      speedMultiplier: {x: 0, y: -5}
+      speedMultiplier: {x: 0, y: -4}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -5}
+      maxSpeed: {x: 0, y: -4}
     scoreInterval:
       min: 0
       max: 7
   - preset:
-      speedMultiplier: {x: 0, y: -5.5}
+      speedMultiplier: {x: 0, y: -4.4}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -5.5}
+      maxSpeed: {x: 0, y: -4.4}
     scoreInterval:
       min: 8
       max: 15
+  - preset:
+      speedMultiplier: {x: 0, y: -4.8}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -4.8}
+    scoreInterval:
+      min: 16
+      max: 23
+  - preset:
+      speedMultiplier: {x: 0, y: -5.2000003}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -5.2000003}
+    scoreInterval:
+      min: 24
+      max: 31
+  - preset:
+      speedMultiplier: {x: 0, y: -5.6}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -5.6}
+    scoreInterval:
+      min: 32
+      max: 39
   - preset:
       speedMultiplier: {x: 0, y: -6}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -6}
     scoreInterval:
-      min: 16
-      max: 23
+      min: 40
+      max: 47
   - preset:
-      speedMultiplier: {x: 0, y: -6.5}
+      speedMultiplier: {x: 0, y: -6.4}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -6.5}
+      maxSpeed: {x: 0, y: -6.4}
     scoreInterval:
-      min: 24
-      max: 31
+      min: 48
+      max: 63
   - preset:
-      speedMultiplier: {x: 0, y: -7}
+      speedMultiplier: {x: 0, y: -6.8}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -7}
+      maxSpeed: {x: 0, y: -6.8}
     scoreInterval:
-      min: 32
-      max: 39
+      min: 64
+      max: 95
+  - preset:
+      speedMultiplier: {x: 0, y: -7.2000003}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -7.2000003}
+    scoreInterval:
+      min: 96
+      max: 159
+  - preset:
+      speedMultiplier: {x: 0, y: -7.3}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -7.3}
+    scoreInterval:
+      min: 160
+      max: 179
+  - preset:
+      speedMultiplier: {x: 0, y: -7.4}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -7.4}
+    scoreInterval:
+      min: 180
+      max: 199
   - preset:
       speedMultiplier: {x: 0, y: -7.5}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -7.5}
     scoreInterval:
-      min: 40
-      max: 47
+      min: 200
+      max: 224
+  - preset:
+      speedMultiplier: {x: 0, y: -7.6}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -7.6}
+    scoreInterval:
+      min: 225
+      max: 249
+  - preset:
+      speedMultiplier: {x: 0, y: -7.7000003}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -7.7000003}
+    scoreInterval:
+      min: 250
+      max: 274
+  - preset:
+      speedMultiplier: {x: 0, y: -7.8}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -7.8}
+    scoreInterval:
+      min: 275
+      max: 299
+  - preset:
+      speedMultiplier: {x: 0, y: -7.9}
+      accelerationMultiplier: {x: 0, y: 0}
+      speedIncreaseBlockInterval: 0
+      maxSpeed: {x: 0, y: -7.9}
+    scoreInterval:
+      min: 300
+      max: 349
   - preset:
       speedMultiplier: {x: 0, y: -8}
       accelerationMultiplier: {x: 0, y: 0}
       speedIncreaseBlockInterval: 0
       maxSpeed: {x: 0, y: -8}
-    scoreInterval:
-      min: 48
-      max: 63
-  - preset:
-      speedMultiplier: {x: 0, y: -8.5}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -8.5}
-    scoreInterval:
-      min: 64
-      max: 95
-  - preset:
-      speedMultiplier: {x: 0, y: -9}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -9}
-    scoreInterval:
-      min: 96
-      max: 159
-  - preset:
-      speedMultiplier: {x: 0, y: -9.125}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -9.125}
-    scoreInterval:
-      min: 160
-      max: 179
-  - preset:
-      speedMultiplier: {x: 0, y: -9.25}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -9.25}
-    scoreInterval:
-      min: 180
-      max: 199
-  - preset:
-      speedMultiplier: {x: 0, y: -9.375}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -9.375}
-    scoreInterval:
-      min: 200
-      max: 224
-  - preset:
-      speedMultiplier: {x: 0, y: -9.5}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -9.5}
-    scoreInterval:
-      min: 225
-      max: 249
-  - preset:
-      speedMultiplier: {x: 0, y: -9.625}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -9.625}
-    scoreInterval:
-      min: 250
-      max: 274
-  - preset:
-      speedMultiplier: {x: 0, y: -9.75}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -9.75}
-    scoreInterval:
-      min: 275
-      max: 299
-  - preset:
-      speedMultiplier: {x: 0, y: -9.875}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -9.875}
-    scoreInterval:
-      min: 300
-      max: 349
-  - preset:
-      speedMultiplier: {x: 0, y: -10}
-      accelerationMultiplier: {x: 0, y: 0}
-      speedIncreaseBlockInterval: 0
-      maxSpeed: {x: 0, y: -10}
     scoreInterval:
       min: 350
       max: 399

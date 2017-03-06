@@ -20,7 +20,7 @@ public class BackgroundObject : MonoBehaviour
   void Start ()
   {
     SpriteRenderer sprite = gameObject.GetComponent <SpriteRenderer> ();
-    sprite.color = Utils.RandomColor
+    sprite.color = NMath.RandomColor
       (
         new Color (66.0f / 255.0f, 66.0f / 255.0f, 66.0f / 255.0f, 160.0f / 255.0f),
         new Color (90.0f / 255.0f, 90.0f / 255.0f, 90.0f / 255.0f, 200.0f / 255.0f)
